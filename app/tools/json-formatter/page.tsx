@@ -69,7 +69,7 @@ export default function JSONFormatterPage() {
   const [indent, setIndent]     = useState(2);
   const [copied, setCopied]     = useState(false);
   const [openFaq, setOpenFaq]   = useState<number | null>(null);
-  const [mode, setMode]         = useState<"format" | "minify">("format");
+  const [mode, setMode] = useState<"format" | "minify" | "validate">("format");
 
   // ── Format ────────────────────────────────────────────────────────────────
   const handleFormat = () => {
@@ -107,6 +107,7 @@ export default function JSONFormatterPage() {
     try {
       JSON.parse(input);
       setError("");
+      setMode("validate");
       setOutput("✅ Valid JSON! No errors found.");
     } catch (e: any) {
       setError(`❌ Invalid JSON: ${e.message}`);
