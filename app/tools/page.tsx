@@ -72,7 +72,6 @@ const ALL_TOOLS = [
 
   // ── SECURITY TOOLS ──────────────────────────────────────────────────────────
   { name: "Password Generator",   slug: "password-generator",   category: "security", icon: "🔐", desc: "Generate strong, cryptographically secure passwords.",              badge: "🆕 New",  uses: "980K", live: true  },
-  { name: "Hash Generator",       slug: "hash-generator",       category: "security", icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                 badge: "",        uses: "310K", live: true },
   { name: "SSL Checker",          slug: "ssl-checker",          category: "security", icon: "🛡️", desc: "Check the SSL certificate status of any website.",                  badge: "",        uses: "180K", live: false },
   { name: "IP Address Lookup",    slug: "ip-lookup",            category: "security", icon: "🌐", desc: "Look up the location and details of any IP address.",               badge: "",        uses: "290K", live: false },
 
