@@ -10,12 +10,12 @@ import Link from "next/link";
 const ALL_TOOLS = [
   // ── TEXT TOOLS ──────────────────────────────────────────────────────────────
   { name: "Word Counter",         slug: "word-counter",         category: "text",     icon: "📝", desc: "Count words, characters, sentences and paragraphs instantly.",        badge: "⭐ Top",  uses: "1.8M", live: true  },
-  { name: "Case Converter",       slug: "case-converter",       category: "text",     icon: "🔤", desc: "Convert text to UPPER, lower, Title or Sentence case.",              badge: "",        uses: "310K", live: false },
-  { name: "Lorem Ipsum Generator",slug: "lorem-ipsum",          category: "text",     icon: "📄", desc: "Generate placeholder lorem ipsum text for your designs.",            badge: "",        uses: "250K", live: false },
+  { name: "Case Converter",       slug: "case-converter",       category: "text",     icon: "🔤", desc: "Convert text to UPPER, lower, Title or Sentence case.",              badge: "",        uses: "310K", live: true },
+  { name: "Lorem Ipsum Generator",slug: "lorem-ipsum",          category: "text",     icon: "📄", desc: "Generate placeholder lorem ipsum text for your designs.",            badge: "",        uses: "250K", live: true },
   { name: "Grammar Checker",      slug: "grammar-checker",      category: "text",     icon: "✍️", desc: "Check and fix grammar errors using AI.",                            badge: "🤖 AI",   uses: "540K", live: false },
   { name: "Text Summarizer",      slug: "text-summarizer",      category: "text",     icon: "📋", desc: "Summarize long text into concise points using AI.",                  badge: "🤖 AI",   uses: "420K", live: false },
-  { name: "Text to Speech",       slug: "text-to-speech",       category: "text",     icon: "🔊", desc: "Convert any text to natural-sounding speech.",                      badge: "",        uses: "380K", live: false },
-  { name: "Diff Checker",         slug: "diff-checker",         category: "text",     icon: "🔍", desc: "Compare two texts and highlight the differences.",                  badge: "",        uses: "290K", live: false },
+  { name: "Text to Speech",       slug: "text-to-speech",       category: "text",     icon: "🔊", desc: "Convert any text to natural-sounding speech.",                      badge: "",        uses: "380K", live: true },
+  { name: "Diff Checker",         slug: "diff-checker",         category: "text",     icon: "🔍", desc: "Compare two texts and highlight the differences.",                  badge: "",        uses: "290K", live: true },
   { name: "Markdown Editor",      slug: "markdown-editor",      category: "text",     icon: "📑", desc: "Write Markdown with a live preview side by side.",                  badge: "🆕 New",  uses: "210K", live: false },
   { name: "Readability Score",    slug: "readability-score",    category: "text",     icon: "📊", desc: "Check the reading level and readability of your content.",           badge: "",        uses: "180K", live: false },
   { name: "Plagiarism Checker",   slug: "plagiarism-checker",   category: "text",     icon: "🕵️", desc: "Check if your text is unique or matches existing content.",          badge: "🤖 AI",   uses: "160K", live: false },
@@ -31,7 +31,7 @@ const ALL_TOOLS = [
 
   // ── DEV TOOLS ───────────────────────────────────────────────────────────────
   { name: "JSON Formatter",       slug: "json-formatter",       category: "dev",      icon: "💻", desc: "Format, validate and minify JSON data instantly.",                  badge: "⭐ Top",  uses: "1.5M", live: true  },
-  { name: "Base64 Encoder",       slug: "base64-encoder",       category: "dev",      icon: "🔐", desc: "Encode and decode Base64 strings instantly.",                       badge: "",        uses: "680K", live: false },
+  { name: "Base64 Encoder",       slug: "base64-encoder",       category: "dev",      icon: "🔐", desc: "Encode and decode Base64 strings instantly.",                       badge: "",        uses: "680K", live: true },
   { name: "URL Encoder",          slug: "url-encoder",          category: "dev",      icon: "🔗", desc: "Encode and decode URLs for use in web applications.",               badge: "",        uses: "590K", live: false },
   { name: "UUID Generator",       slug: "uuid-generator",       category: "dev",      icon: "🎲", desc: "Generate random UUIDs (v4) instantly.",                            badge: "",        uses: "510K", live: false },
   { name: "QR Code Generator",    slug: "qr-code-generator",    category: "dev",      icon: "🔲", desc: "Generate QR codes for URLs, WiFi, contacts and more.",              badge: "🆕 New",  uses: "650K", live: true  },
