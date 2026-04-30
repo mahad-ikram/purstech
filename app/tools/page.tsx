@@ -32,15 +32,15 @@ const ALL_TOOLS = [
   // ── DEV TOOLS ───────────────────────────────────────────────────────────────
   { name: "JSON Formatter",       slug: "json-formatter",       category: "dev",      icon: "💻", desc: "Format, validate and minify JSON data instantly.",                  badge: "⭐ Top",  uses: "1.5M", live: true  },
   { name: "Base64 Encoder",       slug: "base64-encoder",       category: "dev",      icon: "🔐", desc: "Encode and decode Base64 strings instantly.",                       badge: "",        uses: "680K", live: true },
-  { name: "URL Encoder",          slug: "url-encoder",          category: "dev",      icon: "🔗", desc: "Encode and decode URLs for use in web applications.",               badge: "",        uses: "590K", live: false },
-  { name: "UUID Generator",       slug: "uuid-generator",       category: "dev",      icon: "🎲", desc: "Generate random UUIDs (v4) instantly.",                            badge: "",        uses: "510K", live: false },
+  { name: "URL Encoder",          slug: "url-encoder",          category: "dev",      icon: "🔗", desc: "Encode and decode URLs for use in web applications.",               badge: "",        uses: "590K", live: true },
+  { name: "UUID Generator",       slug: "uuid-generator",       category: "dev",      icon: "🎲", desc: "Generate random UUIDs (v4) instantly.",                            badge: "",        uses: "510K", live: true },
   { name: "QR Code Generator",    slug: "qr-code-generator",    category: "dev",      icon: "🔲", desc: "Generate QR codes for URLs, WiFi, contacts and more.",              badge: "🆕 New",  uses: "650K", live: true  },
   { name: "Regex Tester",         slug: "regex-tester",         category: "dev",      icon: "🔎", desc: "Test and debug regular expressions with live match highlighting.",   badge: "",        uses: "340K", live: false },
-  { name: "HTML Minifier",        slug: "html-minifier",        category: "dev",      icon: "🗜️", desc: "Minify HTML to reduce file size and improve load speed.",           badge: "",        uses: "280K", live: false },
-  { name: "CSS Minifier",         slug: "css-minifier",         category: "dev",      icon: "🎨", desc: "Minify CSS files to reduce load time.",                             badge: "",        uses: "260K", live: false },
+  { name: "HTML Minifier",        slug: "html-minifier",        category: "dev",      icon: "🗜️", desc: "Minify HTML to reduce file size and improve load speed.",           badge: "",        uses: "280K", live: true },
+  { name: "CSS Minifier",         slug: "css-minifier",         category: "dev",      icon: "🎨", desc: "Minify CSS files to reduce load time.",                             badge: "",        uses: "260K", live: true },
   { name: "JS Minifier",          slug: "js-minifier",          category: "dev",      icon: "⚡", desc: "Minify JavaScript to reduce file size.",                            badge: "",        uses: "240K", live: false },
   { name: "HTML to Markdown",     slug: "html-to-markdown",     category: "dev",      icon: "📝", desc: "Convert HTML code to clean Markdown format.",                      badge: "",        uses: "190K", live: false },
-  { name: "Hash Generator",       slug: "hash-generator",       category: "dev",      icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                 badge: "",        uses: "310K", live: false },
+  { name: "Hash Generator",       slug: "hash-generator",       category: "dev",      icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                 badge: "",        uses: "310K", live: true },
   { name: "Color Code Converter", slug: "color-code-converter", category: "dev",      icon: "🖌️", desc: "Convert between HEX, RGB, HSL and CSS colour formats.",            badge: "",        uses: "220K", live: false },
 
   // ── SEO TOOLS ───────────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ const ALL_TOOLS = [
 
   // ── SECURITY TOOLS ──────────────────────────────────────────────────────────
   { name: "Password Generator",   slug: "password-generator",   category: "security", icon: "🔐", desc: "Generate strong, cryptographically secure passwords.",              badge: "🆕 New",  uses: "980K", live: true  },
-  { name: "Hash Generator",       slug: "hash-generator",       category: "security", icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                 badge: "",        uses: "310K", live: false },
+  { name: "Hash Generator",       slug: "hash-generator",       category: "security", icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                 badge: "",        uses: "310K", live: true },
   { name: "SSL Checker",          slug: "ssl-checker",          category: "security", icon: "🛡️", desc: "Check the SSL certificate status of any website.",                  badge: "",        uses: "180K", live: false },
   { name: "IP Address Lookup",    slug: "ip-lookup",            category: "security", icon: "🌐", desc: "Look up the location and details of any IP address.",               badge: "",        uses: "290K", live: false },
 
