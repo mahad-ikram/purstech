@@ -60,13 +60,13 @@ const ALL_TOOLS = [
   { name: "AI Email Writer",      slug: "ai-email-writer",      category: "ai",       icon: "📧", desc: "Write professional emails in seconds using AI.",                    badge: "🤖 AI",   uses: "430K", live: false },
 
   // ── FINANCE TOOLS ───────────────────────────────────────────────────────────
-  { name: "Currency Converter",   slug: "currency-converter",   category: "finance",  icon: "💱", desc: "Convert currencies with live exchange rates.",                      badge: "",        uses: "390K", live: false },
+  { name: "Currency Converter",   slug: "currency-converter",   category: "finance",  icon: "💱", desc: "Convert currencies with live exchange rates.",                      badge: "",        uses: "390K", live: true },
   { name: "Loan Calculator",      slug: "loan-calculator",      category: "finance",  icon: "🏦", desc: "Calculate monthly payments, total interest and loan costs.",        badge: "",        uses: "340K", live: false },
   { name: "Compound Interest",    slug: "compound-interest",    category: "finance",  icon: "📈", desc: "Calculate compound interest and investment growth over time.",       badge: "",        uses: "290K", live: false },
-  { name: "Percentage Calculator",slug: "percentage-calculator",category: "finance",  icon: "🔢", desc: "Calculate percentages, increases, decreases and differences.",      badge: "",        uses: "480K", live: false },
-  { name: "Age Calculator",       slug: "age-calculator",       category: "finance",  icon: "🎂", desc: "Calculate exact age in years, months and days.",                   badge: "",        uses: "410K", live: false },
-  { name: "BMI Calculator",       slug: "bmi-calculator",       category: "finance",  icon: "⚖️", desc: "Calculate your Body Mass Index and healthy weight range.",          badge: "",        uses: "360K", live: false },
-  { name: "Unit Converter",       slug: "unit-converter",       category: "finance",  icon: "📏", desc: "Convert between length, weight, temperature and volume units.",     badge: "",        uses: "320K", live: false },
+  { name: "Percentage Calculator",slug: "percentage-calculator",category: "finance",  icon: "🔢", desc: "Calculate percentages, increases, decreases and differences.",      badge: "",        uses: "480K", live: true },
+  { name: "Age Calculator",       slug: "age-calculator",       category: "finance",  icon: "🎂", desc: "Calculate exact age in years, months and days.",                   badge: "",        uses: "410K", live: true },
+  { name: "BMI Calculator",       slug: "bmi-calculator",       category: "finance",  icon: "⚖️", desc: "Calculate your Body Mass Index and healthy weight range.",          badge: "",        uses: "360K", live: true },
+  { name: "Unit Converter",       slug: "unit-converter",       category: "finance",  icon: "📏", desc: "Convert between length, weight, temperature and volume units.",     badge: "",        uses: "320K", live: true },
   { name: "Time Zone Converter",  slug: "timezone-converter",   category: "finance",  icon: "🕐", desc: "Convert times between any two time zones instantly.",               badge: "",        uses: "270K", live: false },
   { name: "Tip Calculator",       slug: "tip-calculator",       category: "finance",  icon: "🍽️", desc: "Calculate tips and split bills between friends.",                   badge: "",        uses: "240K", live: false },
 
