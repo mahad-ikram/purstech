@@ -1,0 +1,62 @@
+# PursTech
+> The World's Largest Free Tool Ecosystem. Stop Searching. Start Doing.
+
+PursTech is a free online tool platform providing 10,000+ utilities for text processing,
+image editing, developer tools, SEO, AI-powered tasks, finance calculations, security
+and PDF management. No login required. No ads on tools. Powered by AI.
+
+## Site
+
+- Homepage: https://purstech.com
+- All Tools: https://purstech.com/tools
+- Blog: https://purstech.com/blog
+
+## Categories
+
+- Text Tools: https://purstech.com/categories/text
+- Image Tools: https://purstech.com/categories/image
+- Developer Tools: https://purstech.com/categories/dev
+- SEO Tools: https://purstech.com/categories/seo
+- AI Tools: https://purstech.com/categories/ai
+- Finance Tools: https://purstech.com/categories/finance
+- Security Tools: https://purstech.com/categories/security
+- PDF Tools: https://purstech.com/categories/pdf
+
+## Live Tools
+
+### Text Tools
+- Word Counter: https://purstech.com/tools/word-counter
+- Case Converter: https://purstech.com/tools/case-converter
+- Lorem Ipsum Generator: https://purstech.com/tools/lorem-ipsum
+- Diff Checker: https://purstech.com/tools/diff-checker
+- Text to Speech: https://purstech.com/tools/text-to-speech
+
+### Developer Tools
+- JSON Formatter: https://purstech.com/tools/json-formatter
+- Base64 Encoder: https://purstech.com/tools/base64-encoder
+- URL Encoder: https://purstech.com/tools/url-encoder
+- UUID Generator: https://purstech.com/tools/uuid-generator
+- QR Code Generator: https://purstech.com/tools/qr-code-generator
+- Hash Generator: https://purstech.com/tools/hash-generator
+- CSS Minifier: https://purstech.com/tools/css-minifier
+- HTML Minifier: https://purstech.com/tools/html-minifier
+
+### Image Tools
+- Color Picker: https://purstech.com/tools/color-picker
+
+### Security Tools
+- Password Generator: https://purstech.com/tools/password-generator
+
+### Finance Tools
+- Age Calculator: https://purstech.com/tools/age-calculator
+- BMI Calculator: https://purstech.com/tools/bmi-calculator
+- Percentage Calculator: https://purstech.com/tools/percentage-calculator
+- Unit Converter: https://purstech.com/tools/unit-converter
+- Currency Converter: https://purstech.com/tools/currency-converter
+
+## About
+
+- Founder: Independent developer
+- Technology: Next.js, Supabase, Vercel, Claude AI
+- Business model: Free tools + optional Pro tier ($7/month)
+- Contact: contact@purstech.com
