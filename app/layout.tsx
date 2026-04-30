@@ -91,10 +91,12 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
 
-  // ── Verification (add later when you set up Google Search Console) ────────
-  // verification: {
-  //   google: "your-google-verification-code",
-  // },
+  export const metadata: Metadata = {
+  title: "Purstech - Online Tools Hub",
+  description: "A comprehensive suite of web-based utilities.",
+  verification: {
+    google: "google5dee1d926c4757f1",
+  },
 };
 
 // ─── JSON-LD Structured Data ─────────────────────────────────────────────────
