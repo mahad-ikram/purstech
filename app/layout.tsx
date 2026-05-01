@@ -81,7 +81,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon:     "/favicon.ico",
+    icon:      "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple:    "/apple-touch-icon.png",
   },
@@ -119,6 +119,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* Google AdSense Verification Snippet */}
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6963502356186067" 
+          crossOrigin="anonymous"
+        ></script>
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
