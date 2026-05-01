@@ -78,12 +78,14 @@ function Navbar() {
           <span className="text-[10px] bg-[#6C3AFF]/30 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30">BETA</span>
         </div>
         <div className="hidden md:flex items-center gap-6 text-sm text-gray-400 font-medium">
-          {CATEGORIES.slice(0, 5).map(cat => (
+          {CATEGORIES.slice(0, 4).map(cat => (
             <Link key={cat.slug} href={`/categories/${cat.slug}`} className="hover:text-white transition-colors">
               {cat.name.split(" ")[0]}
             </Link>
           ))}
           <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+          <Link href="/blog"  className="hover:text-white transition-colors">Blog</Link>
+          <Link href="/about" className="hover:text-white transition-colors">About</Link>
         </div>
         <div className="flex items-center gap-3">
           <Link href="/tools" className="hidden md:block text-sm text-gray-400 hover:text-white transition-colors">Browse</Link>
@@ -438,11 +440,13 @@ function Footer() {
       { name:"HTML Minifier",      slug:"html-minifier"      },
     ],
     "Company": [
+      { name:"About Us",     slug:"/about"          },
       { name:"All Tools",    slug:"/tools"          },
       { name:"Blog",         slug:"/blog"           },
       { name:"Go Pro",       slug:"/pro"            },
       { name:"Contact",      slug:"/contact"        },
       { name:"Privacy",      slug:"/privacy"        },
+      { name:"Terms",        slug:"/terms"          },
     ],
   };
 
