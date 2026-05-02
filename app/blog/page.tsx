@@ -99,19 +99,20 @@ export default function BlogListPage() {
         {featured && (
           <Link href={`/blog/${featured.slug}`}
             className="block group mb-12 relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#6C3AFF]/20 via-[#13131F] to-[#00D4FF]/10 border border-[#6C3AFF]/20 hover:border-[#6C3AFF]/50 transition-all hover:shadow-2xl hover:shadow-violet-900/30">
-            <div className="absolute top-6 left-6 z-10">
-              <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] text-white text-xs font-extrabold px-3 py-1.5 rounded-full">
-                ⭐ FEATURED
-              </span>
-            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 md:p-12">
               <div className="flex flex-col justify-center">
+                {/* ── ALIGNED TAGS: Featured, Category, and Read Time ── */}
                 <div className="flex items-center gap-3 mb-4 flex-wrap">
+                  <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] text-white text-xs font-extrabold px-3 py-1 rounded-full">
+                    ⭐ FEATURED
+                  </span>
                   <span className="text-xs bg-[#6C3AFF]/10 text-[#6C3AFF] border border-[#6C3AFF]/20 px-2.5 py-1 rounded-full font-semibold">
                     {featured.category}
                   </span>
                   <span className="text-xs text-gray-500">{featured.readTime}</span>
                 </div>
+
                 <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4 group-hover:text-[#00D4FF] transition-colors leading-snug">
                   {featured.title}
                 </h2>
@@ -130,7 +131,7 @@ export default function BlogListPage() {
             </div>
           </Link>
         )}
-
+        
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-8">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
