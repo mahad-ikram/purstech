@@ -1,99 +1,104 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-
-interface SitemapEntry {
-  id:          number;
-  url:         string;
-  priority:    string;
-  changefreq:  string;
-  lastmod:     string;
-}
-
-let nextId = 1;
 
 const TODAY = new Date().toISOString().slice(0, 10);
 
-const FREQ_OPTIONS = [
-  { label: "Always",  value: "always"  },
-  { label: "Hourly",  value: "hourly"  },
-  { label: "Daily",   value: "daily"   },
-  { label: "Weekly",  value: "weekly"  },
-  { label: "Monthly", value: "monthly" },
-  { label: "Yearly",  value: "yearly"  },
-  { label: "Never",   value: "never"   },
-];
+const FREQ_OPTIONS = ["always","hourly","daily","weekly","monthly","yearly","never"] as const;
 
-const PRIORITY_OPTIONS = [
-  { label: "1.0 — Highest (Homepage)", value: "1.0" },
-  { label: "0.9 — Very High",          value: "0.9" },
-  { label: "0.8 — High",               value: "0.8" },
-  { label: "0.7 — Above Average",      value: "0.7" },
-  { label: "0.6 — Slightly Above",     value: "0.6" },
-  { label: "0.5 — Normal (default)",   value: "0.5" },
-  { label: "0.4 — Slightly Below",     value: "0.4" },
-  { label: "0.3 — Below Average",      value: "0.3" },
-  { label: "0.1 — Lowest",            value: "0.1" },
-];
+interface Entry { id: number; url: string; priority: string; changefreq: string; lastmod: string; }
+
+let uid = 1;
+
+function autoPriority(path: string): string {
+  if (!path || path === "/") return "1.0";
+  const depth = (path.match(/\//g) || []).length;
+  if (depth === 1) return "0.8";
+  if (depth === 2) return "0.6";
+  if (depth === 3) return "0.5";
+  return "0.3";
+}
+
+function autoFreq(path: string): string {
+  if (!path || path === "/") return "daily";
+  if (path.includes("/blog") || path.includes("/news")) return "weekly";
+  if (path.includes("/product") || path.includes("/shop")) return "weekly";
+  if (path.includes("/about") || path.includes("/contact") || path.includes("/privacy")) return "monthly";
+  return "weekly";
+}
 
 export default function SitemapGeneratorClient() {
-  const [domain, setDomain]   = useState("");
-  const [bulkMode, setBulkMode] = useState(false);
+  const [domain,   setDomain]   = useState("");
+  const [mode,     setMode]     = useState<"builder"|"bulk"|"index">("builder");
   const [bulkText, setBulkText] = useState("");
-  const [entries, setEntries] = useState<SitemapEntry[]>([
-    { id: nextId++, url: "/",        priority: "1.0", changefreq: "daily",   lastmod: TODAY },
-    { id: nextId++, url: "/about",   priority: "0.8", changefreq: "monthly", lastmod: TODAY },
-    { id: nextId++, url: "/contact", priority: "0.7", changefreq: "monthly", lastmod: TODAY },
-    { id: nextId++, url: "/blog",    priority: "0.9", changefreq: "daily",   lastmod: TODAY },
+  const [entries,  setEntries]  = useState<Entry[]>([
+    { id: uid++, url: "/",        priority: "1.0", changefreq: "daily",   lastmod: TODAY },
+    { id: uid++, url: "/about",   priority: "0.8", changefreq: "monthly", lastmod: TODAY },
+    { id: uid++, url: "/contact", priority: "0.7", changefreq: "monthly", lastmod: TODAY },
+    { id: uid++, url: "/blog",    priority: "0.9", changefreq: "daily",   lastmod: TODAY },
   ]);
+  const [sitemapIndexUrls, setSitemapIndexUrls] = useState("");
   const [copied,     setCopied]     = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [pinged,     setPinged]     = useState(false);
+  const [autoSmartPriority, setAutoSmartPriority] = useState(true);
 
   function addEntry() {
-    setEntries(prev => [...prev, {
-      id: nextId++, url: "", priority: "0.5", changefreq: "weekly", lastmod: TODAY,
-    }]);
+    setEntries(p => [...p, { id: uid++, url: "", priority: "0.5", changefreq: "weekly", lastmod: TODAY }]);
   }
-
-  function removeEntry(id: number) {
-    setEntries(prev => prev.filter(e => e.id !== id));
-  }
-
-  function updateEntry(id: number, field: keyof Omit<SitemapEntry, "id">, value: string) {
-    setEntries(prev => prev.map(e => e.id === id ? { ...e, [field]: value } : e));
+  function removeEntry(id: number) { setEntries(p => p.filter(e => e.id !== id)); }
+  function updateEntry(id: number, f: keyof Omit<Entry,"id">, v: string) {
+    setEntries(p => p.map(e => {
+      if (e.id !== id) return e;
+      const updated = { ...e, [f]: v };
+      if (f === "url" && autoSmartPriority) {
+        updated.priority  = autoPriority(v);
+        updated.changefreq = autoFreq(v);
+      }
+      return updated;
+    }));
   }
 
   function processBulk() {
     const lines = bulkText.split("\n").map(l => l.trim()).filter(Boolean);
-    const newEntries: SitemapEntry[] = lines.map(line => {
-      const path = line.startsWith("http") ? line : (domain ? line : "/" + line.replace(/^\//, ""));
-      return { id: nextId++, url: path, priority: "0.5", changefreq: "weekly", lastmod: TODAY };
-    });
-    setEntries(newEntries);
-    setBulkMode(false);
+    setEntries(lines.map(line => {
+      const path = line.startsWith("http") ? line : (line.startsWith("/") ? line : "/" + line);
+      return { id: uid++, url: path, priority: autoPriority(path), changefreq: autoFreq(path), lastmod: TODAY };
+    }));
+    setMode("builder");
     setBulkText("");
   }
 
-  function generateXML(): string {
-    const base = domain.replace(/\/$/, "");
-    const lines = [
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      '<!-- Generated by PursTech Sitemap Generator -->',
-      '<!-- https://purstech.com/tools/sitemap-generator -->',
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ];
+  function autoSmartAll() {
+    setEntries(p => p.map(e => ({ ...e, priority: autoPriority(e.url), changefreq: autoFreq(e.url) })));
+  }
 
-    entries.forEach(entry => {
-      const url = entry.url.startsWith("http") ? entry.url : `${base}${entry.url || "/"}`;
-      lines.push("  <url>");
-      lines.push(`    <loc>${url}</loc>`);
-      if (entry.lastmod)   lines.push(`    <lastmod>${entry.lastmod}</lastmod>`);
-      if (entry.changefreq) lines.push(`    <changefreq>${entry.changefreq}</changefreq>`);
-      if (entry.priority)  lines.push(`    <priority>${entry.priority}</priority>`);
+  const base = domain.replace(/\/$/, "");
+
+  function generateXML(): string {
+    if (mode === "index" && sitemapIndexUrls.trim()) {
+      const urls = sitemapIndexUrls.split("\n").map(l => l.trim()).filter(Boolean);
+      const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<!-- Sitemap Index — Generated by PursTech -->', '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
+      urls.forEach(url => {
+        lines.push("  <sitemap>");
+        lines.push(`    <loc>${url.startsWith("http") ? url : `${base}${url}`}</loc>`);
+        lines.push(`    <lastmod>${TODAY}</lastmod>`);
+        lines.push("  </sitemap>");
+      });
+      lines.push("</sitemapindex>");
+      return lines.join("\n");
+    }
+
+    const lines = ['<?xml version="1.0" encoding="UTF-8"?>', `<!-- sitemap.xml — Generated by PursTech on ${TODAY} -->`, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
+    entries.forEach(e => {
+      const url = e.url.startsWith("http") ? e.url : `${base}${e.url || "/"}`;
+      lines.push("  <url>", `    <loc>${url}</loc>`);
+      if (e.lastmod)    lines.push(`    <lastmod>${e.lastmod}</lastmod>`);
+      if (e.changefreq) lines.push(`    <changefreq>${e.changefreq}</changefreq>`);
+      if (e.priority)   lines.push(`    <priority>${e.priority}</priority>`);
       lines.push("  </url>");
     });
-
     lines.push("</urlset>");
     return lines.join("\n");
   }
@@ -102,25 +107,33 @@ export default function SitemapGeneratorClient() {
 
   function copy() {
     navigator.clipboard.writeText(output);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopied(true); setTimeout(() => setCopied(false), 2000);
+  }
+  function download() {
+    const b = new Blob([output], { type: "application/xml" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(b), download: "sitemap.xml" });
+    a.click();
+    setDownloaded(true); setTimeout(() => setDownloaded(false), 2000);
   }
 
-  function download() {
-    const blob = new Blob([output], { type: "application/xml" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
-    a.href     = url;
-    a.download = "sitemap.xml";
-    a.click();
-    URL.revokeObjectURL(url);
-    setDownloaded(true);
-    setTimeout(() => setDownloaded(false), 2000);
+  async function pingGoogle() {
+    const sitemapUrl = `${base}/sitemap.xml`;
+    window.open(`https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`, "_blank");
+    setPinged(true); setTimeout(() => setPinged(false), 3000);
   }
+
+  // ── Sitemap stats ──────────────────────────────────────────────────────────
+  const stats = useMemo(() => {
+    const byDepth: Record<number,number> = {};
+    entries.forEach(e => {
+      const d = (e.url.match(/\//g) || []).length;
+      byDepth[d] = (byDepth[d]||0)+1;
+    });
+    return { total: entries.length, byDepth };
+  }, [entries]);
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
-
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -128,8 +141,7 @@ export default function SitemapGeneratorClient() {
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-4 py-10">
-
+      <main className="max-w-6xl mx-auto px-4 py-10">
         <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span>›</span>
@@ -139,131 +151,273 @@ export default function SitemapGeneratorClient() {
         </nav>
 
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">
-            SEO Tools
-          </div>
+          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">SEO Tools</div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
             Free XML Sitemap Generator Online
           </h1>
           <p className="text-gray-400 max-w-2xl">
-            Create a valid XML sitemap for your website in seconds. Set priority and change frequency for each URL, then download and submit to Google Search Console.
+            Create a valid XML sitemap with smart auto-priority, bulk import, sitemap index support and one-click Google ping. Download and submit in under 2 minutes.
           </p>
         </div>
 
-        {/* Domain */}
-        <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-5">
-          <label className="block text-sm font-semibold text-white mb-2">Website Domain</label>
-          <input value={domain} onChange={e => setDomain(e.target.value)}
-            placeholder="https://yoursite.com"
-            className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
-          <p className="text-xs text-gray-500 mt-1.5">Enter your domain so relative paths (like /about) become full URLs in the sitemap.</p>
+        {/* Mode tabs + domain */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="sm:col-span-2">
+            <div className="flex gap-1 bg-[#13131F] border border-white/5 rounded-2xl p-1">
+              {[
+                { id:"builder", label:"🔨 URL Builder" },
+                { id:"bulk",    label:"📋 Bulk Import" },
+                { id:"index",   label:"🗂 Sitemap Index" },
+              ].map(t => (
+                <button key={t.id} onClick={() => setMode(t.id as typeof mode)}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                    mode === t.id ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"
+                  }`}>
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <input value={domain} onChange={e => setDomain(e.target.value)}
+              placeholder="https://yoursite.com"
+              className="w-full h-full px-4 py-2.5 rounded-2xl bg-[#13131F] border border-white/5 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
 
-          {/* URL Builder */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-white text-sm">
-                URLs ({entries.length})
-              </h3>
-              <div className="flex gap-2">
-                <button onClick={() => setBulkMode(!bulkMode)}
-                  className="px-3 py-1.5 rounded-lg bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white text-xs transition-all">
-                  {bulkMode ? "Single Mode" : "Bulk Import"}
-                </button>
-                <button onClick={addEntry}
-                  className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all">
-                  + Add URL
-                </button>
-              </div>
-            </div>
+          {/* Left — Builder */}
+          <div className="xl:col-span-3 space-y-4">
 
-            {bulkMode ? (
-              <div>
-                <p className="text-xs text-gray-500 mb-2">Enter one URL or path per line:</p>
-                <textarea value={bulkText} onChange={e => setBulkText(e.target.value)} rows={8}
-                  placeholder={"/\n/about\n/contact\n/blog\n/blog/my-post"}
-                  className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
-                <button onClick={processBulk}
-                  className="mt-3 w-full py-2.5 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
-                  Import URLs
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
-                {entries.map(entry => (
-                  <div key={entry.id} className="bg-[#0A0A14] rounded-xl p-3 border border-white/5">
-                    <div className="flex items-center gap-2 mb-2">
-                      <input value={entry.url} onChange={e => updateEntry(entry.id, "url", e.target.value)}
-                        placeholder="/page-path or https://..."
-                        className="flex-1 px-3 py-2 rounded-lg bg-[#13131F] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all font-mono" />
-                      <button onClick={() => removeEntry(entry.id)}
-                        className="text-gray-600 hover:text-[#FF3A6C] text-sm transition-colors flex-shrink-0">
-                        ×
+            {/* Builder mode */}
+            {mode === "builder" && (
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+                <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                  <h3 className="font-bold text-white text-sm">URLs ({entries.length})</h3>
+                  <div className="flex gap-2 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Smart priority</span>
+                      <button onClick={() => setAutoSmartPriority(p => !p)}
+                        className={`w-9 h-5 rounded-full transition-all relative ${autoSmartPriority ? "bg-[#6C3AFF]" : "bg-gray-700"}`}>
+                        <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-all ${autoSmartPriority ? "left-[18px]" : "left-0.5"}`} />
                       </button>
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
-                      <select value={entry.priority}
-                        onChange={e => updateEntry(entry.id, "priority", e.target.value)}
-                        className="px-2 py-1.5 rounded-lg bg-[#13131F] border border-white/10 text-white text-xs focus:outline-none focus:border-[#6C3AFF]/60 transition-all">
-                        {PRIORITY_OPTIONS.map(o => (
-                          <option key={o.value} value={o.value}>{o.value}</option>
-                        ))}
-                      </select>
-                      <select value={entry.changefreq}
-                        onChange={e => updateEntry(entry.id, "changefreq", e.target.value)}
-                        className="px-2 py-1.5 rounded-lg bg-[#13131F] border border-white/10 text-white text-xs focus:outline-none focus:border-[#6C3AFF]/60 transition-all">
-                        {FREQ_OPTIONS.map(o => (
-                          <option key={o.value} value={o.value}>{o.label}</option>
-                        ))}
-                      </select>
-                      <input type="date" value={entry.lastmod}
-                        onChange={e => updateEntry(entry.id, "lastmod", e.target.value)}
-                        className="px-2 py-1.5 rounded-lg bg-[#13131F] border border-white/10 text-white text-xs focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
-                    </div>
+                    <button onClick={autoSmartAll}
+                      className="px-3 py-1.5 rounded-lg bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white text-xs transition-all">
+                      ✨ Auto-set all
+                    </button>
+                    <button onClick={addEntry}
+                      className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all">
+                      + Add URL
+                    </button>
                   </div>
-                ))}
+                </div>
+
+                <div className="space-y-2.5 max-h-[520px] overflow-y-auto pr-1">
+                  {entries.map(entry => (
+                    <div key={entry.id} className="bg-[#0A0A14] rounded-xl p-3 border border-white/5">
+                      <div className="flex items-center gap-2 mb-2">
+                        <input value={entry.url} onChange={e => updateEntry(entry.id, "url", e.target.value)}
+                          placeholder="/page-path or https://..."
+                          className="flex-1 px-3 py-2 rounded-lg bg-[#13131F] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all font-mono text-xs" />
+                        <button onClick={() => removeEntry(entry.id)}
+                          className="text-gray-600 hover:text-[#FF3A6C] transition-colors flex-shrink-0">×</button>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Priority</label>
+                          <select value={entry.priority}
+                            onChange={e => updateEntry(entry.id, "priority", e.target.value)}
+                            className="w-full px-2 py-1.5 rounded-lg bg-[#13131F] border border-white/10 text-white text-xs focus:outline-none transition-all">
+                            {["1.0","0.9","0.8","0.7","0.6","0.5","0.4","0.3","0.1"].map(p => (
+                              <option key={p} value={p}>{p}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Frequency</label>
+                          <select value={entry.changefreq}
+                            onChange={e => updateEntry(entry.id, "changefreq", e.target.value)}
+                            className="w-full px-2 py-1.5 rounded-lg bg-[#13131F] border border-white/10 text-white text-xs focus:outline-none transition-all">
+                            {FREQ_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">Last Modified</label>
+                          <input type="date" value={entry.lastmod}
+                            onChange={e => updateEntry(entry.id, "lastmod", e.target.value)}
+                            className="w-full px-2 py-1.5 rounded-lg bg-[#13131F] border border-white/10 text-white text-xs focus:outline-none transition-all" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Bulk mode */}
+            {mode === "bulk" && (
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+                <h3 className="font-bold text-white text-sm mb-2">Bulk URL Import</h3>
+                <p className="text-xs text-gray-500 mb-3">Enter one URL or path per line. Smart priority and change frequency will be auto-detected based on URL depth and keywords.</p>
+                <textarea value={bulkText} onChange={e => setBulkText(e.target.value)} rows={14}
+                  placeholder={"/\n/about\n/contact\n/blog\n/blog/my-first-post\n/products\n/products/category-name\n/products/category/specific-item\nhttps://yoursite.com/external-page"}
+                  className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
+                <button onClick={processBulk}
+                  className="mt-3 w-full py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
+                  ✨ Import & Auto-Configure All URLs
+                </button>
+              </div>
+            )}
+
+            {/* Index mode */}
+            {mode === "index" && (
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+                <h3 className="font-bold text-white text-sm mb-1">Sitemap Index Generator</h3>
+                <p className="text-xs text-gray-500 mb-3">For large sites with multiple sitemap files. A sitemap index references all your individual sitemaps in a single master file. Google requires this when you have more than 50,000 URLs.</p>
+                <textarea value={sitemapIndexUrls} onChange={e => setSitemapIndexUrls(e.target.value)} rows={10}
+                  placeholder={"/sitemap-pages.xml\n/sitemap-blog.xml\n/sitemap-products.xml\nhttps://yoursite.com/sitemap-images.xml"}
+                  className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
+              </div>
+            )}
+
+            {/* Sitemap stats */}
+            {mode === "builder" && entries.length > 0 && (
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Sitemap Structure</h3>
+                <div className="space-y-1.5">
+                  {Object.entries(stats.byDepth).sort().map(([depth, count]) => (
+                    <div key={depth} className="flex items-center gap-3">
+                      <div className="text-xs text-gray-500 w-20 flex-shrink-0">
+                        {parseInt(depth) === 0 ? "Root (/)" : `Depth ${depth}`}
+                      </div>
+                      <div className="flex-1 h-1.5 bg-[#0A0A14] rounded-full overflow-hidden">
+                        <div className="h-full bg-[#6C3AFF] rounded-full"
+                          style={{ width: `${(count/stats.total)*100}%` }} />
+                      </div>
+                      <div className="text-xs text-gray-400 w-6 text-right">{count}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Output */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 flex flex-col">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">sitemap.xml</h3>
-                <span className="text-xs text-gray-600 mt-0.5 block">{entries.length} URLs</span>
+          {/* Right — Output */}
+          <div className="xl:col-span-2 flex flex-col gap-4">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 flex-1 flex flex-col">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    {mode === "index" ? "sitemap-index.xml" : "sitemap.xml"}
+                  </h3>
+                  <span className="text-xs text-gray-600">
+                    {mode === "builder" ? `${entries.length} URLs` : mode === "index" ? "Sitemap index" : "Bulk import"}
+                  </span>
+                </div>
+                <div className="flex gap-2 flex-wrap justify-end">
+                  <button onClick={copy}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      copied ? "bg-green-600 text-white" : "bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white"
+                    }`}>
+                    {copied ? "✓" : "Copy"}
+                  </button>
+                  <button onClick={download}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      downloaded ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
+                    }`}>
+                    {downloaded ? "✓ Saved!" : "⬇ Download"}
+                  </button>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <button onClick={copy}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    copied ? "bg-green-600 text-white" : "bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white"
+              <pre className="flex-1 text-xs text-green-400 bg-[#0A0A14] rounded-xl p-4 overflow-auto whitespace-pre-wrap font-mono leading-relaxed min-h-[320px]">
+                {output}
+              </pre>
+            </div>
+
+            {/* Submit to Google */}
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+              <h3 className="font-bold text-white text-sm mb-3">🚀 Submit & Ping Google</h3>
+              <p className="text-xs text-gray-500 mb-4">After uploading your sitemap, notify Google to start indexing immediately.</p>
+              <div className="space-y-3">
+                <button onClick={pingGoogle}
+                  className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all ${
+                    pinged ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
                   }`}>
-                  {copied ? "✓ Copied!" : "Copy"}
+                  {pinged ? "✓ Google Pinged!" : "🔔 Ping Google Sitemap"}
                 </button>
-                <button onClick={download}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    downloaded ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
-                  }`}>
-                  {downloaded ? "✓ Saved!" : "⬇ Download"}
-                </button>
+                <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer"
+                  className="block w-full py-2.5 rounded-xl text-sm font-bold border border-white/10 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30 transition-all text-center">
+                  Open Google Search Console ↗
+                </a>
               </div>
             </div>
-            <pre className="flex-1 text-xs text-green-400 bg-[#0A0A14] rounded-xl p-4 overflow-auto whitespace-pre-wrap font-mono leading-relaxed min-h-[360px]">
-              {output}
-            </pre>
-            <div className="mt-4 bg-[#0A0A14] rounded-xl p-3">
-              <p className="text-xs text-gray-500 font-semibold mb-1">📋 Next Steps</p>
-              <ol className="text-xs text-gray-500 space-y-1 list-decimal list-inside">
-                <li>Download and upload <code className="text-cyan-400">sitemap.xml</code> to your website root</li>
-                <li>Add <code className="text-cyan-400">Sitemap: {domain || "https://yoursite.com"}/sitemap.xml</code> to robots.txt</li>
-                <li>Submit the URL in <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer" className="text-[#6C3AFF] hover:underline">Google Search Console</a></li>
-              </ol>
+
+            {/* Deploy checklist */}
+            <div className="bg-[#0A0A14] border border-white/5 rounded-2xl p-4">
+              <p className="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wide">📋 Deploy Checklist</p>
+              <div className="space-y-1.5 text-xs text-gray-500">
+                {[
+                  "Upload sitemap.xml to website root",
+                  "Verify at: yoursite.com/sitemap.xml",
+                  "Add to robots.txt: Sitemap: .../sitemap.xml",
+                  "Submit URL in Google Search Console",
+                  "Submit URL in Bing Webmaster Tools",
+                  "Ping Google using the button above",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <span className="text-[#6C3AFF] flex-shrink-0">{i+1}.</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
+        {/* How to Use */}
+        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6">
+          <h2 className="text-xl font-extrabold text-white mb-5">How to Use the Sitemap Generator</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            {[
+              { step:"1", title:"Enter your domain", desc:"Add your website domain at the top. This converts relative paths like /about into full URLs in the sitemap." },
+              { step:"2", title:"Add your URLs", desc:"Use the URL Builder to add pages one by one, or switch to Bulk Import to paste a list of paths all at once. Smart Priority auto-sets importance by URL depth." },
+              { step:"3", title:"Download & upload", desc:"Click Download to save sitemap.xml. Upload it to your website root so it is accessible at yoursite.com/sitemap.xml." },
+              { step:"4", title:"Submit to Google", desc:"Open Search Console, go to Sitemaps, enter your URL and submit. Then use our Ping Google button to request immediate crawling." },
+            ].map(s => (
+              <div key={s.step} className="flex gap-3">
+                <div className="w-7 h-7 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
+                <div>
+                  <div className="font-semibold text-white text-sm mb-1">{s.title}</div>
+                  <div className="text-gray-500 text-xs leading-relaxed">{s.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* FAQ */}
+        <div className="mt-10 max-w-3xl">
+          <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
+          <div className="space-y-3">
+            {[
+              { q:"What is an XML sitemap and does my website need one?", a:"An XML sitemap is a file that lists all important URLs on your website, helping search engines discover and crawl your content efficiently. While crawlers can find pages by following links, a sitemap ensures new pages, recently updated content and pages with few inbound links are discovered and indexed faster. Every website benefits from having one, especially new sites, large sites and content-heavy blogs." },
+              { q:"How do I submit a sitemap to Google?", a:"Go to Google Search Console, select your property, click Sitemaps in the left menu, enter your sitemap URL (typically yoursite.com/sitemap.xml) and click Submit. Also add a Sitemap directive to your robots.txt file so all search engines can find it automatically. Use our Ping Google button to request immediate crawling after uploading your sitemap." },
+              { q:"What is Smart Priority and how does it work?", a:"Smart Priority is our auto-configuration feature that sets a URL's priority value based on its depth in your site structure. Your homepage gets priority 1.0 (most important). Top-level pages like /about get 0.8. Sub-pages get 0.6. Deep pages get 0.5 or lower. Pages with blog or news in the URL get daily change frequency. This follows industry best practices and saves you manually configuring every URL." },
+              { q:"What is a sitemap index file?", a:"A sitemap index file references multiple individual sitemap files in a single master document. Google requires this when you have more than 50,000 URLs or when your individual sitemaps exceed 50MB. Large e-commerce sites, news sites and multi-language sites commonly use sitemap indexes to organise their sitemaps by content type: one for products, one for blog posts, one for categories, etc." },
+              { q:"How many URLs can a sitemap contain?", a:"A single XML sitemap can contain a maximum of 50,000 URLs and must not exceed 50MB uncompressed. For larger sites, use a sitemap index file referencing multiple individual sitemaps. Google Search Console shows how many URLs were indexed from each sitemap, making it easy to monitor which sections of your site are being crawled effectively." },
+            ].map((faq, i) => (
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{faq.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{faq.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
       </main>
 
       <footer className="border-t border-white/5 mt-16 py-8 text-center">
