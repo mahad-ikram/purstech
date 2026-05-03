@@ -96,7 +96,6 @@ export default function MetaTagGeneratorClient() {
   const set = (k: keyof MetaFields) => (v: string) =>
     setFields(prev => ({ ...prev, [k]: v }));
 
-  // Sync OG/Twitter from basic fields if empty
   const syncFields = (k: keyof MetaFields, v: string) => {
     setFields(prev => {
       const next = { ...prev, [k]: v };
@@ -161,8 +160,6 @@ export default function MetaTagGeneratorClient() {
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
-
-      {/* Navbar */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -174,8 +171,6 @@ export default function MetaTagGeneratorClient() {
       </nav>
 
       <main className="max-w-5xl mx-auto px-4 py-10">
-
-        {/* Breadcrumb */}
         <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span>›</span>
@@ -184,7 +179,6 @@ export default function MetaTagGeneratorClient() {
           <span className="text-gray-400">Meta Tag Generator</span>
         </nav>
 
-        {/* Header */}
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">
             SEO Tools
@@ -197,12 +191,9 @@ export default function MetaTagGeneratorClient() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
           {/* Left — Inputs */}
           <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
-
-            {/* Tab switcher */}
             <div className="flex gap-1 bg-[#0A0A14] p-1 rounded-xl mb-6">
               {tabs.map(t => (
                 <button key={t.id} onClick={() => setTab(t.id)}
@@ -216,7 +207,6 @@ export default function MetaTagGeneratorClient() {
               ))}
             </div>
 
-            {/* Basic SEO tab */}
             {tab === "basic" && (
               <div className="space-y-4">
                 <Field label="Page Title" hint="50–60 characters recommended">
@@ -246,12 +236,10 @@ export default function MetaTagGeneratorClient() {
               </div>
             )}
 
-            {/* Open Graph tab */}
             {tab === "og" && (
               <div className="space-y-4">
                 <Field label="OG Title" hint="Usually same as page title">
-                  <Input value={fields.ogTitle} onChange={set("ogTitle")}
-                    placeholder="My Awesome Page" maxLen={60} />
+                  <Input value={fields.ogTitle} onChange={set("ogTitle")} placeholder="My Awesome Page" maxLen={60} />
                 </Field>
                 <Field label="OG Description" hint="Usually same as meta description">
                   <div>
@@ -263,16 +251,13 @@ export default function MetaTagGeneratorClient() {
                   </div>
                 </Field>
                 <Field label="OG Image URL" hint="Recommended: 1200×630px">
-                  <Input value={fields.ogImage} onChange={set("ogImage")}
-                    placeholder="https://yoursite.com/og-image.png" />
+                  <Input value={fields.ogImage} onChange={set("ogImage")} placeholder="https://yoursite.com/og-image.png" />
                 </Field>
                 <Field label="Page URL">
-                  <Input value={fields.ogUrl} onChange={set("ogUrl")}
-                    placeholder="https://yoursite.com/page" />
+                  <Input value={fields.ogUrl} onChange={set("ogUrl")} placeholder="https://yoursite.com/page" />
                 </Field>
                 <Field label="Site Name">
-                  <Input value={fields.ogSiteName} onChange={set("ogSiteName")}
-                    placeholder="YourSite" />
+                  <Input value={fields.ogSiteName} onChange={set("ogSiteName")} placeholder="YourSite" />
                 </Field>
                 <Field label="Content Type">
                   <Select value={fields.ogType} onChange={set("ogType")} options={[
@@ -285,7 +270,6 @@ export default function MetaTagGeneratorClient() {
               </div>
             )}
 
-            {/* Twitter tab */}
             {tab === "twitter" && (
               <div className="space-y-4">
                 <Field label="Card Type">
@@ -296,8 +280,7 @@ export default function MetaTagGeneratorClient() {
                   ]} />
                 </Field>
                 <Field label="Twitter Title">
-                  <Input value={fields.twitterTitle} onChange={set("twitterTitle")}
-                    placeholder="My Awesome Page" maxLen={70} />
+                  <Input value={fields.twitterTitle} onChange={set("twitterTitle")} placeholder="My Awesome Page" maxLen={70} />
                 </Field>
                 <Field label="Twitter Description">
                   <div>
@@ -309,12 +292,10 @@ export default function MetaTagGeneratorClient() {
                   </div>
                 </Field>
                 <Field label="Twitter Image URL">
-                  <Input value={fields.twitterImage} onChange={set("twitterImage")}
-                    placeholder="https://yoursite.com/twitter-card.png" />
+                  <Input value={fields.twitterImage} onChange={set("twitterImage")} placeholder="https://yoursite.com/twitter-card.png" />
                 </Field>
                 <Field label="Twitter Handle" hint="Your @username">
-                  <Input value={fields.twitterHandle} onChange={set("twitterHandle")}
-                    placeholder="@yoursite" />
+                  <Input value={fields.twitterHandle} onChange={set("twitterHandle")} placeholder="@yoursite" />
                 </Field>
               </div>
             )}
@@ -322,23 +303,62 @@ export default function MetaTagGeneratorClient() {
 
           {/* Right — Output */}
           <div className="flex flex-col gap-4">
-
-            {/* SERP Preview */}
+            {/* Live Preview */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
-                Google Search Preview
+                {tab === "basic" ? "Google Search Preview" : tab === "og" ? "Facebook / LinkedIn Preview" : "Twitter / X Preview"}
               </h3>
-              <div className="bg-white rounded-xl p-4">
-                <div className="text-xs text-green-700 mb-0.5 truncate">
-                  {fields.ogUrl || "https://yoursite.com/page"}
+              
+              {tab === "basic" && (
+                <div className="bg-white rounded-xl p-4">
+                  <div className="text-xs text-[#202124] mb-1 flex items-center gap-2 truncate">
+                    <span className="w-4 h-4 bg-gray-200 rounded-full inline-block"></span>
+                    https://yoursite.com
+                  </div>
+                  <div className="text-[#1a0dab] text-xl font-normal leading-snug mb-1 truncate hover:underline cursor-pointer">
+                    {fields.title || "Your Page Title Goes Here"}
+                  </div>
+                  <div className="text-[#4d5156] text-sm leading-[1.58] line-clamp-2">
+                    {fields.description || "Your meta description will appear here. Write something compelling to increase click-through rates from Google search results."}
+                  </div>
                 </div>
-                <div className="text-blue-700 text-lg font-medium leading-snug mb-1 line-clamp-1">
-                  {fields.title || "Your Page Title Goes Here"}
-                </div>
-                <div className="text-gray-600 text-sm leading-snug line-clamp-2">
-                  {fields.description || "Your meta description will appear here. Write something compelling to increase click-through rates from Google search results."}
-                </div>
-              </div>
+              )}
+
+              {tab === "og" && (
+                 <div className="bg-[#F0F2F5] rounded-xl overflow-hidden shadow-sm">
+                 {fields.ogImage ? (
+                   <img src={fields.ogImage} alt="OG Preview" className="w-full h-40 object-cover"
+                     onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                 ) : (
+                   <div className="w-full h-40 bg-gray-300 flex items-center justify-center text-gray-500 text-sm font-medium border-b border-gray-200">
+                     1200×630 Image Preview
+                   </div>
+                 )}
+                 <div className="p-3 bg-[#f2f3f5] border-t border-gray-300">
+                   <div className="text-[12px] text-[#65676B] uppercase tracking-wide mb-0.5 truncate">{fields.ogUrl ? fields.ogUrl.replace(/^https?:\/\//, "").split("/")[0] : "yoursite.com"}</div>
+                   <div className="font-semibold text-[#050505] text-[16px] leading-tight line-clamp-1 mb-0.5">{fields.ogTitle || "Your Page Title"}</div>
+                   <div className="text-[14px] text-[#65676B] leading-snug line-clamp-1">{fields.ogDescription || "Your page description will appear here when shared."}</div>
+                 </div>
+               </div>
+              )}
+
+              {tab === "twitter" && (
+                 <div className="bg-black rounded-xl border border-gray-800 overflow-hidden">
+                 {fields.twitterImage ? (
+                   <img src={fields.twitterImage} alt="Twitter Preview" className="w-full h-40 object-cover border-b border-gray-800"
+                     onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                 ) : (
+                   <div className="w-full h-40 bg-gray-900 flex items-center justify-center text-gray-500 text-sm border-b border-gray-800">
+                     Twitter Card Image
+                   </div>
+                 )}
+                 <div className="p-3">
+                   <div className="text-gray-500 text-sm mb-0.5 truncate">{fields.twitterHandle || "yoursite.com"}</div>
+                   <div className="font-bold text-white text-[15px] leading-tight line-clamp-1 mb-1">{fields.twitterTitle || "Your Page Title"}</div>
+                   <div className="text-[15px] text-gray-500 leading-snug line-clamp-2">{fields.twitterDesc || "Description for Twitter card..."}</div>
+                 </div>
+               </div>
+              )}
             </div>
 
             {/* Generated Code */}
@@ -354,9 +374,7 @@ export default function MetaTagGeneratorClient() {
                   </button>
                   <button onClick={copy}
                     className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      copied
-                        ? "bg-green-600 text-white"
-                        : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
+                      copied ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
                     }`}>
                     {copied ? "✓ Copied!" : "Copy Code"}
                   </button>
@@ -370,38 +388,27 @@ export default function MetaTagGeneratorClient() {
         </div>
 
         {/* How to use */}
-        <div className="mt-8 bg-[#13131F] border border-white/5 rounded-2xl p-6">
-          <h2 className="text-lg font-extrabold text-white mb-4">How to Use the Meta Tag Generator</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-400">
+        <div className="mb-12 bg-[#13131F] border border-white/5 rounded-2xl p-8">
+          <h2 className="text-xl font-extrabold text-white mb-6">How to Use the Meta Tag Generator</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-gray-400">
             {[
-              { step: "1", title: "Fill in the fields", desc: "Start with Basic SEO — enter your page title and description. These are the most important for Google." },
-              { step: "2", title: "Add social tags", desc: "Switch to Open Graph and Twitter tabs to control how your page looks when shared on social media." },
-              { step: "3", title: "Copy and paste", desc: "Click Copy Code and paste all tags inside the <head> section of your HTML before the closing </head> tag." },
+              { step: "1", title: "Fill in the Basics", desc: "Start with the Basic SEO tab. Enter your core page title and description. Watch the live Google SERP preview to ensure your text isn't truncated." },
+              { step: "2", title: "Configure Social Cards", desc: "Switch to the Open Graph and Twitter tabs. Our tool automatically syncs your basic info, so you only need to add your image URLs and specific social handles." },
+              { step: "3", title: "Copy & Paste HTML", desc: "Click the 'Copy Code' button. Paste the generated HTML tags directly into the <head> section of your website's code before the closing </head> tag." },
             ].map(s => (
-              <div key={s.step} className="flex gap-3">
-                <div className="w-7 h-7 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+              <div key={s.step} className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 text-[#6C3AFF] border border-[#6C3AFF]/30 flex items-center justify-center font-bold flex-shrink-0">
                   {s.step}
                 </div>
                 <div>
-                  <div className="font-semibold text-white mb-1">{s.title}</div>
-                  <div>{s.desc}</div>
+                  <div className="font-bold text-white mb-1.5 text-base">{s.title}</div>
+                  <div className="leading-relaxed">{s.desc}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
       </main>
-
-      <footer className="border-t border-white/5 mt-16 py-8 text-center">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About</Link>
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
-        </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
