@@ -2,7 +2,29 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { META_TAG_FAQ } from "./page";
+
+const META_TAG_FAQ = [
+  {
+    q: "What are meta tags and why are they important for SEO?",
+    a: "Meta tags are HTML elements in the <head> section that provide information about your page to search engines and social platforms. The title tag and meta description are most critical — they appear directly in Google search results and heavily influence click-through rates. A well-optimized title and description can increase organic traffic by 20–30% without any change in ranking.",
+  },
+  {
+    q: "What is the ideal length for a meta title and meta description?",
+    a: "Meta titles should be 50–60 characters — Google truncates anything longer in desktop results. Meta descriptions should be 150–160 characters. Our generator shows a live character count with colour-coded warnings and displays exactly how your snippet will look on both mobile and desktop Google results.",
+  },
+  {
+    q: "What are Open Graph tags and do I need them?",
+    a: "Open Graph tags control how your page appears when shared on Facebook, LinkedIn, WhatsApp and other platforms — defining the title, description and preview image. Without OG tags, platforms make their own guess, often with poor results. Adding them takes under 2 minutes and dramatically improves social sharing appearance and click-through rates.",
+  },
+  {
+    q: "What is the difference between Open Graph and Twitter Card tags?",
+    a: "Both control link preview appearance but for different platforms. Open Graph tags are used by Facebook, LinkedIn, WhatsApp, Discord and most platforms. Twitter Card tags are specifically for Twitter/X and override OG tags when present. You should include both sets for complete social coverage — our generator creates both simultaneously.",
+  },
+  {
+    q: "Should I use the keywords meta tag for SEO?",
+    a: "No — Google officially ignores the keywords meta tag and has done so since 2009. Including it provides zero SEO benefit and may signal spam to some filters. Focus on title, description, Open Graph and Twitter Card tags instead. The tags that actually matter are exactly what our generator produces.",
+  },
+];
 
 // ── Templates ──────────────────────────────────────────────────────────────────
 const TEMPLATES = {
@@ -42,19 +64,16 @@ function getSEOGrade(title: string, description: string) {
   const issues: string[] = [];
   const tips: string[] = [];
 
-  // Title scoring
   if (title.length === 0) { issues.push("Title tag is empty"); }
   else if (title.length < 30) { score += 5; issues.push("Title is too short (under 30 chars)"); }
   else if (title.length <= 60) { score += 20; }
   else { score += 10; issues.push("Title is too long (over 60 chars, will be truncated)"); }
 
-  // Description scoring
   if (description.length === 0) { issues.push("Meta description is empty"); }
   else if (description.length < 70) { score += 5; issues.push("Description is too short (under 70 chars)"); }
   else if (description.length <= 160) { score += 20; }
   else { score += 10; issues.push("Description too long (over 160 chars, will be truncated)"); }
 
-  // Content quality hints
   if (title.length > 0 && description.length > 0) {
     if (!/[|–—-]/.test(title)) tips.push("Consider adding a separator (| or —) and brand name to your title");
     if (!/\b(free|best|how|guide|top|easy|fast|now|today|[0-9])\b/i.test(title)) {
@@ -63,7 +82,7 @@ function getSEOGrade(title: string, description: string) {
     if (description.length > 0 && !/[.!]$/.test(description)) {
       tips.push("End your meta description with a call to action or period");
     }
-    score += 15; // Bonus for having both
+    score += 15; 
   }
 
   const grade = score >= 50 ? "A" : score >= 40 ? "B" : score >= 25 ? "C" : score >= 15 ? "D" : "F";
@@ -183,7 +202,6 @@ export default function MetaTagGeneratorClient() {
   const displayDesc   = fields.description || "Your meta description will appear here in Google search results.";
   const displayUrl    = fields.ogUrl       || "https://yourwebsite.com/page";
 
-  // Desktop SERP snippet width simulation
   const titleTrunc  = fields.title.length > 60  ? fields.title.slice(0, 57)  + "..." : fields.title  || "Your Page Title";
   const descTrunc   = fields.description.length > 160 ? fields.description.slice(0, 157) + "..." : fields.description || "Your meta description appears here in Google search results. Make it compelling to increase clicks.";
   const mobileTitleTrunc = fields.title.length > 55 ? fields.title.slice(0, 52) + "..." : fields.title || "Your Page Title";
@@ -195,10 +213,20 @@ export default function MetaTagGeneratorClient() {
     { id: "twitter" as const, label: "𝕏 Twitter Card" },
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type":    "FAQPage",
+    mainEntity: META_TAG_FAQ.map(f => ({
+      "@type": "Question",
+      name:    f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* Navbar */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -211,7 +239,6 @@ export default function MetaTagGeneratorClient() {
 
       <main className="max-w-6xl mx-auto px-4 py-10">
 
-        {/* Breadcrumb */}
         <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span>›</span>
@@ -220,7 +247,6 @@ export default function MetaTagGeneratorClient() {
           <span className="text-gray-400">Meta Tag Generator</span>
         </nav>
 
-        {/* Header */}
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">
             SEO Tools
@@ -233,7 +259,6 @@ export default function MetaTagGeneratorClient() {
           </p>
         </div>
 
-        {/* Templates */}
         <div className="mb-6">
           <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">⚡ Quick Templates</p>
           <div className="flex flex-wrap gap-2">
@@ -250,12 +275,8 @@ export default function MetaTagGeneratorClient() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
-
-          {/* ── Left col: inputs (3/5) ── */}
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-12">
           <div className="xl:col-span-3 space-y-4">
-
-            {/* Tab switcher */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-1 flex gap-1">
               {tabs.map(t => (
                 <button key={t.id} onClick={() => setTab(t.id)}
@@ -268,8 +289,6 @@ export default function MetaTagGeneratorClient() {
             </div>
 
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 space-y-5">
-
-              {/* Basic SEO */}
               {tab === "basic" && <>
                 <div>
                   <div className="flex items-center justify-between mb-1">
@@ -281,7 +300,6 @@ export default function MetaTagGeneratorClient() {
                     placeholder="Free Online JSON Formatter — Format & Validate JSON | PursTech"
                     className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
                 </div>
-
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="text-sm font-semibold text-white">Meta Description</label>
@@ -292,7 +310,6 @@ export default function MetaTagGeneratorClient() {
                     rows={3} placeholder="Format, validate and minify JSON instantly. Browser-based — your data never leaves your device. Free, no login required."
                     className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none" />
                 </div>
-
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-white mb-1">Author</label>
@@ -311,7 +328,6 @@ export default function MetaTagGeneratorClient() {
                     </select>
                   </div>
                 </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-white mb-1">
                     Canonical URL <span className="text-gray-500 font-normal">(prevents duplicate content)</span>
@@ -322,7 +338,6 @@ export default function MetaTagGeneratorClient() {
                 </div>
               </>}
 
-              {/* Open Graph */}
               {tab === "og" && <>
                 <div>
                   <div className="flex items-center justify-between mb-1">
@@ -380,7 +395,6 @@ export default function MetaTagGeneratorClient() {
                 </div>
               </>}
 
-              {/* Twitter */}
               {tab === "twitter" && <>
                 <div>
                   <label className="block text-sm font-semibold text-white mb-1">Card Type</label>
@@ -435,10 +449,7 @@ export default function MetaTagGeneratorClient() {
             </div>
           </div>
 
-          {/* ── Right col: previews + output (2/5) ── */}
           <div className="xl:col-span-2 flex flex-col gap-4">
-
-            {/* SEO Grade */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">SEO Grade</h3>
               <div className="flex items-center gap-4">
@@ -472,7 +483,6 @@ export default function MetaTagGeneratorClient() {
               )}
             </div>
 
-            {/* SERP Preview */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Google Preview</h3>
@@ -511,7 +521,6 @@ export default function MetaTagGeneratorClient() {
               )}
             </div>
 
-            {/* Generated Code with per-section copy */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Generated HTML</h3>
@@ -523,7 +532,6 @@ export default function MetaTagGeneratorClient() {
                 </button>
               </div>
 
-              {/* Per-section copy buttons */}
               <div className="flex gap-2 mb-3 flex-wrap">
                 {[
                   { key: "basic",   label: "Basic SEO" },
@@ -552,7 +560,6 @@ export default function MetaTagGeneratorClient() {
           </div>
         </div>
 
-        {/* How to Use */}
         <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <h2 className="text-xl font-extrabold text-white mb-5">How to Use the Meta Tag Generator</h2>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
@@ -575,7 +582,6 @@ export default function MetaTagGeneratorClient() {
           </div>
         </div>
 
-        {/* FAQ */}
         <div className="mt-10 max-w-3xl">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
@@ -601,7 +607,7 @@ export default function MetaTagGeneratorClient() {
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
