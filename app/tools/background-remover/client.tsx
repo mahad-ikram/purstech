@@ -11,6 +11,16 @@ const FAQ = [
   { q: "Can I refine the result after automatic removal?", a: "Yes — after AI removal, use the Soft Eraser to remove remaining background patches and the Restore brush to bring back accidentally removed subject pixels. Both use a soft-edge brush for natural blending. Undo any number of steps and toggle between original and result at any time." },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ.map(f => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 type ToolMode = "erase" | "restore";
 
 // ── Comparison Slider ─────────────────────────────────────────────────────────
@@ -40,20 +50,17 @@ function ComparisonSlider({ before, after, width, height }: { before: string; af
       onTouchStart={e => updatePos(e.touches[0].clientX)}
       onTouchMove={e => updatePos(e.touches[0].clientX)}>
 
-      {/* Result layer (checkerboard bg) */}
       <div className="absolute inset-0"
         style={{ backgroundImage: "repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/20px 20px" }}>
         <img src={after} alt="Result" className="w-full h-full object-contain" draggable={false} />
       </div>
 
-      {/* Original clipped to left of handle */}
       <div className="absolute inset-0 overflow-hidden" style={{ width: `${pos}%` }}>
         <img src={before} alt="Original" draggable={false}
           className="absolute top-0 left-0 h-full object-contain"
           style={{ width: `${(100 / Math.max(pos, 0.1)) * 100}%`, maxWidth: "none" }} />
       </div>
 
-      {/* Handle */}
       <div className="absolute top-0 bottom-0" style={{ left: `${pos}%`, transform: "translateX(-50%)" }}>
         <div className="absolute inset-y-0 w-0.5 bg-white shadow-lg left-1/2 -translate-x-1/2" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 bg-white rounded-full shadow-xl flex items-center justify-center cursor-ew-resize border-2 border-[#6C3AFF] z-10">
@@ -143,8 +150,9 @@ export default function BackgroundRemoverClient() {
     try {
       const { removeBackground: removeBg } = await import("@imgly/background-removal");
       setProgress(20); setProgressMsg("Downloading neural network model (~5MB, cached after first use)…");
+      
+      // @ts-ignore - Bypassing strict type check for dynamic import config
       const resultBlob = await removeBg(file, {
-        publicPath: "https://unpkg.com/@imgly/background-removal@1.4.5/dist/",
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
             setProgress(Math.min(Math.round((current/total)*60)+20, 80));
@@ -240,7 +248,8 @@ export default function BackgroundRemoverClient() {
   const BG_SWATCHES = ["#FFFFFF","#000000","#F5F5F5","#1A1A2E","#FF6B6B","#4ECDC4","#6C3AFF","#FFD93D","#2ECC71","#E74C3C"];
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
@@ -251,7 +260,7 @@ export default function BackgroundRemoverClient() {
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-4 py-10">
+      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow">
         <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span>›</span>
@@ -449,7 +458,7 @@ export default function BackgroundRemoverClient() {
                 </div>
                 <div className="rounded-xl overflow-hidden" style={{ backgroundImage: "repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/16px 16px" }}>
                   <canvas ref={displayRef}
-                    style={{ maxWidth:"100%", cursor:"cell", display:"block" }}
+                    style={{ maxWidth:"100%", cursor:"cell", display:"block", margin: "0 auto" }}
                     onMouseDown={() => { pushUndo(); setIsDrawing(true); }}
                     onMouseMove={e => { if (isDrawing) { const p=getPos(e); doPaint(p.x,p.y); } }}
                     onMouseUp={() => { setIsDrawing(false); canvasRef.current?.toBlob(blob => { if (blob) setResultUrl(URL.createObjectURL(blob)); },"image/png"); }}
@@ -471,20 +480,20 @@ export default function BackgroundRemoverClient() {
         )}
 
         {/* How to Use */}
-        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6">
-          <h2 className="text-xl font-extrabold text-white mb-5">How to Remove Image Background with AI</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-8">
+          <h2 className="text-xl font-extrabold text-white mb-6">How to Remove Image Background with AI</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-gray-400">
             {[
               {step:"1",title:"Upload any image",desc:"Drop or click to upload. Works on people, products, animals, cars, logos — any subject against any background."},
               {step:"2",title:"AI processes automatically",desc:"Click Remove Background. The neural network runs in your browser, analyses every pixel and produces a clean transparent result in seconds."},
               {step:"3",title:"Drag the comparison slider",desc:"Drag the slider to reveal the before/after difference. Switch views. Replace the background with any solid color using the color picker."},
               {step:"4",title:"Refine edges & download",desc:"Use manual refinement tools to perfect any edges. Download as PNG to preserve full transparency for Canva, Figma or any design tool."},
             ].map(s => (
-              <div key={s.step} className="flex gap-3">
-                <div className="w-7 h-7 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
+              <div key={s.step} className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 text-[#6C3AFF] border border-[#6C3AFF]/30 flex items-center justify-center font-bold flex-shrink-0">{s.step}</div>
                 <div>
-                  <div className="font-semibold text-white text-sm mb-1">{s.title}</div>
-                  <div className="text-gray-500 text-xs leading-relaxed">{s.desc}</div>
+                  <div className="font-bold text-white mb-1.5 text-base">{s.title}</div>
+                  <div className="leading-relaxed">{s.desc}</div>
                 </div>
               </div>
             ))}
@@ -508,14 +517,14 @@ export default function BackgroundRemoverClient() {
         </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-16 py-8 text-center">
+      <footer className="border-t border-white/5 mt-auto py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/about"   className="hover:text-gray-400 transition-colors">About</Link>
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
