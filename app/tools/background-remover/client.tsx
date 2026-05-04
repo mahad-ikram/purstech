@@ -153,6 +153,7 @@ export default function BackgroundRemoverClient() {
       
       // @ts-ignore - Bypassing strict type check for dynamic import config
       const resultBlob = await removeBg(file, {
+        publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/",
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
             setProgress(Math.min(Math.round((current/total)*60)+20, 80));
