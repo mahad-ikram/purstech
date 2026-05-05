@@ -1,62 +1,109 @@
 # PursTech
 > The World's Largest Free Tool Ecosystem. Stop Searching. Start Doing.
 
-PursTech is a free online tool platform providing 10,000+ utilities for text processing,
-image editing, developer tools, SEO, AI-powered tasks, finance calculations, security
-and PDF management. No login required. No ads on tools. Powered by AI.
+PursTech (purstech.com) is a free online tool platform providing utilities for text
+processing, image editing, developer tools, SEO, AI-powered tasks, finance calculations,
+security and PDF management. No login required for any tool. 100% browser-based
+processing — user data never leaves the device. Powered by Claude AI (Anthropic).
 
 ## Site
 
 - Homepage: https://purstech.com
 - All Tools: https://purstech.com/tools
-- Blog: https://purstech.com/blog
+- Blog:      https://purstech.com/blog
+- About:     https://purstech.com/about
+- Contact:   https://purstech.com/contact
+- Pro Plan:  https://purstech.com/pro
 
 ## Categories
 
-- Text Tools: https://purstech.com/categories/text
-- Image Tools: https://purstech.com/categories/image
+- Text Tools:      https://purstech.com/categories/text
+- Image Tools:     https://purstech.com/categories/image
 - Developer Tools: https://purstech.com/categories/dev
-- SEO Tools: https://purstech.com/categories/seo
-- AI Tools: https://purstech.com/categories/ai
-- Finance Tools: https://purstech.com/categories/finance
-- Security Tools: https://purstech.com/categories/security
-- PDF Tools: https://purstech.com/categories/pdf
+- SEO Tools:       https://purstech.com/categories/seo
+- AI Tools:        https://purstech.com/categories/ai
+- Finance Tools:   https://purstech.com/categories/finance
+- Security Tools:  https://purstech.com/categories/security
+- PDF Tools:       https://purstech.com/categories/pdf
 
-## Live Tools
+## Live Tools — 30 Total
 
-### Text Tools
-- Word Counter: https://purstech.com/tools/word-counter
-- Case Converter: https://purstech.com/tools/case-converter
+### Text Tools (5)
+- Word Counter:          https://purstech.com/tools/word-counter
+- Case Converter:        https://purstech.com/tools/case-converter
 - Lorem Ipsum Generator: https://purstech.com/tools/lorem-ipsum
-- Diff Checker: https://purstech.com/tools/diff-checker
-- Text to Speech: https://purstech.com/tools/text-to-speech
+- Diff Checker:          https://purstech.com/tools/diff-checker
+- Text to Speech:        https://purstech.com/tools/text-to-speech
 
-### Developer Tools
-- JSON Formatter: https://purstech.com/tools/json-formatter
-- Base64 Encoder: https://purstech.com/tools/base64-encoder
-- URL Encoder: https://purstech.com/tools/url-encoder
-- UUID Generator: https://purstech.com/tools/uuid-generator
-- QR Code Generator: https://purstech.com/tools/qr-code-generator
-- Hash Generator: https://purstech.com/tools/hash-generator
-- CSS Minifier: https://purstech.com/tools/css-minifier
-- HTML Minifier: https://purstech.com/tools/html-minifier
+### Developer Tools (8)
+- JSON Formatter:        https://purstech.com/tools/json-formatter
+- Base64 Encoder:        https://purstech.com/tools/base64-encoder
+- URL Encoder/Decoder:   https://purstech.com/tools/url-encoder
+- UUID Generator:        https://purstech.com/tools/uuid-generator
+- QR Code Generator:     https://purstech.com/tools/qr-code-generator
+- Hash Generator:        https://purstech.com/tools/hash-generator
+- CSS Minifier:          https://purstech.com/tools/css-minifier
+- HTML Minifier:         https://purstech.com/tools/html-minifier
 
-### Image Tools
-- Color Picker: https://purstech.com/tools/color-picker
+### Security Tools (1)
+- Password Generator:    https://purstech.com/tools/password-generator
 
-### Security Tools
-- Password Generator: https://purstech.com/tools/password-generator
-
-### Finance Tools
-- Age Calculator: https://purstech.com/tools/age-calculator
-- BMI Calculator: https://purstech.com/tools/bmi-calculator
+### Finance Tools (5)
+- Age Calculator:        https://purstech.com/tools/age-calculator
+- BMI Calculator:        https://purstech.com/tools/bmi-calculator
 - Percentage Calculator: https://purstech.com/tools/percentage-calculator
-- Unit Converter: https://purstech.com/tools/unit-converter
-- Currency Converter: https://purstech.com/tools/currency-converter
+- Unit Converter:        https://purstech.com/tools/unit-converter
+- Currency Converter:    https://purstech.com/tools/currency-converter
+
+### Image Tools — Batch 3 (1)
+- Color Picker:          https://purstech.com/tools/color-picker
+
+### SEO Tools — Batch 4 (5)
+- Meta Tag Generator:      https://purstech.com/tools/meta-tag-generator
+- Robots.txt Generator:    https://purstech.com/tools/robots-txt-generator
+- Keyword Density Checker: https://purstech.com/tools/keyword-density-checker
+- Open Graph Generator:    https://purstech.com/tools/open-graph-generator
+- Sitemap Generator:       https://purstech.com/tools/sitemap-generator
+
+### Image Tools — Batch 5 (5)
+- Image Compressor:      https://purstech.com/tools/image-compressor
+- Image Resizer:         https://purstech.com/tools/image-resizer
+- Background Remover:    https://purstech.com/tools/background-remover
+- Favicon Generator:     https://purstech.com/tools/favicon-generator
+- Image to Text (OCR):   https://purstech.com/tools/image-to-text
+
+## Blog Posts (10)
+
+- Best Free JSON Formatter Tools 2025:           https://purstech.com/blog/best-free-json-formatter-tools-2025
+- How to Compress Images Without Losing Quality: https://purstech.com/blog/how-to-compress-images-without-losing-quality
+- Strong Password Guide 2025:                    https://purstech.com/blog/strong-password-guide-2025
+- HEX vs RGB vs HSL Color Formats:               https://purstech.com/blog/hex-vs-rgb-vs-hsl-color-formats
+- QR Codes for Business Complete Guide:          https://purstech.com/blog/qr-codes-for-business-complete-guide
+- Base64 Encoding Explained:                     https://purstech.com/blog/base64-encoding-explained
+- BMI Calculator Guide:                          https://purstech.com/blog/bmi-calculator-guide-what-your-score-means
+- URL Encoding Developer Guide:                  https://purstech.com/blog/url-encoding-developer-guide
+- Free SEO Tools That Work 2025:                 https://purstech.com/blog/free-seo-tools-that-work-2025
+- Word Count Guide for Every Platform:           https://purstech.com/blog/word-count-guide-every-platform
+
+## Roadmap — Coming Soon
+
+- Batch 6 — Finance: Loan Calculator, Compound Interest, Tip Calculator, Time Zone Converter, Mortgage Calculator
+- Batch 7 — Dev:     Regex Tester, JS Minifier, HTML to Markdown, Markdown Editor, Color Code Converter
+- Batch 8 — PDF:     PDF Compressor, PDF to Word, PDF Merger, Word to PDF, PDF Splitter
+- Batch 9 — AI:      SSL Checker, IP Lookup, Grammar Checker, Text Summarizer, AI Writer
+
+## Technical Details
+
+- Framework:   Next.js 15 (App Router, TypeScript, Tailwind CSS)
+- Hosting:     Vercel (global CDN)
+- Database:    Supabase (PostgreSQL)
+- AI:          Claude (Anthropic)
+- Processing:  100% client-side for all tool operations
+- Privacy:     No user data transmitted to servers during tool use
 
 ## About
 
-- Founder: Independent developer
-- Technology: Next.js, Supabase, Vercel, Claude AI
+- Founder:        Independent developer
+- Technology:     Next.js, Supabase, Vercel, Claude AI
 - Business model: Free tools + optional Pro tier ($7/month)
-- Contact: contact@purstech.com
+- Contact:        contact@purstech.com
