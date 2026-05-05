@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 
 const BASE_URL = "https://purstech.com";
 
-// All live tool slugs — keep in sync with your tools folder
-const TOOL_SLUGS = [
+// ── Batch 3a — Original 20 tools (exact slugs as deployed) ───────────────────
+const BATCH3_SLUGS = [
   "word-counter",
   "case-converter",
-  "lorem-ipsum",
+  "lorem-ipsum",           
   "diff-checker",
   "text-to-speech",
   "json-formatter",
@@ -26,7 +26,25 @@ const TOOL_SLUGS = [
   "currency-converter",
 ];
 
-// All category slugs
+// ── Batch 4 — SEO Tools ───────────────────────────────────────────────────────
+const BATCH4_SLUGS = [
+  "meta-tag-generator",
+  "robots-txt-generator",
+  "keyword-density-checker",
+  "open-graph-generator",
+  "sitemap-generator",
+];
+
+// ── Batch 5 — Image Tools ─────────────────────────────────────────────────────
+const BATCH5_SLUGS = [
+  "image-compressor",
+  "image-resizer",
+  "background-remover",
+  "favicon-generator",
+  "image-to-text",
+];
+
+// ── Category slugs (exact as deployed) ───────────────────────────────────────
 const CATEGORY_SLUGS = [
   "text",
   "image",
@@ -38,7 +56,7 @@ const CATEGORY_SLUGS = [
   "pdf",
 ];
 
-// New Blog Slugs - Required for AdSense Approval
+// ── Blog post slugs ───────────────────────────────────────────────────────────
 const BLOG_SLUGS = [
   "best-free-json-formatter-tools-2025",
   "how-to-compress-images-without-losing-quality",
@@ -58,65 +76,81 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ── Core pages ──────────────────────────────────────────────────────────────
   const corePages: MetadataRoute.Sitemap = [
     {
-      url:              BASE_URL,
-      lastModified:      now,
-      changeFrequency:  "daily",
-      priority:          1.0,
+      url:             BASE_URL,
+      lastModified:    now,
+      changeFrequency: "daily",
+      priority:        1.0,
     },
     {
-      url:              `${BASE_URL}/tools`,
-      lastModified:      now,
-      changeFrequency:  "daily",
-      priority:          0.9,
+      url:             `${BASE_URL}/tools`,
+      lastModified:    now,
+      changeFrequency: "daily",
+      priority:        0.9,
     },
     {
-      url:              `${BASE_URL}/blog`,
-      lastModified:      now,
-      changeFrequency:  "daily",
-      priority:          0.7,
+      url:             `${BASE_URL}/blog`,
+      lastModified:    now,
+      changeFrequency: "daily",
+      priority:        0.7,
     },
     {
-      url:              `${BASE_URL}/about`, // Added for AdSense
-      lastModified:      now,
-      changeFrequency:  "monthly",
-      priority:          0.5,
+      url:             `${BASE_URL}/about`,
+      lastModified:    now,
+      changeFrequency: "monthly",
+      priority:        0.6,
     },
     {
-      url:              `${BASE_URL}/privacy`,
-      lastModified:      now,
-      changeFrequency:  "yearly",
-      priority:          0.3,
+      url:             `${BASE_URL}/contact`,
+      lastModified:    now,
+      changeFrequency: "monthly",
+      priority:        0.5,
     },
     {
-      url:              `${BASE_URL}/terms`,
-      lastModified:      now,
-      changeFrequency:  "yearly",
-      priority:          0.3,
+      url:             `${BASE_URL}/pro`,
+      lastModified:    now,
+      changeFrequency: "weekly",
+      priority:        0.6,
+    },
+    {
+      url:             `${BASE_URL}/privacy`,
+      lastModified:    now,
+      changeFrequency: "yearly",
+      priority:        0.3,
+    },
+    {
+      url:             `${BASE_URL}/terms`,
+      lastModified:    now,
+      changeFrequency: "yearly",
+      priority:        0.3,
     },
   ];
 
-  // ── Tool pages ──────────────────────────────────────────────────────────────
-  const toolPages: MetadataRoute.Sitemap = TOOL_SLUGS.map(slug => ({
-    url:              `${BASE_URL}/tools/${slug}`,
-    lastModified:      now,
-    changeFrequency:  "weekly" as const,
-    priority:          0.8,
+  // ── Tool pages (all 30 tools) ───────────────────────────────────────────────
+  const toolPages: MetadataRoute.Sitemap = [
+    ...BATCH3_SLUGS,
+    ...BATCH4_SLUGS,
+    ...BATCH5_SLUGS,
+  ].map(slug => ({
+    url:             `${BASE_URL}/tools/${slug}`,
+    lastModified:    now,
+    changeFrequency: "weekly" as const,
+    priority:        0.8,
   }));
 
   // ── Category pages ──────────────────────────────────────────────────────────
   const categoryPages: MetadataRoute.Sitemap = CATEGORY_SLUGS.map(slug => ({
-    url:              `${BASE_URL}/categories/${slug}`,
-    lastModified:      now,
-    changeFrequency:  "weekly" as const,
-    priority:          0.7,
+    url:             `${BASE_URL}/categories/${slug}`,
+    lastModified:    now,
+    changeFrequency: "weekly" as const,
+    priority:        0.7,
   }));
 
   // ── Blog pages ──────────────────────────────────────────────────────────────
   const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map(slug => ({
-    url:              `${BASE_URL}/blog/${slug}`,
-    lastModified:      now,
-    changeFrequency:  "monthly" as const,
-    priority:          0.6,
+    url:             `${BASE_URL}/blog/${slug}`,
+    lastModified:    now,
+    changeFrequency: "monthly" as const,
+    priority:        0.6,
   }));
 
   return [...corePages, ...toolPages, ...categoryPages, ...blogPages];
