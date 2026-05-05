@@ -6,7 +6,7 @@ const BASE_URL = "https://purstech.com";
 const BATCH3_SLUGS = [
   "word-counter",
   "case-converter",
-  "lorem-ipsum",           
+  "lorem-ipsum",           // ← your actual deployed slug
   "diff-checker",
   "text-to-speech",
   "json-formatter",
