@@ -10,45 +10,45 @@ import Link from "next/link";
 const ALL_TOOLS = [
   // ── TEXT TOOLS ──────────────────────────────────────────────────────────────
   { name: "Word Counter",         slug: "word-counter",         category: "text",     icon: "📝", desc: "Count words, characters, sentences and paragraphs instantly.",        badge: "⭐ Top",  uses: "1.8M", live: true  },
-  { name: "Case Converter",       slug: "case-converter",       category: "text",     icon: "🔤", desc: "Convert text to UPPER, lower, Title or Sentence case.",              badge: "",        uses: "310K", live: true },
+  { name: "Case Converter",       slug: "case-converter",       category: "text",     icon: "🔤", desc: "Convert text to UPPER, lower, Title or Sentence case.",             badge: "",        uses: "310K", live: true },
   { name: "Lorem Ipsum Generator",slug: "lorem-ipsum",          category: "text",     icon: "📄", desc: "Generate placeholder lorem ipsum text for your designs.",            badge: "",        uses: "250K", live: true },
   { name: "Grammar Checker",      slug: "grammar-checker",      category: "text",     icon: "✍️", desc: "Check and fix grammar errors using AI.",                            badge: "🤖 AI",   uses: "540K", live: false },
   { name: "Text Summarizer",      slug: "text-summarizer",      category: "text",     icon: "📋", desc: "Summarize long text into concise points using AI.",                  badge: "🤖 AI",   uses: "420K", live: false },
   { name: "Text to Speech",       slug: "text-to-speech",       category: "text",     icon: "🔊", desc: "Convert any text to natural-sounding speech.",                      badge: "",        uses: "380K", live: true },
   { name: "Diff Checker",         slug: "diff-checker",         category: "text",     icon: "🔍", desc: "Compare two texts and highlight the differences.",                  badge: "",        uses: "290K", live: true },
   { name: "Markdown Editor",      slug: "markdown-editor",      category: "text",     icon: "📑", desc: "Write Markdown with a live preview side by side.",                  badge: "🆕 New",  uses: "210K", live: false },
-  { name: "Readability Score",    slug: "readability-score",    category: "text",     icon: "📊", desc: "Check the reading level and readability of your content.",           badge: "",        uses: "180K", live: false },
+  { name: "Readability Score",    slug: "readability-score",    category: "text",     icon: "📊", desc: "Check the reading level and readability of your content.",            badge: "",        uses: "180K", live: false },
   { name: "Plagiarism Checker",   slug: "plagiarism-checker",   category: "text",     icon: "🕵️", desc: "Check if your text is unique or matches existing content.",          badge: "🤖 AI",   uses: "160K", live: false },
 
   // ── IMAGE TOOLS ─────────────────────────────────────────────────────────────
-  { name: "Image Compressor",     slug: "image-compressor",     category: "image",    icon: "🖼️", desc: "Compress JPG, PNG and WebP images without losing quality.",           badge: "🔥 Hot",  uses: "2.1M", live: false },
-  { name: "Image Resizer",        slug: "image-resizer",        category: "image",    icon: "📐", desc: "Resize images to exact dimensions in seconds.",                      badge: "",        uses: "870K", live: false },
-  { name: "Background Remover",   slug: "background-remover",   category: "image",    icon: "✂️", desc: "Remove image backgrounds automatically using AI.",                  badge: "🤖 AI",   uses: "760K", live: false },
-  { name: "Color Picker",         slug: "color-picker",         category: "image",    icon: "🎨", desc: "Pick colors and get HEX, RGB, HSL, CMYK codes instantly.",           badge: "",        uses: "650K", live: true  },
-  { name: "Favicon Generator",    slug: "favicon-generator",    category: "image",    icon: "🌐", desc: "Generate favicons in all sizes from any image.",                    badge: "",        uses: "290K", live: false },
-  { name: "Image to Text",        slug: "image-to-text",        category: "image",    icon: "🔡", desc: "Extract text from any image using OCR technology.",                 badge: "🤖 AI",   uses: "430K", live: false },
+  { name: "Image Compressor",     slug: "image-compressor",     category: "image",    icon: "🖼️", desc: "Compress JPG, PNG and WebP images without losing quality.",           badge: "🔥 Hot",  uses: "2.1M", live: true },
+  { name: "Image Resizer",        slug: "image-resizer",        category: "image",    icon: "📐", desc: "Resize images to exact dimensions in seconds.",                      badge: "",        uses: "870K", live: true },
+  { name: "Background Remover",   slug: "background-remover",   category: "image",    icon: "✂️", desc: "Remove image backgrounds automatically using AI.",                  badge: "🤖 AI",   uses: "760K", live: true },
+  { name: "Color Picker",         slug: "color-picker",         category: "image",    icon: "🎨", desc: "Pick colors and get HEX, RGB, HSL, CMYK codes instantly.",            badge: "",        uses: "650K", live: true  },
+  { name: "Favicon Generator",    slug: "favicon-generator",    category: "image",    icon: "🌐", desc: "Generate favicons in all sizes from any image.",                    badge: "",        uses: "290K", live: true },
+  { name: "Image to Text",        slug: "image-to-text",        category: "image",    icon: "🔡", desc: "Extract text from any image using OCR technology.",                 badge: "🤖 AI",   uses: "430K", live: true },
   { name: "SVG Editor",           slug: "svg-editor",           category: "image",    icon: "✏️", desc: "Edit and optimize SVG files online.",                               badge: "🆕 New",  uses: "120K", live: false },
 
   // ── DEV TOOLS ───────────────────────────────────────────────────────────────
   { name: "JSON Formatter",       slug: "json-formatter",       category: "dev",      icon: "💻", desc: "Format, validate and minify JSON data instantly.",                  badge: "⭐ Top",  uses: "1.5M", live: true  },
   { name: "Base64 Encoder",       slug: "base64-encoder",       category: "dev",      icon: "🔐", desc: "Encode and decode Base64 strings instantly.",                       badge: "",        uses: "680K", live: true },
   { name: "URL Encoder",          slug: "url-encoder",          category: "dev",      icon: "🔗", desc: "Encode and decode URLs for use in web applications.",               badge: "",        uses: "590K", live: true },
-  { name: "UUID Generator",       slug: "uuid-generator",       category: "dev",      icon: "🎲", desc: "Generate random UUIDs (v4) instantly.",                            badge: "",        uses: "510K", live: true },
+  { name: "UUID Generator",       slug: "uuid-generator",       category: "dev",      icon: "🎲", desc: "Generate random UUIDs (v4) instantly.",                             badge: "",        uses: "510K", live: true },
   { name: "QR Code Generator",    slug: "qr-code-generator",    category: "dev",      icon: "🔲", desc: "Generate QR codes for URLs, WiFi, contacts and more.",              badge: "🆕 New",  uses: "650K", live: true  },
   { name: "Regex Tester",         slug: "regex-tester",         category: "dev",      icon: "🔎", desc: "Test and debug regular expressions with live match highlighting.",   badge: "",        uses: "340K", live: false },
-  { name: "HTML Minifier",        slug: "html-minifier",        category: "dev",      icon: "🗜️", desc: "Minify HTML to reduce file size and improve load speed.",           badge: "",        uses: "280K", live: true },
+  { name: "HTML Minifier",        slug: "html-minifier",        category: "dev",      icon: "🗜️", desc: "Minify HTML to reduce file size and improve load speed.",            badge: "",        uses: "280K", live: true },
   { name: "CSS Minifier",         slug: "css-minifier",         category: "dev",      icon: "🎨", desc: "Minify CSS files to reduce load time.",                             badge: "",        uses: "260K", live: true },
-  { name: "JS Minifier",          slug: "js-minifier",          category: "dev",      icon: "⚡", desc: "Minify JavaScript to reduce file size.",                            badge: "",        uses: "240K", live: false },
-  { name: "HTML to Markdown",     slug: "html-to-markdown",     category: "dev",      icon: "📝", desc: "Convert HTML code to clean Markdown format.",                      badge: "",        uses: "190K", live: false },
-  { name: "Hash Generator",       slug: "hash-generator",       category: "dev",      icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                 badge: "",        uses: "310K", live: true },
-  { name: "Color Code Converter", slug: "color-code-converter", category: "dev",      icon: "🖌️", desc: "Convert between HEX, RGB, HSL and CSS colour formats.",            badge: "",        uses: "220K", live: false },
+  { name: "JS Minifier",          slug: "js-minifier",          category: "dev",      icon: "⚡", desc: "Minify JavaScript to reduce file size.",                             badge: "",        uses: "240K", live: false },
+  { name: "HTML to Markdown",     slug: "html-to-markdown",     category: "dev",      icon: "📝", desc: "Convert HTML code to clean Markdown format.",                       badge: "",        uses: "190K", live: false },
+  { name: "Hash Generator",       slug: "hash-generator",       category: "dev",      icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                  badge: "",        uses: "310K", live: true },
+  { name: "Color Code Converter", slug: "color-code-converter", category: "dev",      icon: "🖌️", desc: "Convert between HEX, RGB, HSL and CSS colour formats.",             badge: "",        uses: "220K", live: false },
 
   // ── SEO TOOLS ───────────────────────────────────────────────────────────────
-  { name: "Meta Tag Generator",   slug: "meta-tag-generator",   category: "seo",      icon: "📊", desc: "Generate perfect SEO meta tags for any webpage.",                   badge: "",        uses: "430K", live: false },
-  { name: "Robots.txt Generator", slug: "robots-txt-generator", category: "seo",      icon: "🤖", desc: "Generate a robots.txt file for your website.",                      badge: "",        uses: "210K", live: false },
-  { name: "Sitemap Generator",    slug: "sitemap-generator",    category: "seo",      icon: "🗺️", desc: "Generate an XML sitemap for your website.",                         badge: "",        uses: "190K", live: false },
-  { name: "Keyword Density",      slug: "keyword-density",      category: "seo",      icon: "🔢", desc: "Analyse keyword density in any text or webpage.",                   badge: "",        uses: "280K", live: false },
-  { name: "Open Graph Checker",   slug: "og-checker",           category: "seo",      icon: "📱", desc: "Check and preview how your page looks when shared on social media.", badge: "",        uses: "160K", live: false },
+  { name: "Meta Tag Generator",   slug: "meta-tag-generator",   category: "seo",      icon: "📊", desc: "Generate perfect SEO meta tags for any webpage.",                   badge: "",        uses: "430K", live: true },
+  { name: "Robots.txt Generator", slug: "robots-txt-generator", category: "seo",      icon: "🤖", desc: "Generate a robots.txt file for your website.",                      badge: "",        uses: "210K", live: true },
+  { name: "Sitemap Generator",    slug: "sitemap-generator",    category: "seo",      icon: "🗺️", desc: "Generate an XML sitemap for your website.",                         badge: "",        uses: "190K", live: true },
+  { name: "Keyword Density",      slug: "keyword-density-checker", category: "seo",   icon: "🔢", desc: "Analyse keyword density in any text or webpage.",                   badge: "",        uses: "280K", live: true },
+  { name: "Open Graph Checker",   slug: "open-graph-generator", category: "seo",      icon: "📱", desc: "Check and preview how your page looks when shared on social media.", badge: "",        uses: "160K", live: true },
   { name: "Domain Age Checker",   slug: "domain-age-checker",   category: "seo",      icon: "📅", desc: "Check how old any domain name is.",                                 badge: "",        uses: "140K", live: false },
   { name: "Readability Checker",  slug: "readability-checker",  category: "seo",      icon: "📖", desc: "Analyse how readable and SEO-friendly your content is.",            badge: "",        uses: "120K", live: false },
 
@@ -56,7 +56,7 @@ const ALL_TOOLS = [
   { name: "AI Writer",            slug: "ai-writer",            category: "ai",       icon: "🤖", desc: "Generate blog posts, emails and content using AI.",                 badge: "🤖 AI",   uses: "890K", live: false },
   { name: "AI Image Generator",   slug: "ai-image-generator",   category: "ai",       icon: "🎨", desc: "Generate images from text descriptions using AI.",                  badge: "🤖 AI",   uses: "1.2M", live: false },
   { name: "AI Translator",        slug: "ai-translator",        category: "ai",       icon: "🌍", desc: "Translate text between 100+ languages instantly.",                  badge: "🤖 AI",   uses: "760K", live: false },
-  { name: "AI Code Generator",    slug: "ai-code-generator",    category: "ai",       icon: "💻", desc: "Generate code in any programming language from a description.",     badge: "🤖 AI",   uses: "540K", live: false },
+  { name: "AI Code Generator",    slug: "ai-code-generator",    category: "ai",       icon: "💻", desc: "Generate code in any programming language from a description.",      badge: "🤖 AI",   uses: "540K", live: false },
   { name: "AI Email Writer",      slug: "ai-email-writer",      category: "ai",       icon: "📧", desc: "Write professional emails in seconds using AI.",                    badge: "🤖 AI",   uses: "430K", live: false },
 
   // ── FINANCE TOOLS ───────────────────────────────────────────────────────────
@@ -64,11 +64,11 @@ const ALL_TOOLS = [
   { name: "Loan Calculator",      slug: "loan-calculator",      category: "finance",  icon: "🏦", desc: "Calculate monthly payments, total interest and loan costs.",        badge: "",        uses: "340K", live: false },
   { name: "Compound Interest",    slug: "compound-interest",    category: "finance",  icon: "📈", desc: "Calculate compound interest and investment growth over time.",       badge: "",        uses: "290K", live: false },
   { name: "Percentage Calculator",slug: "percentage-calculator",category: "finance",  icon: "🔢", desc: "Calculate percentages, increases, decreases and differences.",      badge: "",        uses: "480K", live: true },
-  { name: "Age Calculator",       slug: "age-calculator",       category: "finance",  icon: "🎂", desc: "Calculate exact age in years, months and days.",                   badge: "",        uses: "410K", live: true },
+  { name: "Age Calculator",       slug: "age-calculator",       category: "finance",  icon: "🎂", desc: "Calculate exact age in years, months and days.",                    badge: "",        uses: "410K", live: true },
   { name: "BMI Calculator",       slug: "bmi-calculator",       category: "finance",  icon: "⚖️", desc: "Calculate your Body Mass Index and healthy weight range.",          badge: "",        uses: "360K", live: true },
   { name: "Unit Converter",       slug: "unit-converter",       category: "finance",  icon: "📏", desc: "Convert between length, weight, temperature and volume units.",     badge: "",        uses: "320K", live: true },
   { name: "Time Zone Converter",  slug: "timezone-converter",   category: "finance",  icon: "🕐", desc: "Convert times between any two time zones instantly.",               badge: "",        uses: "270K", live: false },
-  { name: "Tip Calculator",       slug: "tip-calculator",       category: "finance",  icon: "🍽️", desc: "Calculate tips and split bills between friends.",                   badge: "",        uses: "240K", live: false },
+  { name: "Tip Calculator",       slug: "tip-calculator",       category: "finance",  icon: "🍽️", desc: "Calculate tips and split bills between friends.",                  badge: "",        uses: "240K", live: false },
 
   // ── SECURITY TOOLS ──────────────────────────────────────────────────────────
   { name: "Password Generator",   slug: "password-generator",   category: "security", icon: "🔐", desc: "Generate strong, cryptographically secure passwords.",              badge: "🆕 New",  uses: "980K", live: true  },
@@ -78,7 +78,7 @@ const ALL_TOOLS = [
   // ── PDF TOOLS ───────────────────────────────────────────────────────────────
   { name: "PDF Compressor",       slug: "pdf-compressor",       category: "pdf",      icon: "📄", desc: "Reduce PDF file size without losing quality.",                      badge: "🔥 Hot",  uses: "870K", live: false },
   { name: "PDF to Word",          slug: "pdf-to-word",          category: "pdf",      icon: "📝", desc: "Convert PDF files to editable Word documents.",                    badge: "",        uses: "640K", live: false },
-  { name: "PDF Merger",           slug: "pdf-merger",           category: "pdf",      icon: "🔗", desc: "Merge multiple PDF files into one.",                               badge: "",        uses: "420K", live: false },
+  { name: "PDF Merger",           slug: "pdf-merger",           category: "pdf",      icon: "🔗", desc: "Merge multiple PDF files into one.",                                badge: "",        uses: "420K", live: false },
   { name: "PDF Splitter",         slug: "pdf-splitter",         category: "pdf",      icon: "✂️", desc: "Split a PDF into multiple separate files.",                        badge: "",        uses: "310K", live: false },
   { name: "Word to PDF",          slug: "word-to-pdf",          category: "pdf",      icon: "📄", desc: "Convert Word documents to PDF format.",                            badge: "",        uses: "560K", live: false },
 ];
@@ -111,7 +111,7 @@ function ToolCard({ tool }: { tool: typeof ALL_TOOLS[0] }) {
       className={`group bg-[#13131F] border border-white/5 rounded-2xl p-5 flex flex-col gap-3
         hover:border-[#6C3AFF]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-900/20
         transition-all duration-300 relative overflow-hidden
-        ${!tool.live ? "opacity-70" : ""}`}
+        ${!tool.live ? "opacity-70 cursor-not-allowed" : ""}`}
     >
       {/* Coming soon overlay badge */}
       {!tool.live && (
@@ -377,7 +377,7 @@ export default function AllToolsPage() {
         <Link href="/" className="text-xl font-black">
           Purs<span className="text-[#6C3AFF]">Tech</span>
         </Link>
-        <p className="text-gray-700 text-xs mt-2">© 2025 PursTech. Free online tools for everyone.</p>
+        <p className="text-gray-700 text-xs mt-2">© 2026 PursTech. Free online tools for everyone.</p>
       </footer>
 
     </div>
