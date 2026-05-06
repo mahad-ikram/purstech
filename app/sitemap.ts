@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://purstech.com";
+const BASE_URL = "https://www.purstech.com";
 
 // ── Batch 3a — Original 20 tools (exact slugs as deployed) ───────────────────
 const BATCH3_SLUGS = [
