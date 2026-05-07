@@ -140,13 +140,20 @@ export default function MortgageCalculatorClient() {
   const rentVsBuy = useMemo(() => {
     const yrs = 5;
     const priceFuture = +price * Math.pow(1 + +appreciation / 100, yrs);
-    const equityBuilt = +price - result.annualRows[yrs - 1]?.balance ?? 0;
+    
+    // Safety check for optional chaining in math
+    const balanceAtYear5 = result.annualRows[yrs - 1]?.balance ?? 0;
+    
+    const equityBuilt = +price - balanceAtYear5;
     const totalBuyCost = result.total * 12 * yrs;
+    
     let totalRentCost = 0, r = +rentAmt;
     for (let y = 0; y < yrs; y++) { totalRentCost += r * 12; r *= (1 + +rentIncrease / 100); }
-    const buyNetWorth = (priceFuture - result.annualRows[yrs - 1]?.balance) - result.dp;
+    
+    const buyNetWorth = (priceFuture - balanceAtYear5) - result.dp;
     const rentSavings = totalBuyCost - totalRentCost;
-    return { totalBuyCost, totalRentCost, buyNetWorth, priceFuture, rentSavings };
+    
+    return { totalBuyCost, totalRentCost, buyNetWorth, priceFuture, rentSavings, balanceAtYear5 };
   }, [price, rate, years, rentAmt, appreciation, rentIncrease, result]);
 
   const tabs = [
@@ -409,7 +416,7 @@ export default function MortgageCalculatorClient() {
                   <div className="bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-xl p-3 text-center">
                     <div className="text-xs text-gray-400 mb-1">5-Year Buy Cost</div>
                     <div className="text-xl font-bold text-[#6C3AFF]">{fmt(rentVsBuy.totalBuyCost)}</div>
-                    <div className="text-xs text-green-400 mt-1">Equity: {fmt(+price - result.annualRows[4]?.balance)}</div>
+                    <div className="text-xs text-green-400 mt-1">Equity: {fmt(+price - rentVsBuy.balanceAtYear5)}</div>
                     <div className="text-xs text-cyan-400">Home value: {fmt(rentVsBuy.priceFuture)}</div>
                   </div>
                   <div className="bg-[#13131F] border border-white/10 rounded-xl p-3 text-center">
@@ -474,7 +481,7 @@ export default function MortgageCalculatorClient() {
           <Link href="/privacy" className="hover:text-gray-400">Privacy</Link>
           <Link href="/contact" className="hover:text-gray-400">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
