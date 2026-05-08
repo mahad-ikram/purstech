@@ -16,7 +16,7 @@ const ALL_TOOLS = [
   { name: "Text Summarizer",      slug: "text-summarizer",      category: "text",     icon: "📋", desc: "Summarize long text into concise points using AI.",                  badge: "🤖 AI",   uses: "420K", live: false },
   { name: "Text to Speech",       slug: "text-to-speech",       category: "text",     icon: "🔊", desc: "Convert any text to natural-sounding speech.",                      badge: "",        uses: "380K", live: true },
   { name: "Diff Checker",         slug: "diff-checker",         category: "text",     icon: "🔍", desc: "Compare two texts and highlight the differences.",                  badge: "",        uses: "290K", live: true },
-  { name: "Markdown Editor",      slug: "markdown-editor",      category: "text",     icon: "📑", desc: "Write Markdown with a live preview side by side.",                  badge: "🆕 New",  uses: "210K", live: false },
+  { name: "Markdown Editor",      slug: "markdown-editor",      category: "text",     icon: "📑", desc: "Write Markdown with a live preview side by side.",                  badge: "⭐ Top",  uses: "210K", live: true },
   { name: "Readability Score",    slug: "readability-score",    category: "text",     icon: "📊", desc: "Check the reading level and readability of your content.",            badge: "",        uses: "180K", live: false },
   { name: "Plagiarism Checker",   slug: "plagiarism-checker",   category: "text",     icon: "🕵️", desc: "Check if your text is unique or matches existing content.",          badge: "🤖 AI",   uses: "160K", live: false },
 
@@ -35,13 +35,13 @@ const ALL_TOOLS = [
   { name: "URL Encoder",          slug: "url-encoder",          category: "dev",      icon: "🔗", desc: "Encode and decode URLs for use in web applications.",               badge: "",        uses: "590K", live: true },
   { name: "UUID Generator",       slug: "uuid-generator",       category: "dev",      icon: "🎲", desc: "Generate random UUIDs (v4) instantly.",                             badge: "",        uses: "510K", live: true },
   { name: "QR Code Generator",    slug: "qr-code-generator",    category: "dev",      icon: "🔲", desc: "Generate QR codes for URLs, WiFi, contacts and more.",              badge: "🆕 New",  uses: "650K", live: true  },
-  { name: "Regex Tester",         slug: "regex-tester",         category: "dev",      icon: "🔎", desc: "Test and debug regular expressions with live match highlighting.",   badge: "",        uses: "340K", live: false },
+  { name: "Regex Tester",         slug: "regex-tester",         category: "dev",      icon: "🔎", desc: "Test and debug regular expressions with live match highlighting.",   badge: "🔥 Hot",  uses: "340K", live: true },
   { name: "HTML Minifier",        slug: "html-minifier",        category: "dev",      icon: "🗜️", desc: "Minify HTML to reduce file size and improve load speed.",            badge: "",        uses: "280K", live: true },
   { name: "CSS Minifier",         slug: "css-minifier",         category: "dev",      icon: "🎨", desc: "Minify CSS files to reduce load time.",                             badge: "",        uses: "260K", live: true },
-  { name: "JS Minifier",          slug: "js-minifier",          category: "dev",      icon: "⚡", desc: "Minify JavaScript to reduce file size.",                             badge: "",        uses: "240K", live: false },
-  { name: "HTML to Markdown",     slug: "html-to-markdown",     category: "dev",      icon: "📝", desc: "Convert HTML code to clean Markdown format.",                       badge: "",        uses: "190K", live: false },
+  { name: "JS Minifier",          slug: "js-minifier",          category: "dev",      icon: "⚡", desc: "Minify JavaScript to reduce file size.",                             badge: "",        uses: "240K", live: true },
+  { name: "HTML to Markdown",     slug: "html-to-markdown",     category: "dev",      icon: "📝", desc: "Convert HTML code to clean Markdown format.",                       badge: "",        uses: "190K", live: true },
   { name: "Hash Generator",       slug: "hash-generator",       category: "dev",      icon: "🔑", desc: "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes.",                  badge: "",        uses: "310K", live: true },
-  { name: "Color Code Converter", slug: "color-code-converter", category: "dev",      icon: "🖌️", desc: "Convert between HEX, RGB, HSL and CSS colour formats.",             badge: "",        uses: "220K", live: false },
+  { name: "Color Code Converter", slug: "color-code-converter", category: "dev",      icon: "🖌️", desc: "Convert between HEX, RGB, HSL and CSS colour formats.",             badge: "",        uses: "220K", live: true },
 
   // ── SEO TOOLS ───────────────────────────────────────────────────────────────
   { name: "Meta Tag Generator",   slug: "meta-tag-generator",   category: "seo",      icon: "📊", desc: "Generate perfect SEO meta tags for any webpage.",                   badge: "",        uses: "430K", live: true },
@@ -61,14 +61,15 @@ const ALL_TOOLS = [
 
   // ── FINANCE TOOLS ───────────────────────────────────────────────────────────
   { name: "Currency Converter",   slug: "currency-converter",   category: "finance",  icon: "💱", desc: "Convert currencies with live exchange rates.",                      badge: "",        uses: "390K", live: true },
-  { name: "Loan Calculator",      slug: "loan-calculator",      category: "finance",  icon: "🏦", desc: "Calculate monthly payments, total interest and loan costs.",        badge: "",        uses: "340K", live: false },
-  { name: "Compound Interest",    slug: "compound-interest",    category: "finance",  icon: "📈", desc: "Calculate compound interest and investment growth over time.",       badge: "",        uses: "290K", live: false },
+  { name: "Loan Calculator",      slug: "loan-calculator",      category: "finance",  icon: "🏦", desc: "Calculate monthly payments, total interest and loan costs.",        badge: "🔥 Hot",  uses: "340K", live: true },
+  { name: "Compound Interest",    slug: "compound-interest-calculator", category: "finance", icon: "📈", desc: "Calculate compound interest and investment growth over time.", badge: "", uses: "290K", live: true },
   { name: "Percentage Calculator",slug: "percentage-calculator",category: "finance",  icon: "🔢", desc: "Calculate percentages, increases, decreases and differences.",      badge: "",        uses: "480K", live: true },
   { name: "Age Calculator",       slug: "age-calculator",       category: "finance",  icon: "🎂", desc: "Calculate exact age in years, months and days.",                    badge: "",        uses: "410K", live: true },
   { name: "BMI Calculator",       slug: "bmi-calculator",       category: "finance",  icon: "⚖️", desc: "Calculate your Body Mass Index and healthy weight range.",          badge: "",        uses: "360K", live: true },
   { name: "Unit Converter",       slug: "unit-converter",       category: "finance",  icon: "📏", desc: "Convert between length, weight, temperature and volume units.",     badge: "",        uses: "320K", live: true },
-  { name: "Time Zone Converter",  slug: "timezone-converter",   category: "finance",  icon: "🕐", desc: "Convert times between any two time zones instantly.",               badge: "",        uses: "270K", live: false },
-  { name: "Tip Calculator",       slug: "tip-calculator",       category: "finance",  icon: "🍽️", desc: "Calculate tips and split bills between friends.",                  badge: "",        uses: "240K", live: false },
+  { name: "Time Zone Converter",  slug: "time-zone-converter",  category: "finance",  icon: "🕐", desc: "Convert times between any two time zones instantly.",               badge: "🆕 New",  uses: "270K", live: true },
+  { name: "Tip Calculator",       slug: "tip-calculator",       category: "finance",  icon: "🍽️", desc: "Calculate tips and split bills between friends.",                  badge: "",        uses: "240K", live: true },
+  { name: "Mortgage Calculator",  slug: "mortgage-calculator",  category: "finance",  icon: "🏠", desc: "Calculate PITI, amortization, and rent vs buy comparisons.",        badge: "⭐ Top",  uses: "510K", live: true },
 
   // ── SECURITY TOOLS ──────────────────────────────────────────────────────────
   { name: "Password Generator",   slug: "password-generator",   category: "security", icon: "🔐", desc: "Generate strong, cryptographically secure passwords.",              badge: "🆕 New",  uses: "980K", live: true  },
