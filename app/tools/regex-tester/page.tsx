@@ -2,67 +2,20 @@ import type { Metadata } from "next";
 import RegexTesterClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Advanced Regex Tester — Live Matches & Capture Groups | PursTech",
-  description: "The most advanced free regular expression tester online. Live match highlighting, capture group extraction, execution time telemetry, and a built-in regex cheat sheet.",
-  keywords:    [
-    "regex tester", "regular expression tester", "regex match highlighter", 
-    "regex capture groups", "regex cheat sheet", "javascript regex tester", 
-    "regex performance test"
-  ],
+  title:       "Free Regex Tester Online — Real-Time Match Highlighting & Explainer | PursTech",
+  description: "Test and debug regular expressions instantly with real-time match highlighting, named group extraction, replace mode, 30+ pattern library and a plain-English regex explainer. Free, no login.",
+  keywords:    ["regex tester","regular expression tester online","regex checker","javascript regex tester","regex debugger online free"],
   openGraph: {
-    type:        "website",
-    title:       "Advanced Regex Tester & Debugger | PursTech",
-    description: "Test your regular expressions in real-time. Live highlighting, group extraction, and execution telemetry.",
+    title:       "Free Regex Tester Online — Real-Time Highlighting & Explainer | PursTech",
+    description: "Test regular expressions with real-time highlighting, named groups, replace mode and 30+ pattern library. Free.",
     url:         "https://purstech.com/tools/regex-tester",
     siteName:    "PursTech",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Free Regex Tester" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
-  twitter: {
-    card:        "summary_large_image",
-    title:       "Advanced Regex Tester | PursTech",
-    description: "Live Regex matching, capture groups, and cheat sheet. 100% free.",
-    images:      ["/og-image.png"],
-    creator:     "@purstech",
-  },
+  twitter: { card: "summary_large_image", title: "Free Regex Tester Online | PursTech", images: ["/og-image.png"] },
   alternates: { canonical: "/tools/regex-tester" },
-  robots:      "index, follow",
-};
-
-// ── JSON-LD Schemas ────────────────────────────────────────────────────────────
-const toolSchema = {
-  "@context":          "https://schema.org",
-  "@type":             "SoftwareApplication",
-  name:                "Advanced Regex Tester",
-  description:         "A professional developer tool for writing, testing, and debugging Regular Expressions with real-time match highlighting.",
-  url:                 "https://purstech.com/tools/regex-tester",
-  applicationCategory: "DeveloperApplication",
-  operatingSystem:     "Any",
-  featureList: [
-    "Real-time regex match highlighting",
-    "Capture group extraction table",
-    "Execution time performance telemetry",
-    "Interactive regex cheat sheet",
-    "Built-in presets for emails, IPs, URLs, etc."
-  ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const breadcrumbSchema = {
-  "@context":         "https://schema.org",
-  "@type":            "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",          item: "https://purstech.com" },
-    { "@type": "ListItem", position: 2, name: "Tools",         item: "https://purstech.com/tools" },
-    { "@type": "ListItem", position: 3, name: "Regex Tester",  item: "https://purstech.com/tools/regex-tester" },
-  ],
 };
 
 export default function RegexTesterPage() {
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema)      }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <RegexTesterClient />
-    </>
-  );
+  return <RegexTesterClient />;
 }
