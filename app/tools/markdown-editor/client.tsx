@@ -91,7 +91,7 @@ function renderMarkdown(md: string): string {
     const headCols = parseRow(head);
     const bodyCols = body.trim().split("\n").filter(Boolean).map(parseRow);
     const ths = headCols.map(c => `<th>${c}</th>`).join("");
-    const trs = bodyCols.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
+    const trs = bodyCols.map((r: string[]) => `<tr>${r.map((c: string) => `<td>${c}</td>`).join("")}</tr>`).join("");
     return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
   });
 
@@ -428,4 +428,3 @@ ${html}
     </div>
   );
 }
-
