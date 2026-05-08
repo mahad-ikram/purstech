@@ -6,7 +6,7 @@ const BASE_URL = "https://www.purstech.com";
 const BATCH3_SLUGS = [
   "word-counter",
   "case-converter",
-  "lorem-ipsum",           // ← your actual deployed slug
+  "lorem-ipsum",
   "diff-checker",
   "text-to-speech",
   "json-formatter",
@@ -42,6 +42,24 @@ const BATCH5_SLUGS = [
   "background-remover",
   "favicon-generator",
   "image-to-text",
+];
+
+// ── Batch 6 — Finance Tools ───────────────────────────────────────────────────
+const BATCH6_SLUGS = [
+  "loan-calculator",
+  "compound-interest-calculator",
+  "tip-calculator",
+  "time-zone-converter",
+  "mortgage-calculator",
+];
+
+// ── Batch 7 — Developer Tools ─────────────────────────────────────────────────
+const BATCH7_SLUGS = [
+  "regex-tester",
+  "js-minifier",
+  "html-to-markdown",
+  "markdown-editor",
+  "color-code-converter",
 ];
 
 // ── Category slugs (exact as deployed) ───────────────────────────────────────
@@ -125,11 +143,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // ── Tool pages (all 30 tools) ───────────────────────────────────────────────
+  // ── Tool pages (all 40 tools) ───────────────────────────────────────────────
   const toolPages: MetadataRoute.Sitemap = [
-    ...BATCH3_SLUGS,
-    ...BATCH4_SLUGS,
-    ...BATCH5_SLUGS,
+    ...BATCH3_SLUGS,   // 20 tools
+    ...BATCH4_SLUGS,   //  5 SEO tools
+    ...BATCH5_SLUGS,   //  5 Image tools
+    ...BATCH6_SLUGS,   //  5 Finance tools
+    ...BATCH7_SLUGS,   //  5 Dev tools
   ].map(slug => ({
     url:             `${BASE_URL}/tools/${slug}`,
     lastModified:    now,
