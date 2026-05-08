@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "PursTech — Stop Searching. Start Doing. | 10,000+ Free Online Tools",
+    default:  "PursTech — Stop Searching. Start Doing. | 10,000+ Free Online Tools",
     template: "%s | PursTech — Free Online Tools",
   },
   description:
@@ -29,11 +29,13 @@ export const metadata: Metadata = {
     "online utilities",
   ],
 
-  authors:   [{ name: "PursTech", url: "https://purstech.com" }],
+  authors:   [{ name: "PursTech", url: "https://www.purstech.com" }],  // ← www
   creator:   "PursTech",
   publisher: "PursTech",
 
-  metadataBase: new URL("https://purstech.com"),
+  // ← www — this is the most important change.
+  // Every relative URL in every page.tsx metadata now resolves to www.purstech.com
+  metadataBase: new URL("https://www.purstech.com"),
   alternates: {
     canonical: "/",
   },
@@ -44,21 +46,21 @@ export const metadata: Metadata = {
   },
 
   robots: {
-    index: true,
+    index:  true,
     follow: true,
     googleBot: {
-      index: true,
-      follow: true,
+      index:               true,
+      follow:              true,
       "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": -1,
+      "max-snippet":       -1,
     },
   },
 
   openGraph: {
     type:        "website",
     locale:      "en_US",
-    url:         "https://purstech.com",
+    url:         "https://www.purstech.com",  // ← www
     siteName:    "PursTech",
     title:       "PursTech — Stop Searching. Start Doing.",
     description: "10,000+ free online tools for everyone. Text, image, dev, SEO, AI, finance — no login required.",
@@ -81,9 +83,9 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon:      "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple:    "/apple-touch-icon.png",
+    icon:    "/favicon.ico",
+    shortcut:"/favicon-16x16.png",
+    apple:   "/apple-touch-icon.png",
   },
 };
 
@@ -93,13 +95,13 @@ const jsonLd = {
   "@context":  "https://schema.org",
   "@type":     "WebSite",
   name:        "PursTech",
-  url:         "https://purstech.com",
+  url:         "https://www.purstech.com",         // ← www
   description: "The world's largest free online tool ecosystem. 10,000+ tools powered by AI.",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type":     "EntryPoint",
-      urlTemplate: "https://purstech.com/tools?search={search_term_string}",
+      urlTemplate: "https://www.purstech.com/tools?search={search_term_string}",  // ← www
     },
     "query-input": "required name=search_term_string",
   },
