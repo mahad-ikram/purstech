@@ -119,7 +119,7 @@ function CharBadge({ val, max }: { val: string; max: number }) {
   );
 }
 
-export default function MetaTagGeneratorClient() {
+export default function MetaTagGeneratorClient({ children }: { children?: React.ReactNode }) {
   const [fields, setFields]   = useState<MetaFields>(DEFAULTS);
   const [tab, setTab]         = useState<"basic" | "og" | "twitter">("basic");
   const [serpView, setSerpView] = useState<"desktop" | "mobile">("desktop");
@@ -247,17 +247,9 @@ export default function MetaTagGeneratorClient() {
           <span className="text-gray-400">Meta Tag Generator</span>
         </nav>
 
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">
-            SEO Tools
-          </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Online Meta Tag Generator
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Generate perfectly optimised meta tags for SEO, Open Graph and Twitter Cards. Get a live SEO grade, mobile & desktop SERP preview, and copy individual tags or all at once.
-          </p>
-        </div>
+        {/* Hero block — passed as children from page.tsx (server-rendered).
+            Google reads it in the initial HTML before JS executes. */}
+        {children}
 
         <div className="mb-6">
           <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">⚡ Quick Templates</p>
