@@ -15,7 +15,8 @@
     "qrcode": "^1.5.3",
     "tesseract.js": "^5.1.0",
     "@imgly/background-removal": "^1.4.5",
-    "jszip": "^3.10.1"
+    "jszip": "^3.10.1",
+    "pdf-lib": "^1.17.5"
   },
   "devDependencies": {
     "@types/qrcode": "^1.5.5",
