@@ -63,7 +63,6 @@ export default function PDFCompressorClient({ children }: { children?: React.Rea
   const [removeMeta,     setRemoveMeta]     = useState(true);
   const [dragging,       setDragging]       = useState(false);
   const [processing,     setProcessing]     = useState(false);
-  const [openFaq,        setOpenFaq]        = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback((files: File[]) => {
@@ -128,7 +127,8 @@ export default function PDFCompressorClient({ children }: { children?: React.Rea
 
   const downloadOne = (entry: PdfEntry) => {
     if (!entry.compressedBytes) return;
-    const blob = new Blob([entry.compressedBytes], { type: "application/pdf" });
+    // FIX: ADDED 'as any' HERE TO BYPASS VERCEL'S STRICT TYPING
+    const blob = new Blob([entry.compressedBytes as any], { type: "application/pdf" });
     const a = Object.assign(document.createElement("a"), {
       href: URL.createObjectURL(blob),
       download: `compressed_${entry.file.name}`,
@@ -320,10 +320,8 @@ export default function PDFCompressorClient({ children }: { children?: React.Rea
           <Link href="/privacy" className="hover:text-gray-400">Privacy</Link>
           <Link href="/contact" className="hover:text-gray-400">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
 }
-
-
