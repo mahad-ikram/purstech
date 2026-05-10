@@ -580,20 +580,25 @@ export default function ImageToTextClient({ children }: { children?: React.React
             {/* Camera */}
             {inputMode === "camera" && (
               <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 space-y-3">
+                {/* Video is ALWAYS rendered so cameraRef.current exists when
+                    startCamera() assigns the stream. Shown/hidden via CSS only. */}
+                <video
+                  ref={cameraRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className={`w-full rounded-xl border border-white/10 ${cameraOn ? "block" : "hidden"}`}
+                />
                 {!cameraOn ? (
                   <button onClick={startCamera}
                     className="w-full py-4 rounded-2xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white font-bold transition-all">
                     📷 Start Camera
                   </button>
                 ) : (
-                  <>
-                    <video ref={cameraRef} autoPlay playsInline
-                      className="w-full rounded-xl border border-white/10" />
-                    <button onClick={capturePhoto}
-                      className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold transition-all">
-                      📸 Capture Photo
-                    </button>
-                  </>
+                  <button onClick={capturePhoto}
+                    className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold transition-all">
+                    📸 Capture Photo
+                  </button>
                 )}
               </div>
             )}
