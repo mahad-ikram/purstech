@@ -28,7 +28,7 @@ function autoFreq(path: string): string {
   return "weekly";
 }
 
-export default function SitemapGeneratorClient() {
+export default function SitemapGeneratorClient({ children }: { children?: React.ReactNode }) {
   const [domain,   setDomain]   = useState("");
   const [mode,     setMode]     = useState<"builder"|"bulk"|"index">("builder");
   const [bulkText, setBulkText] = useState("");
@@ -150,15 +150,8 @@ export default function SitemapGeneratorClient() {
           <span className="text-gray-400">Sitemap Generator</span>
         </nav>
 
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">SEO Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free XML Sitemap Generator Online
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Create a valid XML sitemap with smart auto-priority, bulk import, sitemap index support and one-click Google ping. Download and submit in under 2 minutes.
-          </p>
-        </div>
+        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {children}
 
         {/* Mode tabs + domain */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
