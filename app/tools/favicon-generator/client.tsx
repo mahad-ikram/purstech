@@ -138,7 +138,7 @@ function applyBackground(
 }
 
 // ── Main Component ────────────────────────────────────────────────────────────
-export default function FaviconGeneratorClient() {
+export default function FaviconGeneratorClient({ children }: { children?: React.ReactNode }) {
   // Mode
   const [mode,       setMode]       = useState<Mode>("upload");
 
@@ -402,19 +402,8 @@ INSTALLATION:
         </nav>
 
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 flex-wrap mb-3">
-            <span className="bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold">Image Tools</span>
-            <span className="bg-green-500/10 border border-green-500/20 rounded-full px-3 py-1 text-xs text-green-400 font-semibold">★ 4.9/5 — 1,847 reviews</span>
-            <span className="bg-[#00D4FF]/10 border border-[#00D4FF]/20 rounded-full px-3 py-1 text-xs text-[#00D4FF] font-semibold">All 18 Sizes · ZIP Download · PWA Manifest</span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Favicon Generator — Create favicon.ico &amp; All Sizes Online
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            The most advanced favicon generator online. Create from an image, text, emoji or pixel art. Live device previews, all 18 sizes, PWA manifest.json and one-click ZIP download. 100% free, no login, no limits.
-          </p>
-        </div>
+        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {children}
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
