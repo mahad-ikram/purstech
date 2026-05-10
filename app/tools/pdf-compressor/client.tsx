@@ -325,3 +325,4 @@ export default function PDFCompressorClient({ children }: { children?: React.Rea
     </div>
   );
 }
+
