@@ -23,7 +23,7 @@ const DEFAULTS: OGFields = {
   type: "website", siteName: "", twitterCard: "summary_large_image", twitterSite: "", locale: "en_US",
 };
 
-export default function OpenGraphClient() {
+export default function OpenGraphClient({ children }: { children?: React.ReactNode }) {
   const [fields, setFields]   = useState<OGFields>(DEFAULTS);
   const [platform, setPlatform] = useState<Platform>("facebook");
   const [copied,   setCopied]  = useState(false);
@@ -205,15 +205,8 @@ export default function OpenGraphClient() {
           <span className="text-gray-400">Open Graph Generator</span>
         </nav>
 
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">SEO Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Open Graph Tag Generator
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Generate Open Graph and Twitter Card tags with live previews for Facebook, Twitter/X, LinkedIn, Discord and Slack. See exactly how your links look before sharing.
-          </p>
-        </div>
+        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {children}
 
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
 
