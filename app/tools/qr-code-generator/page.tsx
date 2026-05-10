@@ -80,8 +80,8 @@ export default function QRCodeGeneratorPage() {
 
       <QRCodeGeneratorClient>
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-4xl">🔗</span>
+          <div className="flex items-start gap-3 mb-3">
+            <span className="text-4xl mt-1 flex-shrink-0">🔗</span>
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">
                 Free QR Code Generator Online — URL, WiFi, Email &amp; vCard
