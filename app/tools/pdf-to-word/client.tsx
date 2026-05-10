@@ -6,155 +6,129 @@ import Link from "next/link";
 const SCHEMA = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDF Splitter",
-  description: "Free online PDF splitter with 4 modes: split every page, custom ranges, extract specific pages, or remove pages. ZIP download of all parts.",
-  url: "https://www.purstech.com/tools/pdf-splitter",
+  name: "PDF to Word Converter",
+  description: "Free online PDF to Word converter. Extracts text from PDFs with editable preview, text cleanup options and download as .doc, .txt or HTML.",
+  url: "https://www.purstech.com/tools/pdf-to-word",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
 const FAQ = [
-  { q: "What is the difference between 'Extract' and 'Remove' mode?",
-    a: "Extract mode creates a new PDF containing only the pages you select — the rest are discarded. Remove mode creates a new PDF containing all pages EXCEPT the ones you select — it's the opposite. Use Extract when you want a subset of specific pages. Use Remove when you want to delete a few unwanted pages and keep everything else." },
-  { q: "How do I split a PDF into multiple separate files by range?",
-    a: "Select 'Custom Ranges' mode and enter your ranges separated by semicolons. For example, '1-5; 6-10; 11-15' creates three separate PDFs. Each range becomes its own downloadable file. You can mix single pages and ranges: '1-3; 5; 7-9' creates three files — pages 1-3, just page 5, and pages 7-9." },
-  { q: "Will the split PDFs maintain the original quality?",
-    a: "Yes. The split operation simply copies the original page objects into new PDF documents without re-encoding or re-compressing anything. Text remains searchable, images remain at their original resolution, and fonts are preserved exactly as they were. There is zero quality loss in any split mode." },
-  { q: "Can I split a PDF and then re-merge the parts in a different order?",
-    a: "Absolutely — this is a great workflow for rearranging PDF pages. Split your PDF using 'Every Page' mode to get each page as a separate file, then use our PDF Merger to combine them in any order you like. This effectively lets you rearrange pages in any sequence." },
-  { q: "What range syntax does the custom ranges field accept?",
-    a: "Single pages (5), inclusive ranges (1-3), and comma-separated combinations (1-3, 5, 7-10) are all supported. Page numbers are 1-indexed (first page = 1). To split into multiple output files, separate range groups with a semicolon: '1-5; 6-10' creates two PDFs. Invalid page numbers beyond the document length are silently ignored." },
+  { q: "Which types of PDFs can be converted?",
+    a: "This tool extracts text from text-based PDFs — PDFs that were created digitally from Word documents, web pages, or other software. Scanned PDFs (images of paper pages) require OCR (Optical Character Recognition) to extract text, which is a different process. If you upload a scanned PDF and get empty text, try our Image to Text (OCR) tool instead, which uses Tesseract.js to process image-based pages." },
+  { q: "Will the formatting be preserved?",
+    a: "Basic text content is extracted faithfully, but complex formatting like tables, multi-column layouts, headers and footers, and decorative elements cannot be perfectly reconstructed. The extracted text reflects the reading order of the PDF's text objects. For .doc output, the text is wrapped in a basic Word document structure with standard paragraph formatting. For perfect formatting preservation, a desktop tool like Adobe Acrobat Pro is needed." },
+  { q: "What is the difference between .doc, .txt and .html output?",
+    a: ".txt is plain text with no formatting — the simplest and most compatible format. .doc wraps the text in a Word-compatible XML structure, preserving basic paragraph breaks and allowing the file to open in Microsoft Word or Google Docs for further editing. .html creates a web-viewable file with paragraph and page break tags, suitable for pasting into web editors or content management systems." },
+  { q: "Can I edit the extracted text before downloading?",
+    a: "Yes. The extracted text appears in an editable text area. You can correct any OCR-style artifacts, fix line breaks, add or remove content before downloading. This is especially useful for cleaning up PDFs with unusual text encoding or non-standard fonts that may cause minor extraction errors." },
+  { q: "Why are some characters showing as garbled or replaced with '?' marks?",
+    a: "This happens when a PDF uses embedded fonts with non-standard character encodings or uses special symbols not in the standard character set. The PDF specification allows fonts to use custom encoding tables, which can make text extraction ambiguous. In these cases, the extracted text may have placeholder characters. For highly accurate text recovery from such PDFs, a specialised desktop tool may give better results." },
 ];
 
-type Mode = "every" | "ranges" | "extract" | "remove";
+type Format = "doc" | "txt" | "html";
 
-const MODES: { id: Mode; icon: string; label: string; desc: string }[] = [
-  { id:"every",   icon:"📄", label:"Every Page",     desc:"One PDF per page"             },
-  { id:"ranges",  icon:"✂️",  label:"Custom Ranges",  desc:"Split into range groups"      },
-  { id:"extract", icon:"⬆️",  label:"Extract Pages",  desc:"Keep only selected pages"    },
-  { id:"remove",  icon:"🗑",  label:"Remove Pages",   desc:"Delete selected pages"       },
-];
-
-function parseRanges(input: string, total: number): number[][] {
-  return input.split(";").map(group => {
-    const pages: number[] = [];
-    group.split(",").forEach(part => {
-      const [a, b] = part.trim().split("-").map(n => parseInt(n.trim()));
-      if (isNaN(a)) return;
-      const start = a - 1;
-      const end   = isNaN(b) ? start : b - 1;
-      for (let i = start; i <= Math.min(end, total - 1); i++) if (i >= 0) pages.push(i);
-    });
-    return [...new Set(pages)].sort((a, b) => a - b);
-  }).filter(g => g.length > 0);
+declare global {
+  interface Window { pdfjsLib: any; }
 }
 
-export default function PDFSplitterClient({ children }: { children?: React.ReactNode }) {
-  const [file,          setFile]        = useState<File | null>(null);
-  const [bytes,         setBytes]       = useState<ArrayBuffer | null>(null);
-  const [pageCount,     setPageCount]   = useState(0);
-  const [mode,          setMode]        = useState<Mode>("every");
-  const [rangeInput,    setRangeInput]  = useState("");
-  const [selected,      setSelected]    = useState<Set<number>>(new Set());
-  const [dragging,      setDragging]    = useState(false);
-  const [splitting,     setSplitting]   = useState(false);
-  const [results,       setResults]     = useState<{ name: string; bytes: Uint8Array }[]>([]);
-  const [error,         setError]       = useState("");
+const loadPdfJs = async () => {
+  if (typeof window === "undefined") return null;
+  if (window.pdfjsLib) return window.pdfjsLib;
+  await new Promise<void>((res, rej) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+    s.onload = () => res(); s.onerror = () => rej(new Error("Failed to load PDF.js"));
+    document.head.appendChild(s);
+  });
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  return window.pdfjsLib;
+};
+
+export default function PDFToWordClient({ children }: { children?: React.ReactNode }) {
+  const [file,        setFile]       = useState<File | null>(null);
+  const [extracting, setExtracting] = useState(false);
+  const [pages,       setPages]      = useState<string[]>([]);
+  const [text,        setText]       = useState("");
+  const [editedText, setEditedText] = useState("");
+  const [format,      setFormat]     = useState<Format>("doc");
+  const [dragging,    setDragging]   = useState(false);
+  const [error,       setError]      = useState("");
+  const [cleanup,     setCleanup]    = useState(true);
+  const [viewMode,    setViewMode]   = useState<"full" | "pages">("full");
+  const [activePage, setActivePage] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const loadFile = useCallback(async (f: File) => {
+  const cleanText = useCallback((t: string) =>
+    t.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim(), []);
+
+  const processFile = useCallback(async (f: File) => {
+    setFile(f); setExtracting(true); setError(""); setPages([]); setText(""); setEditedText("");
     try {
-      const { PDFDocument } = await import("pdf-lib");
+      const pdfjsLib = await loadPdfJs();
+      if (!pdfjsLib) throw new Error("PDF.js could not be loaded");
       const buf = await f.arrayBuffer();
-      const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
-      setFile(f); setBytes(buf); setPageCount(doc.getPageCount());
-      setSelected(new Set()); setResults([]); setError("");
-    } catch { setError("Could not read PDF — it may be encrypted or corrupted."); }
-  }, []);
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      const pageTexts: string[] = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const pg  = await pdf.getPage(i);
+        const ctx = await pg.getTextContent();
+        const raw = ctx.items.map((item: any) => item.str).join(" ");
+        pageTexts.push(raw);
+      }
+      const combined = pageTexts.map((t, i) => `--- Page ${i + 1} ---\n${t}`).join("\n\n");
+      const final    = cleanup ? cleanText(combined) : combined;
+      setPages(pageTexts);
+      setText(final);
+      setEditedText(final);
+    } catch (err) {
+      setError("Could not extract text. This PDF may be encrypted, scanned (image-only) or use unsupported encoding.");
+    }
+    setExtracting(false);
+  }, [cleanup, cleanText]);
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault(); setDragging(false);
     const f = e.dataTransfer.files[0];
-    if (f) loadFile(f);
-  }, [loadFile]);
+    if (f) processFile(f);
+  }, [processFile]);
 
-  const togglePage = (i: number) => setSelected(p => {
-    const s = new Set(p);
-    s.has(i) ? s.delete(i) : s.add(i);
-    return s;
-  });
+  const download = () => {
+    const content = editedText;
+    let blob: Blob, filename: string;
 
-  const selectAll   = () => setSelected(new Set(Array.from({ length: pageCount }, (_, i) => i)));
-  const clearSelect = () => setSelected(new Set());
-
-  const split = async () => {
-    if (!bytes || !file) return;
-    setSplitting(true); setError(""); setResults([]);
-    try {
-      const { PDFDocument } = await import("pdf-lib");
-      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-      const parts:  { name: string; bytes: Uint8Array }[] = [];
-
-      if (mode === "every") {
-        for (let i = 0; i < pageCount; i++) {
-          const doc = await PDFDocument.create();
-          const [pg] = await doc.copyPages(srcDoc, [i]);
-          doc.addPage(pg);
-          parts.push({ name: `page_${String(i+1).padStart(3,"0")}.pdf`, bytes: await doc.save() });
-        }
-      } else if (mode === "ranges") {
-        const groups = rangeInput.trim()
-          ? parseRanges(rangeInput, pageCount)
-          : [Array.from({ length: pageCount }, (_, i) => i)];
-        for (let gi = 0; gi < groups.length; gi++) {
-          const doc = await PDFDocument.create();
-          const pgs = await doc.copyPages(srcDoc, groups[gi]);
-          pgs.forEach(p => doc.addPage(p));
-          parts.push({ name: `part_${gi + 1}.pdf`, bytes: await doc.save() });
-        }
-      } else if (mode === "extract") {
-        const indices = [...selected].sort((a, b) => a - b);
-        if (indices.length === 0) { setError("Select at least one page to extract."); setSplitting(false); return; }
-        const doc = await PDFDocument.create();
-        const pgs = await doc.copyPages(srcDoc, indices);
-        pgs.forEach(p => doc.addPage(p));
-        parts.push({ name: `extracted_pages.pdf`, bytes: await doc.save() });
-      } else if (mode === "remove") {
-        const keep = Array.from({ length: pageCount }, (_, i) => i).filter(i => !selected.has(i));
-        if (keep.length === 0) { setError("Cannot remove all pages — keep at least one."); setSplitting(false); return; }
-        const doc = await PDFDocument.create();
-        const pgs = await doc.copyPages(srcDoc, keep);
-        pgs.forEach(p => doc.addPage(p));
-        parts.push({ name: `without_removed_pages.pdf`, bytes: await doc.save() });
-      }
-
-      setResults(parts);
-    } catch (err) {
-      setError("Split failed — ensure the PDF is valid and unencrypted.");
+    if (format === "txt") {
+      blob = new Blob([content], { type: "text/plain" });
+      filename = `${file?.name.replace(".pdf","") ?? "document"}.txt`;
+    } else if (format === "html") {
+      const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${file?.name}</title>
+<style>body{max-width:800px;margin:2rem auto;font-family:Georgia,serif;line-height:1.6;color:#1a1a1a;padding:0 1rem}p{margin:0 0 1rem}</style></head><body>
+${content.split("\n").filter(l => l.trim()).map(l => `<p>${l.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</p>`).join("\n")}
+</body></html>`;
+      blob = new Blob([html], { type: "text/html" });
+      filename = `${file?.name.replace(".pdf","") ?? "document"}.html`;
+    } else {
+      // .doc — simple Word XML wrapper
+      const docXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?mso-application progid="Word.Document"?>
+<w:wordDocument xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml">
+<w:body>
+${content.split("\n").filter(l => l.trim()).map(l =>
+  `<w:p><w:r><w:t xml:space="preserve">${l.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</w:t></w:r></w:p>`
+).join("\n")}
+</w:body></w:wordDocument>`;
+      blob = new Blob([docXml], { type: "application/msword" });
+      filename = `${file?.name.replace(".pdf","") ?? "document"}.doc`;
     }
-    setSplitting(false);
-  };
-
-  const downloadAll = async () => {
-    if (results.length === 1) {
-      // FIX: ADDED 'as any' HERE TO BYPASS VERCEL'S STRICT TYPING
-      const blob = new Blob([results[0].bytes as any], { type: "application/pdf" });
-      Object.assign(document.createElement("a"), {
-        href: URL.createObjectURL(blob), download: results[0].name,
-      }).click();
-      return;
-    }
-    const JSZip = (await import("jszip")).default;
-    const zip = new JSZip();
-    results.forEach(r => zip.file(r.name, r.bytes));
-    const blob = await zip.generateAsync({ type: "blob" });
     Object.assign(document.createElement("a"), {
-      href: URL.createObjectURL(blob), download: "split_pdfs.zip",
+      href: URL.createObjectURL(blob), download: filename,
     }).click();
   };
 
-  const fmtSize = (b: number) => b < 1024 * 1024 ? `${(b / 1024).toFixed(0)} KB` : `${(b / (1024 * 1024)).toFixed(1)} MB`;
+  const words = editedText.trim() ? editedText.trim().split(/\s+/).length : 0;
+  const chars = editedText.length;
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
@@ -171,138 +145,123 @@ export default function PDFSplitterClient({ children }: { children?: React.React
         <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span>›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span>›</span>
-          <span className="text-gray-400">PDF Splitter</span>
+          <span className="text-gray-400">PDF to Word</span>
         </nav>
 
         {children}
 
-        {/* Mode selector */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-          {MODES.map(m => (
-            <button key={m.id} onClick={() => { setMode(m.id); setSelected(new Set()); setResults([]); }}
-              className={`border rounded-2xl p-4 text-left transition-all ${mode === m.id ? "border-[#FF3A6C]/60 bg-[#FF3A6C]/10" : "border-white/5 bg-[#13131F] hover:border-white/20"}`}>
-              <div className="text-2xl mb-2">{m.icon}</div>
-              <div className="font-bold text-white text-xs">{m.label}</div>
-              <div className="text-xs text-gray-500 mt-0.5 leading-snug">{m.desc}</div>
+        {/* Options row */}
+        <div className="flex flex-wrap gap-3 items-center mb-5">
+          <div className="flex items-center gap-2 bg-[#13131F] border border-white/5 rounded-xl px-4 py-2.5">
+            <button onClick={() => setCleanup(p => !p)}
+              className={`w-8 h-4.5 rounded-full transition-all relative ${cleanup ? "bg-[#FF3A6C]" : "bg-gray-700"} w-9 h-5`}>
+              <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-all ${cleanup ? "left-[22px]" : "left-0.5"}`} />
             </button>
-          ))}
+            <span className="text-sm text-white">Clean up whitespace</span>
+          </div>
+
+          <div className="flex gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl">
+            {(["doc","txt","html"] as Format[]).map(f => (
+              <button key={f} onClick={() => setFormat(f)}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all ${format === f ? "bg-[#FF3A6C] text-white" : "text-gray-400 hover:text-white"}`}>
+                .{f}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Drop zone */}
-        {!file ? (
+        {!file && (
           <div onDrop={onDrop} onDragOver={e => { e.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)}
             onClick={() => inputRef.current?.click()}
             className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all ${dragging ? "border-[#FF3A6C]/60 bg-[#FF3A6C]/5" : "border-white/10 hover:border-[#FF3A6C]/30 bg-[#13131F]"}`}>
             <input ref={inputRef} type="file" accept=".pdf,application/pdf" className="hidden"
-              onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f); }} />
-            <div className="text-4xl mb-3">✂️</div>
-            <div className="font-bold text-white mb-1">Drop a PDF file here or click to browse</div>
-            <div className="text-xs text-gray-500">Single PDF · Any size</div>
-          </div>
-        ) : (
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">📄</span>
-              <div>
-                <div className="text-sm font-semibold text-white">{file.name}</div>
-                <div className="text-xs text-gray-500">{fmtSize(file.size)} · {pageCount} pages</div>
-              </div>
-            </div>
-            <button onClick={() => { setFile(null); setBytes(null); setPageCount(0); setResults([]); setError(""); }}
-              className="text-gray-600 hover:text-[#FF3A6C] transition-colors">Change file</button>
+              onChange={e => { const f = e.target.files?.[0]; if (f) processFile(f); }} />
+            <div className="text-4xl mb-3">📝</div>
+            <div className="font-bold text-white mb-1">Drop a PDF here or click to browse</div>
+            <div className="text-xs text-gray-500">Works with text-based PDFs · Not scanned images</div>
           </div>
         )}
 
-        {error && <div className="mt-3 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3">{error}</div>}
+        {error && <div className="mt-4 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3">{error}</div>}
 
-        {/* Mode-specific controls */}
-        {file && pageCount > 0 && (
-          <div className="mt-4 space-y-4">
-            {mode === "ranges" && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-                  Range groups (separate groups with semicolons)
-                </label>
-                <input value={rangeInput} onChange={e => setRangeInput(e.target.value)}
-                  placeholder="e.g. 1-3; 4-6; 7-10   or   1-5; 6"
-                  className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#FF3A6C]/50 transition-all" />
-                <div className="text-xs text-gray-600 mt-2">Each group separated by semicolons becomes its own PDF file</div>
+        {extracting && (
+          <div className="mt-6 text-center py-10 text-gray-400">
+            <div className="text-3xl mb-3 animate-spin">⚙️</div>
+            Extracting text from PDF…
+          </div>
+        )}
+
+        {pages.length > 0 && (
+          <div className="mt-5 space-y-4">
+            {/* File info + stats */}
+            <div className="bg-[#13131F] border border-white/5 rounded-xl px-5 py-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-3 text-sm">
+                <span className="text-2xl">📄</span>
+                <span className="font-semibold text-white">{file?.name}</span>
               </div>
-            )}
+              <div className="flex gap-4 text-xs text-gray-500">
+                <span>{pages.length} pages</span>
+                <span>{words.toLocaleString()} words</span>
+                <span>{chars.toLocaleString()} chars</span>
+                <button onClick={() => { setFile(null); setPages([]); setText(""); setEditedText(""); }}
+                  className="text-[#FF3A6C] hover:text-white transition-colors">Change file</button>
+              </div>
+            </div>
 
-            {(mode === "extract" || mode === "remove") && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                    {mode === "extract" ? "Click to select pages to extract" : "Click to select pages to remove"}
-                  </span>
-                  <div className="flex gap-2 text-xs">
-                    <button onClick={selectAll} className="text-[#FF3A6C] hover:text-white transition-colors">All</button>
-                    <span className="text-gray-600">·</span>
-                    <button onClick={clearSelect} className="text-gray-400 hover:text-white transition-colors">None</button>
-                    <span className="text-gray-600">·</span>
-                    <span className="text-gray-500">{selected.size} selected</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-8 sm:grid-cols-12 gap-1.5 max-h-48 overflow-y-auto pr-1">
-                  {Array.from({ length: pageCount }, (_, i) => (
-                    <button key={i} onClick={() => togglePage(i)}
-                      className={`aspect-square rounded-lg text-xs font-bold transition-all border ${
-                        selected.has(i)
-                          ? mode === "extract"
-                            ? "bg-[#6C3AFF] border-[#6C3AFF] text-white"
-                            : "bg-[#FF3A6C] border-[#FF3A6C] text-white"
-                          : "bg-[#0A0A14] border-white/10 text-gray-500 hover:border-white/30"
-                      }`}>
-                      {i + 1}
+            {/* View toggle */}
+            <div className="flex gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl w-fit">
+              {(["full","pages"] as const).map(v => (
+                <button key={v} onClick={() => setViewMode(v)}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${viewMode === v ? "bg-[#FF3A6C] text-white" : "text-gray-400 hover:text-white"}`}>
+                  {v === "full" ? "Full text" : "Page by page"}
+                </button>
+              ))}
+            </div>
+
+            {/* Text editor */}
+            {viewMode === "full" ? (
+              <div>
+                <div className="text-xs text-gray-500 mb-2">Edit before downloading:</div>
+                <textarea value={editedText} onChange={e => setEditedText(e.target.value)} rows={20}
+                  className="w-full px-5 py-4 rounded-2xl bg-[#13131F] border border-white/5 text-gray-300 text-sm font-mono leading-relaxed focus:outline-none focus:border-[#FF3A6C]/30 resize-none transition-all" />
+              </div>
+            ) : (
+              <div>
+                <div className="flex gap-2 flex-wrap mb-3">
+                  {pages.map((_, i) => (
+                    <button key={i} onClick={() => setActivePage(i)}
+                      className={`w-9 h-9 rounded-xl text-xs font-bold transition-all border ${activePage === i ? "bg-[#FF3A6C] border-transparent text-white" : "bg-[#13131F] border-white/10 text-gray-400 hover:text-white"}`}>
+                      {i+1}
                     </button>
                   ))}
                 </div>
+                <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+                  <div className="text-xs text-gray-500 mb-2">Page {activePage + 1} of {pages.length}</div>
+                  <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap font-mono">
+                    {pages[activePage] || "(No text on this page)"}
+                  </p>
+                </div>
               </div>
             )}
 
-            {/* Split button */}
-            {results.length === 0 && (
-              <button onClick={split} disabled={splitting}
-                className="w-full py-4 rounded-2xl bg-[#FF3A6C] hover:bg-[#d42d5a] disabled:opacity-50 text-white font-extrabold text-lg transition-all">
-                {splitting ? "Splitting…" : mode === "every" ? `✂️ Split into ${pageCount} files` : mode === "ranges" ? "✂️ Split by Ranges" : mode === "extract" ? `✂️ Extract ${selected.size} page${selected.size !== 1 ? "s" : ""}` : `✂️ Remove ${selected.size} page${selected.size !== 1 ? "s" : ""}`}
-              </button>
-            )}
-
-            {/* Results */}
-            {results.length > 0 && (
-              <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="font-bold text-green-400">✓ Split complete — {results.length} file{results.length > 1 ? "s" : ""}</div>
-                  <button onClick={() => setResults([])} className="text-gray-500 hover:text-white text-xs transition-colors">← Adjust</button>
-                </div>
-                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 mb-4">
-                  {results.slice(0, 10).map((r, i) => (
-                    <div key={i} className="flex items-center justify-between text-xs bg-[#0A0A14] rounded-lg px-3 py-2">
-                      <span className="text-gray-300 font-mono">{r.name}</span>
-                      <span className="text-gray-500">{fmtSize(r.bytes.byteLength)}</span>
-                    </div>
-                  ))}
-                  {results.length > 10 && <div className="text-xs text-gray-500 text-center py-1">+ {results.length - 10} more files in ZIP</div>}
-                </div>
-                <button onClick={downloadAll}
-                  className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold transition-all">
-                  {results.length > 1 ? `⬇ Download all (ZIP)` : `⬇ Download ${results[0].name}`}
-                </button>
-              </div>
-            )}
+            {/* Download */}
+            <button onClick={download}
+              className="w-full py-4 rounded-2xl bg-[#FF3A6C] hover:bg-[#d42d5a] text-white font-extrabold text-lg transition-all">
+              ⬇ Download as .{format}
+            </button>
           </div>
         )}
 
         {/* How to Use */}
         <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
-          <h2 className="text-xl font-extrabold text-white mb-5">How to Split a PDF Online</h2>
+          <h2 className="text-xl font-extrabold text-white mb-5">How to Convert PDF to Word</h2>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             {[
-              { step:"1", title:"Choose a split mode", desc:"Every Page creates one PDF per page. Custom Ranges splits into groups. Extract keeps selected pages. Remove deletes selected pages." },
-              { step:"2", title:"Upload your PDF", desc:"Drag and drop or click to browse. The tool reads the file locally — nothing is uploaded to any server." },
-              { step:"3", title:"Select pages or enter ranges", desc:"Click page thumbnails to select, or type ranges like '1-3, 5, 7-10' in the ranges field." },
-              { step:"4", title:"Split and download", desc:"Click Split. Download one file or all parts at once as a ZIP archive." },
+              { step:"1", title:"Choose output format", desc:"Select .doc for Word compatibility, .txt for plain text, or .html for web use. Enable whitespace cleanup for cleaner output." },
+              { step:"2", title:"Upload your PDF", desc:"Drag and drop a text-based PDF. The tool uses PDF.js to extract text directly in your browser — nothing is uploaded." },
+              { step:"3", title:"Review and edit", desc:"Read the extracted text in Full or Page-by-page view. Edit directly in the text area to fix any extraction artifacts." },
+              { step:"4", title:"Download", desc:"Click Download to get your .doc, .txt or .html file ready for use in Word, Google Docs or any text editor." },
             ].map(s => (
               <div key={s.step} className="flex gap-3">
                 <div className="w-7 h-7 rounded-full bg-[#FF3A6C] flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
