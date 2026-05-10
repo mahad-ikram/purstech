@@ -85,7 +85,7 @@ const FAQ = [
 
 type FitMode = "stretch" | "contain" | "cover";
 
-export default function ImageResizerClient() {
+export default function ImageResizerClient({ children }: { children?: React.ReactNode }) {
   const [original, setOriginal]   = useState<string | null>(null);
   const [origW,    setOrigW]      = useState(0);
   const [origH,    setOrigH]      = useState(0);
@@ -200,15 +200,8 @@ export default function ImageResizerClient() {
           <span className="text-gray-400">Image Resizer</span>
         </nav>
 
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Image Resizer Online — Resize Images to Any Dimension Instantly
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Resize images with social media presets, aspect ratio lock and three fit modes. Output to JPEG, PNG or WebP. 100% browser-based — your images never leave your device.
-          </p>
-        </div>
+        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {children}
 
         {/* Upload */}
         {!original ? (
