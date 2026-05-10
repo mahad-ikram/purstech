@@ -50,7 +50,7 @@ const FAQ = [
   },
 ];
 
-export default function ImageCompressorClient() {
+export default function ImageCompressorClient({ children }: { children?: React.ReactNode }) {
   const [files,    setFiles]    = useState<ImageFile[]>([]);
   const [quality,  setQuality]  = useState(80);
   const [format,   setFormat]   = useState<"original" | "jpeg" | "png" | "webp">("original");
@@ -165,15 +165,8 @@ export default function ImageCompressorClient() {
           <span className="text-gray-400">Image Compressor</span>
         </nav>
 
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Image Compressor Online — Reduce Image Size Without Losing Quality
-          </h1>
-          <p className="text-gray-400 max-w-2xl">
-            Compress JPEG, PNG and WebP images by up to 90% with a live before/after preview. Batch compress up to 20 images. 100% browser-based — your images never leave your device.
-          </p>
-        </div>
+        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {children}
 
         {/* Controls */}
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-5">
