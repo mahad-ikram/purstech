@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 import IPLookupClient from "./client";
 
 export const metadata: Metadata = {
@@ -50,5 +51,5 @@ export default function IPLookupPage() {
         </ul>
       </div>
     </IPLookupClient>
-  );
+  ) as any;
 }
