@@ -103,42 +103,6 @@ const FAQ_SCHEMA = {
   ],
 };
 
-const FEATURES = [
-  { icon:"📐", title:"6 Writing Goal Presets",          desc:"Set your writing purpose — Email, Essay, Blog, Business, Creative or General — and get targeted feedback for your audience." },
-  { icon:"🥧", title:"Error Breakdown Chart",           desc:"SVG donut chart shows the exact split of grammar, spelling, punctuation and style issues at a glance." },
-  { icon:"🔕", title:"Passive Voice Detector",          desc:"Client-side scanner highlights passive voice constructions independently of LanguageTool, so you can spot and rewrite them." },
-  { icon:"📊", title:"Overused Word Finder",            desc:"Word frequency analysis identifies words you've repeated too many times — a key sign of weak, repetitive writing." },
-  { icon:"🎭", title:"Tone Detector",                   desc:"Detects whether your writing is formal or casual, positive or critical — based on vocabulary patterns." },
-  { icon:"📝", title:"Error Density Score",             desc:"Errors per 100 words — a normalised measure that lets you compare quality fairly regardless of document length." },
-];
-
-const USE_CASES = [
-  { who:"Students",             why:"Check essays and assignments for grammar, spelling and academic style before submission." },
-  { who:"Content Writers",      why:"Proof blog posts and articles — catch passive voice, adverbs and overused words that weaken copy." },
-  { who:"Non-native Speakers",  why:"LanguageTool's 6,000+ rules catch subtle English errors that basic spell-checkers miss entirely." },
-  { who:"Business Professionals",why:"Polish emails and reports — correct tone, eliminate errors and ensure professional quality." },
-];
-
-const COMPETITOR_TABLE = [
-  { feature:"Grammar & spelling",          purstech:true,  grammarly:true,  hemingway:false, lt:true  },
-  { feature:"In-text colour highlights",   purstech:true,  grammarly:true,  hemingway:true,  lt:true  },
-  { feature:"Writing goal presets",        purstech:true,  grammarly:true,  hemingway:false, lt:false },
-  { feature:"Error breakdown chart",       purstech:true,  grammarly:false, hemingway:false, lt:false },
-  { feature:"Passive voice detection",     purstech:true,  grammarly:"paid",hemingway:true,  lt:true  },
-  { feature:"Overused word finder",        purstech:true,  grammarly:false, hemingway:false, lt:false },
-  { feature:"Tone detector",               purstech:true,  grammarly:"paid",hemingway:false, lt:false },
-  { feature:"Error density score",         purstech:true,  grammarly:false, hemingway:false, lt:false },
-  { feature:"Adverb scanner",              purstech:true,  grammarly:false, hemingway:true,  lt:false },
-  { feature:"Download error report",       purstech:true,  grammarly:false, hemingway:false, lt:false },
-  { feature:"Multi-language support",      purstech:true,  grammarly:false, hemingway:false, lt:true  },
-  { feature:"100% free, no account",       purstech:true,  grammarly:false, hemingway:false, lt:true  },
-];
-
-const CellIcon = ({ v }: { v: boolean | string }) =>
-  v === true    ? <span className="text-green-400 font-bold">✓</span>   :
-  v === "paid"  ? <span className="text-yellow-400 text-xs font-semibold">Paid</span> :
-                  <span className="text-gray-700">—</span>;
-
 export default function GrammarCheckerPage() {
   return (
     <>
@@ -147,7 +111,7 @@ export default function GrammarCheckerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA)        }} />
 
       <GrammarCheckerClient>
-        <div className="mb-8">
+        <div className="mb-6">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">
             AI Tools
           </div>
@@ -156,76 +120,15 @@ export default function GrammarCheckerPage() {
             Free Grammar Checker Online — Grammar, Spelling, Style &amp; Passive Voice
           </h1>
 
-          <p className="text-gray-400 max-w-2xl mb-3 leading-relaxed">
+          <p className="text-gray-400 max-w-2xl mb-2 leading-relaxed">
             The most advanced free grammar checker available. Powered by LanguageTool's engine
             of 6,000+ linguistic rules, it catches grammar errors, spelling mistakes, punctuation
-            issues and style problems in seconds — then goes further with unique features no other
-            free tool offers: a writing goals selector, error breakdown chart, passive voice
+            issues and style problems in seconds.
+          </p>
+          <p className="text-gray-500 max-w-2xl leading-relaxed text-sm">
+            Includes unique features: writing goals, error breakdown chart, passive voice
             detector, adverb scanner, overused word finder and tone analysis.
           </p>
-          <p className="text-gray-500 max-w-2xl mb-6 leading-relaxed text-sm">
-            Used by students, content writers, non-native English speakers and business
-            professionals to produce polished, error-free writing — without paying for Grammarly.
-          </p>
-
-          {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            {FEATURES.map(f => (
-              <div key={f.title} className="bg-[#13131F] border border-white/5 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-xl">{f.icon}</span>
-                  <span className="text-sm font-bold text-white">{f.title}</span>
-                </div>
-                <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Use cases */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-5">
-            <h2 className="text-sm font-bold text-white mb-3">Who uses this tool?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {USE_CASES.map(u => (
-                <div key={u.who} className="flex gap-3">
-                  <span className="text-[#6C3AFF] font-extrabold text-sm flex-shrink-0 mt-0.5">→</span>
-                  <div>
-                    <span className="text-sm font-semibold text-white">{u.who}: </span>
-                    <span className="text-sm text-gray-400">{u.why}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Competitor comparison table */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl overflow-x-auto">
-            <div className="px-5 pt-4 pb-2">
-              <h2 className="text-sm font-bold text-white">PursTech vs Grammarly vs Hemingway vs LanguageTool</h2>
-              <p className="text-xs text-gray-500 mt-0.5">Feature comparison — all at zero cost</p>
-            </div>
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="border-b border-white/5">
-                  <th className="text-left px-5 py-2 text-gray-500 font-semibold">Feature</th>
-                  <th className="px-4 py-2 text-[#6C3AFF] font-bold">PursTech</th>
-                  <th className="px-4 py-2 text-gray-500">Grammarly</th>
-                  <th className="px-4 py-2 text-gray-500">Hemingway</th>
-                  <th className="px-4 py-2 text-gray-500">LanguageTool</th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPETITOR_TABLE.map((row, i) => (
-                  <tr key={i} className="border-b border-white/5 last:border-0">
-                    <td className="px-5 py-2.5 text-gray-400">{row.feature}</td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.purstech} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.grammarly} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.hemingway} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.lt} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
       </GrammarCheckerClient>
     </>
