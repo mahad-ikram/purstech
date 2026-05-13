@@ -190,11 +190,69 @@ const Flag = ({ code }: { code: string }) =>
       className="rounded-sm inline-block" width={32} height={24} />
   ) : null;
 
-/* ── Helpers ────────────────────────────────────────────────────────────── */
+/* ── Bulletproof Data Fetcher ────────────────────────────────────────────── */
 async function fetchIPData(ip = ""): Promise<IPData> {
-  const url = ip ? `https://ipapi.co/${ip}/json/` : "https://ipapi.co/json/";
+  let targetIp = ip.trim();
+
+  // 1. If blank, reliably get the user's IP first from ipify (bypasses adblockers)
+  if (!targetIp) {
+    try {
+      const myIpRes = await fetch("https://api64.ipify.org?format=json");
+      const myIpData = await myIpRes.json();
+      if (myIpData.ip) targetIp = myIpData.ip;
+    } catch (e) {
+      console.warn("Failed to fetch own IP from ipify", e);
+    }
+  }
+
+  // 2. Fetch primary data from ipapi.co
+  const url = targetIp ? `https://ipapi.co/${targetIp}/json/` : "https://ipapi.co/json/";
   const res = await fetch(url, { headers: { Accept: "application/json" } });
-  return res.json();
+  const data = await res.json();
+
+  // 3. Fallback to ipwho.is if ipapi fails or rate-limits us!
+  if (data.error || !data.ip) {
+    console.warn("ipapi.co rate limited or blocked, falling back to ipwho.is...");
+    try {
+      const fallbackUrl = targetIp ? `https://ipwho.is/${targetIp}` : "https://ipwho.is/";
+      const fbRes = await fetch(fallbackUrl);
+      const fbData = await fbRes.json();
+
+      if (fbData.success) {
+        return {
+          ip: fbData.ip,
+          city: fbData.city,
+          region: fbData.region,
+          region_code: fbData.region_code,
+          country: fbData.country_code,
+          country_name: fbData.country,
+          country_code: fbData.country_code,
+          country_code_iso3: "",
+          country_capital: fbData.capital || "",
+          continent_code: fbData.continent_code || "",
+          in_eu: fbData.is_eu,
+          postal: fbData.postal,
+          latitude: fbData.latitude,
+          longitude: fbData.longitude,
+          timezone: fbData.timezone?.id,
+          utc_offset: fbData.timezone?.utc,
+          country_calling_code: fbData.calling_code ? `+${fbData.calling_code}` : "",
+          currency: fbData.currency?.code,
+          currency_name: fbData.currency?.name,
+          languages: "Unknown",
+          country_area: 0,
+          country_population: 0,
+          asn: fbData.connection?.asn ? `AS${fbData.connection.asn}` : "",
+          org: fbData.connection?.org || fbData.connection?.isp || "",
+          network: fbData.connection?.domain || ""
+        } as IPData;
+      }
+    } catch (e) {
+      console.error("Fallback API also failed", e);
+    }
+  }
+
+  return data;
 }
 
 async function reverseDNS(ip: string): Promise<string | null> {
@@ -248,11 +306,12 @@ export default function IPLookupClient({ children }: { children?: React.ReactNod
     const params = new URLSearchParams(window.location.search);
     const ipParam = params.get("ip");
     if (ipParam) { setQuery(ipParam); lookup(ipParam); }
-    else { fetchIPData("").then(d => { if (!d.error) setOwnIP(d); }).catch(() => {}); }
+    else { fetchIPData("").then(d => { if (!d.error && d.ip) setOwnIP(d); }).catch(() => {}); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveToHistory = useCallback((data: IPData) => {
+    if (!data || !data.ip) return;
     setHistory(prev => {
       const updated = [data, ...prev.filter(r => r.ip !== data.ip)].slice(0, 10);
       localStorage.setItem("ip-lookup-history", JSON.stringify(updated));
@@ -268,17 +327,19 @@ export default function IPLookupClient({ children }: { children?: React.ReactNod
         fetchIPData(target),
         target ? reverseDNS(target) : Promise.resolve(null),
       ]);
-      if (data.error) { setError(data.reason ?? "Lookup failed — check the IP format."); }
-      else {
+      
+      if (data.error || !data.ip) { 
+        setError(data.reason ?? "Lookup failed. Please check the IP format or disable your AdBlocker."); 
+      } else {
         setResult(data);
         setRdns(hostname);
         saveToHistory(data);
-        // Update URL without reload
+        // Update URL without reload securely
         const url = new URL(window.location.href);
         url.searchParams.set("ip", data.ip);
         window.history.replaceState({}, "", url.toString());
       }
-    } catch { setError("Request failed — check your connection."); }
+    } catch { setError("Request failed — check your connection or disable AdBlockers."); }
     setLoading(false);
   }, [query, saveToHistory]);
 
@@ -289,8 +350,8 @@ export default function IPLookupClient({ children }: { children?: React.ReactNod
       fetchIPData(cmpQuery1.trim()),
       fetchIPData(cmpQuery2.trim()),
     ]);
-    if (!r1.error) setCmpResult1(r1);
-    if (!r2.error) setCmpResult2(r2);
+    if (!r1.error && r1.ip) setCmpResult1(r1);
+    if (!r2.error && r2.ip) setCmpResult2(r2);
     setCmpLoading(false);
   };
 
@@ -300,7 +361,10 @@ export default function IPLookupClient({ children }: { children?: React.ReactNod
     setBatchLoading(true); setBatchResults([]);
     const results: IPData[] = [];
     for (const ip of ips) {
-      try { results.push(await fetchIPData(ip)); } catch {}
+      try { 
+        const res = await fetchIPData(ip);
+        if (!res.error && res.ip) results.push(res);
+      } catch {}
       await new Promise(r => setTimeout(r, 350));
     }
     setBatchResults(results);
