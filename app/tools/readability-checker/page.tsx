@@ -100,44 +100,6 @@ const FAQ_SCHEMA = {
   ],
 };
 
-const FEATURES = [
-  { icon:"📐", title:"7 Readability Formulas",        desc:"Flesch, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau, ARI and Dale-Chall — all calculated simultaneously with progress bars." },
-  { icon:"🎯", title:"Target Audience Mode",           desc:"Set your target reader (5th grade → academic) and see a match score showing exactly how close your text is to that level." },
-  { icon:"📚", title:"Famous Text Benchmarks",         desc:"See where your text sits relative to Harry Potter, NYT articles, Harvard Law Review and insurance policies on a single visual scale." },
-  { icon:"📊", title:"Sentence Difficulty Map",        desc:"A colour-coded bar chart with one bar per sentence — instantly reveals where in your text the density is highest." },
-  { icon:"🔍", title:"Annotated Text View",            desc:"Toggleable highlights: long sentences in yellow/red, complex words underlined. Shows the problem areas directly in your text." },
-  { icon:"📈", title:"Vocabulary Richness (TTR)",      desc:"Type-Token Ratio measures how varied your vocabulary is — a key indicator of writing quality that no other free tool shows." },
-];
-
-const USE_CASES = [
-  { who:"Content Writers & SEOs",      why:"Verify blog posts and landing pages target the right reading level for your audience before publishing." },
-  { who:"Educators & Academics",       why:"Check whether reading materials are appropriate for student grade levels, and measure academic paper complexity." },
-  { who:"UX & Product Writers",        why:"Ensure product copy, onboarding text and help articles are simple enough for all users — including non-native speakers." },
-  { who:"Health & Legal Communicators",why:"SMOG formula is the standard for health literacy. Ensure patient-facing documents meet plain-language requirements." },
-];
-
-const COMPETITOR_TABLE = [
-  { feature:"Number of formulas",              purstech:"7",   hemingway:"1",   webfx:"7",    readable:"6"  },
-  { feature:"Target audience mode",            purstech:true,  hemingway:false, webfx:false,  readable:true  },
-  { feature:"Famous text benchmarks",          purstech:true,  hemingway:false, webfx:false,  readable:false },
-  { feature:"Sentence difficulty map",         purstech:true,  hemingway:false, webfx:false,  readable:false },
-  { feature:"Annotated text highlights",       purstech:true,  hemingway:true,  webfx:false,  readable:false },
-  { feature:"Complex word list",               purstech:true,  hemingway:false, webfx:false,  readable:true  },
-  { feature:"Vocabulary richness (TTR)",       purstech:true,  hemingway:false, webfx:false,  readable:false },
-  { feature:"Sentence length distribution",   purstech:true,  hemingway:false, webfx:false,  readable:false },
-  { feature:"Download analysis report",        purstech:true,  hemingway:false, webfx:false,  readable:"paid"},
-  { feature:"Live update as you type",         purstech:true,  hemingway:true,  webfx:false,  readable:false },
-  { feature:"100% free, no account",           purstech:true,  hemingway:false, webfx:true,   readable:false },
-];
-
-type CellVal = boolean | string;
-const CellIcon = ({ v }: { v: CellVal }) =>
-  v === true    ? <span className="text-green-400 font-bold">✓</span> :
-  v === false   ? <span className="text-gray-700">—</span> :
-  typeof v === "string" && v !== "purstech"
-    ? <span className={`font-semibold text-xs ${v === "paid" ? "text-yellow-400" : "text-gray-300"}`}>{v}</span>
-    : <span className="text-green-400 font-bold text-xs">{v}</span>;
-
 export default function ReadabilityCheckerPage() {
   return (
     <>
@@ -146,7 +108,7 @@ export default function ReadabilityCheckerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA)        }} />
 
       <ReadabilityCheckerClient>
-        <div className="mb-8">
+        <div className="mb-6">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">
             Writing Tools
           </div>
@@ -155,77 +117,14 @@ export default function ReadabilityCheckerPage() {
             Free Readability Checker — 7 Formulas, Sentence Map &amp; Famous Benchmarks
           </h1>
 
-          <p className="text-gray-400 max-w-2xl mb-3 leading-relaxed">
+          <p className="text-gray-400 max-w-2xl mb-2 leading-relaxed">
             The most complete free readability tool available. Calculate seven industry-standard
             readability scores simultaneously, set a target audience and see exactly how close
-            your text is, compare your writing to famous documents on a visual benchmark scale,
-            and identify problem sentences and complex words directly in your text. Every metric
-            updates live as you type — no button, no wait.
+            your text is, and compare your writing to famous documents. 
           </p>
-          <p className="text-gray-500 max-w-2xl mb-6 leading-relaxed text-sm">
-            Used by content writers, educators, UX writers, health communicators and SEO
-            professionals to verify writing is accessible, appropriately complex and
-            optimised for their target audience.
+          <p className="text-gray-500 max-w-2xl leading-relaxed text-sm">
+            Every metric updates live as you type — no button, no wait.
           </p>
-
-          {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            {FEATURES.map(f => (
-              <div key={f.title} className="bg-[#13131F] border border-white/5 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-xl">{f.icon}</span>
-                  <span className="text-sm font-bold text-white">{f.title}</span>
-                </div>
-                <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Use cases */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-5">
-            <h2 className="text-sm font-bold text-white mb-3">Who uses this tool?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {USE_CASES.map(u => (
-                <div key={u.who} className="flex gap-3">
-                  <span className="text-[#6C3AFF] font-extrabold text-sm flex-shrink-0 mt-0.5">→</span>
-                  <div>
-                    <span className="text-sm font-semibold text-white">{u.who}: </span>
-                    <span className="text-sm text-gray-400">{u.why}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Competitor table */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl overflow-x-auto">
-            <div className="px-5 pt-4 pb-2">
-              <h2 className="text-sm font-bold text-white">PursTech vs Hemingway vs WebFX vs Readable.io</h2>
-              <p className="text-xs text-gray-500 mt-0.5">Readability tool feature comparison</p>
-            </div>
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="border-b border-white/5">
-                  <th className="text-left px-5 py-2 text-gray-500 font-semibold">Feature</th>
-                  <th className="px-4 py-2 text-[#6C3AFF] font-bold">PursTech</th>
-                  <th className="px-4 py-2 text-gray-500">Hemingway</th>
-                  <th className="px-4 py-2 text-gray-500">WebFX</th>
-                  <th className="px-4 py-2 text-gray-500">Readable</th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPETITOR_TABLE.map((row, i) => (
-                  <tr key={i} className="border-b border-white/5 last:border-0">
-                    <td className="px-5 py-2.5 text-gray-400">{row.feature}</td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.purstech} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.hemingway} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.webfx} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.readable} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
       </ReadabilityCheckerClient>
     </>
