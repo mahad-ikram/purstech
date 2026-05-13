@@ -3,27 +3,27 @@ import React from "react";
 import IPLookupClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free IP Address Lookup — Location, ISP, ASN & Timezone | PursTech",
-  description: "Look up any IP address instantly. Get country, city, region, ISP, ASN, timezone, coordinates and currency. Auto-detects your own IP on load. Free, no login.",
-  keywords:    ["ip lookup","ip address lookup","find ip location","ip geolocation","whats my ip","ip address finder","asn lookup","ip location checker"],
+  title:       "Advanced IP Address Lookup — Risk Score, ISP & Reverse DNS | PursTech",
+  description: "Free advanced IP lookup. Get country, ISP classification, VPN/proxy risk score, reverse DNS hostname, live timezone clock and side-by-side comparison.",
+  keywords:    ["ip lookup", "advanced ip lookup", "ip address risk score", "reverse dns lookup", "isp classification", "vpn detection", "ip address location", "batch ip lookup"],
   openGraph: {
-    title:       "Free IP Address Lookup — Location, ISP & ASN | PursTech",
-    description: "Look up any IP — country, city, ISP, ASN, timezone, coordinates. Auto-shows your own IP. Free.",
+    title:       "Advanced IP Address Lookup — Risk Score & Reverse DNS | PursTech",
+    description: "Look up any IP with advanced metrics: risk score, ISP classification, reverse DNS, and live timezone clock. Free.",
     url:         "https://www.purstech.com/tools/ip-lookup",
     siteName:    "PursTech",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
-  twitter: { card: "summary_large_image", title: "Free IP Address Lookup | PursTech", images: ["/og-image.png"] },
+  twitter: { card: "summary_large_image", title: "Advanced IP Address Lookup | PursTech", images: ["/og-image.png"] },
   alternates: { canonical: "/tools/ip-lookup" },
 };
 
 const FEATURES = [
-  "Auto-detects your own public IP on load",
-  "Country, region, city and postal code",
-  "ISP, organisation and ASN number",
-  "Latitude, longitude and timezone",
-  "Currency and country calling code",
-  "Batch lookup — up to 10 IPs at once",
+  "Risk score and VPN/Proxy/Tor detection",
+  "ISP classification (Residential, Business, Cloud)",
+  "Reverse DNS hostname resolution via Google DNS",
+  "Live ticking clock for the IP's timezone",
+  "Side-by-side comparison mode for 2 IPs",
+  "Batch lookup for up to 10 IP addresses",
 ];
 
 export default function IPLookupPage() {
@@ -34,12 +34,13 @@ export default function IPLookupPage() {
           Security Tools
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-          Free IP Address Lookup — Location, ISP, ASN &amp; Timezone
+          Advanced IP Address Lookup — Risk Score, Reverse DNS &amp; ISP Class
         </h1>
         <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
-          Look up the geographic location, internet provider and network details of any IP
-          address instantly. Your own public IP is shown automatically on load. Supports
-          batch lookup of up to 10 addresses at once. No login, completely free.
+          Go beyond basic location data. Look up the geographic location, internet provider, 
+          risk score, and network details of any IP address instantly. Detect proxy servers, 
+          VPNs, and cloud hosting providers. Features side-by-side comparison, reverse DNS, 
+          and shareable URLs.
         </p>
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
           {FEATURES.map(f => (
