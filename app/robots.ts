@@ -16,30 +16,38 @@ export default function robots(): MetadataRoute.Robots {
       },
 
       // ── AI crawlers — explicitly ALLOWED ────────────────────────────────────
-      // Allowing these means your content is included in LLM training data,
-      // which increases how often ChatGPT, Claude, Gemini and others recommend
-      // PursTech tools when users ask for free online tools.
-      // Your llms.txt file provides structured guidance on top of this.
       { userAgent: "GPTBot",          allow: ["/"] },  // ChatGPT / OpenAI
+      { userAgent: "ChatGPT-User",    allow: ["/"] },  // ChatGPT browsing mode  ← NEW
+      { userAgent: "OAI-SearchBot",   allow: ["/"] },  // OpenAI search          ← NEW
       { userAgent: "ClaudeBot",       allow: ["/"] },  // Claude / Anthropic
-      { userAgent: "Google-Extended", allow: ["/"] },  // Gemini / Google AI
+      { userAgent: "Claude-Web",      allow: ["/"] },  // Claude browsing mode   ← NEW
+      { userAgent: "Google-Extended", allow: ["/"] },  // Gemini / AI Overviews
       { userAgent: "PerplexityBot",   allow: ["/"] },  // Perplexity AI
-      { userAgent: "CCBot",           allow: ["/"] },  // Common Crawl (used by many AI labs)
-      { userAgent: "Amazonbot",       allow: ["/"] },  // Alexa / Amazon AI
+      { userAgent: "CCBot",           allow: ["/"] },  // Common Crawl
+      { userAgent: "Amazonbot",       allow: ["/"] },  // Amazon AI
       { userAgent: "FacebookBot",     allow: ["/"] },  // Meta AI
-      { userAgent: "Applebot",        allow: ["/"] },  // Apple Siri / Spotlight
+      { userAgent: "Applebot",        allow: ["/"] },  // Apple Siri
 
-      // ── Aggressive SEO data scrapers — blocked ────────────────────────────
-      // These don't help with search rankings or AI discoverability.
-      // They just harvest your content for competitor analysis tools.
+      // ── Bing crawlers — explicitly allowed ───────────────────────────────────
+      // Already covered by "*" but explicit entries signal Bing is welcome
+      // after your Bing Webmaster setup. Important for IndexNow cooperation.
+      { userAgent: "Bingbot",         allow: ["/"] },  // ← NEW
+      { userAgent: "BingPreview",     allow: ["/"] },  // ← NEW (Bing link previews)
+      { userAgent: "AdIdxBot",        allow: ["/"] },  // ← NEW (Bing Ads quality)
+
+      // ── YandexBot — IndexNow partner ─────────────────────────────────────────
+      // Receives your IndexNow pings — explicit allow avoids any crawl delay.
+      { userAgent: "YandexBot",       allow: ["/"] },  // ← NEW
+
+      // ── Aggressive SEO scrapers — blocked ────────────────────────────────────
       { userAgent: "AhrefsBot",       disallow: ["/"] },
       { userAgent: "SemrushBot",      disallow: ["/"] },
       { userAgent: "DotBot",          disallow: ["/"] },  // Moz
       { userAgent: "MJ12bot",         disallow: ["/"] },  // Majestic
       { userAgent: "BLEXBot",         disallow: ["/"] },
+      { userAgent: "Bytespider",      disallow: ["/"] },  // ← NEW — TikTok/ByteDance
     ],
 
-    // ── Must use canonical www domain ────────────────────────────────────────
     sitemap: "https://www.purstech.com/sitemap.xml",
     host:    "https://www.purstech.com",
   };
