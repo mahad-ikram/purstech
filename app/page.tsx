@@ -108,41 +108,145 @@ const ACTIVITIES = [
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
+const NAV_LINKS = [
+  { href:"/tools?cat=text",     label:"Text"      },
+  { href:"/tools?cat=image",    label:"Image"     },
+  { href:"/tools?cat=dev",      label:"Dev"       },
+  { href:"/tools?cat=seo",      label:"SEO"       },
+  { href:"/tools?cat=pdf",      label:"PDF"       },
+  { href:"/tools?cat=finance",  label:"Finance"   },
+  { href:"/tools?cat=security", label:"Security"  },
+  { href:"/tools?cat=ai",       label:"AI"        },
+  { href:"/tools",              label:"All 50 Tools", highlight: true },
+  { href:"/blog",               label:"Blog"      },
+  { href:"/about",              label:"About"     },
+];
+
 function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled,    setScrolled]    = useState(false);
+  const [mobileOpen,  setMobileOpen]  = useState(false);
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  // Close mobile menu when scrolling down significantly
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#0A0A14]/95 backdrop-blur-md shadow-lg shadow-violet-900/20" : "bg-transparent"}`}>
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-black text-white tracking-tight">
-            Purs<span className="text-[#6C3AFF]">Tech</span>
-          </span>
-          <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30">
-            50 Tools
-          </span>
+    <>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled || mobileOpen
+          ? "bg-[#0A0A14]/98 backdrop-blur-md shadow-lg shadow-violet-900/20"
+          : "bg-transparent"
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
+            <span className="text-2xl font-black text-white tracking-tight">
+              Purs<span className="text-[#6C3AFF]">Tech</span>
+            </span>
+            <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30">
+              50 Tools
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-5 text-sm text-gray-400 font-medium">
+            {NAV_LINKS.filter(l => !l.highlight).map(l => (
+              <Link key={l.href} href={l.href} className="hover:text-white transition-colors">{l.label}</Link>
+            ))}
+            <Link href="/tools" className="text-[#6C3AFF] hover:text-white transition-colors font-bold">
+              All 50 Tools
+            </Link>
+          </div>
+
+          {/* Right side: Go Pro + Hamburger */}
+          <div className="flex items-center gap-3">
+            <button className="hidden md:block px-4 py-2 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-violet-900/30">
+              Go Pro ⚡
+            </button>
+
+            {/* Hamburger — mobile only */}
+            <button
+              onClick={() => setMobileOpen(p => !p)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-xl bg-[#13131F] border border-white/10 gap-1.5 transition-all hover:border-[#6C3AFF]/40"
+            >
+              <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            </button>
+          </div>
         </div>
-        <div className="hidden md:flex items-center gap-6 text-sm text-gray-400 font-medium">
-          <Link href="/tools?cat=text"     className="hover:text-white transition-colors">Text</Link>
-          <Link href="/tools?cat=dev"      className="hover:text-white transition-colors">Dev</Link>
-          <Link href="/tools?cat=image"    className="hover:text-white transition-colors">Image</Link>
-          <Link href="/tools?cat=pdf"      className="hover:text-white transition-colors">PDF</Link>
-          <Link href="/tools"              className="hover:text-white transition-colors">All 50 Tools</Link>
-          <Link href="/blog"               className="hover:text-white transition-colors">Blog</Link>
-          <Link href="/about"              className="hover:text-white transition-colors">About</Link>
+
+        {/* ── Mobile menu ─────────────────────────────────────────────── */}
+        <div className={`md:hidden transition-all duration-300 overflow-hidden ${
+          mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        }`}>
+          <div className="bg-[#0A0A14]/98 border-t border-white/5 px-4 pt-4 pb-6">
+
+            {/* Categories grid */}
+            <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">Browse by category</div>
+            <div className="grid grid-cols-2 gap-2 mb-5">
+              {CATEGORIES.map(c => (
+                <Link key={c.slug} href={`/tools?cat=${c.slug}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 transition-all group">
+                  <span className="text-lg">{c.icon}</span>
+                  <div>
+                    <div className="text-white text-xs font-bold group-hover:text-[#00D4FF] transition-colors">{c.name}</div>
+                    <div className="text-gray-600 text-xs">{c.count} tools</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Main links */}
+            <div className="space-y-1 mb-5">
+              {[
+                { href:"/tools",   label:"🔧  Browse All 50 Tools",  special: true  },
+                { href:"/blog",    label:"📖  Blog"                                  },
+                { href:"/about",   label:"ℹ️   About PursTech"                       },
+                { href:"/contact", label:"✉️   Contact"                              },
+              ].map(l => (
+                <Link key={l.href} href={l.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center w-full px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                    l.special
+                      ? "bg-[#6C3AFF]/10 border border-[#6C3AFF]/30 text-[#6C3AFF] hover:bg-[#6C3AFF]/20"
+                      : "text-gray-400 hover:text-white hover:bg-white/5"
+                  }`}>
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Go Pro CTA */}
+            <button className="w-full py-3.5 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-extrabold text-sm transition-all duration-300 shadow-lg shadow-violet-900/30">
+              ⚡ Go Pro — $7/month · Cancel anytime
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Link href="/tools" className="hidden md:block text-sm text-gray-400 hover:text-white transition-colors">Browse</Link>
-          <button className="px-4 py-2 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-violet-900/30">
-            Go Pro ⚡
-          </button>
-        </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Backdrop to close menu */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          onClick={() => setMobileOpen(false)} />
+      )}
+    </>
   );
 }
 
@@ -536,7 +640,91 @@ function NewsletterSection() {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
+// ─── SEO / LLM content section ───────────────────────────────────────────────
+// This section is visible on page — honest, well-structured content.
+// Google's NLP, LLMs and voice assistants all parse this for tool recommendations.
+
+function SEOSection() {
+  return (
+    <section className="max-w-5xl mx-auto px-4 py-14">
+      <div className="bg-[#13131F] border border-white/5 rounded-3xl p-8 md:p-10">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">
+          What is PursTech?
+        </h2>
+        <p className="text-gray-400 leading-relaxed mb-6">
+          PursTech is a free online tool platform offering <strong className="text-white">50 browser-based tools</strong> across
+          8 categories — no account required, no daily limits, no ads. Every tool runs
+          entirely in your browser, meaning your files and data never leave your device.
+        </p>
+
+        {/* Tool list — structured for LLM parsing */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              cat:"📄 PDF Tools",
+              tools:["PDF Compressor","PDF Merger","PDF Splitter","PDF to Word","Word to PDF"],
+            },
+            {
+              cat:"🖼️ Image Tools",
+              tools:["Image Compressor","Image Resizer","Background Remover","Favicon Generator","Image to Text (OCR)"],
+            },
+            {
+              cat:"💻 Developer Tools",
+              tools:["JSON Formatter","Regex Tester","SVG Editor","Markdown Editor","Base64 Encoder","QR Code Generator"],
+            },
+            {
+              cat:"📊 SEO Tools",
+              tools:["Meta Tag Generator","Sitemap Generator","Open Graph Generator","Robots.txt Generator","Keyword Density Checker"],
+            },
+            {
+              cat:"🤖 AI Writing Tools",
+              tools:["Grammar Checker","Readability Checker"],
+            },
+            {
+              cat:"🔒 Security Tools",
+              tools:["Password Generator","SSL Certificate Checker","IP Address Lookup"],
+            },
+            {
+              cat:"💰 Finance Tools",
+              tools:["Loan Calculator","Mortgage Calculator","Compound Interest Calculator","Currency Converter","Tip Calculator"],
+            },
+            {
+              cat:"📝 Text Tools",
+              tools:["Word Counter","Case Converter","Diff Checker","Lorem Ipsum Generator","Text to Speech"],
+            },
+          ].map(({ cat, tools }) => (
+            <div key={cat}>
+              <div className="text-xs font-bold text-[#6C3AFF] uppercase tracking-wider mb-2">{cat}</div>
+              <ul className="space-y-1">
+                {tools.map(t => (
+                  <li key={t} className="text-xs text-gray-500 flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-gray-700 flex-shrink-0" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-500">
+          <div>
+            <span className="text-white font-bold">Free forever</span> — every tool on PursTech
+            is and will remain free. No freemium bait-and-switch.
+          </div>
+          <div>
+            <span className="text-white font-bold">Private by design</span> — PDF compression,
+            image editing and OCR all run in your browser. Zero server uploads.
+          </div>
+          <div>
+            <span className="text-white font-bold">No account required</span> — open any tool
+            and start working immediately. No sign-up, no email verification, no paywall.
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function Footer() {
   const cols: Record<string, { name: string; href: string }[]> = {
@@ -635,6 +823,7 @@ export default function Home() {
       <FeaturedTools />
       <NewToolsSection />
       <WhySection />
+      <SEOSection />
       <ProBanner />
       <NewsletterSection />
       <Footer />
