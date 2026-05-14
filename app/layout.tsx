@@ -280,7 +280,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="target"       content="all" />
 
         {/* ── Canonical hint ────────────────────────────────────────────── */}
-        <link rel="canonical" href="https://www.purstech.com" />
+        
       </head>
       <body
         className={`${inter.className} bg-[#0A0A14] text-white antialiased`}
