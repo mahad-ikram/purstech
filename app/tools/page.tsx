@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import AllToolsClient from "./client";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -103,35 +104,49 @@ export default function AllToolsPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
 
-      {/* Server-rendered content — passes as children to client component.
-          Google reads this HTML before JS executes. */}
-      <AllToolsClient>
-        <div className="mb-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
-            All{" "}
-            <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] bg-clip-text text-transparent">
-              Free Tools
-            </span>
-          </h1>
-          <p className="text-gray-500 text-lg max-w-2xl mx-auto mb-5">
-            <strong className="text-white">50 tools</strong> across 8 categories —
-            PDF, image, developer, SEO, AI, finance, security and text.
-            No login. No limits. All free.
-          </p>
-
-          {/* Category quick-summary — server rendered for LLM + Google */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-4xl mx-auto mt-6 text-left">
-            {CATEGORY_HIGHLIGHTS.map(c => (
-              <div key={c.cat} className="bg-[#13131F] border border-white/5 rounded-xl px-3 py-2.5">
-                <div className="text-xs font-bold text-white mb-0.5">
-                  {c.emoji} {c.cat}
-                </div>
-                <div className="text-xs text-gray-600 leading-relaxed">{c.tools}</div>
-              </div>
-            ))}
-          </div>
+      {/* Suspense is required because AllToolsClient uses useSearchParams().
+          Without it Next.js cannot statically generate this page at build time. */}
+      <Suspense fallback={
+        <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+          <nav className="border-b border-white/5 px-4 py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <span className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></span>
+            </div>
+          </nav>
+          <main className="max-w-7xl mx-auto px-4 py-10">
+            <div className="text-center py-20 text-gray-600">Loading tools…</div>
+          </main>
         </div>
-      </AllToolsClient>
+      }>
+        <AllToolsClient>
+          {/* Server-rendered H1 + description (from page.tsx children) */}
+          <div className="mb-10 text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
+              All{" "}
+              <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] bg-clip-text text-transparent">
+                Free Tools
+              </span>
+            </h1>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto mb-5">
+              <strong className="text-white">50 tools</strong> across 8 categories —
+              PDF, image, developer, SEO, AI, finance, security and text.
+              No login. No limits. All free.
+            </p>
+
+            {/* Category summary — server-rendered for Google NLP + LLMs */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-4xl mx-auto mt-6 text-left">
+              {CATEGORY_HIGHLIGHTS.map(c => (
+                <div key={c.cat} className="bg-[#13131F] border border-white/5 rounded-xl px-3 py-2.5">
+                  <div className="text-xs font-bold text-white mb-0.5">
+                    {c.emoji} {c.cat}
+                  </div>
+                  <div className="text-xs text-gray-600 leading-relaxed">{c.tools}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </AllToolsClient>
+      </Suspense>
     </>
   );
 }
