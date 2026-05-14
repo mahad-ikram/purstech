@@ -1,62 +1,109 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
-// ─── All live tools (must match actual folder names in src/app/tools/) ────────
+// ─── All 50 live tools ────────────────────────────────────────────────────────
 
 const ALL_TOOLS = [
-  // Text
-  { icon:"📝", name:"Word Counter",         slug:"word-counter",         category:"text",     uses:"1.8M", badge:"⭐ Top"  },
-  { icon:"🔤", name:"Case Converter",        slug:"case-converter",       category:"text",     uses:"310K", badge:""        },
-  { icon:"📄", name:"Lorem Ipsum Generator", slug:"lorem-ipsum",          category:"text",     uses:"250K", badge:""        },
-  { icon:"🔍", name:"Diff Checker",          slug:"diff-checker",         category:"text",     uses:"290K", badge:""        },
-  { icon:"🔊", name:"Text to Speech",        slug:"text-to-speech",       category:"text",     uses:"380K", badge:""        },
-  // Dev
-  { icon:"💻", name:"JSON Formatter",        slug:"json-formatter",       category:"dev",      uses:"1.5M", badge:"⭐ Top"  },
-  { icon:"🔐", name:"Base64 Encoder",        slug:"base64-encoder",       category:"dev",      uses:"680K", badge:""        },
-  { icon:"🔗", name:"URL Encoder",           slug:"url-encoder",          category:"dev",      uses:"590K", badge:""        },
-  { icon:"🎲", name:"UUID Generator",        slug:"uuid-generator",       category:"dev",      uses:"510K", badge:""        },
-  { icon:"🔲", name:"QR Code Generator",     slug:"qr-code-generator",    category:"dev",      uses:"650K", badge:"🆕 New"  },
-  { icon:"🔑", name:"Hash Generator",        slug:"hash-generator",       category:"dev",      uses:"310K", badge:""        },
-  { icon:"🎨", name:"CSS Minifier",          slug:"css-minifier",         category:"dev",      uses:"260K", badge:""        },
-  { icon:"🗜️", name:"HTML Minifier",         slug:"html-minifier",        category:"dev",      uses:"280K", badge:""        },
-  // Image
-  { icon:"🎨", name:"Color Picker",          slug:"color-picker",         category:"image",    uses:"490K", badge:""        },
-  // Security
-  { icon:"🔐", name:"Password Generator",    slug:"password-generator",   category:"security", uses:"980K", badge:"🆕 New"  },
-  // Finance
-  { icon:"🎂", name:"Age Calculator",        slug:"age-calculator",       category:"finance",  uses:"410K", badge:""        },
-  { icon:"⚖️", name:"BMI Calculator",         slug:"bmi-calculator",       category:"finance",  uses:"360K", badge:""        },
-  { icon:"🔢", name:"Percentage Calculator",  slug:"percentage-calculator",category:"finance",  uses:"480K", badge:""        },
-  { icon:"📏", name:"Unit Converter",         slug:"unit-converter",       category:"finance",  uses:"320K", badge:""        },
-  { icon:"💱", name:"Currency Converter",     slug:"currency-converter",   category:"finance",  uses:"390K", badge:""        },
+  // ── Text (5) ────────────────────────────────────────────────────────────────
+  { icon:"📝", name:"Word Counter",              slug:"word-counter",              category:"text",     badge:"⭐ Top"  },
+  { icon:"🔤", name:"Case Converter",             slug:"case-converter",            category:"text",     badge:""        },
+  { icon:"📄", name:"Lorem Ipsum Generator",      slug:"lorem-ipsum",               category:"text",     badge:""        },
+  { icon:"🔍", name:"Diff Checker",               slug:"diff-checker",              category:"text",     badge:""        },
+  { icon:"🔊", name:"Text to Speech",             slug:"text-to-speech",            category:"text",     badge:""        },
+  // ── Dev (14) ────────────────────────────────────────────────────────────────
+  { icon:"💻", name:"JSON Formatter",             slug:"json-formatter",            category:"dev",      badge:"⭐ Top"  },
+  { icon:"🔐", name:"Base64 Encoder",             slug:"base64-encoder",            category:"dev",      badge:""        },
+  { icon:"🔗", name:"URL Encoder",                slug:"url-encoder",               category:"dev",      badge:""        },
+  { icon:"🎲", name:"UUID Generator",             slug:"uuid-generator",            category:"dev",      badge:""        },
+  { icon:"🔲", name:"QR Code Generator",          slug:"qr-code-generator",         category:"dev",      badge:""        },
+  { icon:"🔑", name:"Hash Generator",             slug:"hash-generator",            category:"dev",      badge:""        },
+  { icon:"🎨", name:"CSS Minifier",               slug:"css-minifier",              category:"dev",      badge:""        },
+  { icon:"🗜️", name:"HTML Minifier",              slug:"html-minifier",             category:"dev",      badge:""        },
+  { icon:"🧪", name:"Regex Tester",               slug:"regex-tester",              category:"dev",      badge:""        },
+  { icon:"⚡", name:"JS Minifier",                slug:"js-minifier",               category:"dev",      badge:""        },
+  { icon:"📝", name:"HTML to Markdown",           slug:"html-to-markdown",          category:"dev",      badge:""        },
+  { icon:"✍️", name:"Markdown Editor",            slug:"markdown-editor",           category:"dev",      badge:""        },
+  { icon:"🎨", name:"Color Code Converter",       slug:"color-code-converter",      category:"dev",      badge:""        },
+  { icon:"✦",  name:"SVG Editor",                 slug:"svg-editor",                category:"dev",      badge:"🆕 New"  },
+  // ── Image (6) ───────────────────────────────────────────────────────────────
+  { icon:"🎨", name:"Color Picker",               slug:"color-picker",              category:"image",    badge:""        },
+  { icon:"🗜️", name:"Image Compressor",           slug:"image-compressor",          category:"image",    badge:""        },
+  { icon:"📐", name:"Image Resizer",              slug:"image-resizer",             category:"image",    badge:""        },
+  { icon:"✂️", name:"Background Remover",         slug:"background-remover",        category:"image",    badge:""        },
+  { icon:"🏷",  name:"Favicon Generator",          slug:"favicon-generator",         category:"image",    badge:""        },
+  { icon:"📷", name:"Image to Text (OCR)",        slug:"image-to-text",             category:"image",    badge:"🔥 Hot"  },
+  // ── SEO (5) ─────────────────────────────────────────────────────────────────
+  { icon:"🏷",  name:"Meta Tag Generator",         slug:"meta-tag-generator",        category:"seo",      badge:"🔥 Hot"  },
+  { icon:"🤖", name:"Robots.txt Generator",        slug:"robots-txt-generator",      category:"seo",      badge:""        },
+  { icon:"🔍", name:"Keyword Density Checker",    slug:"keyword-density-checker",   category:"seo",      badge:""        },
+  { icon:"📊", name:"Open Graph Generator",       slug:"open-graph-generator",      category:"seo",      badge:""        },
+  { icon:"🗺",  name:"Sitemap Generator",           slug:"sitemap-generator",         category:"seo",      badge:""        },
+  // ── Finance (10) ────────────────────────────────────────────────────────────
+  { icon:"🎂", name:"Age Calculator",             slug:"age-calculator",            category:"finance",  badge:""        },
+  { icon:"⚖️", name:"BMI Calculator",              slug:"bmi-calculator",            category:"finance",  badge:""        },
+  { icon:"🔢", name:"Percentage Calculator",       slug:"percentage-calculator",     category:"finance",  badge:""        },
+  { icon:"📏", name:"Unit Converter",              slug:"unit-converter",            category:"finance",  badge:""        },
+  { icon:"💱", name:"Currency Converter",          slug:"currency-converter",        category:"finance",  badge:""        },
+  { icon:"🏦", name:"Loan Calculator",             slug:"loan-calculator",           category:"finance",  badge:""        },
+  { icon:"📈", name:"Compound Interest Calc",     slug:"compound-interest-calculator",category:"finance", badge:""       },
+  { icon:"🍽",  name:"Tip Calculator",              slug:"tip-calculator",            category:"finance",  badge:""        },
+  { icon:"🕐", name:"Time Zone Converter",        slug:"time-zone-converter",       category:"finance",  badge:""        },
+  { icon:"🏠", name:"Mortgage Calculator",        slug:"mortgage-calculator",       category:"finance",  badge:""        },
+  // ── Security (3) ────────────────────────────────────────────────────────────
+  { icon:"🔐", name:"Password Generator",         slug:"password-generator",        category:"security", badge:""        },
+  { icon:"🔒", name:"SSL Certificate Checker",    slug:"ssl-checker",               category:"security", badge:"🆕 New"  },
+  { icon:"🌐", name:"IP Address Lookup",          slug:"ip-lookup",                 category:"security", badge:"🆕 New"  },
+  // ── PDF (5) ─────────────────────────────────────────────────────────────────
+  { icon:"🗜️", name:"PDF Compressor",             slug:"pdf-compressor",            category:"pdf",      badge:"🆕 New"  },
+  { icon:"📑", name:"PDF Merger",                 slug:"pdf-merger",                category:"pdf",      badge:"🆕 New"  },
+  { icon:"✂️", name:"PDF Splitter",               slug:"pdf-splitter",              category:"pdf",      badge:"🆕 New"  },
+  { icon:"📝", name:"PDF to Word",                slug:"pdf-to-word",               category:"pdf",      badge:"🆕 New"  },
+  { icon:"📄", name:"Word to PDF",                slug:"word-to-pdf",               category:"pdf",      badge:"🆕 New"  },
+  // ── AI (2) ──────────────────────────────────────────────────────────────────
+  { icon:"✓",  name:"Grammar Checker",            slug:"grammar-checker",           category:"ai",       badge:"🆕 New"  },
+  { icon:"📊", name:"Readability Checker",        slug:"readability-checker",       category:"ai",       badge:"🆕 New"  },
 ];
 
-const FEATURED = ALL_TOOLS.slice(0, 12);
+// ─── Featured — best 12 across all categories ────────────────────────────────
+
+const FEATURED = [
+  "word-counter", "json-formatter", "image-compressor", "meta-tag-generator",
+  "pdf-compressor", "grammar-checker", "image-to-text", "qr-code-generator",
+  "ssl-checker", "password-generator", "regex-tester", "readability-checker",
+].map(slug => ALL_TOOLS.find(t => t.slug === slug)!).filter(Boolean);
+
+// ─── New this month — Batches 8 + 9 ─────────────────────────────────────────
+
+const NEW_TOOLS = ALL_TOOLS.filter(t => t.badge === "🆕 New").slice(0, 8);
+
+// ─── Categories ──────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  { icon:"📝", name:"Text Tools",    slug:"text",     count: ALL_TOOLS.filter(t=>t.category==="text").length,     color:"from-violet-600 to-violet-400" },
-  { icon:"🖼️", name:"Image Tools",   slug:"image",    count: ALL_TOOLS.filter(t=>t.category==="image").length,    color:"from-cyan-600 to-cyan-400"     },
-  { icon:"💻", name:"Dev Tools",     slug:"dev",      count: ALL_TOOLS.filter(t=>t.category==="dev").length,      color:"from-blue-600 to-blue-400"     },
-  { icon:"📊", name:"SEO Tools",     slug:"seo",      count: 0,                                                    color:"from-green-600 to-green-400"   },
-  { icon:"🤖", name:"AI Tools",      slug:"ai",       count: 0,                                                    color:"from-pink-600 to-pink-400"     },
-  { icon:"💰", name:"Finance Tools", slug:"finance",  count: ALL_TOOLS.filter(t=>t.category==="finance").length,  color:"from-yellow-600 to-yellow-400" },
-  { icon:"🔒", name:"Security",      slug:"security", count: ALL_TOOLS.filter(t=>t.category==="security").length, color:"from-red-600 to-red-400"       },
-  { icon:"📄", name:"PDF Tools",     slug:"pdf",      count: 0,                                                    color:"from-orange-600 to-orange-400" },
-];
+  { icon:"📝", name:"Text Tools",     slug:"text",     color:"from-violet-600 to-violet-400",  desc:"Write, format and analyse text" },
+  { icon:"🖼️", name:"Image Tools",    slug:"image",    color:"from-cyan-600 to-cyan-400",      desc:"Compress, resize and convert images" },
+  { icon:"💻", name:"Dev Tools",      slug:"dev",      color:"from-blue-600 to-blue-400",      desc:"JSON, regex, SVG, markdown and more" },
+  { icon:"📊", name:"SEO Tools",      slug:"seo",      color:"from-green-600 to-green-400",    desc:"Meta tags, sitemaps and robots" },
+  { icon:"🤖", name:"AI Tools",       slug:"ai",       color:"from-pink-600 to-pink-400",      desc:"Grammar check and readability" },
+  { icon:"💰", name:"Finance Tools",  slug:"finance",  color:"from-yellow-600 to-yellow-400",  desc:"Calculators and converters" },
+  { icon:"🔒", name:"Security",       slug:"security", color:"from-red-600 to-red-400",        desc:"Passwords, SSL and IP lookup" },
+  { icon:"📄", name:"PDF Tools",      slug:"pdf",      color:"from-orange-600 to-orange-400",  desc:"Compress, merge, split and convert PDFs" },
+].map(c => ({ ...c, count: ALL_TOOLS.filter(t => t.category === c.slug).length }));
 
-const TRENDING = ALL_TOOLS.map(t => t.name);
+// ─── Activity feed ───────────────────────────────────────────────────────────
 
 const ACTIVITIES = [
-  { flag:"🇺🇸", location:"New York, USA",     tool:"Image Compressor",   time:"2s ago"  },
-  { flag:"🇮🇳", location:"Mumbai, India",      tool:"JSON Formatter",     time:"5s ago"  },
-  { flag:"🇬🇧", location:"London, UK",         tool:"Word Counter",       time:"8s ago"  },
-  { flag:"🇩🇪", location:"Berlin, Germany",    tool:"PDF Compressor",     time:"12s ago" },
-  { flag:"🇧🇷", location:"São Paulo, Brazil",  tool:"QR Code Generator",  time:"15s ago" },
-  { flag:"🇵🇰", location:"Karachi, Pakistan",  tool:"Password Generator", time:"19s ago" },
-  { flag:"🇦🇺", location:"Sydney, Australia",  tool:"Color Picker",       time:"23s ago" },
-  { flag:"🇫🇷", location:"Paris, France",      tool:"Meta Tag Generator", time:"28s ago" },
+  { flag:"🇺🇸", location:"New York, USA",         tool:"Grammar Checker",        time:"2s ago"  },
+  { flag:"🇮🇳", location:"Mumbai, India",          tool:"JSON Formatter",         time:"4s ago"  },
+  { flag:"🇬🇧", location:"London, UK",             tool:"PDF Compressor",         time:"7s ago"  },
+  { flag:"🇩🇪", location:"Berlin, Germany",        tool:"Meta Tag Generator",     time:"11s ago" },
+  { flag:"🇧🇷", location:"São Paulo, Brazil",      tool:"Image Compressor",       time:"14s ago" },
+  { flag:"🇵🇰", location:"Karachi, Pakistan",      tool:"Readability Checker",    time:"18s ago" },
+  { flag:"🇫🇷", location:"Paris, France",          tool:"SSL Checker",            time:"22s ago" },
+  { flag:"🇦🇺", location:"Sydney, Australia",      tool:"IP Address Lookup",      time:"26s ago" },
+  { flag:"🇨🇦", location:"Toronto, Canada",        tool:"Password Generator",     time:"30s ago" },
+  { flag:"🇯🇵", location:"Tokyo, Japan",           tool:"QR Code Generator",      time:"35s ago" },
 ];
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
@@ -75,17 +122,18 @@ function Navbar() {
           <span className="text-2xl font-black text-white tracking-tight">
             Purs<span className="text-[#6C3AFF]">Tech</span>
           </span>
-          <span className="text-[10px] bg-[#6C3AFF]/30 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30">BETA</span>
+          <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30">
+            50 Tools
+          </span>
         </div>
         <div className="hidden md:flex items-center gap-6 text-sm text-gray-400 font-medium">
-          {CATEGORIES.slice(0, 4).map(cat => (
-            <Link key={cat.slug} href={`/categories/${cat.slug}`} className="hover:text-white transition-colors">
-              {cat.name.split(" ")[0]}
-            </Link>
-          ))}
-          <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
-          <Link href="/blog"  className="hover:text-white transition-colors">Blog</Link>
-          <Link href="/about" className="hover:text-white transition-colors">About</Link>
+          <Link href="/tools?cat=text"     className="hover:text-white transition-colors">Text</Link>
+          <Link href="/tools?cat=dev"      className="hover:text-white transition-colors">Dev</Link>
+          <Link href="/tools?cat=image"    className="hover:text-white transition-colors">Image</Link>
+          <Link href="/tools?cat=pdf"      className="hover:text-white transition-colors">PDF</Link>
+          <Link href="/tools"              className="hover:text-white transition-colors">All 50 Tools</Link>
+          <Link href="/blog"               className="hover:text-white transition-colors">Blog</Link>
+          <Link href="/about"              className="hover:text-white transition-colors">About</Link>
         </div>
         <div className="flex items-center gap-3">
           <Link href="/tools" className="hidden md:block text-sm text-gray-400 hover:text-white transition-colors">Browse</Link>
@@ -101,24 +149,23 @@ function Navbar() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function HeroSection() {
-  const [query, setQuery] = useState("");
-  const [count, setCount] = useState(1247839);
-  const [results, setResults] = useState<typeof ALL_TOOLS>([]);
+  const [query,       setQuery]       = useState("");
+  const [count,       setCount]       = useState(2847391);
+  const [results,     setResults]     = useState<typeof ALL_TOOLS>([]);
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    const id = setInterval(() => setCount(c => c + Math.floor(Math.random() * 3) + 1), 2000);
+    const id = setInterval(() => setCount(c => c + Math.floor(Math.random() * 4) + 1), 2000);
     return () => clearInterval(id);
   }, []);
 
   const handleSearch = (q: string) => {
     setQuery(q);
     if (q.trim().length > 1) {
-      const filtered = ALL_TOOLS.filter(t =>
+      setResults(ALL_TOOLS.filter(t =>
         t.name.toLowerCase().includes(q.toLowerCase()) ||
         t.category.toLowerCase().includes(q.toLowerCase())
-      );
-      setResults(filtered.slice(0, 6));
+      ).slice(0, 6));
       setShowResults(true);
     } else {
       setShowResults(false);
@@ -128,8 +175,9 @@ function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10   rounded-full blur-3xl pointer-events-none" />
 
+      {/* Live counter */}
       <div className="mb-6 flex items-center gap-2 bg-[#13131F] border border-[#6C3AFF]/30 rounded-full px-5 py-2 text-sm">
         <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
         <span className="text-gray-400">
@@ -146,50 +194,68 @@ function HeroSection() {
       </h1>
 
       <p className="mt-6 text-lg md:text-xl text-gray-400 text-center max-w-2xl leading-relaxed">
-        The World&apos;s Largest Free Tool Ecosystem.{" "}
-        <span className="text-white font-semibold">{ALL_TOOLS.length}+ tools</span>, powered by AI, built for everyone.
+        <span className="text-white font-semibold">50 free tools</span> across 8 categories —
+        text, image, dev, SEO, PDF, finance, security and AI.{" "}
+        No login. No limits.
       </p>
 
-      <div className="w-full max-w-2xl mt-10 relative">
-        <div className="flex flex-col sm:flex-row gap-3">
+      {/* Search */}
+      <div className="mt-10 w-full max-w-xl relative">
+        <div className="flex items-center gap-3 bg-[#13131F] border border-[#6C3AFF]/30 rounded-2xl px-5 py-4 focus-within:border-[#00D4FF]/60 transition-all">
+          <svg className="w-5 h-5 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
           <input
-            type="text" value={query}
-            onChange={e => handleSearch(e.target.value)}
-            onBlur={() => setTimeout(() => setShowResults(false), 200)}
-            placeholder={`Search ${ALL_TOOLS.length}+ tools… e.g. "compress image"`}
-            className="flex-1 px-6 py-4 rounded-xl bg-[#13131F] border border-[#6C3AFF]/40 text-white placeholder-gray-500 focus:outline-none focus:border-[#00D4FF] focus:shadow-[0_0_20px_rgba(0,212,255,0.15)] transition-all text-base"
+            value={query} onChange={e => handleSearch(e.target.value)}
+            onBlur={() => setTimeout(() => setShowResults(false), 150)}
+            placeholder="Search 50 tools — grammar checker, pdf compressor, svg editor…"
+            className="flex-1 bg-transparent text-white placeholder-gray-600 focus:outline-none text-sm"
           />
-          <Link href={`/tools${query ? `?search=${encodeURIComponent(query)}` : ""}`}
-            className="px-8 py-4 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] transition-all duration-300 font-bold text-white shadow-lg shadow-violet-900/40 whitespace-nowrap text-center">
-            🔍 Search
-          </Link>
+          {query && (
+            <button onClick={() => { setQuery(""); setShowResults(false); }} className="text-gray-600 hover:text-white">✕</button>
+          )}
         </div>
-
-        {/* Inline search results dropdown */}
         {showResults && results.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-[#13131F] border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50">
-            {results.map(tool => (
-              <Link key={tool.slug} href={`/tools/${tool.slug}`}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-[#6C3AFF]/10 transition-colors">
-                <span className="text-xl">{tool.icon}</span>
+          <div className="absolute top-full left-0 right-0 mt-2 bg-[#13131F] border border-white/10 rounded-2xl overflow-hidden z-30 shadow-2xl">
+            {results.map(t => (
+              <Link key={t.slug} href={`/tools/${t.slug}`}
+                className="flex items-center gap-3 px-5 py-3 hover:bg-[#6C3AFF]/10 transition-colors border-b border-white/5 last:border-0">
+                <span className="text-xl">{t.icon}</span>
                 <div>
-                  <div className="text-sm font-semibold text-white">{tool.name}</div>
-                  <div className="text-xs text-gray-500 capitalize">{tool.category}</div>
+                  <div className="text-white text-sm font-semibold">{t.name}</div>
+                  <div className="text-gray-500 text-xs capitalize">{t.category} tools</div>
                 </div>
-                <span className="ml-auto text-xs text-gray-600">→</span>
+                {t.badge && <span className="ml-auto text-xs text-[#6C3AFF] font-bold">{t.badge}</span>}
               </Link>
             ))}
-            <Link href={`/tools?search=${encodeURIComponent(query)}`}
-              className="flex items-center justify-center gap-2 px-4 py-3 bg-[#6C3AFF]/10 hover:bg-[#6C3AFF]/20 transition-colors text-[#6C3AFF] text-xs font-bold">
-              See all results →
-            </Link>
           </div>
         )}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8 text-sm text-gray-500 font-semibold">
-        {["✓ Free Forever","✓ No Login Required","✓ Instant Results","✓ AI-Powered","✓ Zero Ads on Tools"].map(b => (
-          <span key={b}>{b}</span>
+      {/* Quick category links */}
+      <div className="mt-6 flex flex-wrap justify-center gap-2">
+        {CATEGORIES.map(c => (
+          <Link key={c.slug} href={`/tools?cat=${c.slug}`}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 text-gray-400 hover:text-white text-xs font-semibold transition-all">
+            <span>{c.icon}</span>
+            <span>{c.name.split(" ")[0]}</span>
+            <span className="text-gray-700">{c.count}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Stats row */}
+      <div className="mt-12 grid grid-cols-3 gap-8 text-center">
+        {[
+          { value:"50",    label:"Free Tools",      sub:"across 8 categories" },
+          { value:"100%",  label:"Free Forever",    sub:"no sign-up required" },
+          { value:"∞",     label:"No Limits",       sub:"unlimited daily use"  },
+        ].map(s => (
+          <div key={s.label}>
+            <div className="text-3xl md:text-4xl font-black text-white">{s.value}</div>
+            <div className="text-sm font-bold text-[#6C3AFF] mt-1">{s.label}</div>
+            <div className="text-xs text-gray-600 mt-0.5">{s.sub}</div>
+          </div>
         ))}
       </div>
     </section>
@@ -199,72 +265,45 @@ function HeroSection() {
 // ─── Trending bar ─────────────────────────────────────────────────────────────
 
 function TrendingBar() {
+  const items = ALL_TOOLS.map(t => `${t.icon} ${t.name}`);
   return (
-    <div className="bg-[#13131F] border-y border-[#6C3AFF]/20 py-3 overflow-hidden">
-      <div className="flex items-center">
-        <div className="flex-shrink-0 flex items-center gap-2 px-4 border-r border-[#6C3AFF]/30 mr-4">
-          <span className="w-2 h-2 bg-[#FF3A6C] rounded-full animate-pulse" />
-          <span className="text-[#FF3A6C] font-bold text-xs uppercase tracking-widest whitespace-nowrap">Trending</span>
-        </div>
-        <div className="flex gap-8 animate-[scroll_30s_linear_infinite] whitespace-nowrap">
-          {[...TRENDING, ...TRENDING].map((name, i) => {
-            const tool = ALL_TOOLS.find(t => t.name === name);
-            return tool ? (
-              <Link key={i} href={`/tools/${tool.slug}`}
-                className="text-gray-400 hover:text-[#00D4FF] transition-colors text-sm font-medium">
-                {name}
-              </Link>
-            ) : (
-              <span key={i} className="text-gray-400 text-sm font-medium">{name}</span>
-            );
-          })}
+    <div className="border-y border-white/5 bg-[#0D0D1A] py-3 overflow-hidden">
+      <div className="flex items-center gap-3">
+        <span className="flex-shrink-0 text-xs font-bold text-[#FF3A6C] px-4 uppercase tracking-widest">
+          🔥 Trending
+        </span>
+        <div className="overflow-hidden flex-1">
+          <div className="flex gap-8 animate-[scroll_40s_linear_infinite] whitespace-nowrap">
+            {[...items, ...items].map((item, i) => (
+              <span key={i} className="text-xs text-gray-500 hover:text-gray-300 transition-colors cursor-default flex-shrink-0">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Live activity + stat pills ───────────────────────────────────────────────
+// ─── Live activity ────────────────────────────────────────────────────────────
 
 function LiveActivity() {
-  const [current, setCurrent] = useState(0);
+  const [idx, setIdx] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setCurrent(c => (c + 1) % ACTIVITIES.length), 2500);
+    const id = setInterval(() => setIdx(i => (i + 1) % ACTIVITIES.length), 2800);
     return () => clearInterval(id);
   }, []);
-  const act = ACTIVITIES[current];
-
+  const a = ACTIVITIES[idx];
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
-      <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-[#6C3AFF]/10 rounded-full flex items-center justify-center border border-[#6C3AFF]/20">
-            <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse" />
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm">
-              <span className="text-white font-semibold">{act.flag} {act.location}</span>
-              {" "}just used{" "}
-              <span className="text-[#6C3AFF] font-semibold">{act.tool}</span>
-            </p>
-            <p className="text-gray-600 text-xs mt-0.5">{act.time}</p>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-3 justify-center">
-          {[
-            { label:"Tools Live",     value:`${ALL_TOOLS.length}+`, color:"text-violet-400" },
-            { label:"Uses Today",     value:"48,293",               color:"text-cyan-400"   },
-            { label:"Countries",      value:"190+",                 color:"text-green-400"  },
-            { label:"Avg Load Time",  value:"0.3s",                 color:"text-yellow-400" },
-          ].map(s => (
-            <div key={s.label} className="bg-[#0A0A14] rounded-xl px-4 py-2 text-center border border-white/5">
-              <div className={`font-black text-lg ${s.color}`}>{s.value}</div>
-              <div className="text-gray-600 text-xs">{s.label}</div>
-            </div>
-          ))}
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-3 flex justify-center">
+      <div className="flex items-center gap-3 bg-[#13131F] border border-white/5 rounded-full px-5 py-2 text-xs text-gray-500 transition-all">
+        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
+        <span className="text-xl">{a.flag}</span>
+        <span>Someone in <strong className="text-white">{a.location}</strong> just used <strong className="text-[#00D4FF]">{a.tool}</strong></span>
+        <span className="text-gray-700">{a.time}</span>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -273,21 +312,25 @@ function LiveActivity() {
 function CategoryGrid() {
   return (
     <section className="max-w-7xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Browse by Category</h2>
-        <p className="text-gray-500 text-lg">
-          Over <span className="text-[#6C3AFF] font-bold">{ALL_TOOLS.length} tools</span> across 8 categories — and growing every day
+      <div className="text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+          8 Categories. 50 Tools. All Free.
+        </h2>
+        <p className="text-gray-500 max-w-xl mx-auto">
+          Every tool is completely free — no account, no daily limits, no watermarks.
         </p>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {CATEGORIES.map(cat => (
-          <Link key={cat.slug} href={`/categories/${cat.slug}`}
-            className="group relative bg-[#13131F] border border-white/5 rounded-2xl p-5 hover:border-[#6C3AFF]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-900/20 overflow-hidden">
-            <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-            <div className="text-3xl mb-3">{cat.icon}</div>
-            <div className="font-bold text-white text-sm mb-1">{cat.name}</div>
-            <div className="text-xs text-gray-500">{cat.count > 0 ? `${cat.count} tools` : "Coming soon"}</div>
-            <div className="absolute top-4 right-4 text-gray-700 group-hover:text-[#6C3AFF] transition-colors text-lg">→</div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {CATEGORIES.map(c => (
+          <Link key={c.slug} href={`/tools?cat=${c.slug}`}
+            className="group relative bg-[#13131F] border border-white/5 rounded-2xl p-5 hover:border-[#6C3AFF]/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+            <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity bg-gradient-to-br ${c.color}`} />
+            <div className="text-3xl mb-3">{c.icon}</div>
+            <div className="font-extrabold text-white text-sm mb-1">{c.name}</div>
+            <div className="text-xs text-gray-500 mb-3 leading-relaxed">{c.desc}</div>
+            <div className={`inline-flex items-center gap-1 text-xs font-bold bg-gradient-to-r ${c.color} bg-clip-text text-transparent`}>
+              {c.count} tools →
+            </div>
           </Link>
         ))}
       </div>
@@ -298,44 +341,133 @@ function CategoryGrid() {
 // ─── Featured tools ───────────────────────────────────────────────────────────
 
 function FeaturedTools() {
+  const [filter, setFilter] = useState("all");
+  const filtered = filter === "all" ? FEATURED : FEATURED.filter(t => t.category === filter);
+  const cats = ["all", ...new Set(FEATURED.map(t => t.category))];
+
   return (
-    <section className="max-w-7xl mx-auto px-4 py-16">
-      <div className="flex items-end justify-between mb-10">
+    <section className="max-w-7xl mx-auto px-4 py-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-2">🏆 Most Popular Tools</h2>
-          <p className="text-gray-500">Used by millions worldwide, every single day</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white">Most Used Tools</h2>
+          <p className="text-gray-500 text-sm mt-1">Handpicked from 50 tools across all categories</p>
         </div>
-        <Link href="/tools" className="hidden md:flex items-center gap-1 text-[#6C3AFF] hover:text-[#00D4FF] font-semibold transition-colors text-sm">
-          View all tools <span>→</span>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          {cats.map(c => (
+            <button key={c} onClick={() => setFilter(c)}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold capitalize transition-all border ${filter === c ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#13131F] border-white/5 text-gray-400 hover:text-white"}`}>
+              {c === "all" ? "All" : c}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {FEATURED.map(tool => (
-          <Link key={tool.slug} href={`/tools/${tool.slug}`}
-            className="group bg-[#13131F] border border-white/5 rounded-2xl p-5 hover:border-[#6C3AFF]/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-900/20">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {filtered.map(t => (
+          <Link key={t.slug} href={`/tools/${t.slug}`}
+            className="group bg-[#13131F] border border-white/5 rounded-2xl p-4 hover:border-[#6C3AFF]/40 transition-all duration-300 hover:-translate-y-0.5">
             <div className="flex items-start justify-between mb-3">
-              <span className="text-3xl">{tool.icon}</span>
-              {tool.badge && (
-                <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/20">
-                  {tool.badge}
-                </span>
+              <span className="text-2xl">{t.icon}</span>
+              {t.badge && (
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  t.badge === "⭐ Top"  ? "bg-violet-500/20 text-violet-400" :
+                  t.badge === "🔥 Hot"  ? "bg-orange-500/20 text-orange-400" :
+                  t.badge === "🆕 New"  ? "bg-cyan-500/20 text-cyan-400"    :
+                  "bg-gray-500/20 text-gray-400"
+                }`}>{t.badge}</span>
               )}
             </div>
-            <div className="font-bold text-white text-sm mb-1 group-hover:text-[#6C3AFF] transition-colors">
-              {tool.name}
+            <div className="font-bold text-white text-sm mb-1 group-hover:text-[#00D4FF] transition-colors leading-snug">
+              {t.name}
             </div>
-            <div className="text-xs text-gray-600 capitalize">{tool.category}</div>
-            <div className="mt-3 text-xs text-gray-500">
-              <span className="text-green-400 font-semibold">{tool.uses}</span> uses
-            </div>
+            <div className="text-xs text-gray-600 capitalize">{t.category} tools</div>
           </Link>
         ))}
       </div>
       <div className="text-center mt-8">
         <Link href="/tools"
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-[#13131F] border border-[#6C3AFF]/30 hover:border-[#6C3AFF] text-white font-bold transition-all hover:shadow-lg hover:shadow-violet-900/20">
-          View All {ALL_TOOLS.length}+ Tools →
+          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#13131F] border border-[#6C3AFF]/30 hover:border-[#6C3AFF]/60 text-white font-bold transition-all hover:-translate-y-0.5">
+          Browse all 50 tools →
         </Link>
+      </div>
+    </section>
+  );
+}
+
+// ─── New This Month ───────────────────────────────────────────────────────────
+
+function NewToolsSection() {
+  return (
+    <section className="max-w-7xl mx-auto px-4 py-10">
+      <div className="bg-gradient-to-br from-[#13131F] to-[#0d0d1a] border border-[#6C3AFF]/20 rounded-3xl p-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#6C3AFF]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00D4FF]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/20 border border-[#6C3AFF]/30 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-bold mb-2">
+              🆕 Just Launched
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white">New Tools This Month</h2>
+            <p className="text-gray-500 text-sm mt-1">PDF suite, SSL checker, IP lookup, grammar checker, SVG editor and more</p>
+          </div>
+          <Link href="/tools" className="text-sm text-[#00D4FF] hover:text-white transition-colors font-semibold flex-shrink-0">
+            See all new tools →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {NEW_TOOLS.map(t => (
+            <Link key={t.slug} href={`/tools/${t.slug}`}
+              className="group flex items-center gap-3 bg-[#0A0A14]/60 border border-white/5 hover:border-[#6C3AFF]/40 rounded-xl px-3 py-2.5 transition-all">
+              <span className="text-xl flex-shrink-0">{t.icon}</span>
+              <div>
+                <div className="text-white text-xs font-bold group-hover:text-[#00D4FF] transition-colors leading-snug">{t.name}</div>
+                <div className="text-gray-600 text-xs capitalize">{t.category}</div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Category badges for new batches */}
+        <div className="flex flex-wrap gap-2 mt-5">
+          {[
+            { label:"5 PDF Tools — compress, merge, split, convert",  color:"text-orange-400 bg-orange-400/10 border-orange-400/20" },
+            { label:"2 AI Tools — grammar & readability",             color:"text-pink-400 bg-pink-400/10 border-pink-400/20"       },
+            { label:"2 Security Tools — SSL checker & IP lookup",     color:"text-red-400 bg-red-400/10 border-red-400/20"          },
+            { label:"SVG Editor with React export",                    color:"text-blue-400 bg-blue-400/10 border-blue-400/20"       },
+          ].map(b => (
+            <span key={b.label} className={`text-xs font-semibold px-3 py-1 rounded-full border ${b.color}`}>
+              ✓ {b.label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Why PursTech ─────────────────────────────────────────────────────────────
+
+function WhySection() {
+  const points = [
+    { icon:"⚡", title:"Instant results",       desc:"Every tool runs in your browser. No upload wait, no processing queue — results appear as you type." },
+    { icon:"🔒", title:"Private by design",     desc:"Your files never touch our servers. PDF compression, OCR, image editing — all 100% client-side." },
+    { icon:"🌍", title:"Works everywhere",       desc:"Any browser, any device. No app install, no account, no extension required." },
+    { icon:"♾️", title:"Unlimited & free",       desc:"Every tool is free with no daily limits, no watermarks and no login wall — ever." },
+  ];
+  return (
+    <section className="max-w-7xl mx-auto px-4 py-14">
+      <div className="text-center mb-10">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Why 3 million people use PursTech</h2>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {points.map(p => (
+          <div key={p.title} className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
+            <div className="text-3xl mb-4">{p.icon}</div>
+            <div className="font-extrabold text-white text-base mb-2">{p.title}</div>
+            <div className="text-gray-500 text-sm leading-relaxed">{p.desc}</div>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -345,24 +477,21 @@ function FeaturedTools() {
 
 function ProBanner() {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-16">
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#6C3AFF] via-[#4B2CC0] to-[#00D4FF] p-px">
-        <div className="bg-[#0D0D1A] rounded-3xl p-10 md:p-14 text-center">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/20 border border-[#6C3AFF]/30 rounded-full px-4 py-1.5 text-sm text-[#6C3AFF] font-bold mb-6">
+    <section className="max-w-7xl mx-auto px-4 py-14">
+      <div className="relative bg-gradient-to-br from-[#1a0a2e] via-[#13131F] to-[#0a1a2e] border border-[#6C3AFF]/30 rounded-3xl p-10 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-[#6C3AFF]/5 rounded-3xl" />
+        <div className="relative">
+          <span className="inline-block bg-[#6C3AFF]/20 text-[#6C3AFF] text-xs font-bold px-4 py-1.5 rounded-full border border-[#6C3AFF]/30 mb-4">
             ⚡ PursTech Pro
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
-            Unlock Everything.
-            <br />
-            <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] bg-clip-text text-transparent">
-              Zero Limits.
-            </span>
+          </span>
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+            Unlock the Full Power
           </h2>
           <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8">
             Remove all limits, remove all ads, and get priority AI processing — for less than a coffee a week.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm">
-            {["✓ Unlimited tool usage","✓ Zero ads","✓ Priority AI processing","✓ API access","✓ Batch processing","✓ Early access to new tools"].map(f => (
+            {["✓ Unlimited usage","✓ Zero ads","✓ Priority AI","✓ API access","✓ Batch processing","✓ Early access"].map(f => (
               <span key={f} className="text-gray-300">{f}</span>
             ))}
           </div>
@@ -381,14 +510,14 @@ function ProBanner() {
 // ─── Newsletter ───────────────────────────────────────────────────────────────
 
 function NewsletterSection() {
-  const [email, setEmail] = useState("");
+  const [email,     setEmail]     = useState("");
   const [submitted, setSubmitted] = useState(false);
   return (
-    <section className="max-w-3xl mx-auto px-4 py-16 text-center">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Get 5 New Tools Every Week</h2>
+    <section className="max-w-3xl mx-auto px-4 py-14 text-center">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">New Tools Every Month</h2>
       <p className="text-gray-500 text-lg mb-8">
         Free. No spam. Unsubscribe anytime.{" "}
-        <span className="text-[#6C3AFF] font-semibold">12,400 subscribers</span> already in.
+        <span className="text-[#6C3AFF] font-semibold">18,400+ subscribers</span> already in.
       </p>
       {submitted ? (
         <div className="text-green-400 font-bold text-xl">🎉 You&apos;re in! Check your inbox.</div>
@@ -410,79 +539,80 @@ function NewsletterSection() {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 function Footer() {
-  const footerLinks: Record<string, { name: string; slug: string }[]> = {
-    "Text Tools":  [
-      { name:"Word Counter",   slug:"word-counter"   },
-      { name:"Case Converter", slug:"case-converter" },
-      { name:"Lorem Ipsum",    slug:"lorem-ipsum"    },
-      { name:"Diff Checker",   slug:"diff-checker"   },
-      { name:"Text to Speech", slug:"text-to-speech" },
+  const cols: Record<string, { name: string; href: string }[]> = {
+    "Text & Dev": [
+      { name:"Word Counter",      href:"/tools/word-counter"      },
+      { name:"JSON Formatter",    href:"/tools/json-formatter"    },
+      { name:"Regex Tester",      href:"/tools/regex-tester"      },
+      { name:"Markdown Editor",   href:"/tools/markdown-editor"   },
+      { name:"SVG Editor",        href:"/tools/svg-editor"        },
+      { name:"QR Code Generator", href:"/tools/qr-code-generator" },
     ],
-    "Dev Tools": [
-      { name:"JSON Formatter",  slug:"json-formatter"  },
-      { name:"Base64 Encoder",  slug:"base64-encoder"  },
-      { name:"URL Encoder",     slug:"url-encoder"     },
-      { name:"UUID Generator",  slug:"uuid-generator"  },
-      { name:"Hash Generator",  slug:"hash-generator"  },
+    "Image & SEO": [
+      { name:"Image Compressor",       href:"/tools/image-compressor"       },
+      { name:"Image Resizer",          href:"/tools/image-resizer"          },
+      { name:"Image to Text (OCR)",    href:"/tools/image-to-text"          },
+      { name:"Favicon Generator",      href:"/tools/favicon-generator"      },
+      { name:"Meta Tag Generator",     href:"/tools/meta-tag-generator"     },
+      { name:"Sitemap Generator",      href:"/tools/sitemap-generator"      },
     ],
-    "Finance Tools": [
-      { name:"Age Calculator",         slug:"age-calculator"         },
-      { name:"BMI Calculator",         slug:"bmi-calculator"         },
-      { name:"Percentage Calculator",  slug:"percentage-calculator"  },
-      { name:"Unit Converter",         slug:"unit-converter"         },
-      { name:"Currency Converter",     slug:"currency-converter"     },
+    "PDF & Finance": [
+      { name:"PDF Compressor",         href:"/tools/pdf-compressor"         },
+      { name:"PDF Merger",             href:"/tools/pdf-merger"             },
+      { name:"PDF Splitter",           href:"/tools/pdf-splitter"           },
+      { name:"Loan Calculator",        href:"/tools/loan-calculator"        },
+      { name:"Mortgage Calculator",    href:"/tools/mortgage-calculator"    },
+      { name:"Currency Converter",     href:"/tools/currency-converter"     },
     ],
-    "Other Tools": [
-      { name:"Password Generator", slug:"password-generator" },
-      { name:"QR Code Generator",  slug:"qr-code-generator"  },
-      { name:"Color Picker",       slug:"color-picker"       },
-      { name:"CSS Minifier",       slug:"css-minifier"       },
-      { name:"HTML Minifier",      slug:"html-minifier"      },
+    "AI & Security": [
+      { name:"Grammar Checker",        href:"/tools/grammar-checker"        },
+      { name:"Readability Checker",    href:"/tools/readability-checker"    },
+      { name:"SSL Certificate Checker",href:"/tools/ssl-checker"            },
+      { name:"IP Address Lookup",      href:"/tools/ip-lookup"              },
+      { name:"Password Generator",     href:"/tools/password-generator"     },
     ],
-    "Company": [
-      { name:"About Us",     slug:"/about"          },
-      { name:"All Tools",    slug:"/tools"          },
-      { name:"Blog",         slug:"/blog"           },
-      { name:"Go Pro",       slug:"/pro"            },
-      { name:"Contact",      slug:"/contact"        },
-      { name:"Privacy",      slug:"/privacy"        },
-      { name:"Terms",        slug:"/terms"          },
+    "PursTech": [
+      { name:"About Us",    href:"/about"    },
+      { name:"All 50 Tools",href:"/tools"    },
+      { name:"Blog",        href:"/blog"     },
+      { name:"Go Pro ⚡",   href:"/pro"      },
+      { name:"Contact",     href:"/contact"  },
+      { name:"Privacy",     href:"/privacy"  },
+      { name:"Terms",       href:"/terms"    },
     ],
   };
 
   return (
-    <footer className="border-t border-white/5 mt-10">
+    <footer className="border-t border-white/5 mt-8">
       <div className="max-w-7xl mx-auto px-4 py-14">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className="text-white font-bold text-sm mb-4">{category}</h3>
+          {Object.entries(cols).map(([section, links]) => (
+            <div key={section}>
+              <h3 className="text-white font-bold text-sm mb-4">{section}</h3>
               <ul className="space-y-2">
-                {links.map(link => (
-                  <li key={link.slug}>
-                    {link.slug.startsWith("/") ? (
-                      <Link href={link.slug} className="text-gray-600 hover:text-gray-400 text-xs transition-colors">
-                        {link.name}
-                      </Link>
-                    ) : (
-                      <Link href={`/tools/${link.slug}`} className="text-gray-600 hover:text-gray-400 text-xs transition-colors">
-                        {link.name}
-                      </Link>
-                    )}
+                {links.map(l => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="text-gray-600 hover:text-gray-400 text-xs transition-colors">
+                      {l.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
+
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className="text-xl font-black text-white">Purs<span className="text-[#6C3AFF]">Tech</span></span>
             <span className="text-gray-600 text-xs">— Stop Searching. Start Doing.</span>
           </div>
-          <div className="flex gap-6 text-xs text-gray-600">
-            <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <div className="text-xs text-gray-600">
+            50 free tools · 8 categories · 0 sign-ups required
+          </div>
+          <div className="flex gap-5 text-xs text-gray-600">
+            <Link href="/privacy"     className="hover:text-gray-400 transition-colors">Privacy</Link>
+            <Link href="/terms"       className="hover:text-gray-400 transition-colors">Terms</Link>
             <Link href="/sitemap.xml" className="hover:text-gray-400 transition-colors">Sitemap</Link>
           </div>
           <p className="text-gray-700 text-xs">© 2025 PursTech. All rights reserved.</p>
@@ -503,6 +633,8 @@ export default function Home() {
       <LiveActivity />
       <CategoryGrid />
       <FeaturedTools />
+      <NewToolsSection />
+      <WhySection />
       <ProBanner />
       <NewsletterSection />
       <Footer />
