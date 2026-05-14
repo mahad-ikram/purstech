@@ -15,7 +15,7 @@ const SCHEMA = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
-/* ── Content Arrays (Moved from page.tsx) ────────────────────────────────── */
+/* ── Content Arrays ────────────────────────────────── */
 const FEATURES = [
   { icon:"⏪", title:"Undo / Redo History",          desc:"Full edit history with Ctrl+Z / Ctrl+Y keyboard shortcuts. Every toolbar action and code change is tracked with a 50-step history stack." },
   { icon:"⚛️",  title:"Copy as React JSX",            desc:"Converts all SVG attributes to camelCase React equivalents (stroke-width → strokeWidth, class → className) for instant paste into .jsx/.tsx files." },
@@ -276,12 +276,14 @@ const ANIM_SNIPPETS = [
   { name:"Scale",   code:'    <animateTransform attributeName="transform" type="scale"\n      values="1;1.2;1" dur="1.5s" repeatCount="indefinite"/>'},
 ];
 
-/* ── SVG utilities ───────────────────────────────────────────────────────── */
+/* ── SVG utilities (Vercel-safe RegExp) ────────────────────────────────── */
+const htmlCommentRegex = new RegExp("", "g");
+
 function prettifySVG(svg: string): string {
   let indent = 0;
   return svg
     .replace(/></g, ">\n<")
-    .replace(//g, s => s) // preserve comments
+    .replace(htmlCommentRegex, s => s) // preserve comments
     .split("\n").filter(l => l.trim())
     .map(line => {
       const t = line.trim();
@@ -294,7 +296,7 @@ function prettifySVG(svg: string): string {
 
 function minifySVG(svg: string): string {
   return svg
-    .replace(//g, "")
+    .replace(htmlCommentRegex, "")
     .replace(/\s{2,}/g, " ")
     .replace(/\n/g, " ")
     .replace(/>\s+</g, "><")
@@ -304,9 +306,10 @@ function minifySVG(svg: string): string {
 }
 
 function optimizeSVG(svg: string): string {
+  const xmlRegex = new RegExp("<\\?xml[^?]*\\?>\\s*", "gi");
   return svg
-    .replace(/<\?xml[^?]*\?>\s*/gi, "")
-    .replace(//g, "")
+    .replace(xmlRegex, "")
+    .replace(htmlCommentRegex, "")
     .replace(/\s*xmlns:inkscape="[^"]*"/g, "")
     .replace(/\s*xmlns:sodipodi="[^"]*"/g, "")
     .replace(/\s*xmlns:dc="[^"]*"/g, "")
@@ -340,6 +343,7 @@ function makeResponsive(svg: string): string {
 }
 
 function toReactJSX(svg: string): string {
+  const xmlRegex = new RegExp("<\\?xml[^?]*\\?>\\s*", "gi");
   return `// Auto-generated React component\nexport default function SVGIcon({ width = 100, height = 100, className = "" }) {\n  return (\n    ` +
     svg
       .replace(/class=/g,           "className=")
@@ -359,8 +363,8 @@ function toReactJSX(svg: string): string {
       .replace(/marker-end=/g,      "markerEnd=")
       .replace(/xlink:href=/g,      "xlinkHref=")
       .replace(/xmlns:xlink=/g,     "xmlnsXlink=")
-      .replace(/<\?xml[^?]*\?>\s*/gi, "")
-      .replace(//g,  "")
+      .replace(xmlRegex,            "")
+      .replace(htmlCommentRegex,    "")
       .replace(/(<svg\s)/,          '$1className={className} ')
       .trim()
     + `\n  );\n}`;
@@ -425,7 +429,7 @@ export default function SVGEditorClient({ children }: { children?: React.ReactNo
   const [pngScale,   setPngScale]   = useState(2);
   const [copied,     setCopied]     = useState<string | null>(null);
   const [showTempl,  setShowTempl]  = useState(false);
-  const [activeTab,  setActiveTab]  = useState<"tree"|"colors"|"info"|"anim">("info");
+  const [activeTab,  setActiveTab]  = useState<"info"|"tree"|"colors"|"anim">("info");
 
   // Undo/Redo history
   const histRef    = useRef<string[]>([DEFAULT_SVG]);
