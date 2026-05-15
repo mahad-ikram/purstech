@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ColorCodeConverterClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Color Code Converter — HEX, RGB, HSL, CMYK, HSV & WCAG | PursTech",
+  title:       "Free Color Code Converter — HEX, RGB, HSL",
   description: "Convert color codes between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK instantly. Generate tints, shades, color schemes and check WCAG contrast ratios. Free, no login.",
   keywords:    ["color code converter","hex to rgb","rgb to hex","hex to hsl","color converter online","hsl rgb hex converter","cmyk to rgb"],
   openGraph: {
