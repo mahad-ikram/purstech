@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CompoundInterestClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Compound Interest Calculator — With Monthly Contributions & Growth Chart | PursTech",
+  title:       "Free Compound Interest Calculator",
   description: "Calculate compound interest with regular contributions, multiple compounding frequencies and a year-by-year growth breakdown. See how your money grows over time. Free, instant.",
   keywords:    ["compound interest calculator","investment calculator","savings growth calculator","future value calculator","compound interest with monthly contributions"],
   openGraph: {
