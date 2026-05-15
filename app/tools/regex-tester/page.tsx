@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import RegexTesterClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Regex Tester Online — Real-Time Match Highlighting & Explainer | PursTech",
+  title:       "Free Regex Tester — Live Match Highlighting",
   description: "Test and debug regular expressions instantly with real-time match highlighting, named group extraction, replace mode, 30+ pattern library and a plain-English regex explainer. Free, no login.",
   keywords:    ["regex tester","regular expression tester online","regex checker","javascript regex tester","regex debugger online free"],
   openGraph: {
