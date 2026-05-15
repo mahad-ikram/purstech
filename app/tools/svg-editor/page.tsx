@@ -3,7 +3,7 @@ import React from "react";
 import SVGEditorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Online SVG Editor — Live Preview, React Export, Optimizer & Animation | PursTech",
+  title:       "Free SVG Editor — React Export & Optimizer",
   description: "The most advanced free SVG editor online. Live code preview, shape toolbar, React JSX export, CSS data URI, SVG optimizer, Make Responsive, undo/redo, animation snippets, element tree and PNG export. No install.",
   keywords: [
     "svg editor online", "svg code editor", "edit svg online free", "svg viewer online",
