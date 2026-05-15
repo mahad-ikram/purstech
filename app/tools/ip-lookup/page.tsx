@@ -3,7 +3,7 @@ import React from "react";
 import IPLookupClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Advanced IP Address Lookup — Risk Score, ISP & Reverse DNS | PursTech",
+  title:       "Free IP Address Lookup — Location, ISP & Risk",
   description: "Free advanced IP lookup. Get country, ISP classification, VPN/proxy risk score, reverse DNS hostname, live timezone clock and side-by-side comparison.",
   keywords:    ["ip lookup", "advanced ip lookup", "ip address risk score", "reverse dns lookup", "isp classification", "vpn detection", "ip address location", "batch ip lookup"],
   openGraph: {
