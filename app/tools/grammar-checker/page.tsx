@@ -3,7 +3,7 @@ import React from "react";
 import GrammarCheckerClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Grammar Checker Online — Fix Grammar, Spelling, Style & Passive Voice | PursTech",
+  title:       "Free Grammar Checker — Style & Passive Voice",
   description: "The most advanced free grammar checker. Powered by LanguageTool's 6,000+ rules. In-text highlights, error breakdown chart, passive voice detection, tone analysis, adverb scanner and overused word finder. No login.",
   keywords: [
     "grammar checker", "free grammar checker online", "grammar and spell checker",
