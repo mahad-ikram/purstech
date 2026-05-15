@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PDFSplitterClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free PDF Splitter Online — Split PDF by Page, Range or Extract Pages | PursTech",
+  title:       "Free PDF Splitter — Split PDFs Online",
   description: "Split a PDF into individual pages or custom page ranges. Extract specific pages, remove pages, or split into equal parts. Download as separate PDFs or a ZIP. 100% browser-based.",
   keywords:    ["pdf splitter","split pdf online free","extract pages from pdf","pdf page extractor","separate pdf pages","split pdf into multiple files"],
   openGraph: {
