@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import FaviconGeneratorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Favicon Generator — Create favicon.ico, Apple Touch Icon & All Sizes | PursTech",
+  title:       "Free Favicon Generator — All 18 Sizes",
   description: "The most advanced free favicon generator online. Create favicons from image, text, emoji or pixel art. All 20 sizes, browser & device mockups, PWA manifest, ZIP download. No login.",
   keywords:    [
     "favicon generator","free favicon generator","create favicon online",
