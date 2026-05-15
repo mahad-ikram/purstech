@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import WordToPDFClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Word to PDF Converter Online — Convert Text or .txt to PDF | PursTech",
+  title:       "Free Word to PDF Converter Online",
   description: "Convert Word documents and plain text to PDF online for free. Upload a .txt or .doc file, or type/paste text directly. Choose page size, margins and font. 100% browser-based.",
   keywords:    ["word to pdf","convert word to pdf online free","text to pdf converter","txt to pdf","doc to pdf free","convert text to pdf"],
   openGraph: {
