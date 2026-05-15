@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import MortgageCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Mortgage Calculator — Monthly Payment, PITI & Amortization | PursTech",
+  title:       "Free Mortgage Calculator — PITI & PMI",
   description: "Calculate your full monthly mortgage payment including principal, interest, property tax, insurance, HOA and PMI. Affordability checker, amortization schedule and rent vs buy comparison.",
   keywords:    ["mortgage calculator","monthly mortgage payment","piti calculator","mortgage affordability calculator","home loan calculator","rent vs buy calculator"],
   openGraph: {
