@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PDFCompressorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free PDF Compressor Online — Reduce PDF File Size Instantly | PursTech",
+  title:       "Free PDF Compressor — Reduce PDF Size 80%",
   description: "Compress PDF files online for free. Reduce PDF size by up to 80% with three compression levels, metadata removal and batch processing. No upload to server — 100% browser-based.",
   keywords:    ["pdf compressor","compress pdf online free","reduce pdf size","pdf file size reducer","pdf optimizer","compress pdf without losing quality"],
   openGraph: {
