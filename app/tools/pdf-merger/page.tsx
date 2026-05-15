@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PDFMergerClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free PDF Merger Online — Combine PDF Files in Any Order | PursTech",
+  title:       "Free PDF Merger — Combine PDFs Online",
   description: "Merge multiple PDF files into one online for free. Drag to reorder, select page ranges from each file, set metadata on the merged PDF. 100% browser-based, no upload, instant.",
   keywords:    ["pdf merger","merge pdf files online free","combine pdf","pdf combiner","join pdf files","pdf joiner online"],
   openGraph: {
