@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ImageToTextClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Image to Text Converter — Best OCR Tool Online 2026 | PursTech",
+  title:       "Free Image to Text Converter — OCR Online",
   description: "Extract text from any image instantly with AI-powered OCR. Supports 30+ languages, word-level confidence, image preprocessing and clipboard paste. 100% free, browser-based, no upload.",
   keywords: [
     "image to text","ocr online free","extract text from image","image text extractor",
