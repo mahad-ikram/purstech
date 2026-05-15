@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import MarkdownEditorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Online Markdown Editor — Live Preview, GFM Tables & Export | PursTech",
+  title:       "Free Markdown Editor — Live Preview",
   description: "Write Markdown with a live split-pane preview. Full toolbar, GFM tables, task lists, code highlighting, word count, export as HTML or .md file. Free, no login, no account.",
   keywords:    ["markdown editor online","markdown live preview","online markdown editor","gfm editor","markdown to html editor free"],
   openGraph: {
