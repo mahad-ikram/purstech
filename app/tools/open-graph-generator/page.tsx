@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import OpenGraphClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Open Graph Tag Generator — Preview on 5 Platforms | PursTech",
+  title:       "Free Open Graph Generator — Live Social Previews",
   description: "Generate Open Graph and Twitter Card tags with live previews for Facebook, Twitter, LinkedIn, Discord and Slack. See exactly how your links look before sharing.",
   keywords:    ["open graph generator","og tag generator","facebook meta tags","social media preview tool","twitter card generator"],
   openGraph: {
