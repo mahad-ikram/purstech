@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ImageCompressorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Image Compressor Online — Reduce Image Size Without Losing Quality | PursTech",
+  title:       "Free Image Compressor — JPEG, PNG & WebP",
   description: "Compress JPEG, PNG and WebP images online for free. Reduce file size by up to 90% with a live before/after preview. No upload limit, no login, browser-based.",
   keywords:    ["image compressor online","compress images free","reduce image file size","jpeg compressor","png compressor online"],
   openGraph: {
