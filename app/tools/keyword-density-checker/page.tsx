@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import KeywordDensityClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Keyword Density Checker Online — N-gram Analysis & Readability | PursTech",
+  title:       "Free Keyword Density Checker",
   description: "Analyse keyword density, bigrams, trigrams and readability score in any text. Live keyword highlighter, top words table, CSV export — free, no login.",
   keywords:    ["keyword density checker","keyword frequency analyzer","n-gram analysis tool","flesch reading ease calculator","seo content analyzer"],
   openGraph: { title:"Free Keyword Density Checker | PursTech", description:"Analyse keyword density, n-grams and readability in any text. Free SEO tool.", url:"https://purstech.com/tools/keyword-density-checker", siteName:"PursTech", images:[{url:"/og-image.png",width:1200,height:630}] },
