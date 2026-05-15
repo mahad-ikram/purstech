@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import HtmlToMarkdownClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free HTML to Markdown Converter Online — Instant, Clean Output | PursTech",
+  title:       "Free HTML to Markdown Converter",
   description: "Convert HTML to Markdown instantly in your browser. Preserves headings, bold, italic, links, images, tables, code blocks and lists. GFM output, copy or download. Free, no login.",
   keywords:    ["html to markdown","html to markdown converter","convert html to markdown online","html markdown","turndown online"],
   openGraph: {
