@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import TipCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Tip Calculator — Split Bill, Per Person Amount & Custom Tip | PursTech",
+  title:       "Free Tip Calculator & Bill Splitter",
   description: "Calculate tip and split a restaurant bill in seconds. Set custom tip %, split among any number of people, add tax, and get per-person totals with rounding options. Free, instant.",
   keywords:    ["tip calculator","split bill calculator","restaurant tip calculator","how much to tip","tip split calculator"],
   openGraph: {
