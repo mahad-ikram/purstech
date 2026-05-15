@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import LoanCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Loan Calculator — Monthly Payment, Amortization & Interest | PursTech",
+  title:       "Free Loan Calculator — Amortization Schedule",
   description: "Calculate your exact monthly loan payment, total interest and full amortization schedule. See how extra payments save you thousands. Free, instant, no login.",
   keywords:    ["loan calculator","monthly payment calculator","amortization calculator","loan interest calculator","personal loan calculator free"],
   openGraph: {
