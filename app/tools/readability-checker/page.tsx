@@ -3,7 +3,7 @@ import React from "react";
 import ReadabilityCheckerClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Readability Checker — 7 Formulas, Sentence Map, Audience Targeting & Benchmarks | PursTech",
+  title:       "Free Readability Checker — 7 Formulas",
   description: "The most advanced free readability analyser. 7 formulas including Flesch, Gunning Fog, SMOG, ARI. Target audience matching, famous text benchmarks, sentence difficulty map, annotated text view and vocabulary richness score.",
   keywords: [
     "readability checker", "readability test online free", "flesch kincaid calculator",
