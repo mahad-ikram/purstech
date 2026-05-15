@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import RobotsTxtClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Robots.txt Generator Online — Create robots.txt Instantly | PursTech",
+  title:       "Free Robots.txt Generator  — Create robots.txt Instantly",
   description: "Generate a valid robots.txt file in seconds. Block AI bots, set CMS presets, test URLs against your rules and download — free, no login required.",
   keywords:    ["robots.txt generator","create robots.txt","robots.txt file generator","block ai bots robots.txt","seo robots.txt tool"],
   openGraph: { title:"Free Robots.txt Generator Online | PursTech", description:"Generate a valid robots.txt with CMS presets, AI bot blocking and live URL tester.", url:"https://purstech.com/tools/robots-txt-generator", siteName:"PursTech", images:[{url:"/og-image.png",width:1200,height:630}] },
