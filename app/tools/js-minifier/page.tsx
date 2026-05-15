@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import JSMinifierClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free JavaScript Minifier Online — Compress & Beautify JS Instantly | PursTech",
+  title:       "Free JavaScript Minifier Online",
   description: "Minify JavaScript code online for free. Remove comments, whitespace and dead code. See real compression stats, gzip size estimate and diff view. Also beautifies/formats JS. No login.",
   keywords:    ["javascript minifier","js minifier online","minify javascript free","compress javascript","js uglify online","javascript beautifier"],
   openGraph: {
