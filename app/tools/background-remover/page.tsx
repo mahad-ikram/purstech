@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BackgroundRemoverClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Background Remover Online — Remove Image Background Instantly | PursTech",
+  title:       "Free AI Background Remover Online",
   description: "Remove image backgrounds online for free. Click to select background color, adjust tolerance, and export as transparent PNG. No upload, 100% browser-based.",
   keywords:    ["background remover online free","remove image background","transparent background maker","remove white background","png background remover"],
   openGraph: {
