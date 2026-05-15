@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import TimeZoneClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Time Zone Converter — World Clock & Meeting Planner | PursTech",
+  title:       "Free Time Zone Converter — 65+ World Cities",
   description: "Convert time between any two time zones instantly. Live world clock for 500+ cities, DST-aware, best meeting time finder for remote teams. Free, no login.",
   keywords:    ["time zone converter","world clock","time zone calculator","meeting time zones","convert time zones online","dst time zone"],
   openGraph: {
