@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PDFToWordClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free PDF to Word Converter Online — Extract Text from PDF | PursTech",
+  title:       "Free PDF to Word Converter Online",
   description: "Convert PDF to Word or text online for free. Extract text from any PDF, preview the content, clean up formatting and download as .doc or .txt. 100% browser-based, no upload.",
   keywords:    ["pdf to word","pdf to word converter free","convert pdf to word online","extract text from pdf","pdf to doc free","pdf text extractor"],
   openGraph: {
