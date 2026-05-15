@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SitemapGeneratorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free XML Sitemap Generator Online — Smart Priority & Google Ping | PursTech",
+  title:       "Free XML Sitemap Generator — Smart Priority",
   description: "Generate a valid XML sitemap with smart auto-priority, bulk import, sitemap index mode and one-click Google ping. Download and submit in under 2 minutes.",
   keywords:    ["xml sitemap generator","sitemap.xml generator","create sitemap online","google sitemap tool","sitemap index generator"],
   openGraph: {
