@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import MetaTagGeneratorClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Online Meta Tag Generator — SEO Meta Tags in Seconds | PursTech",
+  title:       "Free Meta Tag Generator — Live SERP Preview",
   description: "Generate perfectly optimized HTML meta tags for SEO. Get an SEO grade, live mobile & desktop SERP preview, Open Graph, Twitter Card tags and more — free, no login.",
   keywords:    ["meta tag generator", "seo meta tags generator", "meta description generator", "open graph tag generator", "free meta tags tool"],
   openGraph: {
