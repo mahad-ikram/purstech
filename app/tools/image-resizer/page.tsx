@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ImageResizerClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Image Resizer Online — Resize Images to Any Dimension Instantly | PursTech",
+  title:       "Free Image Resizer — Social Media Presets",
   description: "Resize images online for free. Set custom dimensions, use social media presets (Instagram, Twitter, YouTube), lock aspect ratio and download in JPEG, PNG or WebP.",
   keywords:    ["image resizer online","resize image free","resize photo online","image resize tool","social media image resizer"],
   openGraph: {
