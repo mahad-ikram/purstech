@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About PursTech — The World's Largest Free Tool Ecosystem",
+  title: "About PursTech — Free Tool Platform",
   description:
     "Learn about PursTech — who we are, what we built, and why we believe every person on the internet deserves access to professional-grade tools for free.",
 };
