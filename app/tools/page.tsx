@@ -5,7 +5,7 @@ import AllToolsClient from "./client";
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title:       "All 50 Free Online Tools — PDF, Image, Dev, SEO, AI & More | PursTech",
+  title:       "All 50 Free Online Tools — Browse by Category",
   description: "Browse all 50 free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator, SSL checker, regex tester, readability checker and more across 8 categories.",
   keywords: [
     "free online tools", "all free tools", "pdf tools free", "image tools online",
