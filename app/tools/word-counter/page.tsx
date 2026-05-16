@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool";
 
 // ─── Word Counter Tool ────────────────────────────────────────────────────────
 
@@ -56,6 +57,8 @@ function StatCard({
 
 // ─── Main Tool Component ──────────────────────────────────────────────────────
 export default function WordCounterPage() {
+  useTrackTool("word-counter", "text");
+  
   const [text, setText] = useState("");
   const [copied, setCopied] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
