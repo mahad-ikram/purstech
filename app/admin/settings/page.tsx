@@ -18,8 +18,8 @@ export default function AdminSettingsPage() {
     notificationEmail:  "admin@purstech.com",
     siteName:           "PursTech",
     siteTagline:        "Stop Searching. Start Doing.",
-    googleAnalyticsId:  "",
-    adsenseId:          "",
+    googleAnalyticsId:  "G-NP2Q5W1K5L",
+    adsenseId:          "ca-pub-6963502356186067",
   });
 
   const [toast, setToast]     = useState("");
@@ -218,10 +218,12 @@ export default function AdminSettingsPage() {
 
           <div className="mt-4 space-y-2">
             {[
-              { name:"Stripe",     status:"Not connected", href:"https://stripe.com",          color:"text-gray-500" },
-              { name:"RapidAPI",   status:"Not connected", href:"https://rapidapi.com/provider",color:"text-gray-500" },
-              { name:"Cloudflare", status:"Connected ✓",   href:"https://cloudflare.com",       color:"text-green-400"},
-              { name:"Supabase",   status:"Connected ✓",   href:"https://supabase.com",         color:"text-green-400"},
+              { name:"Supabase",         status:"Connected ✓",      href:"https://supabase.com",          color:"text-green-400"  },
+              { name:"Vercel",           status:"Connected ✓",      href:"https://vercel.com",             color:"text-green-400"  },
+              { name:"Google Analytics", status:"Connected ✓",      href:"https://analytics.google.com",  color:"text-green-400"  },
+              { name:"Google AdSense",   status:"Pending Approval", href:"https://adsense.google.com",    color:"text-yellow-400" },
+              { name:"Stripe",           status:"Not connected",    href:"https://stripe.com",             color:"text-gray-500"   },
+              { name:"RapidAPI",         status:"Not connected",    href:"https://rapidapi.com/provider",  color:"text-gray-500"   },
             ].map((int) => (
               <div key={int.name} className="flex items-center justify-between py-2">
                 <span className="text-sm text-white">{int.name}</span>
