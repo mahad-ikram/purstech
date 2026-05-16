@@ -38,8 +38,8 @@ function MiniChart({ data, color }: { data: number[]; color: string }) {
 
 const STREAMS = [
   {
-    icon:"📢", name:"Google AdSense",    today:"$17.20", month:"$47.20",  projected:"$180",
-    status:"active", color:"#00D4FF",
+    icon:"📢", name:"Google AdSense",    today:"$0", month:"$0",  projected:"$180",
+    status:"not_started", color:"#00D4FF",
     tips:["Apply once you have 20+ live tools","Add ad slots in tool page sidebars","Avoid placing ads above the fold"],
   },
   {
@@ -68,7 +68,7 @@ const PROJECTIONS = [
 ];
 
 const MILESTONES = [
-  { goal:"Apply for AdSense",       done:false, desc:"Need 20+ live tools and original content" },
+  { goal:"Apply for AdSense ✓",     done:true,  desc:"Applied — ca-pub-6963502356186067, awaiting approval" },
   { goal:"Set up Stripe payments",  done:false, desc:"For PursTech Pro subscriptions" },
   { goal:"Join Canva Affiliate",    done:false, desc:"20% recurring commission per referral"    },
   { goal:"List API on RapidAPI",    done:false, desc:"Passive income from developers"           },
@@ -119,11 +119,11 @@ export default function AdminRevenuePage() {
             <p className="text-xs text-gray-500 mt-0.5">Projected based on traffic growth rate</p>
           </div>
           <div className="text-right">
-            <div className="text-xl font-extrabold text-[#00D4FF]">$17.20</div>
-            <div className="text-xs text-green-400">↑ Growing daily</div>
+            <div className="text-xl font-extrabold text-[#00D4FF]">$0.00</div>
+            <div className="text-xs text-yellow-400">⏳ Awaiting approval</div>
           </div>
         </div>
-        <MiniChart data={DAILY_ADSENSE} color="#00D4FF" />
+        <MiniChart data={Array(30).fill(0)} color="#00D4FF" />
         <div className="flex justify-between text-xs text-gray-600 mt-1">
           <span>30 days ago</span><span>Today</span>
         </div>
