@@ -82,8 +82,9 @@ export const BLOG_POSTS: Record<string, {
     updatedISO:   "2025-01-15T11:00:00Z",
     keywords:     ["image compression", "compress images online", "reduce image size", "lossless compression", "webp format"],
     relatedTools: [
-      { name: "Color Picker",      slug: "color-picker",      icon: "🎨" },
-      { name: "QR Code Generator", slug: "qr-code-generator", icon: "🔲" },
+      { name: "Image Compressor",  slug: "image-compressor",  icon: "🗜" },
+      { name: "Image Resizer",     slug: "image-resizer",     icon: "📐" },
+      { name: "Favicon Generator", slug: "favicon-generator", icon: "🏷" },
     ],
     faqs: [
       { q: "How much can I compress a JPEG without losing quality?", a: "Quality settings between 70 and 85 percent produce files 60 to 75 percent smaller than the original with no visible quality loss for most content." },
@@ -308,7 +309,7 @@ export const BLOG_POSTS: Record<string, {
     title:        "BMI Calculator: What Your Score Actually Means",
     slug:         "bmi-calculator-guide-what-your-score-means",
     excerpt:      "A complete guide to BMI — how it is calculated, what the categories mean, its limitations and how to use it alongside other health metrics.",
-    category:     "Health & Fitness",
+    category:     "Health",
     readTime:     "7 min read",
     publishedAt:  "January 9, 2025",
     updatedAt:    "January 15, 2025",
