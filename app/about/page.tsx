@@ -1,54 +1,172 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+// ─── Metadata ─────────────────────────────────────────────────────────────────
+// QA fixes applied:
+//  ✅ alternates.canonical added
+//  ✅ openGraph added
+//  ✅ twitter added
+//  ✅ robots added
+
 export const metadata: Metadata = {
   title: "About PursTech — Free Tool Platform",
+  // Renders as: "About PursTech — Free Tool Platform | PursTech" (47 chars ✅)
+
   description:
     "Learn about PursTech — who we are, what we built, and why we believe every person on the internet deserves access to professional-grade tools for free.",
+  // 153 chars ✅
+
+  alternates: { canonical: "/about" },
+
+  openGraph: {
+    type:        "website",
+    url:         "https://www.purstech.com/about",
+    siteName:    "PursTech",
+    title:       "About PursTech — Free Tool Platform",
+    description: "Learn about PursTech — who we are, what we built, and why 50 free browser-based tools are available to everyone with no login required.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "About PursTech" }],
+  },
+
+  twitter: {
+    card:        "summary_large_image",
+    title:       "About PursTech — Free Tool Platform",
+    description: "Who we are, what we built, and why 50 free tools are available to everyone — no login, no limits.",
+    images:      ["/og-image.png"],
+    creator:     "@purstech",
+  },
+
+  robots: {
+    index:  true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
+  },
 };
 
+// ─── JSON-LD Schemas ──────────────────────────────────────────────────────────
+// AboutPage + FAQPage schemas improve E-E-A-T and enable rich results.
+
+const ABOUT_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type":    "AboutPage",
+  "@id":      "https://www.purstech.com/about",
+  url:        "https://www.purstech.com/about",
+  name:       "About PursTech",
+  description:"PursTech is a free online tool platform offering 50 browser-based tools across 8 categories. No login required. All tools are free.",
+  inLanguage: "en-US",
+  isPartOf: { "@id": "https://www.purstech.com/#website" },
+  about:    { "@id": "https://www.purstech.com/#organization" },
+};
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type":    "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name:    "What is PursTech?",
+      acceptedAnswer: { "@type": "Answer", text: "PursTech is a free online tool platform providing 50 browser-based tools across 8 categories — text, image, developer, SEO, PDF, finance, security and AI. Every tool is free, requires no login, and processes data entirely in your browser for maximum privacy." },
+    },
+    {
+      "@type": "Question",
+      name:    "Who created PursTech?",
+      acceptedAnswer: { "@type": "Answer", text: "PursTech was built by a small team of developers and designers who were frustrated with the cluttered, ad-heavy tool websites available online. We built PursTech to create a single, clean destination for the most-used tools on the internet — designed from scratch to be fast, private and genuinely free." },
+    },
+    {
+      "@type": "Question",
+      name:    "How does PursTech make money if tools are free?",
+      acceptedAnswer: { "@type": "Answer", text: "PursTech is supported by non-intrusive display advertising through Google AdSense. We are also launching a Pro subscription for power users who need batch processing and API access. However, all 50 core tools will always remain completely free for everyone." },
+    },
+    {
+      "@type": "Question",
+      name:    "Is PursTech safe to use with sensitive data?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. All PursTech tools process data locally in your browser using client-side JavaScript. No files, text or data you enter into any tool is ever uploaded to our servers. We do not store, log or access your content. Your files and information remain entirely on your device." },
+    },
+    {
+      "@type": "Question",
+      name:    "How many tools does PursTech have?",
+      acceptedAnswer: { "@type": "Answer", text: "PursTech currently has 50 free tools across 8 categories: text tools (word counter, case converter, lorem ipsum), developer tools (JSON formatter, regex tester, SVG editor), image tools (compressor, background remover, OCR), SEO tools (meta tag generator, sitemap generator), PDF tools (compress, merge, split), finance tools (loan, mortgage, currency), security tools (password generator, SSL checker, IP lookup), and AI tools (grammar checker, readability checker)." },
+    },
+  ],
+};
+
+// ─── Page Data ────────────────────────────────────────────────────────────────
+
 const STATS = [
-  { value: "20+",  label: "Free Tools"         },
-  { value: "190+", label: "Countries Reached"  },
-  { value: "0",    label: "Login Required"     },
-  { value: "$0",   label: "Cost to Use"        },
+  { value: "50+", label: "Free Tools"        }, // ← Fixed from 20+
+  { value: "190+",label: "Countries Reached" },
+  { value: "0",   label: "Login Required"    },
+  { value: "$0",  label: "Cost to Use"       },
 ];
 
 const VALUES = [
   {
     icon: "🔓",
     title: "Free Forever",
-    desc:  "Every core tool on PursTech is free. No paywalls, no trial periods, no credit card required. We believe access to great tools should not depend on your budget.",
+    desc: "Every core tool on PursTech is free. No paywalls, no trial periods, no credit card required. We believe access to great tools should not depend on your budget.",
   },
   {
     icon: "🔒",
     title: "Private by Default",
-    desc:  "All tool processing happens in your browser. We never store what you type, paste or upload into any tool. Your data stays on your device.",
+    desc: "All tool processing happens in your browser. We never store what you type, paste or upload into any tool. Your data stays on your device.",
   },
   {
     icon: "⚡",
     title: "Instant Results",
-    desc:  "No waiting, no loading spinners. Every tool on PursTech delivers results the moment you need them — built for speed from the ground up.",
+    desc: "No waiting, no loading spinners. Every tool delivers results the moment you need them — built for speed from the ground up.",
   },
   {
     icon: "🤖",
     title: "Powered by AI",
-    desc:  "Our AI agents continuously research trending tools, build new ones, and write helpful content — so PursTech grows and improves every single day automatically.",
+    desc: "Our AI agents continuously research trending tools, build new ones, and write helpful content — so PursTech grows and improves automatically every day.",
   },
 ];
 
-const TEAM = [
+// ─── Popular Tools — internal linking (one per category) ──────────────────────
+const POPULAR_TOOLS = [
+  { icon:"💻", name:"JSON Formatter",        slug:"json-formatter",    category:"Dev"      },
+  { icon:"🗜", name:"Image Compressor",       slug:"image-compressor",  category:"Image"    },
+  { icon:"🏷", name:"Meta Tag Generator",     slug:"meta-tag-generator",category:"SEO"      },
+  { icon:"📝", name:"Word Counter",           slug:"word-counter",      category:"Text"     },
+  { icon:"🗜", name:"PDF Compressor",         slug:"pdf-compressor",    category:"PDF"      },
+  { icon:"✓",  name:"Grammar Checker",        slug:"grammar-checker",   category:"AI"       },
+  { icon:"🔐", name:"Password Generator",     slug:"password-generator",category:"Security" },
+  { icon:"🏦", name:"Loan Calculator",        slug:"loan-calculator",   category:"Finance"  },
+];
+
+const FAQ_ITEMS = [
   {
-    icon: "👨‍💻",
-    name: "The PursTech Team",
-    role: "Builders & Creators",
-    desc: "We are a small, passionate team of developers and designers who got tired of hunting across dozens of websites for basic tools. So we built one place that has everything.",
+    q: "What is PursTech?",
+    a: "PursTech is a free online tool platform providing 50 browser-based tools across 8 categories — text, image, developer, SEO, PDF, finance, security and AI. Every tool is free, requires no login, and processes data entirely in your browser.",
+  },
+  {
+    q: "Who created PursTech?",
+    a: "PursTech was built by a small team of developers and designers who were frustrated with the cluttered, ad-heavy tool websites available online. We built one clean, fast platform with everything in one place — designed from scratch to be free, private and genuinely useful.",
+  },
+  {
+    q: "How does PursTech make money if tools are free?",
+    a: "PursTech is supported by non-intrusive display advertising through Google AdSense. We are also launching a Pro subscription for power users who need batch processing and API access. However, all 50 core tools will always remain completely free for everyone.",
+  },
+  {
+    q: "Is PursTech safe to use with sensitive data?",
+    a: "Yes. All PursTech tools process data locally in your browser. No files, text or data you enter into any tool is ever uploaded to our servers. We do not store, log or access your content. Your information remains entirely on your device.",
+  },
+  {
+    q: "How many tools does PursTech have?",
+    a: "PursTech currently has 50 free tools across 8 categories: text tools, developer tools, image tools, SEO tools, PDF tools, finance tools, security tools and AI tools. We add new tools regularly and plan to expand significantly.",
   },
 ];
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+
+      {/* JSON-LD Schemas */}
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ABOUT_SCHEMA) }} />
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }} />
 
       {/* Navbar */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
@@ -60,6 +178,10 @@ export default function AboutPage() {
             <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
             <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
             <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
+            <Link href="/pro"
+              className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
+              Go Pro ⚡
+            </Link>
           </div>
         </div>
       </nav>
@@ -67,9 +189,9 @@ export default function AboutPage() {
       <main className="max-w-4xl mx-auto px-4 py-16">
 
         {/* Breadcrumb */}
-        <nav className="text-xs text-gray-600 mb-8 flex items-center gap-2">
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-8 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
-          <span>›</span>
+          <span aria-hidden="true">›</span>
           <span className="text-gray-400">About</span>
         </nav>
 
@@ -78,13 +200,21 @@ export default function AboutPage() {
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-4 py-1.5 text-xs text-[#6C3AFF] font-semibold mb-5">
             Our Story
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
+
+          {/* H1 — brand tagline */}
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
             We Built the Tool Website
             <br />
             <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] bg-clip-text text-transparent">
               We Always Wished Existed
             </span>
           </h1>
+
+          {/* H2 keyword subtitle — helps SEO without changing the brand H1 */}
+          <h2 className="text-base font-semibold text-[#6C3AFF] mb-5">
+            50 Free Online Tools · No Login · No Limits · 100% Browser-Based
+          </h2>
+
           <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
             Every day, millions of people search for simple tools — a word counter, a JSON formatter,
             a password generator. They land on cluttered, ad-heavy websites that barely work on mobile.
@@ -92,7 +222,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* Stats */}
+        {/* Stats — fixed: 50+ tools */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
           {STATS.map((s) => (
             <div key={s.label}
@@ -103,7 +233,7 @@ export default function AboutPage() {
           ))}
         </div>
 
-        {/* Our story */}
+        {/* Our Story */}
         <div className="bg-[#13131F] border border-white/5 rounded-3xl p-8 md:p-10 mb-16">
           <h2 className="text-2xl font-extrabold text-white mb-6">The Problem We Solved</h2>
           <div className="space-y-4 text-gray-400 leading-relaxed">
@@ -120,14 +250,14 @@ export default function AboutPage() {
               No hunting around.
             </p>
             <p>
-              We started with 20 of the most-searched tools on the internet — from word counters and
+              We started with the most-searched tools on the internet — from word counters and
               JSON formatters to QR code generators and password tools. Every single one was designed
               from scratch with three non-negotiable principles: it must be fast, it must be private,
-              and it must actually work.
+              and it must actually work. Today PursTech offers 50 free tools across 8 categories.
             </p>
             <p>
-              Today PursTech serves users in over 190 countries. We add new tools every week and our
-              AI-powered content system ensures every tool comes with clear documentation, how-to guides,
+              Today PursTech serves users in over 190 countries. We add new tools regularly and our
+              AI-powered system ensures every tool comes with clear documentation, how-to guides,
               and answers to the most common questions. We are just getting started.
             </p>
           </div>
@@ -160,34 +290,96 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Team */}
+        {/* Who We Are */}
         <div className="mb-16">
           <h2 className="text-2xl font-extrabold text-white text-center mb-8">Who We Are</h2>
-          {TEAM.map((member) => (
-            <div key={member.name}
-              className="bg-[#13131F] border border-white/5 rounded-2xl p-6 flex items-start gap-5">
-              <div className="w-14 h-14 bg-[#6C3AFF]/20 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
-                {member.icon}
-              </div>
-              <div>
-                <div className="font-extrabold text-white text-base">{member.name}</div>
-                <div className="text-[#6C3AFF] text-xs font-semibold mb-2">{member.role}</div>
-                <p className="text-gray-500 text-sm leading-relaxed">{member.desc}</p>
-              </div>
+          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 flex items-start gap-5">
+            <div className="w-14 h-14 bg-[#6C3AFF]/20 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
+              👨‍💻
             </div>
-          ))}
+            <div>
+              <div className="font-extrabold text-white text-base">The PursTech Team</div>
+              <div className="text-[#6C3AFF] text-xs font-semibold mb-2">Builders & Creators</div>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                We are a small, passionate team of developers and designers who got tired of hunting
+                across dozens of websites for basic tools. So we built one place that has everything —
+                50 free tools, no login, no clutter.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Popular Tools — internal linking ─────────────────────────────── */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-extrabold text-white text-center mb-4">
+            Try Our Most Popular Tools
+          </h2>
+          <p className="text-gray-500 text-sm text-center mb-8">
+            No login needed. Results in seconds. 50 tools across 8 categories.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {POPULAR_TOOLS.map((tool) => (
+              <Link
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                className="bg-[#13131F] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:border-[#6C3AFF]/40 hover:-translate-y-0.5 transition-all group"
+              >
+                <span className="text-2xl">{tool.icon}</span>
+                <span className="text-white text-xs font-semibold group-hover:text-[#00D4FF] transition-colors">
+                  {tool.name}
+                </span>
+                <span className="text-gray-600 text-[10px]">{tool.category}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/tools"
+              className="text-sm text-[#6C3AFF] hover:text-[#00D4FF] font-semibold transition-colors">
+              Browse all 50 free tools →
+            </Link>
+          </div>
+        </div>
+
+        {/* ── FAQ Section ── matches FAQPage schema ─────────────────────────── */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-extrabold text-white text-center mb-3">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-gray-500 text-sm text-center mb-8">
+            Common questions about PursTech
+          </p>
+
+          {/* Using HTML details/summary — no JS needed, works for crawlers */}
+          <div className="space-y-3">
+            {FAQ_ITEMS.map((item, i) => (
+              <details
+                key={i}
+                className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden group"
+              >
+                <summary className="flex items-center justify-between px-6 py-5 cursor-pointer hover:bg-white/[0.02] transition-colors list-none">
+                  <span className="font-semibold text-white text-sm pr-4">{item.q}</span>
+                  <span className="text-[#6C3AFF] text-xl font-bold flex-shrink-0 group-open:rotate-45 transition-transform duration-200">
+                    +
+                  </span>
+                </summary>
+                <div className="px-6 pb-5">
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
+                </div>
+              </details>
+            ))}
+          </div>
         </div>
 
         {/* CTA */}
         <div className="text-center bg-[#13131F] border border-white/5 rounded-3xl p-10">
           <h2 className="text-2xl font-extrabold text-white mb-3">Ready to Stop Searching?</h2>
           <p className="text-gray-500 mb-8 max-w-md mx-auto">
-            Browse our full collection of free tools — no account needed, no limits on the basics.
+            Browse our full collection of 50 free tools — no account needed, no limits.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/tools"
               className="px-8 py-4 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-bold transition-all shadow-lg shadow-violet-900/30">
-              Browse All Tools →
+              Browse All 50 Tools →
             </Link>
             <Link href="/contact"
               className="px-8 py-4 rounded-xl bg-[#13131F] border border-white/10 hover:border-[#6C3AFF]/40 text-white font-bold transition-all">
@@ -198,6 +390,7 @@ export default function AboutPage() {
 
       </main>
 
+      {/* Footer */}
       <footer className="border-t border-white/5 mt-20 py-8 text-center">
         <Link href="/" className="text-xl font-black">
           Purs<span className="text-[#6C3AFF]">Tech</span>
