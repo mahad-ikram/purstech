@@ -87,10 +87,13 @@ export const metadata: Metadata = {
     creator:     "@purstech",
   },
 
+  // ✅ QA FIX APPLIED: Modern dynamic icons setup
   icons: {
-    icon:     "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple:    "/apple-touch-icon.png",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-icon.png",
   },
 
   other: {
