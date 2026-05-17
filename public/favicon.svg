@@ -1,0 +1,30 @@
+<!-- app/icon.svg -->
+<!-- Modern browsers prefer SVG favicons — they scale perfectly at any size. -->
+<!-- Place this in the public/ folder as public/favicon.svg -->
+<!-- Then update layout.tsx icons to include it. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark background with rounded corners -->
+  <rect width="32" height="32" rx="7" fill="#0A0A14"/>
+
+  <!-- "P" in violet -->
+  <text
+    x="4"
+    y="24"
+    font-family="Arial, sans-serif"
+    font-weight="900"
+    font-size="18"
+    fill="#6C3AFF"
+    letter-spacing="-1"
+  >P</text>
+
+  <!-- "T" in cyan -->
+  <text
+    x="16"
+    y="24"
+    font-family="Arial, sans-serif"
+    font-weight="900"
+    font-size="18"
+    fill="#00D4FF"
+    letter-spacing="-1"
+  >T</text>
+</svg>
