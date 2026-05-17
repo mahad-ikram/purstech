@@ -2,29 +2,57 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { BLOG_POSTS } from "../data";
-import { ReadingProgress, TableOfContents, FAQSection } from "./ClientComponents";
+import { ReadingProgress, TableOfContents } from "./ClientComponents";
+
+// ─── Helper Functions ─────────────────────────────────────────────────────────
 
 function extractTOC(html: string): { id: string; text: string }[] {
   return [...html.matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)]
     .map(m => ({ id: m[1], text: m[2] }));
 }
 
+// ✅ QA ARCHITECTURE FIX: FAQ stays here as a pure Server Component
+function FAQSection({ faqs }: { faqs: { q: string; a: string }[] }) {
+  if (!faqs || faqs.length === 0) return null;
+  return (
+    <section className="mt-12">
+      <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
+      <div className="space-y-3">
+        {faqs.map((faq, i) => (
+          <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+            <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+              <span>{faq.q}</span>
+              <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{faq.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── SEO Metadata ─────────────────────────────────────────────────────────────
+
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await params;
   const post = BLOG_POSTS[slug];
-  if (!post) return { title: "Post Not Found | PursTech" };
+  if (!post) return { title: "Post Not Found" };
+  
+  const postUrl = `https://www.purstech.com/blog/${post.slug}`;
   
   return {
-    title:       `${post.title} | PursTech Blog`,
+    // ✅ CLAUDE'S FIX: Removed double branding. Layout adds "| PursTech" automatically.
+    title:       post.title,
     description: post.excerpt,
     keywords:    post.keywords,
-    authors:     [{ name: "PursTech Team" }],
-    alternates:  { canonical: `/blog/${post.slug}` },
+    authors:     [{ name: "PursTech Team", url: "https://www.purstech.com/about" }],
+    alternates:  { canonical: postUrl },
     openGraph: {
       type: "article", title: post.title, description: post.excerpt,
-      url: `https://purstech.com/blog/${post.slug}`, siteName: "PursTech",
+      url: postUrl, siteName: "PursTech",
       publishedTime: post.publishedISO, modifiedTime: post.updatedISO,
       authors: ["PursTech Team"], tags: post.keywords,
       images: [{ url: "/og-image.png", width: 1200, height: 630, alt: post.title }],
@@ -33,12 +61,19 @@ export async function generateMetadata(
       card: "summary_large_image", title: post.title,
       description: post.excerpt, images: ["/og-image.png"], creator: "@purstech",
     },
+    // ✅ CLAUDE'S FIX: Added explicit robots directives
+    robots: {
+      index: true, follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    }
   };
 }
 
 export function generateStaticParams() {
   return Object.keys(BLOG_POSTS).map(slug => ({ slug }));
 }
+
+// ─── Main Page Render ─────────────────────────────────────────────────────────
 
 export default async function BlogPostPage(
   { params }: { params: Promise<{ slug: string }> }
@@ -49,28 +84,34 @@ export default async function BlogPostPage(
 
   const toc       = extractTOC(post.content);
   const nextPosts = Object.values(BLOG_POSTS).filter(p => p.slug !== slug).slice(0, 3);
-  const shareUrl  = `https://purstech.com/blog/${post.slug}`;
+  
+  const shareUrl  = `https://www.purstech.com/blog/${post.slug}`;
   const shareEnc  = encodeURIComponent(shareUrl);
   const titleEnc  = encodeURIComponent(post.title);
 
+  // ── JSON-LD Schemas ─────────────────────────────────────────────────────────
   const articleSchema = {
     "@context": "https://schema.org", "@type": "BlogPosting",
     headline: post.title, description: post.excerpt,
-    image: "https://purstech.com/og-image.png",
+    image: "https://www.purstech.com/og-image.png",
     datePublished: post.publishedISO, dateModified: post.updatedISO,
-    author: { "@type": "Organization", name: "PursTech Team", url: "https://purstech.com/about" },
-    publisher: { "@type": "Organization", name: "PursTech",
-      logo: { "@type": "ImageObject", url: "https://purstech.com/favicon.ico" } },
-    mainEntityOfPage: { "@type": "WebPage", "@id": `https://purstech.com/blog/${post.slug}` },
+    author: { "@type": "Organization", name: "PursTech Team", url: "https://www.purstech.com/about" },
+    publisher: { 
+      "@type": "Organization", 
+      name: "PursTech",
+      // ✅ CLAUDE'S FIX: Use og-image.png for publisher logo instead of favicon
+      logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } 
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": shareUrl },
     keywords: post.keywords.join(", "),
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org", "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://purstech.com" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://purstech.com/blog" },
-      { "@type": "ListItem", position: 3, name: post.title, item: `https://purstech.com/blog/${post.slug}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.purstech.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.purstech.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: shareUrl },
     ],
   };
 
@@ -90,19 +131,22 @@ export default async function BlogPostPage(
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans selection:bg-[#6C3AFF]/30">
       <ReadingProgress />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema)    }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema)        }} />
 
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-1 bg-[#0A0A14]/95 backdrop-blur-md z-40">
+      {/* ✅ BOTH FIXES: Added Contact and Go Pro links */}
+      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
           <div className="flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
-            <Link href="/blog"  className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
+            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            <Link href="/contact" className="hidden sm:block text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
+            <Link href="/pro"     className="hidden sm:block px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
         </div>
       </nav>
@@ -132,7 +176,7 @@ export default async function BlogPostPage(
                 {post.excerpt}
               </p>
               <div className="flex items-center gap-4 pb-6 border-b border-white/5">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold flex-shrink-0">P</div>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold flex-shrink-0">PT</div>
                 <div>
                   <div className="text-sm font-semibold text-white" itemProp="author">PursTech Team</div>
                   <div className="text-xs text-gray-500 flex items-center gap-2 flex-wrap">
@@ -170,6 +214,7 @@ export default async function BlogPostPage(
               </div>
             )}
 
+            {/* ✅ QA ARCHITECTURE FIX: Render FAQ Section server-side directly here */}
             <FAQSection faqs={post.faqs} />
 
             <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
@@ -215,7 +260,7 @@ export default async function BlogPostPage(
               </div>
               <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center">
                 <div className="text-2xl mb-2">⚡</div>
-                <h3 className="font-bold text-white text-sm mb-1">Free Tools</h3>
+                <h3 className="font-bold text-white text-sm mb-1">50 Free Tools</h3>
                 <p className="text-gray-500 text-xs mb-4">No login. No limits. Instant results.</p>
                 <Link href="/tools" className="block w-full py-2.5 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all text-center">
                   Browse Tools →
@@ -226,11 +271,12 @@ export default async function BlogPostPage(
         </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-20 py-8 text-center">
+      <footer className="border-t border-white/5 mt-20 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms</Link>
+          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
