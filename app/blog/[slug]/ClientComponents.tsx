@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export function ReadingProgress() {
   const [progress, setProgress] = useState(0);
+
   useEffect(() => {
     const handler = () => {
       const el = document.documentElement;
@@ -25,6 +26,7 @@ export function ReadingProgress() {
 
 export function TableOfContents({ items }: { items: { id: string; text: string }[] }) {
   const [active, setActive] = useState("");
+  
   useEffect(() => {
     const handler = () => {
       const scrollY = window.scrollY + 120;
@@ -52,24 +54,5 @@ export function TableOfContents({ items }: { items: { id: string; text: string }
         ))}
       </ol>
     </div>
-  );
-}
-
-export function FAQSection({ faqs }: { faqs: { q: string; a: string }[] }) {
-  return (
-    <section className="mt-12">
-      <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
-      <div className="space-y-3">
-        {faqs.map((faq, i) => (
-          <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
-            <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
-              <span>{faq.q}</span>
-              <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
-            </summary>
-            <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{faq.a}</div>
-          </details>
-        ))}
-      </div>
-    </section>
   );
 }
