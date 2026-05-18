@@ -1,28 +1,81 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+// ─── Metadata ─────────────────────────────────────────────────────────────────
+
 export const metadata: Metadata = {
-  title: "Terms of Service | PursTech",
-  description: "PursTech Terms of Service — rules and conditions for using our free online tools.",
+  title: "Terms of Service",
+  description:
+    "Read PursTech's Terms of Service — rules for using our 50 free online tools, acceptable use policy, Pro subscription terms, disclaimers and liability limits.",
+  alternates: { canonical: "/terms" },
+  openGraph: {
+    type:        "website",
+    url:         "https://www.purstech.com/terms",
+    siteName:    "PursTech",
+    title:       "Terms of Service — PursTech",
+    description: "Rules and conditions for using PursTech's free tools. Covers acceptable use, Pro subscription, disclaimers and user content policy.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "PursTech Terms of Service" }],
+  },
+  twitter: {
+    card:        "summary_large_image",
+    title:       "Terms of Service — PursTech",
+    description: "Rules and conditions for using PursTech's free tools.",
+    images:      ["/og-image.png"],
+    creator:     "@purstech",
+  },
+  robots: {
+    index:  true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
 };
 
-const LAST_UPDATED = "January 8, 2025";
+// ─── JSON-LD Schema ───────────────────────────────────────────────────────────
+
+const BREADCRUMB_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.purstech.com" },
+    { "@type": "ListItem", position: 2, name: "Terms of Service", item: "https://www.purstech.com/terms" },
+  ],
+};
+
+const LAST_UPDATED = "May 2026";
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans selection:bg-[#6C3AFF]/30">
+      
+      {/* Schema Injection */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_SCHEMA) }} />
 
-      {/* Navbar */}
+      {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">
             Purs<span className="text-[#6C3AFF]">Tech</span>
           </Link>
-          <Link href="/" className="text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
+          <div className="hidden sm:flex items-center gap-4">
+            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
+            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            <Link href="/about"   className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
+            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
+            <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+          </div>
+          {/* Mobile fallback */}
+          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
       <main className="max-w-3xl mx-auto px-4 py-16">
+
+        {/* ── Breadcrumb ── */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-8 flex items-center gap-2">
+          <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
+          <span aria-hidden="true">›</span>
+          <span className="text-gray-400">Terms of Service</span>
+        </nav>
 
         {/* Header */}
         <div className="mb-12">
@@ -38,7 +91,7 @@ export default function TermsPage() {
           <Section title="1. Acceptance of Terms">
             <p>
               By accessing or using PursTech (&quot;the Service&quot;) at{" "}
-              <a href="https://purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">purstech.com</a>,
+              <a href="https://www.purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">www.purstech.com</a>,
               you agree to be bound by these Terms of Service (&quot;Terms&quot;). If you do not agree to these Terms,
               please do not use the Service. We reserve the right to update these Terms at any time.
               Continued use of the Service constitutes acceptance of any updated Terms.
@@ -189,7 +242,7 @@ export default function TermsPage() {
                 <a href="mailto:legal@purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">legal@purstech.com</a>
               </div>
               <div><span className="text-gray-500">Website: </span>
-                <a href="https://purstech.com/contact" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">purstech.com/contact</a>
+                <a href="https://www.purstech.com/contact" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">www.purstech.com/contact</a>
               </div>
             </div>
           </Section>
@@ -197,14 +250,16 @@ export default function TermsPage() {
         </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-20 py-8 text-center">
+      {/* ── Footer ── */}
+      <footer className="border-t border-white/5 mt-20 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
