@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool";
 
 const FAQ = [
   { q: "How does the automatic background removal work?", a: "PursTech uses a neural network model (ONNX Runtime) that runs entirely inside your browser using WebAssembly. The model analyses every pixel of your image to classify it as foreground or background and produces a clean transparent result. Your image is never sent to any server. On first use the model downloads (~5MB) and is cached locally for instant future use." },
@@ -10,16 +11,6 @@ const FAQ = [
   { q: "What types of images work best?", a: "The AI works on any type of image — people, animals, products, logos, cars and complex scenes. It produces particularly clean results on people, product photography and animals. For best results use a high-resolution image (at least 512×512px) with reasonable lighting." },
   { q: "Can I refine the result after automatic removal?", a: "Yes — after AI removal, use the Soft Eraser to remove remaining background patches and the Restore brush to bring back accidentally removed subject pixels. Both use a soft-edge brush for natural blending. Undo any number of steps and toggle between original and result at any time." },
 ];
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQ.map(f => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
 
 type ToolMode = "erase" | "restore";
 
@@ -96,6 +87,9 @@ export default function BackgroundRemoverClient() {
   const [undoStack,   setUndoStack]   = useState<ImageData[]>([]);
   const [isDrawing,   setIsDrawing]   = useState(false);
   const [dragging,    setDragging]    = useState(false);
+
+  // ✅ Track usage in Supabase → admin dashboard
+  useTrackTool("background-remover", "image");
 
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const origRef    = useRef<HTMLCanvasElement>(null);
@@ -250,19 +244,27 @@ export default function BackgroundRemoverClient() {
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
+      {/* ✅ QA FIX: Consistent Full Navbar */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+          <div className="hidden sm:flex items-center gap-4">
+            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
+            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            <Link href="/about"   className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
+            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
+            <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+          </div>
+          {/* Mobile Fallback */}
+          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
       <main className="max-w-5xl mx-auto px-4 py-10 flex-grow">
-        <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span>›</span>
           <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link>
@@ -518,11 +520,13 @@ export default function BackgroundRemoverClient() {
         </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-auto py-8 text-center">
+      {/* ✅ QA FIX: Consistent Full Footer */}
+      <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About</Link>
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
