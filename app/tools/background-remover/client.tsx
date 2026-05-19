@@ -4,6 +4,15 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool";
 
+// ── Related tools — shown in section below the FAQ ───────────────────────────
+const RELATED_TOOLS = [
+  { icon:"🗜",  name:"Image Compressor",  slug:"image-compressor"  },
+  { icon:"📐", name:"Image Resizer",      slug:"image-resizer"     },
+  { icon:"🏷",  name:"Favicon Generator",  slug:"favicon-generator" },
+  { icon:"🎨", name:"Color Picker",       slug:"color-picker"      },
+  { icon:"📷", name:"Image to Text (OCR)",slug:"image-to-text"     },
+];
+
 const FAQ = [
   { q: "How does the automatic background removal work?", a: "PursTech uses a neural network model (ONNX Runtime) that runs entirely inside your browser using WebAssembly. The model analyses every pixel of your image to classify it as foreground or background and produces a clean transparent result. Your image is never sent to any server. On first use the model downloads (~5MB) and is cached locally for instant future use." },
   { q: "Is my image uploaded anywhere?", a: "No. The AI model downloads to your device once and runs locally in your browser using WebAssembly. Your image is processed entirely in memory — nothing is ever transmitted over the internet. Safe for confidential product photos, personal photos and private documents." },
@@ -518,15 +527,74 @@ export default function BackgroundRemoverClient() {
             ))}
           </div>
         </div>
+
+        {/* ── Tips for Best Results ─────────────────────────────────────────── */}
+        <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
+          <h2 className="text-lg font-extrabold text-white mb-5">💡 Tips for Best Results</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { icon:"📐", tip:"Use high-resolution images",  desc:"At least 512×512px gives the AI more detail to work with and produces cleaner edges." },
+              { icon:"☀️", tip:"Good lighting helps",          desc:"Images with clear contrast between subject and background get the cleanest automatic removal." },
+              { icon:"🖌",  tip:"Use the Restore brush",       desc:"If the AI accidentally removes part of the subject, the Restore brush brings those pixels back with soft edges." },
+              { icon:"🎨", tip:"Try a background fill",        desc:"Add a solid colour behind your result to check for any remaining background artefacts before downloading." },
+              { icon:"📦", tip:"PNG preserves transparency",   desc:"Always download as PNG — JPEG doesn't support transparency and will add a white background automatically." },
+              { icon:"🔄", tip:"Model is cached after first use", desc:"The ~5MB AI model downloads once and is stored in your browser. All future removals are instant." },
+            ].map(t => (
+              <div key={t.tip} className="flex items-start gap-3">
+                <span className="text-xl flex-shrink-0 mt-0.5">{t.icon}</span>
+                <div>
+                  <div className="text-sm font-semibold text-white mb-1">{t.tip}</div>
+                  <div className="text-xs text-gray-500 leading-relaxed">{t.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Related Tools ─────────────────────────────────────────────────── */}
+        <div className="mt-12">
+          <h2 className="text-xl font-extrabold text-white mb-2">🔧 Related Image Tools</h2>
+          <p className="text-gray-500 text-sm mb-6">More free image tools — no login required</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            {RELATED_TOOLS.map(tool => (
+              <Link
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                className="group bg-[#13131F] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:border-[#6C3AFF]/40 hover:-translate-y-0.5 transition-all"
+              >
+                <span className="text-2xl">{tool.icon}</span>
+                <span className="text-white text-xs font-semibold group-hover:text-[#00D4FF] transition-colors leading-snug">
+                  {tool.name}
+                </span>
+                <span className="text-xs text-[#6C3AFF] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  Try it →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Pro CTA ───────────────────────────────────────────────────────── */}
+        <div className="mt-10 bg-gradient-to-r from-[#6C3AFF]/10 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-7 flex flex-col sm:flex-row items-center gap-6">
+          <div className="text-4xl">⚡</div>
+          <div className="flex-1 text-center sm:text-left">
+            <h3 className="font-extrabold text-white text-lg mb-1">Unlock PursTech Pro</h3>
+            <p className="text-gray-500 text-sm">Unlimited tool usage, zero ads, batch processing and API access — from $5/month.</p>
+          </div>
+          <Link href="/pro"
+            className="flex-shrink-0 px-7 py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-bold text-sm transition-all shadow-lg shadow-violet-900/30">
+            Get Pro →
+          </Link>
+        </div>
+
       </main>
 
-      {/* ✅ QA FIX: Consistent Full Footer */}
+      {/* ── Footer ── */}
       <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
