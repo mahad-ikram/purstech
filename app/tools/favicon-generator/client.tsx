@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Patch 2
 
 // ── FAQs ───────────────────────────────────────────────────────────────────────
-// faqSchema REMOVED — now server-rendered in page.tsx ✅ Patch 1
+
 const FAVICON_FAQ = [
   { q:"What is a favicon and why does my website need one?",
     a:"A favicon (short for 'favorites icon') is the small icon that appears in browser tabs, bookmarks, home screen shortcuts and search results. Without a favicon, browsers display a generic page icon — making your site look unfinished and less trustworthy. Google also displays favicons next to results in mobile search, making them a subtle but impactful SEO element." },
@@ -167,6 +167,7 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
 
   const uploadInputRef   = useRef<HTMLInputElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+  const chipCanvasRef    = useRef<HTMLCanvasElement>(null); // small browser-tab chip
 
   // Pixel undo helpers
   function pushPixelUndo(current: string[]) {
@@ -232,13 +233,13 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
     return canvas;
   }, [mode, uploadImg, bgType, bgColor, gradStops, shape, padding, text, font, fontWeight, textColor, emoji, pixelGrid]);
 
-  // Live preview
+  // Live preview — draws into both the large 128px card and the tiny 16px chip
   useEffect(() => {
-    const canvas = previewCanvasRef.current;
-    if (!canvas) return;
     const preview = renderToCanvas(128);
-    canvas.width = canvas.height = 128;
-    canvas.getContext("2d")!.drawImage(preview, 0, 0);
+    const main = previewCanvasRef.current;
+    if (main) { main.width = main.height = 128; main.getContext("2d")!.drawImage(preview, 0, 0); }
+    const chip = chipCanvasRef.current;
+    if (chip) { chip.width = chip.height = 16; chip.getContext("2d")!.drawImage(preview, 0, 0); }
   }, [renderToCanvas]);
 
   // Generate all sizes
@@ -324,7 +325,7 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
-      {/* faqSchema script REMOVED — now in page.tsx ✅ */}
+
 
       {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
@@ -737,7 +738,7 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
 
           {/* ── Right: Preview sidebar ── */}
           <div className="space-y-4">
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 sticky top-24">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 xl:sticky xl:top-24">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Live Preview</h3>
               <div className="flex justify-center mb-4">
                 <canvas ref={previewCanvasRef} className="w-32 h-32 rounded-2xl border border-white/10"
@@ -745,7 +746,7 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
               </div>
               <div className="space-y-2 text-xs text-gray-600">
                 <div className="flex items-center gap-2">
-                  <canvas ref={previewCanvasRef} className="w-4 h-4 rounded" style={{imageRendering:"pixelated"}} />
+                  <canvas ref={chipCanvasRef} className="w-4 h-4 rounded" style={{imageRendering:"pixelated"}} />
                   <span>Browser tab (16px)</span>
                 </div>
               </div>
