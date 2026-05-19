@@ -420,7 +420,7 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
             {/* Text Mode */}
             {mode === "text" && (
               <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-xs text-gray-500 font-medium block mb-1.5 uppercase tracking-wider">Text / Initial (max 3 chars)</label>
                     <input value={text} onChange={e => setText(e.target.value)} maxLength={3}
@@ -428,11 +428,12 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 font-medium block mb-1.5 uppercase tracking-wider">Text Color</label>
-                    <div className="flex gap-2">
-                      <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)}
-                        className="w-12 h-12 rounded-xl border border-white/10 bg-[#0A0A14] cursor-pointer" />
+                    <div className="flex gap-2 items-center">
+                      <label className="flex-shrink-0 cursor-pointer rounded-xl overflow-hidden border border-white/10" style={{ width:48, height:48, backgroundColor:textColor, display:"block" }}>
+                        <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="opacity-0 cursor-pointer block" style={{ width:48, height:48 }} />
+                      </label>
                       <input value={textColor} onChange={e => setTextColor(e.target.value)}
-                        className="flex-1 px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
+                        className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
                     </div>
                   </div>
                 </div>
@@ -581,10 +582,11 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
                 )}
                 {bgType === "solid" && (
                   <div className="flex gap-3 items-center">
-                    <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)}
-                      className="w-12 h-10 rounded-xl border border-white/10 bg-[#0A0A14] cursor-pointer" />
+                    <label className="flex-shrink-0 cursor-pointer rounded-xl overflow-hidden border border-white/10" style={{ width:48, height:40, backgroundColor:bgColor, display:"block" }}>
+                      <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="opacity-0 cursor-pointer block" style={{ width:48, height:40 }} />
+                    </label>
                     <input value={bgColor} onChange={e => setBgColor(e.target.value)}
-                      className="flex-1 px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
+                      className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
                   </div>
                 )}
               </div>
@@ -710,7 +712,7 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
                   </button>
                   {showManifest && (
                     <div className="mt-4 space-y-3">
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                           <label className="text-xs text-gray-500 mb-1 block">App Name</label>
                           <input value={appName} onChange={e => setAppName(e.target.value)}
@@ -718,11 +720,15 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
                         </div>
                         <div>
                           <label className="text-xs text-gray-500 mb-1 block">Theme Color</label>
-                          <div className="flex gap-2">
-                            <input type="color" value={themeColor} onChange={e => setThemeColor(e.target.value)}
-                              className="w-10 h-10 rounded-xl border border-white/10 bg-[#0A0A14] cursor-pointer" />
+                          <div className="flex gap-2 items-center">
+                            {/* Wrap in label — forces consistent 40×40 hit area on mobile Android Chrome */}
+                            <label className="flex-shrink-0 cursor-pointer rounded-xl overflow-hidden border border-white/10"
+                              style={{ width:40, height:40, backgroundColor:themeColor, display:"block" }}>
+                              <input type="color" value={themeColor} onChange={e => setThemeColor(e.target.value)}
+                                className="opacity-0 cursor-pointer block" style={{ width:40, height:40 }} />
+                            </label>
                             <input value={themeColor} onChange={e => setThemeColor(e.target.value)}
-                              className="flex-1 px-3 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
+                              className="flex-1 min-w-0 px-3 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#6C3AFF]/60 transition-all" />
                           </div>
                         </div>
                       </div>
