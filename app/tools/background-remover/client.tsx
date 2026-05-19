@@ -21,6 +21,7 @@ const FAQ = [
   { q: "Can I refine the result after automatic removal?", a: "Yes — after AI removal, use the Soft Eraser to remove remaining background patches and the Restore brush to bring back accidentally removed subject pixels. Both use a soft-edge brush for natural blending. Undo any number of steps and toggle between original and result at any time." },
 ];
 
+
 type ToolMode = "erase" | "restore";
 
 // ── Comparison Slider ─────────────────────────────────────────────────────────
@@ -97,7 +98,7 @@ export default function BackgroundRemoverClient() {
   const [isDrawing,   setIsDrawing]   = useState(false);
   const [dragging,    setDragging]    = useState(false);
 
-  // ✅ Track usage in Supabase → admin dashboard
+    // ✅ Track usage in Supabase → admin dashboard
   useTrackTool("background-remover", "image");
 
   const canvasRef  = useRef<HTMLCanvasElement>(null);
@@ -256,19 +257,13 @@ export default function BackgroundRemoverClient() {
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
-      {/* ✅ QA FIX: Consistent Full Navbar */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="hidden sm:flex items-center gap-4">
-            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
-            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
-            <Link href="/about"   className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
-            <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+          <div className="flex items-center gap-4">
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
-          {/* Mobile Fallback */}
-          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
@@ -512,33 +507,19 @@ export default function BackgroundRemoverClient() {
           </div>
         </div>
 
-        {/* FAQ */}
-        <div className="mt-10 max-w-3xl">
-          <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
-          <div className="space-y-3">
-            {FAQ.map((faq, i) => (
-              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
-                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
-                  <span>{faq.q}</span>
-                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
-                </summary>
-                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{faq.a}</div>
-              </details>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Tips for Best Results ─────────────────────────────────────────── */}
+        {/* ── 2. Tips for Best Results ──────────────────────────────────────── */}
+        {/* Immediately after How to Use — supplements the steps with       */}
+        {/* practical advice. Adds content depth for AdSense review.        */}
         <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <h2 className="text-lg font-extrabold text-white mb-5">💡 Tips for Best Results</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { icon:"📐", tip:"Use high-resolution images",  desc:"At least 512×512px gives the AI more detail to work with and produces cleaner edges." },
-              { icon:"☀️", tip:"Good lighting helps",          desc:"Images with clear contrast between subject and background get the cleanest automatic removal." },
-              { icon:"🖌",  tip:"Use the Restore brush",       desc:"If the AI accidentally removes part of the subject, the Restore brush brings those pixels back with soft edges." },
-              { icon:"🎨", tip:"Try a background fill",        desc:"Add a solid colour behind your result to check for any remaining background artefacts before downloading." },
-              { icon:"📦", tip:"PNG preserves transparency",   desc:"Always download as PNG — JPEG doesn't support transparency and will add a white background automatically." },
-              { icon:"🔄", tip:"Model is cached after first use", desc:"The ~5MB AI model downloads once and is stored in your browser. All future removals are instant." },
+              { icon:"📐", tip:"Use high-resolution images",     desc:"At least 512×512px gives the AI more detail to work with and produces cleaner edges."                                                    },
+              { icon:"☀️", tip:"Good lighting helps",             desc:"Images with clear contrast between subject and background get the cleanest automatic removal."                                           },
+              { icon:"🖌",  tip:"Use the Restore brush",          desc:"If the AI accidentally removes part of the subject, the Restore brush brings those pixels back with soft edges."                       },
+              { icon:"🎨", tip:"Try a background fill",           desc:"Add a solid colour behind your result to check for any remaining background artefacts before downloading."                              },
+              { icon:"📦", tip:"PNG preserves transparency",      desc:"Always download as PNG — JPEG doesn't support transparency and will add a white background automatically."                              },
+              { icon:"🔄", tip:"Model is cached after first use", desc:"The ~5MB AI model downloads once and is stored in your browser. All future removals are instant."                                       },
             ].map(t => (
               <div key={t.tip} className="flex items-start gap-3">
                 <span className="text-xl flex-shrink-0 mt-0.5">{t.icon}</span>
@@ -551,7 +532,8 @@ export default function BackgroundRemoverClient() {
           </div>
         </div>
 
-        {/* ── Related Tools ─────────────────────────────────────────────────── */}
+        {/* ── 3. Related Tools ──────────────────────────────────────────────── */}
+        {/* QA checklist ct5 — keeps users on site, improves PageRank flow.  */}
         <div className="mt-12">
           <h2 className="text-xl font-extrabold text-white mb-2">🔧 Related Image Tools</h2>
           <p className="text-gray-500 text-sm mb-6">More free image tools — no login required</p>
@@ -574,7 +556,9 @@ export default function BackgroundRemoverClient() {
           </div>
         </div>
 
-        {/* ── Pro CTA ───────────────────────────────────────────────────────── */}
+        {/* ── 4. Pro CTA ────────────────────────────────────────────────────── */}
+        {/* After user has seen the tool value + related tools. Best         */}
+        {/* conversion position — just before the FAQ closes the page.      */}
         <div className="mt-10 bg-gradient-to-r from-[#6C3AFF]/10 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-7 flex flex-col sm:flex-row items-center gap-6">
           <div className="text-4xl">⚡</div>
           <div className="flex-1 text-center sm:text-left">
@@ -587,14 +571,32 @@ export default function BackgroundRemoverClient() {
           </Link>
         </div>
 
+        {/* ── 5. FAQ — always last before footer ────────────────────────────── */}
+        {/* FAQ at the bottom matches every major landing page pattern       */}
+        {/* (Stripe, Notion, Linear). Users who scroll to FAQ are already   */}
+        {/* engaged. Placing it last means they consume all content first.  */}
+        <div className="mt-16">
+          <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
+          <div className="space-y-3">
+            {FAQ.map((faq, i) => (
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{faq.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{faq.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+
       </main>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
+      <footer className="border-t border-white/5 mt-auto py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
