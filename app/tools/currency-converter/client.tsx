@@ -147,19 +147,20 @@ export default function CurrencyConverterClient() {
               {/* From */}
               <div className="mb-4">
                 <label className="text-xs text-gray-500 font-medium block mb-2 uppercase tracking-wider">Amount</label>
-                <div className="flex gap-3">
+                {/* ✅ QA FIX: Mobile responsiveness (stack on small screens) */}
+                <div className="flex flex-col sm:flex-row gap-3">
                   <input type="number" value={amount} onChange={e => setAmount(e.target.value)} min="0"
-                    className="flex-1 px-4 py-4 rounded-xl bg-[#0A0A14] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-2xl font-extrabold" />
+                    className="w-full sm:flex-1 px-4 py-4 rounded-xl bg-[#0A0A14] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-2xl font-extrabold" />
                   <select value={from} onChange={e => setFrom(e.target.value)}
-                    className="w-48 px-4 py-4 rounded-xl bg-[#0A0A14] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-sm font-semibold">
+                    className="w-full sm:w-48 px-4 py-4 rounded-xl bg-[#0A0A14] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-sm font-semibold">
                     {Object.entries(RATES).map(([code, info]) => (
                       <option key={code} value={code}>{info.flag} {code} — {info.name}</option>
                     ))}
                   </select>
                 </div>
                 
-                {/* ✅ Quick amount presets */}
-                <div className="flex gap-2 mt-2">
+                {/* Quick amount presets */}
+                <div className="flex flex-wrap gap-2 mt-3">
                   {[1, 10, 100, 1000, 10000].map(n => (
                     <button key={n} onClick={() => setAmount(String(n))}
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all border ${
@@ -186,9 +187,10 @@ export default function CurrencyConverterClient() {
               {/* To — ✅ UI Enhancement: copy button added */}
               <div>
                 <label className="text-xs text-gray-500 font-medium block mb-2 uppercase tracking-wider">Converted To</label>
-                <div className="flex gap-3">
-                  <div className="flex-1 px-4 py-4 rounded-xl bg-[#0A0A14] border border-[#6C3AFF]/20 flex items-center justify-between gap-2">
-                    <span className="text-[#6C3AFF] text-2xl font-extrabold">
+                {/* ✅ QA FIX: Mobile responsiveness (stack on small screens) */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="w-full sm:flex-1 px-4 py-4 rounded-xl bg-[#0A0A14] border border-[#6C3AFF]/20 flex items-center justify-between gap-2 overflow-hidden">
+                    <span className="text-[#6C3AFF] text-2xl font-extrabold truncate">
                       {RATES[to].symbol}{formatAmount(result)}
                     </span>
                     <button onClick={handleCopyResult}
@@ -198,7 +200,7 @@ export default function CurrencyConverterClient() {
                     </button>
                   </div>
                   <select value={to} onChange={e => setTo(e.target.value)}
-                    className="w-48 px-4 py-4 rounded-xl bg-[#0A0A14] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-sm font-semibold">
+                    className="w-full sm:w-48 px-4 py-4 rounded-xl bg-[#0A0A14] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-sm font-semibold">
                     {Object.entries(RATES).map(([code, info]) => (
                       <option key={code} value={code}>{info.flag} {code} — {info.name}</option>
                     ))}
@@ -299,7 +301,6 @@ export default function CurrencyConverterClient() {
               </div>
             </div>
 
-            {/* ✅ Fixed: was <button> not <Link> */}
             <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center">
               <div className="text-2xl mb-2">⚡</div>
               <h3 className="font-bold text-white text-sm mb-1">PursTech Pro</h3>
