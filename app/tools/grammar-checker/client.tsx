@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
+import { useTrackTool } from "@/hooks/useTrackTool"; 
 
 /* ── Content Arrays ──────────────────────────────────────────────────────── */
 const FEATURES = [
@@ -211,7 +211,7 @@ const SAMPLE = `Their are many reasons why good writing matter. Firstly, it help
 
 /* ── Main Component ──────────────────────────────────────────────────────── */
 export default function GrammarCheckerClient({ children }: { children?: React.ReactNode }) {
-  // ✅ Track usage in Supabase → admin dashboard
+  // ✅ Track usage
   useTrackTool("grammar-checker", "ai");
 
   const [input,    setInput]    = useState(SAMPLE);
@@ -222,8 +222,6 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   const [checked,  setChecked]  = useState(false);
   const [apiError, setApiError] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>("highlights");
-  const [copied,   setCopied]   = useState<string | null>(null);
-
   const [copiedCorrected, setCopiedCorrected] = useState(false);
 
   /* Grammar check via LanguageTool free API */
@@ -243,7 +241,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
       setChecked(true);
       setViewMode("highlights");
     } catch (err) {
-      setApiError(`Check failed: ${String(err)}. LanguageTool may be temporarily unavailable — please try again.`);
+      setApiError(`Check failed: ${String(err)}. LanguageTool may be temporarily unavailable.`);
     }
     setChecking(false);
   }, [input, language]);
@@ -302,14 +300,8 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   /* Client-side analysis */
   const analysis = useMemo(() => analyseText(input), [input]);
 
-  /* Error density (errors per 100 words) */
+  /* Error density */
   const density = analysis.words > 0 ? Math.round((matches.length / analysis.words) * 100 * 10) / 10 : 0;
-
-  /* Copy helpers */
-  const copy = (key: string, text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(key); setTimeout(() => setCopied(null), 1500);
-  };
 
   /* Download error report */
   const downloadReport = () => {
@@ -351,7 +343,8 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
+    // ✅ CRITICAL QA FIX: added overflow-x-hidden to root div to prevent page-wide horizontal blowout
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -363,14 +356,12 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
             <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
-          {/* Mobile Fallback */}
           <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow">
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full">
         
-        {/* ✅ QA FIX: Responsive Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
@@ -398,7 +389,6 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         </div>
 
         {/* ── Language + hint ───────────────────────────────────────────── */}
-        {/* ✅ QA FIX: Stack on mobile to prevent flex blowout */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
           <select value={language} onChange={e => setLanguage(e.target.value)}
             className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#13131F] border border-white/10 text-white text-sm focus:outline-none focus:border-[#6C3AFF]/50 transition-all">
@@ -411,7 +401,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
 
           {/* Left: editor + result views */}
-          <div className="xl:col-span-3 space-y-4">
+          <div className="xl:col-span-3 space-y-4 min-w-0">
             {/* Text editor */}
             <div className="relative">
               <textarea value={input} onChange={e => { setInput(e.target.value); setChecked(false); setMatches([]); }}
@@ -436,12 +426,11 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
             {/* View toggle */}
             {checked && (
-              <div>
-                {/* ✅ QA FIX: wrap toggle buttons on small screens */}
-                <div className="flex flex-wrap gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl w-fit mb-3">
+              <div className="min-w-0">
+                <div className="flex flex-wrap gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl w-full sm:w-fit mb-3">
                   {(["highlights","corrected","diff"] as ViewMode[]).map(v => (
                     <button key={v} onClick={() => setViewMode(v)}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${viewMode === v ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"}`}>
+                      className={`flex-1 sm:flex-none px-4 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${viewMode === v ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"}`}>
                       {v === "highlights" ? "🔍 Highlights" : v === "corrected" ? "✅ Corrected" : "🔄 Diff"}
                     </button>
                   ))}
@@ -449,9 +438,9 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
                 {/* Highlights view */}
                 {viewMode === "highlights" && (
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 overflow-hidden">
                     {segments && matches.length > 0 ? (
-                      <div className="text-sm leading-loose whitespace-pre-wrap">
+                      <div className="text-sm leading-loose whitespace-pre-wrap break-words">
                         {segments.map((seg, i) =>
                           seg.match ? (
                             <span key={i}
@@ -465,7 +454,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                         )}
                       </div>
                     ) : (
-                      <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">{input}</div>
+                      <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap break-words">{input}</div>
                     )}
 
                     {matches.length > 0 && (
@@ -482,10 +471,9 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
                 {/* Corrected view */}
                 {viewMode === "corrected" && (
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-                    <div className="text-sm text-green-300 leading-relaxed whitespace-pre-wrap">{correctedText}</div>
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 overflow-hidden">
+                    <div className="text-sm text-green-300 leading-relaxed whitespace-pre-wrap break-words">{correctedText}</div>
                     
-                    {/* ✅ QA FIX: Buttons responsive wrapper */}
                     <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
                       <button
                         onClick={async () => {
@@ -507,22 +495,20 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
                 {/* Diff view */}
                 {viewMode === "diff" && (
-                  // ✅ QA FIX: Stack diff panels on mobile
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden">
+                    <div className="min-w-0">
                       <div className="text-xs font-bold text-red-400 mb-2 uppercase tracking-wider">Original</div>
-                      <div className="text-xs text-gray-400 leading-relaxed whitespace-pre-wrap font-mono">{input}</div>
+                      <div className="text-xs text-gray-400 leading-relaxed whitespace-pre-wrap font-mono break-words">{input}</div>
                     </div>
-                    <div className="mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-white/5">
+                    <div className="mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-white/5 min-w-0">
                       <div className="text-xs font-bold text-green-400 mb-2 uppercase tracking-wider">Corrected</div>
-                      <div className="text-xs text-green-300 leading-relaxed whitespace-pre-wrap font-mono">{correctedText}</div>
+                      <div className="text-xs text-green-300 leading-relaxed whitespace-pre-wrap font-mono break-words">{correctedText}</div>
                     </div>
                   </div>
                 )}
 
                 {/* Fix all + download */}
                 {matches.length > 0 && (
-                  // ✅ QA FIX: Stack action buttons on mobile
                   <div className="flex flex-col sm:flex-row gap-2 mt-4">
                     <button onClick={fixAll}
                       className="w-full sm:flex-1 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-extrabold transition-all">
@@ -547,7 +533,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
           </div>
 
           {/* Right: stats + donut + error list */}
-          <div className="xl:col-span-2 space-y-4">
+          <div className="xl:col-span-2 space-y-4 min-w-0">
 
             {/* Stats card */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
@@ -582,26 +568,29 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             {Object.keys(errCounts).length > 0 && (
               <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Error Breakdown</h3>
-                <DonutChart counts={errCounts} />
+                <div className="overflow-hidden">
+                  <DonutChart counts={errCounts} />
+                </div>
               </div>
             )}
 
             {/* Error list */}
             {matches.length > 0 && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 max-h-80 overflow-y-auto">
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 max-h-80 overflow-y-auto overflow-x-hidden">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 sticky top-0 bg-[#13131F] pb-1 z-10">
                   All Issues ({matches.length})
                 </h3>
                 <div className="space-y-2">
                   {matches.map((m, i) => (
-                    <div key={i} className="bg-[#0A0A14] border border-white/5 rounded-xl p-3">
+                    <div key={i} className="bg-[#0A0A14] border border-white/5 rounded-xl p-3 min-w-0">
                       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                         <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-semibold ${getEC(m.rule.issueType).badge}`}>
                           {m.rule.issueType ?? "other"}
                         </span>
-                        <span className="text-xs text-gray-500 truncate">{m.shortMessage || m.message}</span>
+                        <span className="text-xs text-gray-500 truncate flex-1 min-w-[100px]">{m.shortMessage || m.message}</span>
                       </div>
-                      <div className="text-xs font-mono bg-[#13131F] rounded-lg px-3 py-2 mb-2 truncate text-gray-400">
+                      {/* ✅ CRITICAL QA FIX: added overflow-hidden to prevent long context strings from blowing out the table */}
+                      <div className="text-xs font-mono bg-[#13131F] rounded-lg px-3 py-2 mb-2 truncate text-gray-400 w-full max-w-full overflow-hidden">
                         "…<span className={`font-bold ${getEC(m.rule.issueType).text}`}>{m.context.text.slice(m.context.offset, m.context.offset + m.context.length)}</span>…"
                       </div>
                       {m.replacements.length > 0 && (
@@ -627,19 +616,19 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
 
             {/* Passive voice */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-bold text-white">Passive Voice</h3>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
                   analysis.passiveMatches.length === 0 ? "bg-green-400/10 text-green-400" :
                   analysis.passiveMatches.length < 3  ? "bg-yellow-400/10 text-yellow-400" :
                   "bg-red-400/10 text-red-400"
                 }`}>{analysis.passiveMatches.length} found</span>
               </div>
               {analysis.passiveMatches.length > 0 ? (
-                <div className="space-y-1 max-h-32 overflow-y-auto pr-1">
+                <div className="space-y-1 max-h-32 overflow-y-auto pr-1 overflow-x-hidden">
                   {analysis.passiveMatches.slice(0, 8).map((p, i) => (
-                    <div key={i} className="text-xs text-gray-400 bg-[#0A0A14] rounded-lg px-2.5 py-1.5 font-mono italic">
+                    <div key={i} className="text-xs text-gray-400 bg-[#0A0A14] rounded-lg px-2.5 py-1.5 font-mono italic break-words">
                       {p.phrase}
                     </div>
                   ))}
@@ -651,10 +640,10 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             </div>
 
             {/* Adverb scanner */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-bold text-white">Adverbs (-ly)</h3>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
                   analysis.adverbs.length === 0 ? "bg-green-400/10 text-green-400" :
                   analysis.adverbs.length < 4  ? "bg-yellow-400/10 text-yellow-400" :
                   "bg-orange-400/10 text-orange-400"
@@ -663,7 +652,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
               {analysis.adverbs.length > 0 ? (
                 <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto pr-1">
                   {analysis.adverbs.slice(0, 15).map((a, i) => (
-                    <span key={i} className="text-xs bg-orange-400/10 text-orange-300 border border-orange-400/20 px-2 py-0.5 rounded-lg font-mono">
+                    <span key={i} className="text-xs bg-orange-400/10 text-orange-300 border border-orange-400/20 px-2 py-0.5 rounded-lg font-mono break-words">
                       {a}
                     </span>
                   ))}
@@ -675,10 +664,10 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             </div>
 
             {/* Overused words */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-xs font-bold text-white">Overused Words</h3>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
                   analysis.overused.length === 0 ? "bg-green-400/10 text-green-400" : "bg-purple-400/10 text-purple-400"
                 }`}>{analysis.overused.length} flagged</span>
               </div>
@@ -686,8 +675,8 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 <div className="space-y-1 max-h-32 overflow-y-auto pr-1">
                   {analysis.overused.slice(0, 8).map((w, i) => (
                     <div key={i} className="flex items-center justify-between text-xs bg-[#0A0A14] rounded-lg px-2.5 py-1.5">
-                      <span className="text-gray-300 font-mono">{w.word}</span>
-                      <span className="text-purple-400 font-bold">{w.count}×</span>
+                      <span className="text-gray-300 font-mono truncate mr-2">{w.word}</span>
+                      <span className="text-purple-400 font-bold flex-shrink-0">{w.count}×</span>
                     </div>
                   ))}
                 </div>
@@ -706,8 +695,8 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             {FEATURES.map(f => (
               <div key={f.title} className="bg-[#13131F] border border-white/5 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-xl">{f.icon}</span>
-                  <span className="text-sm font-bold text-white">{f.title}</span>
+                  <span className="text-xl flex-shrink-0">{f.icon}</span>
+                  <span className="text-sm font-bold text-white leading-tight">{f.title}</span>
                 </div>
                 <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
               </div>
@@ -717,13 +706,13 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
           {/* Use cases */}
           <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
             <h2 className="text-sm font-bold text-white mb-3">Who uses this tool?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {USE_CASES.map(u => (
                 <div key={u.who} className="flex gap-3">
                   <span className="text-[#6C3AFF] font-extrabold text-sm flex-shrink-0 mt-0.5">→</span>
                   <div>
-                    <span className="text-sm font-semibold text-white">{u.who}: </span>
-                    <span className="text-sm text-gray-400">{u.why}</span>
+                    <span className="text-sm font-semibold text-white block mb-0.5">{u.who}</span>
+                    <span className="text-sm text-gray-400 leading-relaxed">{u.why}</span>
                   </div>
                 </div>
               ))}
@@ -731,56 +720,63 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
           </div>
 
           {/* Competitor table */}
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl overflow-x-auto">
+          {/* ✅ CRITICAL QA FIX: added overflow-hidden to the card, and isolated the overflow-x-auto to ONLY the table wrapper */}
+          <div className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden w-full">
             <div className="px-5 pt-4 pb-2">
               <h2 className="text-sm font-bold text-white">PursTech vs Grammarly vs Hemingway vs LanguageTool</h2>
               <p className="text-xs text-gray-500 mt-0.5">Feature comparison — all at zero cost</p>
             </div>
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="border-b border-white/5">
-                  <th className="text-left px-5 py-2 text-gray-500 font-semibold whitespace-nowrap">Feature</th>
-                  <th className="px-4 py-2 text-[#6C3AFF] font-bold">PursTech</th>
-                  <th className="px-4 py-2 text-gray-500">Grammarly</th>
-                  <th className="px-4 py-2 text-gray-500">Hemingway</th>
-                  <th className="px-4 py-2 text-gray-500">LanguageTool</th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPETITOR_TABLE.map((row, i) => (
-                  <tr key={i} className="border-b border-white/5 last:border-0">
-                    <td className="px-5 py-2.5 text-gray-400 whitespace-nowrap">{row.feature}</td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.purstech} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.grammarly} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.hemingway} /></td>
-                    <td className="px-4 py-2.5 text-center"><CellIcon v={row.lt} /></td>
+            
+            <div className="overflow-x-auto w-full">
+              <table className="w-full text-xs min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-white/5">
+                    <th className="text-left px-5 py-3 text-gray-500 font-semibold whitespace-nowrap">Feature</th>
+                    <th className="px-4 py-3 text-[#6C3AFF] font-bold">PursTech</th>
+                    <th className="px-4 py-3 text-gray-500">Grammarly</th>
+                    <th className="px-4 py-3 text-gray-500">Hemingway</th>
+                    <th className="px-4 py-3 text-gray-500">LanguageTool</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {COMPETITOR_TABLE.map((row, i) => (
+                    <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
+                      <td className="px-5 py-3 text-gray-400 whitespace-nowrap">{row.feature}</td>
+                      <td className="px-4 py-3 text-center"><CellIcon v={row.purstech} /></td>
+                      <td className="px-4 py-3 text-center"><CellIcon v={row.grammarly} /></td>
+                      <td className="px-4 py-3 text-center"><CellIcon v={row.hemingway} /></td>
+                      <td className="px-4 py-3 text-center"><CellIcon v={row.lt} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
         {/* ── How to Use ───────────────────────────────────────────────── */}
-        <div className="mt-6 bg-[#13131F] border border-white/5 rounded-2xl p-6">
+        <div className="mt-16 bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <h2 className="text-xl font-extrabold text-white mb-5">How to Use the Grammar Checker</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { step:"1", title:"Set your writing goal",  desc:"Pick Email, Essay, Blog, Business, Creative or General to get feedback tailored to your text's purpose and audience." },
               { step:"2", title:"Paste your text",        desc:"Enter up to 20,000 characters. The sample text shows exactly what the tool catches so you can see it in action immediately." },
               { step:"3", title:"Check and review",       desc:"Click Check Grammar or press Ctrl+Enter. LanguageTool analyses your text and highlights errors colour-coded by type. Hover any highlight for the explanation." },
               { step:"4", title:"Fix and export",         desc:"Click individual replacements to fix one at a time, or hit Fix All to apply every correction instantly. Download the full error report as .txt." },
             ].map(s => (
-              <div key={s.step} className="flex gap-3">
-                <div className="w-7 h-7 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
-                <div><div className="font-semibold text-white text-sm mb-1">{s.title}</div><div className="text-gray-500 text-xs leading-relaxed">{s.desc}</div></div>
+              <div key={s.step} className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 mt-0.5">{s.step}</div>
+                <div>
+                  <div className="font-bold text-white text-sm mb-1.5">{s.title}</div>
+                  <div className="text-gray-500 text-sm leading-relaxed">{s.desc}</div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* ── FAQ ─────────────────────────────────────────────────────── */}
-        <div className="mt-10">
+        <div className="mt-16">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((f, i) => (
@@ -796,7 +792,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         </div>
 
         {/* ── Educational content ─────────────────────────────────────── */}
-        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6 space-y-4">
+        <div className="mt-16 bg-[#13131F] border border-white/5 rounded-2xl p-6 space-y-4">
           <h2 className="text-lg font-extrabold text-white">Why Good Grammar Matters — and How to Improve It</h2>
           <p className="text-gray-400 text-sm leading-relaxed">
             Grammar is the foundation of clear communication. Poor grammar erodes reader trust,
@@ -826,9 +822,10 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         </div>
       </main>
 
+      {/* ✅ QA FIX: Consistent Full Footer */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
+        <div className="flex justify-center flex-wrap gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
