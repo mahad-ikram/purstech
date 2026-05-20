@@ -43,9 +43,9 @@ const FAQ = [
   { q:"What is the difference between JPEG, PNG and WebP compression?",
     a:"JPEG uses lossy compression — permanently removing some image data — which produces very small files but with some quality degradation at extreme settings. PNG uses lossless compression, preserving every pixel perfectly but producing larger files. WebP is a modern format that outperforms both — achieving smaller files than JPEG at the same visual quality, with both lossy and lossless modes. For most web images, converting to WebP provides the best results." },
   { q:"Why does my compressed PNG sometimes end up larger than the original?",
-    a:"PNG uses lossless compression, which means reducing file size is limited by how compressible the image data actually is. If your PNG contains a complex photograph with millions of unique color values, compression gains are minimal and can sometimes increase file size slightly due to metadata overhead. For photographs, convert to JPEG or WebP instead. PNG is ideal for logos, icons, screenshots and graphics with large areas of flat color." },
+    a:"PNG uses lossless compression, which means reducing file size is limited by how compressible the image data actually is. If your PNG contains a complex photograph with millions of unique color values, compression gains are minimal and can sometimes increase file size slightly. For photographs, convert to JPEG or WebP instead. PNG is ideal for logos, icons and graphics with large areas of flat color." },
   { q:"Can I compress multiple images at once?",
-    a:"Yes — our batch compression feature lets you upload and compress up to 20 images simultaneously. Each image is processed independently with your chosen quality and format settings. Download each compressed image individually by clicking its download button. Batch processing works entirely in your browser with no server needed." },
+    a:"Yes — our batch compression feature lets you upload and compress up to 20 images simultaneously. Each image is processed independently with your chosen quality and format settings. Download each compressed image individually or use Download All to save them all at once. Batch processing works entirely in your browser with no server needed." },
 ];
 
 export default function ImageCompressorClient({ children }: { children?: React.ReactNode }) {
@@ -141,28 +141,33 @@ export default function ImageCompressorClient({ children }: { children?: React.R
   const doneCount       = files.filter(f => f.status === "done").length;
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    // ✅ QA FIX: flex-col and overflow-x-hidden added to prevent mobile blowouts
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
       {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          {/* ✅ Added Go Pro */}
-          <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-4">
             <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
             <Link href="/blog"  className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            <Link href="/about" className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
+            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
             <Link href="/pro"
               className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
               Go Pro ⚡
             </Link>
           </div>
+          {/* Mobile Fallback */}
+          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-4 py-10">
+      {/* ✅ QA FIX: flex-grow and w-full added to ensure footer goes to bottom */}
+      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
 
-        {/* Breadcrumb — ✅ aria-label + /categories/image */}
-        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+        {/* Breadcrumb — ✅ QA FIX: flex-wrap added */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link><span aria-hidden="true">›</span>
           <Link href="/categories/image" className="hover:text-gray-400 transition-colors">Image Tools</Link><span aria-hidden="true">›</span>
@@ -173,7 +178,7 @@ export default function ImageCompressorClient({ children }: { children?: React.R
         {children}
 
         {/* Controls */}
-        <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-5">
+        <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 mb-5 min-w-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
             {/* Quality slider + presets */}
@@ -184,11 +189,11 @@ export default function ImageCompressorClient({ children }: { children?: React.R
                   {quality >= 85 ? "High Quality" : quality >= 65 ? "Balanced ✓" : quality >= 45 ? "Small File" : "Maximum Compression"}
                 </span>
               </div>
-              {/* ✅ UI Enhancement: quality preset buttons */}
-              <div className="flex gap-1.5 mb-2">
+              {/* ✅ QA FIX: Use grid for buttons to wrap cleanly on mobile */}
+              <div className="grid grid-cols-4 gap-1.5 mb-2">
                 {QUALITY_PRESETS.map(p => (
                   <button key={p.label} onClick={() => setQuality(p.q)} title={p.hint}
-                    className={`flex-1 py-1 rounded-lg text-xs font-semibold transition-all border ${
+                    className={`py-1 rounded-lg text-xs font-semibold transition-all border ${
                       quality === p.q ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"
                     }`}>
                     {p.label}
@@ -240,8 +245,8 @@ export default function ImageCompressorClient({ children }: { children?: React.R
 
         {/* Batch summary */}
         {files.length > 0 && (
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-6 flex-wrap">
+          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 mb-4 flex flex-col sm:flex-row sm:flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center w-full sm:w-auto">
               <div className="text-center">
                 <div className="text-xl font-extrabold text-white">{files.length}</div>
                 <div className="text-xs text-gray-500">Images</div>
@@ -263,15 +268,17 @@ export default function ImageCompressorClient({ children }: { children?: React.R
                 </div>
               )}
             </div>
-            <div className="flex gap-2">
+            
+            {/* ✅ QA FIX: Buttons wrap cleanly on mobile */}
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               {doneCount > 1 && (
                 <button onClick={downloadAll}
-                  className="px-4 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
+                  className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
                   ⬇ Download All ({doneCount})
                 </button>
               )}
               <button onClick={() => setFiles([])}
-                className="px-4 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-[#FF3A6C] text-sm transition-all">
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-[#FF3A6C] text-sm transition-all">
                 Clear All
               </button>
             </div>
@@ -282,61 +289,69 @@ export default function ImageCompressorClient({ children }: { children?: React.R
         <div className="space-y-3">
           {files.map(f => (
             <div key={f.id} className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#0A0A14] flex-shrink-0 border border-white/5">
-                  <img src={f.compressedUrl || f.originalUrl} alt={f.name}
-                    className="w-full h-full object-cover" />
+              
+              {/* ✅ QA FIX: Stack on small screens to prevent long text blowout */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#0A0A14] flex-shrink-0 border border-white/5">
+                    <img src={f.compressedUrl || f.originalUrl} alt={f.name}
+                      className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-white text-sm truncate mb-1" title={f.name}>{f.name}</div>
+                    <div className="text-xs text-gray-500 mb-2">{f.width}×{f.height}px</div>
+                    {f.status === "compressing" && (
+                      <div className="h-1.5 bg-[#0A0A14] rounded-full overflow-hidden">
+                        <div className="h-full bg-[#6C3AFF] rounded-full animate-pulse w-3/4" />
+                      </div>
+                    )}
+                    {f.status === "done" && f.compressedSize !== null && (
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="text-xs text-gray-500 line-through">{formatBytes(f.originalSize)}</span>
+                        <span className="text-xs">→</span>
+                        <span className="text-xs text-green-400 font-semibold">{formatBytes(f.compressedSize)}</span>
+                        <span className="text-xs bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full border border-green-500/20 font-bold">
+                          {savings(f.originalSize, f.compressedSize)} smaller
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-white text-sm truncate mb-1">{f.name}</div>
-                  <div className="text-xs text-gray-500 mb-2">{f.width}×{f.height}px</div>
-                  {f.status === "compressing" && (
-                    <div className="h-1.5 bg-[#0A0A14] rounded-full overflow-hidden">
-                      <div className="h-full bg-[#6C3AFF] rounded-full animate-pulse w-3/4" />
-                    </div>
-                  )}
-                  {f.status === "done" && f.compressedSize !== null && (
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <span className="text-xs text-gray-500 line-through">{formatBytes(f.originalSize)}</span>
-                      <span className="text-xs">→</span>
-                      <span className="text-xs text-green-400 font-semibold">{formatBytes(f.compressedSize)}</span>
-                      <span className="text-xs bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full border border-green-500/20 font-bold">
-                        {savings(f.originalSize, f.compressedSize)} smaller
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+
+                {/* Actions */}
+                <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto">
                   {f.status === "done" && (
                     <>
                       <button
                         onClick={() => setComparing(comparing === String(f.id) ? null : String(f.id))}
-                        className="px-3 py-1.5 rounded-lg bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white text-xs transition-all">
+                        className="flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white text-xs transition-all">
                         {comparing === String(f.id) ? "Close" : "Compare"}
                       </button>
                       <button onClick={() => download(f)}
-                        className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all">
+                        className="flex-1 sm:flex-none px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all">
                         ⬇ Save
                       </button>
                     </>
                   )}
                   <button onClick={() => removeFile(f.id)}
-                    className="text-gray-600 hover:text-[#FF3A6C] transition-colors text-sm">×</button>
+                    className="flex-shrink-0 ml-auto sm:ml-0 text-gray-600 hover:text-[#FF3A6C] transition-colors text-lg px-2">×</button>
                 </div>
               </div>
 
               {/* Before / After comparison */}
+              {/* ✅ QA FIX: grid-cols-1 on small mobile screens to prevent tiny images */}
               {comparing === String(f.id) && f.compressedUrl && (
-                <div className="mt-4 grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-xs text-gray-500 mb-1 text-center">Original · {formatBytes(f.originalSize)}</div>
-                    <img src={f.originalUrl} alt="Original" className="w-full rounded-xl object-contain max-h-48" />
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/5 pt-4">
+                  <div className="min-w-0">
+                    <div className="text-xs text-gray-500 mb-1 text-center truncate">Original · {formatBytes(f.originalSize)}</div>
+                    <img src={f.originalUrl} alt="Original" className="w-full rounded-xl object-contain max-h-48 bg-[#0A0A14] p-1 border border-white/5" />
                   </div>
-                  <div>
-                    <div className="text-xs text-green-400 mb-1 text-center">
+                  <div className="min-w-0">
+                    <div className="text-xs text-green-400 mb-1 text-center truncate">
                       Compressed · {formatBytes(f.compressedSize!)} · {savings(f.originalSize, f.compressedSize!)} smaller
                     </div>
-                    <img src={f.compressedUrl} alt="Compressed" className="w-full rounded-xl object-contain max-h-48" />
+                    <img src={f.compressedUrl} alt="Compressed" className="w-full rounded-xl object-contain max-h-48 bg-[#0A0A14] p-1 border border-green-500/20" />
                   </div>
                 </div>
               )}
@@ -347,11 +362,12 @@ export default function ImageCompressorClient({ children }: { children?: React.R
         {/* How to Use */}
         <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <h2 className="text-xl font-extrabold text-white mb-5">How to Compress Images Online</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          {/* ✅ QA FIX: 2 columns on tablet, 4 on desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { step:"1", title:"Upload your images",      desc:"Drop images onto the upload zone or click to browse. You can upload up to 20 images at once for batch compression." },
-              { step:"2", title:"Choose quality & format", desc:"Pick a preset (Web, Email, Print) or adjust the quality slider manually. Select WebP for the best compression, or keep Auto to preserve the original format." },
-              { step:"3", title:"Preview the results",    desc:"Each compressed image shows the new file size and percentage savings. Click Compare to see a side-by-side before/after comparison." },
+              { step:"2", title:"Choose quality & format", desc:"Pick a preset (Web, Email, Print) or adjust the quality slider manually. Select WebP for the best compression, or keep Auto." },
+              { step:"3", title:"Preview the results",    desc:"Each compressed image shows the new file size and percentage savings. Click Compare to see a side-by-side comparison." },
               { step:"4", title:"Download",               desc:"Click Save next to any image to download it. Use Download All to save every compressed image at once." },
             ].map(s => (
               <div key={s.step} className="flex gap-3">
@@ -382,12 +398,13 @@ export default function ImageCompressorClient({ children }: { children?: React.R
         </div>
       </main>
 
-      {/* Footer — ✅ About→Terms, © 2025→2026 */}
-      <footer className="border-t border-white/5 mt-16 py-8 text-center">
+      {/* Footer — ✅ About→Terms, © 2025→2026, bg added */}
+      <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
+        <div className="flex justify-center flex-wrap gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
