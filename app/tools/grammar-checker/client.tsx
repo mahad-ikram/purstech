@@ -224,7 +224,6 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   const [viewMode, setViewMode] = useState<ViewMode>("highlights");
   const [copied,   setCopied]   = useState<string | null>(null);
 
-  // ✅ UI Enhancement 2: Copy corrected text button state
   const [copiedCorrected, setCopiedCorrected] = useState(false);
 
   /* Grammar check via LanguageTool free API */
@@ -249,7 +248,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
     setChecking(false);
   }, [input, language]);
 
-  // ✅ UI Enhancement 1: Ctrl+Enter keyboard shortcut
+  // Keyboard shortcut Ctrl+Enter to check
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
@@ -354,7 +353,6 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
 
-      {/* ✅ QA FIX: Consistent Full Navbar with Go Pro */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -372,8 +370,8 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
       <main className="max-w-6xl mx-auto px-4 py-10 flex-grow">
         
-        {/* ✅ QA FIX: Breadcrumb with aria-label & /categories/ai step */}
-        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+        {/* ✅ QA FIX: Responsive Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
           <Link href="/categories/ai" className="hover:text-gray-400">AI Tools</Link><span aria-hidden="true">›</span>
@@ -400,9 +398,10 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         </div>
 
         {/* ── Language + hint ───────────────────────────────────────────── */}
-        <div className="flex items-center gap-3 mb-4">
+        {/* ✅ QA FIX: Stack on mobile to prevent flex blowout */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
           <select value={language} onChange={e => setLanguage(e.target.value)}
-            className="px-4 py-2.5 rounded-xl bg-[#13131F] border border-white/10 text-white text-sm focus:outline-none focus:border-[#6C3AFF]/50 transition-all">
+            className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#13131F] border border-white/10 text-white text-sm focus:outline-none focus:border-[#6C3AFF]/50 transition-all">
             {LANGS.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
           </select>
           <span className="text-xs text-gray-600">Powered by LanguageTool · 6,000+ rules · free, no account</span>
@@ -421,7 +420,6 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
               <span className="absolute bottom-3 right-3 text-xs text-gray-600">{input.length}/20000</span>
             </div>
 
-            {/* ✅ QA FIX: Check button with Ctrl+Enter hint */}
             <button onClick={check} disabled={checking || !input.trim() || input.length > 20000}
               className="w-full py-4 rounded-2xl bg-[#6C3AFF] hover:bg-[#5B2EE0] disabled:opacity-50 text-white font-extrabold text-lg transition-all flex items-center justify-center">
               {checking ? "Checking with LanguageTool…" : (
@@ -439,7 +437,8 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             {/* View toggle */}
             {checked && (
               <div>
-                <div className="flex gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl w-fit mb-3">
+                {/* ✅ QA FIX: wrap toggle buttons on small screens */}
+                <div className="flex flex-wrap gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl w-fit mb-3">
                   {(["highlights","corrected","diff"] as ViewMode[]).map(v => (
                     <button key={v} onClick={() => setViewMode(v)}
                       className={`px-4 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${viewMode === v ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"}`}>
@@ -448,7 +447,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                   ))}
                 </div>
 
-                {/* Highlights view — proper segment rendering */}
+                {/* Highlights view */}
                 {viewMode === "highlights" && (
                   <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
                     {segments && matches.length > 0 ? (
@@ -485,21 +484,21 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 {viewMode === "corrected" && (
                   <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
                     <div className="text-sm text-green-300 leading-relaxed whitespace-pre-wrap">{correctedText}</div>
-                    <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
-                      
-                      {/* ✅ UI Enhancement 2: Copy Corrected Text button */}
+                    
+                    {/* ✅ QA FIX: Buttons responsive wrapper */}
+                    <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
                       <button
                         onClick={async () => {
                           await navigator.clipboard.writeText(correctedText);
                           setCopiedCorrected(true);
                           setTimeout(() => setCopiedCorrected(false), 2000);
                         }}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${copiedCorrected ? "bg-green-600 text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"}`}>
+                        className={`w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold transition-all border ${copiedCorrected ? "bg-green-600 text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"}`}>
                         {copiedCorrected ? "✓ Copied!" : "📋 Copy Corrected"}
                       </button>
 
                       <button onClick={() => { setInput(correctedText); setMatches([]); }}
-                        className="px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-bold transition-all">
+                        className="w-full sm:w-auto px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-bold transition-all">
                         Apply to Editor
                       </button>
                     </div>
@@ -508,12 +507,13 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
                 {/* Diff view */}
                 {viewMode === "diff" && (
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 grid grid-cols-2 gap-4">
+                  // ✅ QA FIX: Stack diff panels on mobile
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div className="text-xs font-bold text-red-400 mb-2 uppercase tracking-wider">Original</div>
                       <div className="text-xs text-gray-400 leading-relaxed whitespace-pre-wrap font-mono">{input}</div>
                     </div>
-                    <div>
+                    <div className="mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-white/5">
                       <div className="text-xs font-bold text-green-400 mb-2 uppercase tracking-wider">Corrected</div>
                       <div className="text-xs text-green-300 leading-relaxed whitespace-pre-wrap font-mono">{correctedText}</div>
                     </div>
@@ -522,13 +522,14 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
                 {/* Fix all + download */}
                 {matches.length > 0 && (
-                  <div className="flex gap-2 mt-4">
+                  // ✅ QA FIX: Stack action buttons on mobile
+                  <div className="flex flex-col sm:flex-row gap-2 mt-4">
                     <button onClick={fixAll}
-                      className="flex-1 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-extrabold transition-all">
+                      className="w-full sm:flex-1 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-extrabold transition-all">
                       ✓ Fix All {matches.length} Issues
                     </button>
                     <button onClick={downloadReport}
-                      className="px-4 py-3 rounded-xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-sm font-bold transition-all">
+                      className="w-full sm:w-auto px-4 py-3 rounded-xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-sm font-bold transition-all">
                       ⬇ Report
                     </button>
                   </div>
@@ -825,7 +826,6 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         </div>
       </main>
 
-      {/* ✅ QA FIX: Consistent Full Footer */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
