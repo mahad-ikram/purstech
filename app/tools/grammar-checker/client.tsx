@@ -1,21 +1,10 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
-/* ── Schema ──────────────────────────────────────────────────────────────── */
-const SCHEMA = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Grammar Checker",
-  description: "Free grammar checker powered by LanguageTool with writing goals, error breakdown chart, passive voice, adverb scanner, overused word finder and tone detector.",
-  url: "https://www.purstech.com/tools/grammar-checker",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Any",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-/* ── Content Arrays (Moved from page.tsx) ────────────────────────────────── */
+/* ── Content Arrays ──────────────────────────────────────────────────────── */
 const FEATURES = [
   { icon:"📐", title:"6 Writing Goal Presets",          desc:"Set your writing purpose — Email, Essay, Blog, Business, Creative or General — and get targeted feedback for your audience." },
   { icon:"🥧", title:"Error Breakdown Chart",           desc:"SVG donut chart shows the exact split of grammar, spelling, punctuation and style issues at a glance." },
@@ -26,10 +15,10 @@ const FEATURES = [
 ];
 
 const USE_CASES = [
-  { who:"Students",             why:"Check essays and assignments for grammar, spelling and academic style before submission." },
-  { who:"Content Writers",      why:"Proof blog posts and articles — catch passive voice, adverbs and overused words that weaken copy." },
-  { who:"Non-native Speakers",  why:"LanguageTool's 6,000+ rules catch subtle English errors that basic spell-checkers miss entirely." },
-  { who:"Business Professionals",why:"Polish emails and reports — correct tone, eliminate errors and ensure professional quality." },
+  { who:"Students",               why:"Check essays and assignments for grammar, spelling and academic style before submission." },
+  { who:"Content Writers",        why:"Proof blog posts and articles — catch passive voice, adverbs and overused words that weaken copy." },
+  { who:"Non-native Speakers",    why:"LanguageTool's 6,000+ rules catch subtle English errors that basic spell-checkers miss entirely." },
+  { who:"Business Professionals", why:"Polish emails and reports — correct tone, eliminate errors and ensure professional quality." },
 ];
 
 const COMPETITOR_TABLE = [
@@ -57,78 +46,23 @@ const CellIcon = ({ v }: { v: CellVal }) =>
 const FAQ = [
   {
     q: "What grammar rules does LanguageTool check and how is it different from a spell-checker?",
-    a: `A basic spell-checker only flags words not found in its dictionary. LanguageTool goes much further — it analyses the grammatical structure of each sentence to catch errors a dictionary can't detect:
-
-Grammar errors: Subject-verb disagreement ("The team are playing" vs "The team is playing"), wrong tense, incorrect pronoun case ("between you and I" → "between you and me"), dangling modifiers, split infinitives.
-
-Spelling errors: Misspelled words, including confusable homophones ("their/there/they're", "affect/effect", "its/it's") that a simple spell-checker would miss because both words exist.
-
-Punctuation errors: Missing commas after introductory clauses, incorrect apostrophe use, run-on sentences, missing Oxford commas.
-
-Style suggestions: Passive voice, wordy phrases ("in order to" → "to"), clichés, redundant intensifiers ("very unique"), double negatives, informal language in formal contexts.
-
-LanguageTool maintains over 6,000 rules for English and operates in over 30 languages, making it one of the most comprehensive free grammar engines available.`,
+    a: `A basic spell-checker only flags words not found in its dictionary. LanguageTool goes much further — it analyses the grammatical structure of each sentence to catch errors a dictionary can't detect:\n\nGrammar errors: Subject-verb disagreement ("The team are playing" vs "The team is playing"), wrong tense, incorrect pronoun case ("between you and I" → "between you and me"), dangling modifiers, split infinitives.\n\nSpelling errors: Misspelled words, including confusable homophones ("their/there/they're", "affect/effect", "its/it's") that a simple spell-checker would miss because both words exist.\n\nPunctuation errors: Missing commas after introductory clauses, incorrect apostrophe use, run-on sentences, missing Oxford commas.\n\nStyle suggestions: Passive voice, wordy phrases ("in order to" → "to"), clichés, redundant intensifiers ("very unique"), double negatives, informal language in formal contexts.\n\nLanguageTool maintains over 6,000 rules for English and operates in over 30 languages, making it one of the most comprehensive free grammar engines available.`,
   },
   {
     q: "What are writing goals and which one should I choose?",
-    a: `Writing goals help focus the grammar checker's feedback on what matters most for your specific type of text:
-
-📧 Email — Prioritises clarity and conciseness. Flags overly long sentences and formal language that feels cold for email context. Good for business emails, customer support and newsletters.
-
-🎓 Essay — Applies academic writing standards. Flags informal contractions, first-person overuse (in formal essays) and imprecise language. Good for university assignments and academic papers.
-
-📰 Blog Post — Balances readability with engagement. Flags passive voice and complex sentences that hurt web readability scores. Good for content marketing.
-
-💼 Business — Professional formal tone. Flags ambiguous language, hedging words and unclear structure. Good for reports, proposals and presentations.
-
-🎨 Creative — Relaxes many style rules intentionally broken in fiction, poetry and creative non-fiction. Still catches genuine grammar errors.
-
-📝 General — All rules active with equal weight. Best when you're unsure.`,
+    a: `Writing goals help focus the grammar checker's feedback on what matters most for your specific type of text:\n\n📧 Email — Prioritises clarity and conciseness. Flags overly long sentences and formal language that feels cold for email context. Good for business emails, customer support and newsletters.\n\n🎓 Essay — Applies academic writing standards. Flags informal contractions, first-person overuse (in formal essays) and imprecise language. Good for university assignments and academic papers.\n\n📰 Blog Post — Balances readability with engagement. Flags passive voice and complex sentences that hurt web readability scores. Good for content marketing.\n\n💼 Business — Professional formal tone. Flags ambiguous language, hedging words and unclear structure. Good for reports, proposals and presentations.\n\n🎨 Creative — Relaxes many style rules intentionally broken in fiction, poetry and creative non-fiction. Still catches genuine grammar errors.\n\n📝 General — All rules active with equal weight. Best when you're unsure.`,
   },
   {
     q: "What is passive voice, why is it flagged, and when is it acceptable?",
-    a: `Passive voice occurs when the sentence's subject receives the action rather than performing it:
-
-Active: "The manager approved the budget." (subject acts)
-Passive: "The budget was approved by the manager." (subject receives action)
-
-Why it's flagged: Passive voice adds words without adding meaning. "The budget was approved" is 4 words; "The manager approved the budget" is 5 words but tells you who did it. Excessive passive voice makes writing feel bureaucratic, evasive and harder to follow.
-
-When passive voice is acceptable:
-• When the actor is unknown: "The package was stolen."
-• When the actor is unimportant: "The data was collected over six months."
-• Scientific writing, where the method matters more than who performed it: "The samples were centrifuged at 3000 rpm."
-• Formal policy writing: "Employees are required to..."
-
-Rule of thumb: If you can name who did the action and it adds value, use active voice. If the actor is irrelevant or unknown, passive is fine.`,
+    a: `Passive voice occurs when the sentence's subject receives the action rather than performing it:\n\nActive: "The manager approved the budget." (subject acts)\nPassive: "The budget was approved by the manager." (subject receives action)\n\nWhy it's flagged: Passive voice adds words without adding meaning. "The budget was approved" is 4 words; "The manager approved the budget" is 5 words but tells you who did it. Excessive passive voice makes writing feel bureaucratic, evasive and harder to follow.\n\nWhen passive voice is acceptable:\n• When the actor is unknown: "The package was stolen."\n• When the actor is unimportant: "The data was collected over six months."\n• Scientific writing, where the method matters more than who performed it: "The samples were centrifuged at 3000 rpm."\n• Formal policy writing: "Employees are required to..."\n\nRule of thumb: If you can name who did the action and it adds value, use active voice. If the actor is irrelevant or unknown, passive is fine.`,
   },
   {
     q: "What are adverbs and why does the checker flag them?",
-    a: `Adverbs modify verbs, adjectives or other adverbs. Many end in -ly: quickly, slightly, extremely, honestly, basically, literally. The checker flags -ly adverbs as a writing quality reminder — not as hard errors.
-
-Why adverbs can weaken writing:
-An adverb is often a sign that the verb or adjective it modifies isn't strong enough. "He ran quickly" can become "He sprinted." "She was extremely happy" can become "She was ecstatic." Replacing an adverb with a stronger, more specific word almost always produces clearer, more vivid writing.
-
-Adverbs to watch especially:
-• "Very" and "really" — almost always replaceable: "very important" → "critical"; "really fast" → "rapid"
-• "Basically," "essentially," "literally" used as filler at the start of sentences
-• Adverbs that contradict the verb: "smiled happily," "shouted loudly" — the verb already implies the adverb
-
-When adverbs are fine: technical writing, dialogue ("she said quietly"), and cases where the specific degree genuinely matters.`,
+    a: `Adverbs modify verbs, adjectives or other adverbs. Many end in -ly: quickly, slightly, extremely, honestly, basically, literally. The checker flags -ly adverbs as a writing quality reminder — not as hard errors.\n\nWhy adverbs can weaken writing:\nAn adverb is often a sign that the verb or adjective it modifies isn't strong enough. "He ran quickly" can become "He sprinted." "She was extremely happy" can become "She was ecstatic." Replacing an adverb with a stronger, more specific word almost always produces clearer, more vivid writing.\n\nAdverbs to watch especially:\n• "Very" and "really" — almost always replaceable: "very important" → "critical"; "really fast" → "rapid"\n• "Basically," "essentially," "literally" used as filler at the start of sentences\n• Adverbs that contradict the verb: "smiled happily," "shouted loudly" — the verb already implies the adverb\n\nWhen adverbs are fine: technical writing, dialogue ("she said quietly"), and cases where the specific degree genuinely matters.`,
   },
   {
     q: "How does the overused word finder work and what should I do about it?",
-    a: `The overused word finder counts how many times each significant word (4+ letters, excluding common stop words like "the", "that", "with") appears in your text. Words appearing 3 or more times are flagged.
-
-Why word repetition matters: Repeating the same word within a short passage is one of the most common and easiest-to-fix signs of weak writing. It's especially noticeable to readers even if they don't consciously identify it.
-
-What to do with flagged words:
-1. Check if the repetition is intentional: rhetorical repetition for emphasis is a valid stylistic choice.
-2. If not intentional, find synonyms. Use a thesaurus for the most repeated words.
-3. Sometimes repetition can be eliminated by restructuring the sentence entirely.
-4. Some technical documents legitimately repeat key terms for precision and shouldn't be paraphrased.
-
-Common offenders: "important," "significant," "use," "provide," "ensure," "process," "approach." These are vague placeholder words that often indicate the sentence could be more specific.`,
+    a: `The overused word finder counts how many times each significant word (4+ letters, excluding common stop words like "the", "that", "with") appears in your text. Words appearing 3 or more times are flagged.\n\nWhy word repetition matters: Repeating the same word within a short passage is one of the most common and easiest-to-fix signs of weak writing. It's especially noticeable to readers even if they don't consciously identify it.\n\nWhat to do with flagged words:\n1. Check if the repetition is intentional: rhetorical repetition for emphasis is a valid stylistic choice.\n2. If not intentional, find synonyms. Use a thesaurus for the most repeated words.\n3. Sometimes repetition can be eliminated by restructuring the sentence entirely.\n4. Some technical documents legitimately repeat key terms for precision and shouldn't be paraphrased.\n\nCommon offenders: "important," "significant," "use," "provide," "ensure," "process," "approach." These are vague placeholder words that often indicate the sentence could be more specific.`,
   },
 ];
 
@@ -277,6 +211,9 @@ const SAMPLE = `Their are many reasons why good writing matter. Firstly, it help
 
 /* ── Main Component ──────────────────────────────────────────────────────── */
 export default function GrammarCheckerClient({ children }: { children?: React.ReactNode }) {
+  // ✅ Track usage in Supabase → admin dashboard
+  useTrackTool("grammar-checker", "ai");
+
   const [input,    setInput]    = useState(SAMPLE);
   const [goal,     setGoal]     = useState<WritingGoal>("general");
   const [language, setLanguage] = useState("en-US");
@@ -287,8 +224,11 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   const [viewMode, setViewMode] = useState<ViewMode>("highlights");
   const [copied,   setCopied]   = useState<string | null>(null);
 
+  // ✅ UI Enhancement 2: Copy corrected text button state
+  const [copiedCorrected, setCopiedCorrected] = useState(false);
+
   /* Grammar check via LanguageTool free API */
-  const check = async () => {
+  const check = useCallback(async () => {
     if (!input.trim()) return;
     setChecking(true); setApiError(""); setMatches([]); setChecked(false);
     try {
@@ -307,7 +247,19 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
       setApiError(`Check failed: ${String(err)}. LanguageTool may be temporarily unavailable — please try again.`);
     }
     setChecking(false);
-  };
+  }, [input, language]);
+
+  // ✅ UI Enhancement 1: Ctrl+Enter keyboard shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (!checking && input.trim()) check();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [checking, input, check]);
 
   /* Apply single fix */
   const applyFix = useCallback((match: LTMatch, replacement: string) => {
@@ -400,20 +352,31 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
 
+      {/* ✅ QA FIX: Consistent Full Navbar with Go Pro */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
+          <div className="hidden sm:flex items-center gap-4">
+            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
+            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            <Link href="/about"   className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
+            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
+            <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+          </div>
+          {/* Mobile Fallback */}
+          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 py-10">
-        <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
-          <Link href="/"      className="hover:text-gray-400">Home</Link><span>›</span>
-          <Link href="/tools" className="hover:text-gray-400">Tools</Link><span>›</span>
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow">
+        
+        {/* ✅ QA FIX: Breadcrumb with aria-label & /categories/ai step */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+          <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
+          <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
+          <Link href="/categories/ai" className="hover:text-gray-400">AI Tools</Link><span aria-hidden="true">›</span>
           <span className="text-gray-400">Grammar Checker</span>
         </nav>
 
@@ -458,10 +421,15 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
               <span className="absolute bottom-3 right-3 text-xs text-gray-600">{input.length}/20000</span>
             </div>
 
-            {/* Check button */}
+            {/* ✅ QA FIX: Check button with Ctrl+Enter hint */}
             <button onClick={check} disabled={checking || !input.trim() || input.length > 20000}
-              className="w-full py-4 rounded-2xl bg-[#6C3AFF] hover:bg-[#5B2EE0] disabled:opacity-50 text-white font-extrabold text-lg transition-all">
-              {checking ? "Checking with LanguageTool…" : "✓ Check Grammar"}
+              className="w-full py-4 rounded-2xl bg-[#6C3AFF] hover:bg-[#5B2EE0] disabled:opacity-50 text-white font-extrabold text-lg transition-all flex items-center justify-center">
+              {checking ? "Checking with LanguageTool…" : (
+                <>
+                  ✓ Check Grammar
+                  <span className="ml-2 text-xs opacity-60 hidden sm:inline font-medium tracking-normal px-2 py-0.5 bg-black/20 rounded">Ctrl+Enter</span>
+                </>
+              )}
             </button>
 
             {apiError && (
@@ -517,11 +485,19 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 {viewMode === "corrected" && (
                   <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
                     <div className="text-sm text-green-300 leading-relaxed whitespace-pre-wrap">{correctedText}</div>
-                    <div className="flex gap-2 mt-4 pt-3 border-t border-white/5">
-                      <button onClick={() => copy("corrected", correctedText)}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${copied === "corrected" ? "bg-green-600 text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"}`}>
-                        {copied === "corrected" ? "✓ Copied" : "Copy Corrected Text"}
+                    <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
+                      
+                      {/* ✅ UI Enhancement 2: Copy Corrected Text button */}
+                      <button
+                        onClick={async () => {
+                          await navigator.clipboard.writeText(correctedText);
+                          setCopiedCorrected(true);
+                          setTimeout(() => setCopiedCorrected(false), 2000);
+                        }}
+                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${copiedCorrected ? "bg-green-600 text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"}`}>
+                        {copiedCorrected ? "✓ Copied!" : "📋 Copy Corrected"}
                       </button>
+
                       <button onClick={() => { setInput(correctedText); setMatches([]); }}
                         className="px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-bold transition-all">
                         Apply to Editor
@@ -546,7 +522,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
 
                 {/* Fix all + download */}
                 {matches.length > 0 && (
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-4">
                     <button onClick={fixAll}
                       className="flex-1 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-extrabold transition-all">
                       ✓ Fix All {matches.length} Issues
@@ -559,7 +535,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 )}
 
                 {checked && matches.length === 0 && (
-                  <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-5 text-center">
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-5 text-center mt-4">
                     <div className="text-3xl mb-2">✅</div>
                     <div className="font-bold text-green-400 text-lg">No grammar issues found!</div>
                     <div className="text-xs text-gray-500 mt-1">Your text passed all LanguageTool checks for {language}.</div>
@@ -590,7 +566,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 ))}
                 {/* Readability bar */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1.5">
+                  <div className="flex justify-between text-sm mb-1.5 mt-2">
                     <span className="text-gray-500">Readability</span>
                     <span className="font-bold text-[#6C3AFF]">{analysis.flesch}/100 · {analysis.readLabel}</span>
                   </div>
@@ -612,7 +588,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             {/* Error list */}
             {matches.length > 0 && (
               <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 max-h-80 overflow-y-auto">
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 sticky top-0 bg-[#13131F] pb-1">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 sticky top-0 bg-[#13131F] pb-1 z-10">
                   All Issues ({matches.length})
                 </h3>
                 <div className="space-y-2">
@@ -660,7 +636,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 }`}>{analysis.passiveMatches.length} found</span>
               </div>
               {analysis.passiveMatches.length > 0 ? (
-                <div className="space-y-1 max-h-32 overflow-y-auto">
+                <div className="space-y-1 max-h-32 overflow-y-auto pr-1">
                   {analysis.passiveMatches.slice(0, 8).map((p, i) => (
                     <div key={i} className="text-xs text-gray-400 bg-[#0A0A14] rounded-lg px-2.5 py-1.5 font-mono italic">
                       {p.phrase}
@@ -684,7 +660,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 }`}>{analysis.adverbs.length} found</span>
               </div>
               {analysis.adverbs.length > 0 ? (
-                <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto">
+                <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto pr-1">
                   {analysis.adverbs.slice(0, 15).map((a, i) => (
                     <span key={i} className="text-xs bg-orange-400/10 text-orange-300 border border-orange-400/20 px-2 py-0.5 rounded-lg font-mono">
                       {a}
@@ -706,9 +682,9 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
                 }`}>{analysis.overused.length} flagged</span>
               </div>
               {analysis.overused.length > 0 ? (
-                <div className="space-y-1 max-h-32 overflow-y-auto">
+                <div className="space-y-1 max-h-32 overflow-y-auto pr-1">
                   {analysis.overused.slice(0, 8).map((w, i) => (
-                    <div key={i} className="flex items-center justify-between text-xs">
+                    <div key={i} className="flex items-center justify-between text-xs bg-[#0A0A14] rounded-lg px-2.5 py-1.5">
                       <span className="text-gray-300 font-mono">{w.word}</span>
                       <span className="text-purple-400 font-bold">{w.count}×</span>
                     </div>
@@ -722,7 +698,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
           </div>
         )}
 
-        {/* ── SEO & Marketing Content (Moved Below Tool) ───────────────── */}
+        {/* ── SEO & Marketing Content ───────────────── */}
         <div className="mt-16 space-y-6">
           {/* Features */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -762,7 +738,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             <table className="w-full text-xs">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="text-left px-5 py-2 text-gray-500 font-semibold">Feature</th>
+                  <th className="text-left px-5 py-2 text-gray-500 font-semibold whitespace-nowrap">Feature</th>
                   <th className="px-4 py-2 text-[#6C3AFF] font-bold">PursTech</th>
                   <th className="px-4 py-2 text-gray-500">Grammarly</th>
                   <th className="px-4 py-2 text-gray-500">Hemingway</th>
@@ -772,7 +748,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
               <tbody>
                 {COMPETITOR_TABLE.map((row, i) => (
                   <tr key={i} className="border-b border-white/5 last:border-0">
-                    <td className="px-5 py-2.5 text-gray-400">{row.feature}</td>
+                    <td className="px-5 py-2.5 text-gray-400 whitespace-nowrap">{row.feature}</td>
                     <td className="px-4 py-2.5 text-center"><CellIcon v={row.purstech} /></td>
                     <td className="px-4 py-2.5 text-center"><CellIcon v={row.grammarly} /></td>
                     <td className="px-4 py-2.5 text-center"><CellIcon v={row.hemingway} /></td>
@@ -791,7 +767,7 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
             {[
               { step:"1", title:"Set your writing goal",  desc:"Pick Email, Essay, Blog, Business, Creative or General to get feedback tailored to your text's purpose and audience." },
               { step:"2", title:"Paste your text",        desc:"Enter up to 20,000 characters. The sample text shows exactly what the tool catches so you can see it in action immediately." },
-              { step:"3", title:"Check and review",       desc:"Click Check Grammar. LanguageTool analyses your text and highlights errors colour-coded by type. Hover any highlight for the explanation." },
+              { step:"3", title:"Check and review",       desc:"Click Check Grammar or press Ctrl+Enter. LanguageTool analyses your text and highlights errors colour-coded by type. Hover any highlight for the explanation." },
               { step:"4", title:"Fix and export",         desc:"Click individual replacements to fix one at a time, or hit Fix All to apply every correction instantly. Download the full error report as .txt." },
             ].map(s => (
               <div key={s.step} className="flex gap-3">
@@ -849,12 +825,14 @@ export default function GrammarCheckerClient({ children }: { children?: React.Re
         </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-16 py-8 text-center">
+      {/* ✅ QA FIX: Consistent Full Footer */}
+      <footer className="border-t border-white/5 mt-16 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400">About</Link>
-          <Link href="/privacy" className="hover:text-gray-400">Privacy</Link>
-          <Link href="/contact" className="hover:text-gray-400">Contact</Link>
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
+          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
