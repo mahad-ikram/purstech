@@ -43,9 +43,9 @@ const FAQ = [
   { q:"What is the difference between JPEG, PNG and WebP compression?",
     a:"JPEG uses lossy compression — permanently removing some image data — which produces very small files but with some quality degradation at extreme settings. PNG uses lossless compression, preserving every pixel perfectly but producing larger files. WebP is a modern format that outperforms both — achieving smaller files than JPEG at the same visual quality, with both lossy and lossless modes. For most web images, converting to WebP provides the best results." },
   { q:"Why does my compressed PNG sometimes end up larger than the original?",
-    a:"PNG uses lossless compression, which means reducing file size is limited by how compressible the image data actually is. If your PNG contains a complex photograph with millions of unique color values, compression gains are minimal and can sometimes increase file size slightly. For photographs, convert to JPEG or WebP instead. PNG is ideal for logos, icons and graphics with large areas of flat color." },
+    a:"PNG uses lossless compression, which means reducing file size is limited by how compressible the image data actually is. If your PNG contains a complex photograph with millions of unique color values, compression gains are minimal and can sometimes increase file size slightly due to metadata overhead. For photographs, convert to JPEG or WebP instead. PNG is ideal for logos, icons, screenshots and graphics with large areas of flat color." },
   { q:"Can I compress multiple images at once?",
-    a:"Yes — our batch compression feature lets you upload and compress up to 20 images simultaneously. Each image is processed independently with your chosen quality and format settings. Download each compressed image individually or use Download All to save them all at once. Batch processing works entirely in your browser with no server needed." },
+    a:"Yes — our batch compression feature lets you upload and compress up to 20 images simultaneously. Each image is processed independently with your chosen quality and format settings. Download each compressed image individually by clicking its download button. Batch processing works entirely in your browser with no server needed." },
 ];
 
 export default function ImageCompressorClient({ children }: { children?: React.ReactNode }) {
@@ -144,22 +144,18 @@ export default function ImageCompressorClient({ children }: { children?: React.R
     // ✅ QA FIX: flex-col and overflow-x-hidden added to prevent mobile blowouts
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-      {/* ── Navbar ── */}
+      {/* ── Navbar (Claude's Version) ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="hidden sm:flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
             <Link href="/blog"  className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
-            <Link href="/about" className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
             <Link href="/pro"
               className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
               Go Pro ⚡
             </Link>
           </div>
-          {/* Mobile Fallback */}
-          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
@@ -189,11 +185,10 @@ export default function ImageCompressorClient({ children }: { children?: React.R
                   {quality >= 85 ? "High Quality" : quality >= 65 ? "Balanced ✓" : quality >= 45 ? "Small File" : "Maximum Compression"}
                 </span>
               </div>
-              {/* ✅ QA FIX: Use grid for buttons to wrap cleanly on mobile */}
-              <div className="grid grid-cols-4 gap-1.5 mb-2">
+              <div className="flex gap-1.5 mb-2">
                 {QUALITY_PRESETS.map(p => (
                   <button key={p.label} onClick={() => setQuality(p.q)} title={p.hint}
-                    className={`py-1 rounded-lg text-xs font-semibold transition-all border ${
+                    className={`flex-1 py-1 rounded-lg text-xs font-semibold transition-all border ${
                       quality === p.q ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"
                     }`}>
                     {p.label}
