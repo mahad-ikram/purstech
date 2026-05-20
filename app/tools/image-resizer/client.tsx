@@ -1,104 +1,98 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
 const PRESETS: Record<string, { label: string; sizes: { name: string; w: number; h: number }[] }> = {
   "Instagram": {
     label: "📸",
     sizes: [
-      { name: "Square Post", w: 1080, h: 1080 },
-      { name: "Portrait Post", w: 1080, h: 1350 },
-      { name: "Landscape Post", w: 1080, h: 566 },
-      { name: "Story / Reels", w: 1080, h: 1920 },
-      { name: "Profile Picture", w: 320, h: 320 },
+      { name:"Square Post",    w:1080, h:1080 },
+      { name:"Portrait Post",  w:1080, h:1350 },
+      { name:"Landscape Post", w:1080, h:566  },
+      { name:"Story / Reels",  w:1080, h:1920 },
+      { name:"Profile Picture",w:320,  h:320  },
     ],
   },
   "Twitter / X": {
     label: "𝕏",
     sizes: [
-      { name: "Header Image", w: 1500, h: 500 },
-      { name: "Post Image", w: 1200, h: 675 },
-      { name: "Profile Picture", w: 400, h: 400 },
+      { name:"Header Image",   w:1500, h:500 },
+      { name:"Post Image",     w:1200, h:675 },
+      { name:"Profile Picture",w:400,  h:400 },
     ],
   },
   "Facebook": {
     label: "📘",
     sizes: [
-      { name: "Cover Photo", w: 851, h: 315 },
-      { name: "Post Image", w: 1200, h: 630 },
-      { name: "Profile Picture", w: 180, h: 180 },
-      { name: "Event Cover", w: 1920, h: 1080 },
+      { name:"Cover Photo",    w:851,  h:315  },
+      { name:"Post Image",     w:1200, h:630  },
+      { name:"Profile Picture",w:180,  h:180  },
+      { name:"Event Cover",    w:1920, h:1080 },
     ],
   },
   "LinkedIn": {
     label: "💼",
     sizes: [
-      { name: "Cover Photo", w: 1584, h: 396 },
-      { name: "Post Image", w: 1200, h: 627 },
-      { name: "Profile Picture", w: 400, h: 400 },
+      { name:"Cover Photo",    w:1584, h:396 },
+      { name:"Post Image",     w:1200, h:627 },
+      { name:"Profile Picture",w:400,  h:400 },
     ],
   },
   "YouTube": {
     label: "▶️",
     sizes: [
-      { name: "Thumbnail", w: 1280, h: 720 },
-      { name: "Channel Art", w: 2560, h: 1440 },
-      { name: "Profile Picture", w: 800, h: 800 },
+      { name:"Thumbnail",      w:1280, h:720  },
+      { name:"Channel Art",    w:2560, h:1440 },
+      { name:"Profile Picture",w:800,  h:800  },
     ],
   },
   "Web & Print": {
     label: "🖥",
     sizes: [
-      { name: "Full HD (1080p)", w: 1920, h: 1080 },
-      { name: "4K UHD", w: 3840, h: 2160 },
-      { name: "HD (720p)", w: 1280, h: 720 },
-      { name: "Open Graph", w: 1200, h: 630 },
-      { name: "A4 Portrait 300dpi", w: 2480, h: 3508 },
-      { name: "Thumbnail", w: 300, h: 300 },
+      { name:"Full HD (1080p)",     w:1920, h:1080 },
+      { name:"4K UHD",              w:3840, h:2160 },
+      { name:"HD (720p)",           w:1280, h:720  },
+      { name:"Open Graph",          w:1200, h:630  },
+      { name:"A4 Portrait 300dpi",  w:2480, h:3508 },
+      { name:"Thumbnail",           w:300,  h:300  },
     ],
   },
 };
 
 const FAQ = [
-  {
-    q: "Does resizing an image reduce its quality?",
-    a: "Upscaling an image (making it larger than the original) will reduce quality because the tool must create pixels that don't exist in the source image. Downscaling (making it smaller) generally maintains excellent quality using bicubic interpolation — our resizer uses the browser's high-quality Canvas API scaling. For best results, always start from the highest resolution source image available.",
-  },
-  {
-    q: "What does 'Lock Aspect Ratio' mean?",
-    a: "Aspect ratio is the proportional relationship between an image's width and height. When aspect ratio lock is on, changing one dimension automatically adjusts the other to maintain the original proportions. For example, a 1920×1080 image has a 16:9 aspect ratio — if you set the width to 1280, the height automatically becomes 720. This prevents your image from appearing stretched or squashed.",
-  },
-  {
-    q: "What is the difference between Contain, Cover and Stretch fit modes?",
-    a: "Contain fits the entire image inside the target dimensions while maintaining aspect ratio, leaving empty space (letterboxing) on the sides or top/bottom. Cover fills the entire target area while maintaining aspect ratio, cropping the parts that don't fit. Stretch fills the exact target dimensions by distorting the image, which can look unnatural. Cover is best for profile pictures and thumbnails; Contain is best for presentations and documents.",
-  },
-  {
-    q: "What is the maximum image size I can resize?",
-    a: "There is no enforced file size limit since all processing happens in your browser. However, very large images (above 10MP) may slow down processing on older devices because the browser must hold the full image in memory. For best performance with large images, we recommend using Google Chrome or Firefox on a desktop computer.",
-  },
-  {
-    q: "Can I resize to an exact pixel size for social media?",
-    a: "Yes — use our built-in social media presets for perfectly sized images every time. We include precise dimensions for Instagram (square, portrait, story), Twitter/X, Facebook, LinkedIn and YouTube. Click any preset to instantly set the target dimensions, then adjust the fit mode depending on whether you want the image cropped or letterboxed.",
-  },
+  { q:"Does resizing an image reduce its quality?",
+    a:"Upscaling an image (making it larger than the original) will reduce quality because the tool must create pixels that don't exist in the source image. Downscaling (making it smaller) generally maintains excellent quality using bicubic interpolation — our resizer uses the browser's high-quality Canvas API scaling. For best results, always start from the highest resolution source image available." },
+  { q:"What does 'Lock Aspect Ratio' mean?",
+    a:"Aspect ratio is the proportional relationship between an image's width and height. When aspect ratio lock is on, changing one dimension automatically adjusts the other to maintain the original proportions. For example, a 1920×1080 image has a 16:9 aspect ratio — if you set the width to 1280, the height automatically becomes 720. This prevents your image from appearing stretched or squashed." },
+  { q:"What is the difference between Contain, Cover and Stretch fit modes?",
+    a:"Contain fits the entire image inside the target dimensions while maintaining aspect ratio, leaving empty space (letterboxing) on the sides or top/bottom. Cover fills the entire target area while maintaining aspect ratio, cropping the parts that don't fit. Stretch fills the exact target dimensions by distorting the image, which can look unnatural. Cover is best for profile pictures and thumbnails; Contain is best for presentations and documents." },
+  { q:"What is the maximum image size I can resize?",
+    a:"There is no enforced file size limit since all processing happens in your browser. However, very large images (above 10MP) may slow down processing on older devices because the browser must hold the full image in memory. For best performance with large images, we recommend using Google Chrome or Firefox on a desktop computer." },
+  { q:"Can I resize to an exact pixel size for social media?",
+    a:"Yes — use our built-in social media presets for perfectly sized images every time. We include precise dimensions for Instagram (square, portrait, story), Twitter/X, Facebook, LinkedIn and YouTube. Click any preset to instantly set the target dimensions, then adjust the fit mode depending on whether you want the image cropped or letterboxed." },
 ];
 
 type FitMode = "stretch" | "contain" | "cover";
 
 export default function ImageResizerClient({ children }: { children?: React.ReactNode }) {
-  const [original, setOriginal]   = useState<string | null>(null);
-  const [origW,    setOrigW]      = useState(0);
-  const [origH,    setOrigH]      = useState(0);
-  const [origName, setOrigName]   = useState("image");
-  const [width,    setWidth]      = useState(800);
-  const [height,   setHeight]     = useState(600);
-  const [lockAR,   setLockAR]     = useState(true);
-  const [fitMode,  setFitMode]    = useState<FitMode>("cover");
-  const [format,   setFormat]     = useState<"jpeg"|"png"|"webp">("jpeg");
-  const [quality,  setQuality]    = useState(90);
-  const [result,   setResult]     = useState<string | null>(null);
-  const [bgColor,  setBgColor]    = useState("#FFFFFF");
-  const [dragging, setDragging]   = useState(false);
+  // ✅ Track usage
+  useTrackTool("image-resizer", "image");
+
+  const [original, setOriginal] = useState<string | null>(null);
+  const [origW,    setOrigW]    = useState(0);
+  const [origH,    setOrigH]    = useState(0);
+  const [origName, setOrigName] = useState("image");
+  const [width,    setWidth]    = useState(800);
+  const [height,   setHeight]   = useState(600);
+  const [lockAR,   setLockAR]   = useState(true);
+  const [fitMode,  setFitMode]  = useState<FitMode>("cover");
+  const [format,   setFormat]   = useState<"jpeg"|"png"|"webp">("jpeg");
+  const [quality,  setQuality]  = useState(90);
+  const [result,   setResult]   = useState<string | null>(null);
+  const [bgColor,  setBgColor]  = useState("#FFFFFF");
+  const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const arRef    = useRef(1);
 
@@ -129,8 +123,15 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
   }
 
   function applyPreset(w: number, h: number) {
-    setWidth(w); setHeight(h);
-    setLockAR(false);
+    setWidth(w); setHeight(h); setLockAR(false); setResult(null);
+  }
+
+  // ✅ UI Enhancement 1: percentage quick presets
+  function applyPercent(pct: number) {
+    const w = Math.max(1, Math.round(origW * pct / 100));
+    const h = Math.max(1, Math.round(origH * pct / 100));
+    setWidth(w); setHeight(h); setLockAR(true);
+    arRef.current = origW / origH;
     setResult(null);
   }
 
@@ -155,11 +156,11 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
         let dx = 0, dy = 0, dw = width, dh = height;
 
         if (fitMode === "cover") {
-          if (iAR > tAR) { sw = img.height * tAR; sx = (img.width - sw) / 2; }
-          else           { sh = img.width / tAR;  sy = (img.height - sh) / 2; }
+          if (iAR > tAR) { sw = img.height * tAR; sx = (img.width  - sw) / 2; }
+          else           { sh = img.width  / tAR; sy = (img.height - sh) / 2; }
         } else { // contain
-          if (iAR > tAR) { dh = width / iAR;  dy = (height - dh) / 2; }
-          else           { dw = height * iAR; dx = (width - dw)  / 2; }
+          if (iAR > tAR) { dh = width  / iAR; dy = (height - dh) / 2; }
+          else           { dw = height * iAR; dx = (width  - dw) / 2; }
         }
         ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
       }
@@ -172,10 +173,10 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
 
   function download() {
     if (!result) return;
-    const a = Object.assign(document.createElement("a"), {
-      href: result, download: `${origName}-${width}x${height}.${format}`,
-    });
-    a.click();
+    Object.assign(document.createElement("a"), {
+      href:     result,
+      download: `${origName}-${width}x${height}.${format}`,
+    }).click();
   }
 
   const fileSizeEstimate = result
@@ -184,37 +185,47 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+
+      {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+          {/* ✅ Added Go Pro */}
+          <div className="flex items-center gap-4">
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+            <Link href="/pro"
+              className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
+              Go Pro ⚡
+            </Link>
+          </div>
         </div>
       </nav>
 
       <main className="max-w-5xl mx-auto px-4 py-10">
-        <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
-          <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
-          <span>›</span>
-          <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link>
-          <span>›</span>
+
+        {/* Breadcrumb — ✅ aria-label + /categories/image */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+          <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link><span aria-hidden="true">›</span>
+          <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link><span aria-hidden="true">›</span>
+          <Link href="/categories/image" className="hover:text-gray-400 transition-colors">Image Tools</Link><span aria-hidden="true">›</span>
           <span className="text-gray-400">Image Resizer</span>
         </nav>
 
-        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {/* Hero — server-rendered by page.tsx */}
         {children}
 
-        {/* Upload */}
+        {/* Upload zone */}
         {!original ? (
           <div
             onDragOver={e => { e.preventDefault(); setDragging(true); }}
             onDragLeave={() => setDragging(false)}
-            onDrop={e => { e.preventDefault(); setDragging(false); const f = e.dataTransfer.files[0]; if (f) loadImage(f); }}
+            onDrop={e => { e.preventDefault(); setDragging(false); const f=e.dataTransfer.files[0]; if(f) loadImage(f); }}
             onClick={() => inputRef.current?.click()}
             className={`border-2 border-dashed rounded-2xl p-16 text-center cursor-pointer transition-all mb-6 ${
               dragging ? "border-[#6C3AFF] bg-[#6C3AFF]/5" : "border-white/10 hover:border-[#6C3AFF]/40 hover:bg-[#6C3AFF]/5"
             }`}>
             <input ref={inputRef} type="file" accept="image/*" className="hidden"
-              onChange={e => { const f = e.target.files?.[0]; if (f) loadImage(f); }} />
+              onChange={e => { const f=e.target.files?.[0]; if(f) loadImage(f); }} />
             <div className="text-5xl mb-3">📐</div>
             <div className="text-white font-bold text-lg mb-1">Drop an image here or click to upload</div>
             <div className="text-gray-500 text-sm">JPEG · PNG · WebP · GIF · Any size</div>
@@ -231,7 +242,29 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
                 <div className="text-sm text-white font-medium truncate">{origName}</div>
                 <div className="text-xs text-gray-500 mt-1">{origW} × {origH} px</div>
                 <button onClick={() => { setOriginal(null); setResult(null); }}
-                  className="mt-2 text-xs text-gray-600 hover:text-[#FF3A6C] transition-colors">× Change image</button>
+                  className="mt-2 text-xs text-gray-600 hover:text-[#FF3A6C] transition-colors">
+                  × Change image
+                </button>
+              </div>
+
+              {/* ✅ UI Enhancement 1: Percentage quick presets */}
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Quick Resize</div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {[25, 50, 75, 100].map(pct => (
+                    <button key={pct} onClick={() => applyPercent(pct)}
+                      className={`py-2 rounded-xl text-xs font-bold transition-all border ${
+                        width === Math.round(origW * pct / 100) && height === Math.round(origH * pct / 100)
+                          ? "bg-[#6C3AFF] text-white border-transparent"
+                          : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30"
+                      }`}>
+                      {pct}%
+                      <span className="block text-[10px] opacity-60 font-normal mt-0.5">
+                        {Math.round(origW*pct/100)}×{Math.round(origH*pct/100)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Social media presets */}
@@ -276,7 +309,8 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-400">Lock aspect ratio</span>
                   <button onClick={() => setLockAR(p => !p)}
-                    className={`w-10 h-5 rounded-full transition-all relative ${lockAR ? "bg-[#6C3AFF]" : "bg-gray-700"}`}>
+                    className={`w-10 h-5 rounded-full transition-all relative ${lockAR ? "bg-[#6C3AFF]" : "bg-gray-700"}`}
+                    role="switch" aria-checked={lockAR}>
                     <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-all ${lockAR ? "left-[22px]" : "left-0.5"}`} />
                   </button>
                 </div>
@@ -294,8 +328,8 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
                     ))}
                   </div>
                   <p className="text-xs text-gray-600 mt-1.5">
-                    {fitMode === "cover"   ? "Fill canvas — crops edges to fit" :
-                     fitMode === "contain" ? "Fit inside — letterboxes empty space" :
+                    {fitMode === "cover"   ? "Fill canvas — crops edges to fit"        :
+                     fitMode === "contain" ? "Fit inside — letterboxes empty space"    :
                      "Stretch to exact dimensions"}
                   </p>
                 </div>
@@ -318,12 +352,16 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
                   </div>
                 </div>
 
+                {/* ✅ UI Enhancement 2: label-wrap pattern for mobile Android Chrome */}
                 {fitMode === "contain" && format !== "png" && (
                   <div>
                     <label className="text-xs text-gray-500 mb-1 block">Background Color</label>
                     <div className="flex gap-2 items-center">
-                      <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)}
-                        className="w-10 h-8 rounded-lg border border-white/10 bg-[#0A0A14] cursor-pointer" />
+                      <label className="flex-shrink-0 cursor-pointer rounded-lg overflow-hidden border border-white/10"
+                        style={{ width:40, height:32, backgroundColor:bgColor, display:"block" }}>
+                        <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)}
+                          className="opacity-0 cursor-pointer block" style={{ width:40, height:32 }} />
+                      </label>
                       <input type="text" value={bgColor} onChange={e => setBgColor(e.target.value)}
                         className="flex-1 px-3 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none focus:border-[#6C3AFF]/60 transition-all font-mono" />
                     </div>
@@ -361,7 +399,6 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
                     </div>
                   </div>
                 </div>
-
                 {result && (
                   <button onClick={download}
                     className="w-full mt-4 py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-bold transition-all text-sm">
@@ -378,10 +415,10 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
           <h2 className="text-xl font-extrabold text-white mb-5">How to Resize Images Online</h2>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             {[
-              { step:"1", title:"Upload your image", desc:"Drop any image onto the page or click to browse. Supports JPEG, PNG, WebP and GIF from any device." },
-              { step:"2", title:"Choose a size", desc:"Pick from 20+ social media presets for perfect platform dimensions, or enter custom width and height values." },
-              { step:"3", title:"Select fit mode & format", desc:"Choose Cover (crops to fill), Contain (letterboxes) or Stretch. Set output format and quality." },
-              { step:"4", title:"Resize & download", desc:"Click Resize Image to generate the preview. Download your resized image in your chosen format immediately." },
+              { step:"1", title:"Upload your image",         desc:"Drop any image onto the page or click to browse. Supports JPEG, PNG, WebP and GIF from any device." },
+              { step:"2", title:"Choose a size",             desc:"Pick from 20+ social media presets, use percentage quick presets (25%, 50%, 75%), or enter custom width and height values." },
+              { step:"3", title:"Select fit mode & format",  desc:"Choose Cover (crops to fill), Contain (letterboxes) or Stretch. Set output format and quality." },
+              { step:"4", title:"Resize & download",         desc:"Click Resize Image to generate the preview. Download your resized image in your chosen format immediately." },
             ].map(s => (
               <div key={s.step} className="flex gap-3">
                 <div className="w-7 h-7 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
@@ -394,7 +431,7 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
           </div>
         </div>
 
-        {/* FAQ */}
+        {/* FAQ — always last */}
         <div className="mt-10 max-w-3xl">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
@@ -411,14 +448,15 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
         </div>
       </main>
 
+      {/* Footer — ✅ About→Terms, © 2025→2026 */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About</Link>
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
