@@ -2,42 +2,35 @@ import type { Metadata } from "next";
 import ImageToTextClient from "./client";
 
 export const metadata: Metadata = {
-  title:       "Free Image to Text Converter — OCR Online",
+  title: "Free Image to Text Converter — OCR Online",
   description: "Extract text from any image instantly with AI-powered OCR. Supports 30+ languages, word-level confidence, image preprocessing and clipboard paste. 100% free, browser-based, no upload.",
-  keywords: [
-    "image to text","ocr online free","extract text from image","image text extractor",
-    "photo to text converter","jpg to text","png to text","screenshot to text",
-    "tesseract ocr online","best ocr tool 2026","free ocr no login","handwriting to text",
-  ],
+  alternates: { canonical: "/tools/image-to-text" },
+  keywords: ["image to text","ocr online free","extract text from image","image text extractor","photo to text converter","jpg to text","png to text","screenshot to text","tesseract ocr online","best ocr tool 2026","free ocr no login","handwriting to text"],
   openGraph: {
-    type:        "website",
-    title:       "Free Image to Text (OCR) Converter — Best Online Tool 2026 | PursTech",
+    type: "website",
+    url: "https://www.purstech.com/tools/image-to-text",
+    siteName: "PursTech",
+    title: "Free Image to Text (OCR) Converter — Best Online Tool 2026",
     description: "Extract text from images instantly. 30+ languages, word confidence heatmap, image preprocessing, clipboard paste. 100% browser-based — your images never leave your device.",
-    url:         "https://www.purstech.com/tools/image-to-text",
-    siteName:    "PursTech",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Free Image to Text OCR Converter" }],
   },
   twitter: {
-    card:        "summary_large_image",
-    title:       "Free Image to Text (OCR) — 30+ Languages, Word Confidence | PursTech",
+    card: "summary_large_image",
+    title: "Free Image to Text (OCR) — 30+ Languages, Word Confidence",
     description: "Best free OCR tool. Extract text from images — 30+ languages, preprocessing, word-level confidence. 100% browser-based.",
-    images:      ["/og-image.png"],
-    creator:     "@purstech",
+    images: ["/og-image.png"],
+    creator: "@purstech",
   },
-  alternates: { canonical: "/tools/image-to-text" },
-  robots:      "index, follow, max-image-preview:large",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
 };
 
-// ── JSON-LD Schemas ────────────────────────────────────────────────────────────
-const toolSchema = {
-  "@context":          "https://schema.org",
-  "@type":             "SoftwareApplication",
-  name:                "Image to Text Converter (OCR)",
-  description:         "Advanced free online OCR tool. Extract text from images with 30+ language support, word-level confidence scoring and image preprocessing. Runs entirely in the browser.",
-  url:                 "https://www.purstech.com/tools/image-to-text",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem:     "Any",
-  browserRequirements: "WebAssembly required",
+const APP_SCHEMA = {
+  "@context": "https://schema.org", "@type": "WebApplication",
+  name: "Image to Text Converter (OCR)", url: "https://www.purstech.com/tools/image-to-text",
+  description: "Free online OCR tool. Extract text from images with 30+ language support, word-level confidence scoring and image preprocessing. Runs entirely in the browser using Tesseract.js WebAssembly.",
+  applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
+  browserRequirements: "WebAssembly required", inLanguage: "en-US",
+  isAccessibleForFree: true,
   featureList: [
     "Extract text from JPEG, PNG, WebP, GIF images",
     "Support for 30+ languages including Arabic, Chinese, Hindi, Japanese",
@@ -46,29 +39,59 @@ const toolSchema = {
     "Clipboard paste support (Ctrl+V)",
     "Camera capture for mobile devices",
     "Image URL input",
-    "Batch processing of multiple images",
+    "Batch processing of up to 5 images",
     "Editable output text",
     "Download as TXT file",
-    "100% browser-based — no server upload",
-    "Reading time, word count and character statistics",
+    "100% browser-based — no server upload required",
   ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  aggregateRating: {
-    "@type":     "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "2341",
-    bestRating:  "5",
-    worstRating: "1",
-  },
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+  publisher: { "@id": "https://www.purstech.com/#organization" },
 };
 
-const breadcrumbSchema = {
-  "@context":      "https://schema.org",
-  "@type":         "BreadcrumbList",
+const HOWTO_SCHEMA = {
+  "@context": "https://schema.org", "@type": "HowTo",
+  name: "How to Extract Text from Images Online",
+  description: "Use PursTech's free OCR tool to extract text from any image instantly in your browser.",
+  totalTime: "PT2M",
+  step: [
+    { "@type": "HowToStep", position: 1, name: "Upload or paste your image",
+      text: "Drop an image, click to browse, paste from clipboard with Ctrl+V, take a photo, or enter an image URL. Supports JPEG, PNG, WebP and GIF.",
+      url: "https://www.purstech.com/tools/image-to-text" },
+    { "@type": "HowToStep", position: 2, name: "Select language and preprocess",
+      text: "Choose the language of the text in your image from 30+ supported languages. Enable preprocessing options (Grayscale, Contrast, Sharpen, Invert) to improve accuracy on difficult images.",
+      url: "https://www.purstech.com/tools/image-to-text" },
+    { "@type": "HowToStep", position: 3, name: "Extract and review",
+      text: "Click Extract Text. The OCR engine analyses your image locally in your browser using WebAssembly — no server upload. Review the word confidence heatmap to spot any errors.",
+      url: "https://www.purstech.com/tools/image-to-text" },
+    { "@type": "HowToStep", position: 4, name: "Copy or download",
+      text: "Edit any mistakes directly in the editable text area, then copy to clipboard or download as a TXT file.",
+      url: "https://www.purstech.com/tools/image-to-text" },
+  ],
+};
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org", "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "What is OCR and how does this image to text converter work?",
+      acceptedAnswer: { "@type": "Answer", text: "OCR (Optical Character Recognition) analyses the patterns of pixels in an image to identify and extract text characters. Our tool uses Tesseract.js compiled to WebAssembly so it runs entirely inside your browser. Your image is never sent to any server." } },
+    { "@type": "Question", name: "What image formats and types does this OCR tool support?",
+      acceptedAnswer: { "@type": "Answer", text: "The tool accepts JPEG, PNG, WebP, GIF and BMP image files. It works on scanned documents, screenshots, photos of printed text, product labels, street signs, whiteboards and books. For best results, images should have a minimum resolution of 300 DPI or approximately 1,000 pixels in the shorter dimension." } },
+    { "@type": "Question", name: "How can I improve OCR accuracy for difficult images?",
+      acceptedAnswer: { "@type": "Answer", text: "Use the built-in image preprocessing tools before running OCR. Apply Grayscale to remove colour noise. Increase Contrast to make text stand out. Apply Sharpen for blurry characters. Use Invert if your image has white text on a dark background. Selecting the correct language is critical — wrong language selection significantly reduces accuracy." } },
+    { "@type": "Question", name: "Is my image data safe when I use this tool?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — completely. All OCR processing happens locally in your browser using WebAssembly. Your images are never transmitted to any server, never stored anywhere, and never sent over the internet. This makes it safe to use for confidential documents, ID images, private contracts and sensitive business materials." } },
+    { "@type": "Question", name: "What do the colour-coded confidence scores mean?",
+      acceptedAnswer: { "@type": "Answer", text: "After OCR completes, each recognised word is colour-coded by confidence level. Green words (above 90%) were recognised with high confidence. Yellow words (70-90%) are likely correct but worth checking. Red words (below 70%) should be reviewed carefully as they may contain errors." } },
+  ],
+};
+
+const BREADCRUMB_SCHEMA = {
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home",          item: "https://www.purstech.com" },
     { "@type": "ListItem", position: 2, name: "Tools",         item: "https://www.purstech.com/tools" },
-    { "@type": "ListItem", position: 3, name: "Image to Text", item: "https://www.purstech.com/tools/image-to-text" },
+    { "@type": "ListItem", position: 3, name: "Image Tools",   item: "https://www.purstech.com/categories/image" },
+    { "@type": "ListItem", position: 4, name: "Image to Text", item: "https://www.purstech.com/tools/image-to-text" },
   ],
 };
 
@@ -84,17 +107,15 @@ const FEATURES = [
 export default function ImageToTextPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema)       }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(APP_SCHEMA)        }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(HOWTO_SCHEMA)      }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA)        }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_SCHEMA) }} />
       <ImageToTextClient>
         <div className="mb-8">
           <div className="flex items-center gap-2 flex-wrap mb-3">
             <span className="bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold">
               Image Tools
-            </span>
-            <span className="bg-green-500/10 border border-green-500/20 rounded-full px-3 py-1 text-xs text-green-400 font-semibold">
-              ★ 4.9/5 — 2,341 reviews
             </span>
             <span className="bg-[#00D4FF]/10 border border-[#00D4FF]/20 rounded-full px-3 py-1 text-xs text-[#00D4FF] font-semibold">
               30+ Languages · Word Confidence · 100% Private
