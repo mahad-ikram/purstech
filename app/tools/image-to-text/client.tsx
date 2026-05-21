@@ -2,8 +2,10 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ PATCH 2: Added Track Tool
 
-// ── FAQs & Schemas ────────────────────────────────────────────────────────────
+// ── FAQs ────────────────────────────────────────────────────────────
+// ✅ PATCH 1: Removed faqSchema object and <script> tag (now in page.tsx)
 const OCR_FAQ = [
   {
     q: "What is OCR and how does this image to text converter work?",
@@ -26,16 +28,6 @@ const OCR_FAQ = [
     a: "After OCR completes, our tool shows each recognised word colour-coded by confidence level. Green words (above 90%) were recognised with high confidence. Yellow words (70–90%) are likely correct but worth checking. Red words (below 70%) should be reviewed carefully as they may contain errors. The overall confidence percentage shown is the average across all recognised words. Low overall confidence usually indicates poor image quality, an unsupported font, or the wrong language setting.",
   },
 ];
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type":    "FAQPage",
-  mainEntity: OCR_FAQ.map(f => ({
-    "@type": "Question",
-    name:    f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
 
 // ── Language list ─────────────────────────────────────────────────────────────
 const LANGUAGE_GROUPS = [
@@ -235,6 +227,9 @@ interface ImageEntry {
 let entryId = 1;
 
 export default function ImageToTextClient({ children }: { children?: React.ReactNode }) {
+  // ✅ PATCH 2: Track usage
+  useTrackTool("image-to-text", "image");
+
   // Input
   const [inputMode,    setInputMode]    = useState<InputMode>("upload");
   const [images,       setImages]       = useState<ImageEntry[]>([]);
@@ -332,6 +327,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
     };
     document.addEventListener("paste", onPaste);
     return () => document.removeEventListener("paste", onPaste);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.length]);
 
   // ── Camera ──────────────────────────────────────────────────────────────────
@@ -483,33 +479,41 @@ export default function ImageToTextClient({ children }: { children?: React.React
     overallConf >= 70 ? "text-yellow-400" : "text-red-400";
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    // ✅ CRITICAL QA FIX: Mobile Fortification to prevent blowout
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+      
+      {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-4">
             <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
             <Link href="/blog"  className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
+            {/* ✅ PATCH 3: Added Go Pro to Navbar */}
+            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
+          {/* Mobile Fallback */}
+          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 py-10">
+      {/* ✅ CRITICAL QA FIX: flex-grow w-full */}
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full">
         
-        {/* Schema injected securely */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        {/* ✅ PATCH 1: Removed faqSchema <script> rendering here */}
 
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+        {/* ✅ PATCH 4: Breadcrumb aria-label + /categories/image */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
-          <span>›</span>
+          <span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link>
-          <span>›</span>
+          <span aria-hidden="true">›</span>
+          <Link href="/categories/image" className="hover:text-gray-400 transition-colors">Image Tools</Link>
+          <span aria-hidden="true">›</span>
           <span className="text-gray-400">Image to Text</span>
         </nav>
 
-        {/* Header */}
-        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {/* Header — server-rendered by page.tsx, passed as children */}
         {children}
 
         {/* Tips bar */}
@@ -525,7 +529,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
 
           {/* ── Left: Input + Settings ── */}
-          <div className="xl:col-span-2 space-y-4">
+          <div className="xl:col-span-2 space-y-4 min-w-0">
 
             {/* Input mode tabs */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-1 grid grid-cols-4 gap-1">
@@ -580,8 +584,6 @@ export default function ImageToTextClient({ children }: { children?: React.React
             {/* Camera */}
             {inputMode === "camera" && (
               <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 space-y-3">
-                {/* Video is ALWAYS rendered so cameraRef.current exists when
-                    startCamera() assigns the stream. Shown/hidden via CSS only. */}
                 <video
                   ref={cameraRef}
                   autoPlay
@@ -635,7 +637,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
                   {images.map((img, i) => (
                     <div key={img.id}
                       onClick={() => setActiveIdx(i)}
-                      className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all border ${
+                      className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all border min-w-0 ${
                         activeIdx===i ? "border-[#6C3AFF]/50 bg-[#6C3AFF]/10" : "border-white/5 hover:border-white/10"
                       }`}>
                       <img src={img.src} alt={img.name}
@@ -648,7 +650,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
                         )}
                       </div>
                       <button onClick={e => { e.stopPropagation(); removeImage(img.id); }}
-                        className="text-gray-600 hover:text-[#FF3A6C] transition-colors text-sm flex-shrink-0">×</button>
+                        className="text-gray-600 hover:text-[#FF3A6C] transition-colors text-sm flex-shrink-0 px-2">×</button>
                     </div>
                   ))}
                 </div>
@@ -794,7 +796,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
           </div>
 
           {/* ── Right: Results ── */}
-          <div className="xl:col-span-3 space-y-4">
+          <div className="xl:col-span-3 space-y-4 min-w-0">
 
             {/* Image preview */}
             {active && status === "idle" && (
@@ -892,14 +894,14 @@ export default function ImageToTextClient({ children }: { children?: React.React
                 )}
 
                 {/* Output mode tabs */}
-                <div className="flex gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl">
+                <div className="flex flex-wrap gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl">
                   {([
                     { id:"plain"    as OutputMode, label:"📄 Plain Text"          },
                     { id:"heatmap"  as OutputMode, label:"🌡 Confidence Heatmap"  },
                     { id:"wordlist" as OutputMode, label:"📋 Word List"            },
                   ]).map(v => (
                     <button key={v.id} onClick={() => setOutputMode(v.id)}
-                      className={`flex-1 py-2.5 rounded-lg text-xs font-bold transition-all ${
+                      className={`flex-1 min-w-[120px] py-2.5 rounded-lg text-xs font-bold transition-all ${
                         outputMode===v.id ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"
                       }`}>
                       {v.label}
@@ -909,8 +911,8 @@ export default function ImageToTextClient({ children }: { children?: React.React
 
                 {/* Text output */}
                 {outputMode === "plain" && (
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0">
+                    <div className="flex flex-wrap items-center justify-between mb-3 gap-3">
                       <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Extracted Text</span>
                       <div className="flex gap-2">
                         <button onClick={copyText}
@@ -937,8 +939,8 @@ export default function ImageToTextClient({ children }: { children?: React.React
 
                 {/* Heatmap */}
                 {outputMode === "heatmap" && (
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0">
+                    <div className="flex flex-wrap items-center justify-between mb-3 gap-3">
                       <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Word Confidence Heatmap</span>
                       <div className="flex gap-3 text-xs">
                         <span className="text-green-400">■ High (≥90%)</span>
@@ -950,7 +952,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
                       <div className="flex flex-wrap gap-1.5 max-h-96 overflow-y-auto p-1">
                         {confWords.map((w, i) => (
                           <span key={i} title={`Confidence: ${w.conf}%`}
-                            className={`px-2 py-0.5 rounded-lg text-sm cursor-help font-mono ${confColor(w.conf)} ${confBg(w.conf)} border border-white/5`}>
+                            className={`px-2 py-0.5 rounded-lg text-sm cursor-help font-mono break-all ${confColor(w.conf)} ${confBg(w.conf)} border border-white/5`}>
                             {w.text}
                           </span>
                         ))}
@@ -964,12 +966,13 @@ export default function ImageToTextClient({ children }: { children?: React.React
 
                 {/* Word list */}
                 {outputMode === "wordlist" && (
-                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+                  <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Word List ({confWords.length} words)</span>
                     </div>
-                    <div className="overflow-x-auto max-h-96 overflow-y-auto">
-                      <table className="w-full text-sm">
+                    {/* ✅ CRITICAL QA FIX: Full horizontal scroll wrapper for the wordlist table */}
+                    <div className="overflow-x-auto max-h-96 overflow-y-auto w-full">
+                      <table className="w-full text-sm min-w-[300px]">
                         <thead className="sticky top-0 bg-[#13131F]">
                           <tr className="text-xs text-gray-500 border-b border-white/10">
                             <th className="text-left py-2 pl-2 w-8">#</th>
@@ -982,7 +985,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
                           {confWords.map((w, i) => (
                             <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02]">
                               <td className="py-2 pl-2 text-gray-600 text-xs">{i+1}</td>
-                              <td className={`py-2 font-mono font-medium ${confColor(w.conf)}`}>{w.text}</td>
+                              <td className={`py-2 font-mono font-medium break-all ${confColor(w.conf)}`}>{w.text}</td>
                               <td className={`py-2 text-right font-bold ${confColor(w.conf)}`}>{w.conf}%</td>
                               <td className="py-2 pr-2">
                                 <div className="flex justify-end">
@@ -1017,7 +1020,7 @@ export default function ImageToTextClient({ children }: { children?: React.React
                 ].map((t, i) => (
                   <div key={i} className="flex items-start gap-2">
                     <span className="flex-shrink-0">{t.icon}</span>
-                    <span>{t.tip}</span>
+                    <span className="leading-relaxed">{t.tip}</span>
                   </div>
                 ))}
               </div>
@@ -1027,48 +1030,54 @@ export default function ImageToTextClient({ children }: { children?: React.React
         </div>
 
         {/* Competitor comparison */}
-        <div className="mt-8 bg-[#13131F] border border-white/5 rounded-2xl p-5 overflow-x-auto">
-          <h2 className="text-base font-extrabold text-white mb-4">Why PursTech OCR Beats Every Competitor</h2>
-          <table className="w-full text-sm min-w-[520px]">
-            <thead>
-              <tr className="border-b border-white/5">
-                <th className="text-left py-2 text-gray-500 font-semibold">Feature</th>
-                <th className="text-center py-2 text-[#6C3AFF] font-bold">PursTech ★</th>
-                <th className="text-center py-2 text-gray-500">onlineocr.net</th>
-                <th className="text-center py-2 text-gray-500">ocr.space</th>
-                <th className="text-center py-2 text-gray-500">i2ocr.com</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ["100% browser-based (private)",                 true,  false, false, false],
-                ["Image preprocessing tools",                    true,  false, false, false],
-                ["Word-level confidence heatmap",                true,  false, false, false],
-                ["Clipboard paste (Ctrl+V)",                     true,  false, false, false],
-                ["Camera capture support",                       true,  false, false, false],
-                ["30+ languages",                                true,  true,  true,  true ],
-                ["No login required",                            true,  false, true,  true ],
-                ["No watermarks",                                true,  true,  false, true ],
-                ["No file size limit",                           true,  false, false, false],
-                ["Editable output text",                         true,  false, false, false],
-              ].map(([feature, ...vals]) => (
-                <tr key={String(feature)} className="border-b border-white/5 hover:bg-white/[0.02]">
-                  <td className="py-2.5 text-gray-400 text-xs">{String(feature)}</td>
-                  {vals.map((v, i) => (
-                    <td key={i} className="text-center py-2.5">
-                      {v ? <span className="text-green-400 font-bold">✓</span> : <span className="text-gray-600">—</span>}
-                    </td>
-                  ))}
+        {/* ✅ CRITICAL QA FIX: Mobile-safe wrapper for the competitor table */}
+        <div className="mt-8 bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden w-full">
+          <div className="p-5 border-b border-white/5">
+            <h2 className="text-base font-extrabold text-white mb-1">Why PursTech OCR Beats Every Competitor</h2>
+            <p className="text-xs text-gray-500">Feature comparison — all at zero cost</p>
+          </div>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-sm min-w-[520px]">
+              <thead>
+                <tr className="border-b border-white/5 bg-[#0A0A14]/50">
+                  <th className="text-left px-5 py-3 text-gray-500 font-semibold whitespace-nowrap">Feature</th>
+                  <th className="text-center px-4 py-3 text-[#6C3AFF] font-bold">PursTech ★</th>
+                  <th className="text-center px-4 py-3 text-gray-500 font-medium">onlineocr.net</th>
+                  <th className="text-center px-4 py-3 text-gray-500 font-medium">ocr.space</th>
+                  <th className="text-center px-4 py-3 text-gray-500 font-medium">i2ocr.com</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {[
+                  ["100% browser-based (private)",                 true,  false, false, false],
+                  ["Image preprocessing tools",                    true,  false, false, false],
+                  ["Word-level confidence heatmap",                true,  false, false, false],
+                  ["Clipboard paste (Ctrl+V)",                     true,  false, false, false],
+                  ["Camera capture support",                       true,  false, false, false],
+                  ["30+ languages",                                true,  true,  true,  true ],
+                  ["No login required",                            true,  false, true,  true ],
+                  ["No watermarks",                                true,  true,  false, true ],
+                  ["No file size limit",                           true,  false, false, false],
+                  ["Editable output text",                         true,  false, false, false],
+                ].map(([feature, ...vals]) => (
+                  <tr key={String(feature)} className="border-b border-white/5 hover:bg-white/[0.02]">
+                    <td className="px-5 py-3 text-gray-400 text-xs whitespace-nowrap">{String(feature)}</td>
+                    {vals.map((v, i) => (
+                      <td key={i} className="text-center py-3">
+                        {v ? <span className="text-green-400 font-bold">✓</span> : <span className="text-gray-600">—</span>}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* How to Use */}
         <div className="mt-8 bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <h2 className="text-xl font-extrabold text-white mb-5">How to Extract Text from Images</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { step:"1", title:"Upload or paste your image",
                 desc:"Drop an image, click to browse, paste from clipboard with Ctrl+V, take a photo, or enter an image URL. Supports JPEG, PNG, WebP and GIF." },
@@ -1108,11 +1117,13 @@ export default function ImageToTextClient({ children }: { children?: React.React
 
       </main>
 
-      <footer className="border-t border-white/5 mt-16 py-8 text-center">
+      {/* ✅ PATCH 5: Master Footer */}
+      <footer className="border-t border-white/5 mt-16 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About</Link>
+        <div className="flex justify-center flex-wrap gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
