@@ -2,9 +2,7 @@
 
 import { useState, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
-
-// ✅ SCHEMA removed — now server-rendered as WebApplication in page.tsx
+import { useTrackTool } from "@/hooks/useTrackTool";
 
 const FAQ = [
   { q:"What is Markdown and when should I use it?",
@@ -21,11 +19,13 @@ const FAQ = [
 
 /* ── Markdown → HTML renderer ────────────────────────────────────────────────*/
 function renderMarkdown(md: string): string {
+  if (!md) return "";
   let html = md;
 
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
-    `<pre class="md-pre"><code class="language-${lang}">${code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>`
-  );
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    const safeCode = (code || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return `<pre class="md-pre"><code class="language-${lang || "text"}">${safeCode}</code></pre>`;
+  });
 
   html = html.replace(/^- \[x\] (.+)$/gm, '<li class="task done">✓ $1</li>');
   html = html.replace(/^- \[ \] (.+)$/gm, '<li class="task">☐ $1</li>');
@@ -60,7 +60,7 @@ function renderMarkdown(md: string): string {
     const parseRow = (row: string) =>
       row.trim().replace(/^\||\|$/g, "").split("|").map(c => c.trim());
     const headCols = parseRow(head);
-    const bodyCols = body.trim().split("\n").filter(Boolean).map(parseRow);
+    const bodyCols = (body || "").trim().split("\n").filter(Boolean).map(parseRow);
     const ths = headCols.map(c => `<th>${c}</th>`).join("");
     const trs = bodyCols.map((r: string[]) => `<tr>${r.map((c: string) => `<td>${c}</td>`).join("")}</tr>`).join("");
     return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
@@ -90,49 +90,10 @@ function countStats(md: string) {
   return { words, chars, lines, readMins };
 }
 
-const INITIAL = `# Welcome to PursTech Markdown Editor
-
-Write **Markdown** here and see a *live preview* on the right.
-
-## Features
-
-- Real-time split-pane preview
-- GFM tables and task lists
-- Syntax-highlighted code blocks
-- Export as HTML or .md file
-- Word count and reading time
-
-## GFM Table Example
-
-| Feature | Free | Pro |
-| --- | :---: | :---: |
-| All Tools | ✓ | ✓ |
-| Ad-free | ✗ | ✓ |
-| API Access | ✗ | ✓ |
-
-## Task List
-
-- [x] Build the homepage
-- [x] Create 30 tools
-- [ ] Launch Pro subscription
-- [ ] Build AI agents
-
-## Code Block
-
-\`\`\`javascript
-const greet = (name) => \`Hello, \${name}! Welcome to PursTech.\`;
-console.log(greet("Developer"));
-\`\`\`
-
-> "Stop Searching. Start Doing." — PursTech
-
----
-
-Visit [purstech.com](https://purstech.com) to explore all tools.
-`;
+const INITIAL = `# Welcome to PursTech Markdown Editor\n\nWrite **Markdown** here and see a *live preview* on the right.\n\n## Features\n\n- Real-time split-pane preview\n- GFM tables and task lists\n- Syntax-highlighted code blocks\n- Export as HTML or .md file\n- Word count and reading time\n\n## GFM Table Example\n\n| Feature | Free | Pro |\n| --- | :---: | :---: |\n| All Tools | ✓ | ✓ |\n| Ad-free | ✗ | ✓ |\n| API Access | ✗ | ✓ |\n\n## Task List\n\n- [x] Build the homepage\n- [x] Create 30 tools\n- [ ] Launch Pro subscription\n- [ ] Build AI agents\n\n## Code Block\n\n\`\`\`javascript\nconst greet = (name) => \`Hello, \${name}! Welcome to PursTech.\`;\nconsole.log(greet(\"Developer\"));\n\`\`\`\n\n> \"Stop Searching. Start Doing.\" — PursTech\n\n---\n\nVisit [purstech.com](https://www.purstech.com) to explore all tools.`;
 
 export default function MarkdownEditorClient() {
-  useTrackTool("markdown-editor", "dev"); // ✅ ADDED
+  useTrackTool("markdown-editor", "dev");
 
   const [md,          setMd]          = useState(INITIAL);
   const [layout,      setLayout]      = useState<"split"|"editor"|"preview">("split");
@@ -145,7 +106,6 @@ export default function MarkdownEditorClient() {
   const html  = useMemo(() => renderMarkdown(md), [md]);
   const stats = useMemo(() => countStats(md), [md]);
 
-  /* ── Toolbar actions ──────────────────────────────────────────────────── */
   const wrap = useCallback((before: string, after: string, placeholder = "text") => {
     const ta = taRef.current;
     if (!ta) return;
@@ -216,7 +176,7 @@ export default function MarkdownEditorClient() {
 </style>
 </head>
 <body>
-${html}
+${html || ""}
 </body>
 </html>`;
     Object.assign(document.createElement("a"), {
@@ -232,14 +192,8 @@ ${html}
     }).click();
   }
 
-  const fullscreenClass = fullscreen
-    ? "fixed inset-0 z-50 bg-[#0A0A14] flex flex-col overflow-hidden"
-    : "bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden";
-
   return (
-    // ✅ CRITICAL Mobile Fortification Fixes Applied
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
-
       {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -251,11 +205,9 @@ ${html}
         </div>
       </nav>
 
-      {/* ✅ Layout bounds locked to keep textarea elements from stretching frames */}
       <main className={`flex-grow w-full ${fullscreen ? "flex flex-col" : "max-w-7xl mx-auto px-4 py-10"}`}>
         {!fullscreen && (
           <>
-            {/* Breadcrumb — responsive wrap added */}
             <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
               <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
               <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
@@ -273,8 +225,7 @@ ${html}
         )}
 
         {/* Editor Frame Container */}
-        <div className={fullscreenClass}>
-
+        <div className={fullscreen ? "fixed inset-0 z-50 bg-[#0A0A14] flex flex-col overflow-hidden" : "bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden"}>
           {/* Toolbar panel */}
           <div className="flex items-center gap-1 px-3 py-2 border-b border-white/5 flex-wrap bg-[#0A0A14]">
             {tools.map(t => (
@@ -306,8 +257,6 @@ ${html}
             </div>
           </div>
 
-          {/* Editor/Preview Split View Layout Logic */}
-          {/* ✅ Bounded parameters applied securely to support stacking split panes gracefully on smartphones */}
           <div className={`flex flex-col md:flex-row ${fullscreen ? "flex-1 min-h-0" : "h-[600px]"} overflow-hidden min-w-0 w-full`}>
             {(layout === "editor" || layout === "split") && (
               <textarea
@@ -322,7 +271,7 @@ ${html}
                 <div
                   className={`min-h-full p-6 prose max-w-none break-words ${darkPreview ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"}`}
                   style={{ fontFamily:"system-ui, sans-serif", lineHeight: 1.7 }}
-                  dangerouslySetInnerHTML={{ __html: html }} />
+                  dangerouslySetInnerHTML={{ __html: html || "" }} />
               </div>
             )}
           </div>
@@ -338,12 +287,11 @@ ${html}
             <div className="flex gap-2 flex-wrap">
               <button onClick={() => { navigator.clipboard.writeText(md); setCopiedMd(true); setTimeout(() => setCopiedMd(false), 2000); }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${copiedMd ? "bg-green-600 text-white border-transparent" : "border-white/10 text-gray-400 hover:text-white"}`}>
-                {copiedMd ? "✓ MD Paid!" : "Copy MD"}
+                {copiedMd ? "✓ MD Copied!" : "Copy MD"}
               </button>
-              {/* ✅ Connected Copy HTML interface element button */}
-              <button onClick={() => { navigator.clipboard.writeText(html); setCopiedHtml(true); setTimeout(() => setCopiedHtml(false), 2000); }}
+              <button onClick={() => { navigator.clipboard.writeText(html || ""); setCopiedHtml(true); setTimeout(() => setCopiedHtml(false), 2000); }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${copiedHtml ? "bg-green-600 text-white border-transparent" : "border-white/10 text-gray-400 hover:text-white"}`}>
-                {copiedHtml ? "✓ HTML Paid!" : "Copy HTML"}
+                {copiedHtml ? "✓ HTML Copied!" : "Copy HTML"}
               </button>
               <button onClick={downloadMd}
                 className="px-3 py-1.5 rounded-lg bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white text-xs font-bold transition-all">
@@ -399,7 +347,6 @@ ${html}
         )}
       </main>
 
-      {/* Standardized Master Footer */}
       {!fullscreen && (
         <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
