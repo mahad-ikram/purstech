@@ -125,16 +125,15 @@ export default function KeywordDensityClient() {
     // ✅ CRITICAL QA FIX: Added flex-col and overflow-x-hidden for mobile protection
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-      {/* Navbar — ✅ Go Pro added */}
+      {/* Navbar — ✅ Claude's exact navbar put back in! */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="hidden sm:flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
+          <div className="flex items-center gap-4">
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
             <Link href="/blog" className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
             <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
-          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
@@ -345,7 +344,7 @@ export default function KeywordDensityClient() {
           <h2 className="text-xl font-extrabold text-white mb-5">How to Use the Keyword Density Checker</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step:"1", title:"Paste your content",    desc:"Paste your full article or page content in the text area. Stats update instantly. Click Load sample article to demo with example text." },
+              { step:"1", title:"Paste your content",    desc:"Paste your full article or page content in the text area. Stats update instantly. Click Load Sample Article to demo with example text." },
               { step:"2", title:"Enter target keyword",  desc:"Type your target keyword or phrase to see exactly how many times it appears and its density percentage with a status indicator." },
               { step:"3", title:"Switch n-gram tabs",    desc:"Toggle between 1-word, 2-word and 3-word analysis to find over-repeated phrases you might have missed." },
               { step:"4", title:"Highlight & export",    desc:"Toggle keyword highlight to see context. Export your results as CSV for content audit spreadsheets." },
@@ -389,7 +388,7 @@ export default function KeywordDensityClient() {
         </div>
       </main>
 
-      {/* Footer — ✅ About→Terms, © 2026 */}
+      {/* Footer — ✅ About→Terms, © 2025→2026 */}
       <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center flex-wrap gap-6 mt-3 text-xs text-gray-600">
