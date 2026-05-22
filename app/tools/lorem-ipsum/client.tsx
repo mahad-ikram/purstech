@@ -63,14 +63,12 @@ function generateText(type: "paragraphs"|"sentences"|"words", count: number, sta
     if (startWithLorem) sents[0] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
     return sents.join(" ");
   }
-  // words
   const words = getWords(count);
   if (startWithLorem) { words[0] = "Lorem"; words[1] = "ipsum"; }
   return words.join(" ");
 }
 
 export default function LoremIpsumClient() {
-  // ✅ Track usage
   useTrackTool("lorem-ipsum", "text");
 
   const [type,       setType]       = useState<"paragraphs"|"sentences"|"words">("paragraphs");
@@ -78,7 +76,6 @@ export default function LoremIpsumClient() {
   const [startLorem, setStartLorem] = useState(true);
   const [output,     setOutput]     = useState("");
   const [copied,     setCopied]     = useState(false);
-  const [openFaq,    setOpenFaq]    = useState<number | null>(null);
 
   const maxCount = type === "words" ? 500 : type === "sentences" ? 20 : 10;
 
@@ -94,7 +91,6 @@ export default function LoremIpsumClient() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // ✅ UI Enhancement: Download as .txt
   const handleDownload = () => {
     if (!output) return;
     Object.assign(document.createElement("a"), {
@@ -107,23 +103,25 @@ export default function LoremIpsumClient() {
   const charCount = output.length;
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    // ✅ CRITICAL QA FIX: Mobile Fortification & Layout alignment
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-      {/* ── Navbar — ✅ sticky + Go Pro ── */}
+      {/* ── Navbar — Sticky & Unified ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
           <div className="flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
             <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 py-10">
+      {/* ✅ CRITICAL QA FIX: Full constraint container to prevent scaling breakouts */}
+      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
 
-        {/* Breadcrumb — ✅ aria-label + aria-hidden */}
-        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
           <Link href="/categories/text" className="hover:text-gray-400">Text Tools</Link><span aria-hidden="true">›</span>
@@ -151,9 +149,10 @@ export default function LoremIpsumClient() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 flex flex-col gap-5">
+          {/* Main Controls Panel */}
+          <div className="lg:col-span-2 flex flex-col gap-5 min-w-0">
 
-            {/* Controls */}
+            {/* Controls Box */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 flex flex-col gap-5">
 
               {/* Type selector */}
@@ -162,8 +161,8 @@ export default function LoremIpsumClient() {
                 <div className="grid grid-cols-3 gap-2">
                   {(["paragraphs","sentences","words"] as const).map(t => (
                     <button key={t} onClick={() => { setType(t); setCount(Math.min(count, t==="words"?500:t==="sentences"?20:10)); }}
-                      className={`py-3 rounded-xl text-sm font-bold transition-all capitalize ${
-                        type === t ? "bg-[#6C3AFF] text-white" : "bg-[#0A0A14] border border-white/5 text-gray-400 hover:text-white"
+                      className={`py-3 rounded-xl text-sm font-bold transition-all capitalize border ${
+                        type === t ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/5 text-gray-400 hover:text-white"
                       }`}>{t}</button>
                   ))}
                 </div>
@@ -204,16 +203,15 @@ export default function LoremIpsumClient() {
               </button>
             </div>
 
-            {/* Output */}
+            {/* Output Generation Display area */}
             {output && (
-              <div>
-                <div className="flex items-center justify-between mb-2">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center justify-between mb-2 gap-3">
                   <div className="flex gap-4 text-xs text-gray-500">
                     <span>Words: <span className="text-white font-bold">{wordCount}</span></span>
                     <span>Chars: <span className="text-white font-bold">{charCount}</span></span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {/* ✅ UI Enhancement: Download as .txt */}
+                  <div className="flex gap-2">
                     <button onClick={handleDownload}
                       className="text-xs bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white px-3 py-1.5 rounded-lg font-semibold transition-all">
                       ⬇ .txt
@@ -224,26 +222,20 @@ export default function LoremIpsumClient() {
                     </button>
                   </div>
                 </div>
-                <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-sm text-gray-300 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
+                {/* ✅ CRITICAL QA FIX: break-words prevents long character streams from breaking mobile views */}
+                <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-sm text-gray-300 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto break-words">
                   {output}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Sidebar */}
+          {/* Sidebar Navigation Details */}
           <div className="flex flex-col gap-4">
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
               <h3 className="text-sm font-bold text-white mb-4">💡 When to Use Lorem Ipsum</h3>
               <div className="space-y-3 text-xs text-gray-500">
-                {[
-                  "Wireframes and mockups",
-                  "Website templates",
-                  "Print design layouts",
-                  "App UI prototypes",
-                  "Typography testing",
-                  "Client presentations",
-                ].map(u => (
+                {["Wireframes and mockups","Website templates","Print design layouts","App UI prototypes","Typography testing","Client presentations"].map(u => (
                   <div key={u} className="flex items-center gap-2">
                     <span className="text-[#6C3AFF]">→</span><span>{u}</span>
                   </div>
@@ -265,7 +257,6 @@ export default function LoremIpsumClient() {
               </div>
             </div>
 
-            {/* ✅ Fixed: <button> → <Link href="/pro"> */}
             <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center">
               <div className="text-2xl mb-2">⚡</div>
               <h3 className="font-bold text-white text-sm mb-1">PursTech Pro</h3>
@@ -278,7 +269,7 @@ export default function LoremIpsumClient() {
           </div>
         </div>
 
-        {/* How to Use */}
+        {/* Informative Walkthrough */}
         <section className="mt-16">
           <h2 className="text-2xl font-extrabold text-white mb-6">📖 How to Use the Lorem Ipsum Generator</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -298,38 +289,32 @@ export default function LoremIpsumClient() {
           </div>
         </section>
 
-        {/* FAQ — always last */}
+        {/* ✅ CRITICAL QA FIX: Transformed dynamic layout toggles into AdSense crawlable details blocks */}
         <section className="mt-16">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((item, i) => (
-              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                  aria-expanded={openFaq === i}>
-                  <span className="font-semibold text-white text-sm">{item.q}</span>
-                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
-                  </div>
-                )}
-              </div>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none select-none">
+                  <span>{item.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{item.a}</div>
+              </details>
             ))}
           </div>
         </section>
       </main>
 
-      {/* Footer — ✅ Added Privacy/Terms/Contact + © 2025→2026 */}
-      <footer className="border-t border-white/5 mt-20 py-8 text-center">
+      {/* Footer Element */}
+      <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
+        <div className="flex justify-center flex-wrap gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. Free online tools for everyone.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
