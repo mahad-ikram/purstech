@@ -2,22 +2,27 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool"; 
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
 const RELATED_TOOLS = [
-  { icon: "🔤", name: "Case Converter",   slug: "case-converter"    },
-  { icon: "📝", name: "Word Counter",     slug: "word-counter"      },
-  { icon: "✍️", name: "Grammar Checker",  slug: "grammar-checker"   },
-  { icon: "📊", name: "Readability Score",slug: "readability-score" },
-  { icon: "🔍", name: "Diff Checker",     slug: "diff-checker"      },
+  { icon:"🔤", name:"Case Converter",    slug:"case-converter"    },
+  { icon:"📝", name:"Word Counter",      slug:"word-counter"      },
+  { icon:"✍️",  name:"Grammar Checker",  slug:"grammar-checker"   },
+  { icon:"📊", name:"Readability Score", slug:"readability-score" },
+  { icon:"🔍", name:"Diff Checker",      slug:"diff-checker"      },
 ];
 
 const FAQ = [
-  { q: "What is Lorem Ipsum?", a: "Lorem Ipsum is dummy placeholder text used in graphic design, publishing and web development. It has been the standard filler text since the 1500s, derived from a Latin work by Cicero." },
-  { q: "Why do designers use Lorem Ipsum?", a: "It lets designers focus on layout and visual design without being distracted by the actual content. Readable but meaningless text prevents the eye from focusing on words rather than design." },
-  { q: "Is Lorem Ipsum real Latin?", a: "It is derived from Latin but scrambled and altered so it reads as pseudo-Latin. It is not actually meaningful Latin prose." },
-  { q: "Can I use this text commercially?", a: "Yes. Lorem Ipsum is placeholder text in the public domain. It can be used freely in any project — commercial or personal." },
-  { q: "What is the difference between paragraphs, sentences and words?", a: "Paragraphs generate multiple sentences grouped together — ideal for body text. Sentences generate individual complete sentences for captions or subtitles. Words generate raw word sequences without punctuation, useful for heading and label placeholders." },
+  { q:"What is Lorem Ipsum?",
+    a:"Lorem Ipsum is dummy placeholder text used in graphic design, publishing and web development. It has been the standard filler text since the 1500s, derived from a Latin work by Cicero." },
+  { q:"Why do designers use Lorem Ipsum?",
+    a:"It lets designers focus on layout and visual design without being distracted by the actual content. Readable but meaningless text prevents the eye from focusing on words rather than design." },
+  { q:"Is Lorem Ipsum real Latin?",
+    a:"It is derived from Latin but scrambled and altered so it reads as pseudo-Latin. It is not actually meaningful Latin prose." },
+  { q:"Can I use this text commercially?",
+    a:"Yes. Lorem Ipsum is placeholder text in the public domain. It can be used freely in any project — commercial or personal." },
+  { q:"What is the difference between paragraphs, sentences and words?",
+    a:"Paragraphs generate multiple sentences grouped together — ideal for body text. Sentences generate individual complete sentences for captions or subtitles. Words generate raw word sequences without punctuation, useful for heading and label placeholders." },
 ];
 
 const LOREM_WORDS = [
@@ -32,7 +37,9 @@ const LOREM_WORDS = [
 ];
 
 function getWords(count: number): string[] {
-  return Array.from({ length: count }, () => LOREM_WORDS[Math.floor(Math.random() * LOREM_WORDS.length)]);
+  return Array.from({ length: count }, () =>
+    LOREM_WORDS[Math.floor(Math.random() * LOREM_WORDS.length)]
+  );
 }
 
 function generateSentence(): string {
@@ -56,12 +63,14 @@ function generateText(type: "paragraphs"|"sentences"|"words", count: number, sta
     if (startWithLorem) sents[0] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
     return sents.join(" ");
   }
+  // words
   const words = getWords(count);
   if (startWithLorem) { words[0] = "Lorem"; words[1] = "ipsum"; }
   return words.join(" ");
 }
 
 export default function LoremIpsumClient() {
+  // ✅ Track usage
   useTrackTool("lorem-ipsum", "text");
 
   const [type,       setType]       = useState<"paragraphs"|"sentences"|"words">("paragraphs");
@@ -69,6 +78,7 @@ export default function LoremIpsumClient() {
   const [startLorem, setStartLorem] = useState(true);
   const [output,     setOutput]     = useState("");
   const [copied,     setCopied]     = useState(false);
+  const [openFaq,    setOpenFaq]    = useState<number | null>(null);
 
   const maxCount = type === "words" ? 500 : type === "sentences" ? 20 : 10;
 
@@ -84,6 +94,7 @@ export default function LoremIpsumClient() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // ✅ UI Enhancement: Download as .txt
   const handleDownload = () => {
     if (!output) return;
     Object.assign(document.createElement("a"), {
@@ -96,42 +107,56 @@ export default function LoremIpsumClient() {
   const charCount = output.length;
 
   return (
-    // ✅ CRITICAL QA FIX: Mobile Fortification
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
 
+      {/* ── Navbar — ✅ sticky + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
           <div className="flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
             <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full">
+      <main className="max-w-7xl mx-auto px-4 py-10">
 
-        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
+        {/* Breadcrumb — ✅ aria-label + aria-hidden */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
           <Link href="/categories/text" className="hover:text-gray-400">Text Tools</Link><span aria-hidden="true">›</span>
           <span className="text-gray-400">Lorem Ipsum Generator</span>
         </nav>
 
+        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">📄</span>
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold">Lorem Ipsum Generator</h1>
-              <p className="text-gray-500 mt-1">Generate placeholder lorem ipsum text by paragraphs, sentences or word count — free, instant.</p>
+              <p className="text-gray-500 mt-1">
+                Generate placeholder lorem ipsum text by paragraphs, sentences or word count — free, instant.
+              </p>
             </div>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {["Free","No Login","Paragraphs / Sentences / Words","Instant"].map(b => (
+              <span key={b} className="text-xs bg-[#6C3AFF]/10 text-[#6C3AFF] border border-[#6C3AFF]/20 px-3 py-1 rounded-full font-medium">
+                ✓ {b}
+              </span>
+            ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 flex flex-col gap-5 min-w-0">
+          <div className="lg:col-span-2 flex flex-col gap-5">
 
+            {/* Controls */}
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 flex flex-col gap-5">
+
+              {/* Type selector */}
               <div>
                 <label className="text-xs text-gray-500 font-medium block mb-3 uppercase tracking-wider">Generate</label>
                 <div className="grid grid-cols-3 gap-2">
@@ -144,6 +169,7 @@ export default function LoremIpsumClient() {
                 </div>
               </div>
 
+              {/* Count slider */}
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-xs text-gray-500 font-medium uppercase tracking-wider">How many {type}</label>
@@ -151,34 +177,43 @@ export default function LoremIpsumClient() {
                 </div>
                 <input type="range" min={1} max={maxCount} value={count}
                   onChange={e => setCount(Number(e.target.value))}
-                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-[#6C3AFF]" />
+                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-[#6C3AFF]"
+                  style={{ background:`linear-gradient(to right, #6C3AFF ${(count/maxCount)*100}%, #1a1a2e ${(count/maxCount)*100}%)` }} />
+                <div className="flex justify-between text-xs text-gray-600 mt-1">
+                  <span>1</span><span>{maxCount}</span>
+                </div>
               </div>
 
+              {/* Start with Lorem toggle */}
               <div className="flex items-center justify-between bg-[#0A0A14] rounded-xl px-4 py-3">
                 <div>
                   <div className="text-sm font-semibold text-white">Start with &ldquo;Lorem ipsum...&rdquo;</div>
                   <div className="text-xs text-gray-500">Begin with the classic opening phrase</div>
                 </div>
-                <button onClick={() => setStartLorem(!startLorem)}
-                  className={`w-11 h-6 rounded-full transition-all relative ${startLorem ? "bg-[#6C3AFF]" : "bg-gray-700"}`}>
+                <button onClick={() => setStartLorem(p => !p)}
+                  className={`w-11 h-6 rounded-full transition-all relative ${startLorem ? "bg-[#6C3AFF]" : "bg-gray-700"}`}
+                  role="switch" aria-checked={startLorem}>
                   <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all ${startLorem ? "left-6" : "left-1"}`} />
                 </button>
               </div>
 
+              {/* Generate button */}
               <button onClick={handleGenerate}
                 className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] hover:opacity-90 text-white font-extrabold text-lg transition-all shadow-xl shadow-violet-900/30">
                 ✨ Generate Lorem Ipsum
               </button>
             </div>
 
+            {/* Output */}
             {output && (
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center justify-between mb-2 gap-3">
+              <div>
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex gap-4 text-xs text-gray-500">
                     <span>Words: <span className="text-white font-bold">{wordCount}</span></span>
                     <span>Chars: <span className="text-white font-bold">{charCount}</span></span>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-2">
+                    {/* ✅ UI Enhancement: Download as .txt */}
                     <button onClick={handleDownload}
                       className="text-xs bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white px-3 py-1.5 rounded-lg font-semibold transition-all">
                       ⬇ .txt
@@ -189,18 +224,26 @@ export default function LoremIpsumClient() {
                     </button>
                   </div>
                 </div>
-                <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-sm text-gray-300 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto break-words">
+                <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-sm text-gray-300 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
                   {output}
                 </div>
               </div>
             )}
           </div>
 
+          {/* Sidebar */}
           <div className="flex flex-col gap-4">
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
               <h3 className="text-sm font-bold text-white mb-4">💡 When to Use Lorem Ipsum</h3>
               <div className="space-y-3 text-xs text-gray-500">
-                {["Wireframes and mockups","Website templates","Print design layouts","App UI prototypes","Typography testing","Client presentations"].map(u => (
+                {[
+                  "Wireframes and mockups",
+                  "Website templates",
+                  "Print design layouts",
+                  "App UI prototypes",
+                  "Typography testing",
+                  "Client presentations",
+                ].map(u => (
                   <div key={u} className="flex items-center gap-2">
                     <span className="text-[#6C3AFF]">→</span><span>{u}</span>
                   </div>
@@ -222,6 +265,7 @@ export default function LoremIpsumClient() {
               </div>
             </div>
 
+            {/* ✅ Fixed: <button> → <Link href="/pro"> */}
             <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center">
               <div className="text-2xl mb-2">⚡</div>
               <h3 className="font-bold text-white text-sm mb-1">PursTech Pro</h3>
@@ -233,16 +277,59 @@ export default function LoremIpsumClient() {
             </div>
           </div>
         </div>
+
+        {/* How to Use */}
+        <section className="mt-16">
+          <h2 className="text-2xl font-extrabold text-white mb-6">📖 How to Use the Lorem Ipsum Generator</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { step:"1", title:"Choose Your Format", desc:"Select whether you want paragraphs (for body text), sentences (for captions) or words (for headings and labels)." },
+              { step:"2", title:"Set the Amount",     desc:"Drag the slider to choose how many paragraphs, sentences or words you need." },
+              { step:"3", title:"Generate & Download",desc:"Click Generate and your lorem ipsum text appears instantly. Click Copy to use in your design tool, or ⬇ .txt to save as a file." },
+            ].map(s => (
+              <div key={s.step} className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
+                <div className="w-10 h-10 rounded-full bg-[#6C3AFF]/20 border border-[#6C3AFF]/30 flex items-center justify-center text-[#6C3AFF] font-black text-lg mb-4">
+                  {s.step}
+                </div>
+                <h3 className="font-bold text-white mb-2">{s.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ — always last */}
+        <section className="mt-16">
+          <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
+          <div className="space-y-3">
+            {FAQ.map((item, i) => (
+              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
+                  aria-expanded={openFaq === i}>
+                  <span className="font-semibold text-white text-sm">{item.q}</span>
+                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-4">
+                    <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
-      <footer className="border-t border-white/5 mt-auto py-8 text-center">
+      {/* Footer — ✅ Added Privacy/Terms/Contact + © 2025→2026 */}
+      <footer className="border-t border-white/5 mt-20 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. Free online tools for everyone.</p>
       </footer>
     </div>
   );
