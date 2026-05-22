@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
+import { useTrackTool } from "@/hooks/useTrackTool";
 
 // ── Templates ──────────────────────────────────────────────────────────────────
 const TEMPLATES = {
@@ -147,11 +147,11 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
     }).click();
   }
 
+  const displayUrl        = fields.ogUrl || "https://yourwebsite.com/page";
   const titleTrunc        = fields.title.length > 60  ? fields.title.slice(0, 57)  + "..." : fields.title  || "Your Page Title";
   const descTrunc         = fields.description.length > 160 ? fields.description.slice(0, 157) + "..." : fields.description || "Your meta description appears here in Google search results. Make it compelling to increase clicks.";
   const mobileTitleTrunc  = fields.title.length > 55  ? fields.title.slice(0, 52)  + "..." : fields.title  || "Your Page Title";
   const mobileDescTrunc   = fields.description.length > 120 ? fields.description.slice(0, 117) + "..." : fields.description || "Your meta description appears here in Google search results.";
-  const displayUrl        = fields.ogUrl || "https://yourwebsite.com/page";
 
   const tabs = [
     { id:"basic"   as const, label:"🔍 Basic SEO"   },
@@ -160,9 +160,8 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
   ];
 
   return (
-    // ✅ CRITICAL QA FIX: Mobile Fortification container logic injected
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
-
+      
       {/* ── Navbar ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -175,9 +174,7 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
         </div>
       </nav>
 
-      {/* ✅ Layout bounding logic handles container growth safely */}
       <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full">
-
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link><span aria-hidden="true">›</span>
@@ -187,20 +184,20 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
 
         {children}
 
-        {/* Templates */}
         <div className="mb-6">
           <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">⚡ Quick Templates</p>
           <div className="flex flex-wrap gap-2">
             {Object.keys(TEMPLATES).map(name => (
               <button key={name} onClick={() => applyTemplate(name)}
                 className={`px-4 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
-                  activeTemplate === name ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#13131F] border-white/5 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30"
+                  activeTemplate === name
+                    ? "bg-[#6C3AFF] text-white border-transparent"
+                    : "bg-[#13131F] border-white/5 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30"
                 }`}>{name}</button>
             ))}
           </div>
         </div>
 
-        {/* ✅ Grid wrapper panels secured with min-w-0 variables */}
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mb-12 min-w-0 w-full">
 
           {/* ── Left Input Fields Tab Column ── */}
@@ -215,155 +212,161 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
             </div>
 
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 space-y-5 min-w-0">
-              {tab === "basic" && <>
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-sm font-semibold text-white">Page Title</label>
-                    <CharBadge val={fields.title} max={60} />
-                  </div>
-                  <p className="text-xs text-gray-500 mb-2">50–60 characters. Include your primary keyword near the start.</p>
-                  <input value={fields.title} onChange={e => syncAndSet("title", e.target.value)}
-                    placeholder="Free Online JSON Formatter — Format & Validate JSON | PursTech"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-sm font-semibold text-white">Meta Description</label>
-                    <CharBadge val={fields.description} max={160} />
-                  </div>
-                  <p className="text-xs text-gray-500 mb-2">150–160 characters. Include a benefit and a call to action.</p>
-                  <textarea value={fields.description} onChange={e => syncAndSet("description", e.target.value)}
-                    rows={3} placeholder="Format, validate and minify JSON instantly. Browser-based — your data never leaves your device. Free, no login required."
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none min-w-0" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {tab === "basic" && (
+                <>
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-1">Author</label>
-                    <input value={fields.author} onChange={e => set("author")(e.target.value)}
-                      placeholder="PursTech Team"
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-sm font-semibold text-white">Page Title</label>
+                      <CharBadge val={fields.title} max={60} />
+                    </div>
+                    <p className="text-xs text-gray-500 mb-2">50–60 characters. Include your primary keyword near the start.</p>
+                    <input value={fields.title} onChange={e => syncAndSet("title", e.target.value)}
+                      placeholder="Free Online JSON Formatter — Format & Validate JSON | PursTech"
                       className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-1">Robots</label>
-                    <select value={fields.robots} onChange={e => set("robots")(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none transition-all cursor-pointer">
-                      <option value="index, follow">index, follow</option>
-                      <option value="noindex, follow">noindex, follow</option>
-                      <option value="index, nofollow">index, nofollow</option>
-                      <option value="noindex, nofollow">noindex, nofollow</option>
-                    </select>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-sm font-semibold text-white">Meta Description</label>
+                      <CharBadge val={fields.description} max={160} />
+                    </div>
+                    <p className="text-xs text-gray-500 mb-2">150–160 characters. Include a benefit and a call to action.</p>
+                    <textarea value={fields.description} onChange={e => syncAndSet("description", e.target.value)}
+                      rows={3} placeholder="Format, validate and minify JSON instantly. Browser-based — your data never leaves your device. Free, no login required."
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none min-w-0" />
                   </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-1">
-                    Canonical URL <span className="text-gray-500 font-normal">(prevents duplicate content)</span>
-                  </label>
-                  <input value={fields.canonical} onChange={e => set("canonical")(e.target.value)}
-                    placeholder="https://yoursite.com/page"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-              </</>
-
-              {tab === "og" && <>
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-sm font-semibold text-white">OG Title</label>
-                    <CharBadge val={fields.ogTitle} max={60} />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-white mb-1">Author</label>
+                      <input value={fields.author} onChange={e => set("author")(e.target.value)}
+                        placeholder="PursTech Team"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-white mb-1">Robots</label>
+                      <select value={fields.robots} onChange={e => set("robots")(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none transition-all cursor-pointer">
+                        <option value="index, follow">index, follow</option>
+                        <option value="noindex, follow">noindex, follow</option>
+                        <option value="index, nofollow">index, nofollow</option>
+                        <option value="noindex, nofollow">noindex, nofollow</option>
+                      </select>
+                    </div>
                   </div>
-                  <input value={fields.ogTitle} onChange={e => set("ogTitle")(e.target.value)}
-                    placeholder="Auto-filled from title — or customise for social"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-sm font-semibold text-white">OG Description</label>
-                    <CharBadge val={fields.ogDescription} max={160} />
-                  </div>
-                  <textarea value={fields.ogDescription} onChange={e => set("ogDescription")(e.target.value)}
-                    rows={3} placeholder="Description shown when shared on Facebook, LinkedIn, WhatsApp..."
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none min-w-0" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-1">
-                    OG Image URL <span className="text-gray-500 font-normal text-xs">(recommended: 1200×630px)</span>
-                  </label>
-                  <input value={fields.ogImage} onChange={e => set("ogImage")(e.target.value)}
-                    placeholder="https://yoursite.com/og-image.png"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-1">Page URL</label>
-                    <input value={fields.ogUrl} onChange={e => set("ogUrl")(e.target.value)}
+                    <label className="block text-sm font-semibold text-white mb-1">
+                      Canonical URL <span className="text-gray-500 font-normal">(prevents duplicate content)</span>
+                    </label>
+                    <input value={fields.canonical} onChange={e => set("canonical")(e.target.value)}
                       placeholder="https://yoursite.com/page"
                       className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-white mb-1">OG Type</label>
-                    <select value={fields.ogType} onChange={e => set("ogType")(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none transition-all cursor-pointer">
-                      <option value="website">website</option>
-                      <option value="article">article</option>
-                      <option value="product">product</option>
-                      <option value="profile">profile</option>
-                      <option value="video.movie">video</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-1">Site Name</label>
-                  <input value={fields.ogSiteName} onChange={e => set("ogSiteName")(e.target.value)}
-                    placeholder="PursTech"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-              </>}
+                </>
+              )}
 
-              {tab === "twitter" && <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {tab === "og" && (
+                <>
                   <div>
-                    <label className="block text-sm font-semibold text-white mb-1">Card Type</label>
-                    <select value={fields.twitterCard} onChange={e => set("twitterCard")(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none transition-all cursor-pointer">
-                      <option value="summary_large_image">Large Image</option>
-                      <option value="summary">Summary</option>
-                      <option value="app">App</option>
-                      <option value="player">Player</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-white mb-1">Twitter Handle</label>
-                    <input value={fields.twitterHandle} onChange={e => set("twitterHandle")(e.target.value)}
-                      placeholder="@yourbrand"
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-sm font-semibold text-white">OG Title</label>
+                      <CharBadge val={fields.ogTitle} max={60} />
+                    </div>
+                    <input value={fields.ogTitle} onChange={e => set("ogTitle")(e.target.value)}
+                      placeholder="Auto-filled from title — or customise for social"
                       className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
                   </div>
-                </div>
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-sm font-semibold text-white">Twitter Title</label>
-                    <CharBadge val={fields.twitterTitle} max={60} />
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-sm font-semibold text-white">OG Description</label>
+                      <CharBadge val={fields.ogDescription} max={160} />
+                    </div>
+                    <textarea value={fields.ogDescription} onChange={e => set("ogDescription")(e.target.value)}
+                      rows={3} placeholder="Description shown when shared on Facebook, LinkedIn, WhatsApp..."
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none min-w-0" />
                   </div>
-                  <input value={fields.twitterTitle} onChange={e => set("twitterTitle")(e.target.value)}
-                    placeholder="Auto-filled from title"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-sm font-semibold text-white">Twitter Description</label>
-                    <CharBadge val={fields.twitterDesc} max={160} />
+                  <div>
+                    <label className="block text-sm font-semibold text-white mb-1">
+                      OG Image URL <span className="text-gray-500 font-normal text-xs">(recommended: 1200×630px)</span>
+                    </label>
+                    <input value={fields.ogImage} onChange={e => set("ogImage")(e.target.value)}
+                      placeholder="https://yoursite.com/og-image.png"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
                   </div>
-                  <textarea value={fields.twitterDesc} onChange={e => set("twitterDesc")(e.target.value)}
-                    rows={3} placeholder="Auto-filled from meta description"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none min-w-0" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-1">
-                    Twitter Image URL <span className="text-gray-500 font-normal text-xs">(min 120×120px)</span>
-                  </label>
-                  <input value={fields.twitterImage} onChange={e => set("twitterImage")(e.target.value)}
-                    placeholder="https://yoursite.com/twitter-card.png"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
-                </div>
-              </>}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-white mb-1">Page URL</label>
+                      <input value={fields.ogUrl} onChange={e => set("ogUrl")(e.target.value)}
+                        placeholder="https://yoursite.com/page"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-white mb-1">OG Type</label>
+                      <select value={fields.ogType} onChange={e => set("ogType")(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none transition-all cursor-pointer">
+                        <option value="website">website</option>
+                        <option value="article">article</option>
+                        <option value="product">product</option>
+                        <option value="profile">profile</option>
+                        <option value="video.movie">video</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-white mb-1">Site Name</label>
+                    <input value={fields.ogSiteName} onChange={e => set("ogSiteName")(e.target.value)}
+                      placeholder="PursTech"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
+                  </div>
+                </>
+              )}
+
+              {tab === "twitter" && (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-white mb-1">Card Type</label>
+                      <select value={fields.twitterCard} onChange={e => set("twitterCard")(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none transition-all cursor-pointer">
+                        <option value="summary_large_image">Large Image</option>
+                        <option value="summary">Summary</option>
+                        <option value="app">App</option>
+                        <option value="player">Player</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-white mb-1">Twitter Handle</label>
+                      <input value={fields.twitterHandle} onChange={e => set("twitterHandle")(e.target.value)}
+                        placeholder="@yourbrand"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-sm font-semibold text-white">Twitter Title</label>
+                      <CharBadge val={fields.twitterTitle} max={60} />
+                    </div>
+                    <input value={fields.twitterTitle} onChange={e => set("twitterTitle")(e.target.value)}
+                      placeholder="Auto-filled from title"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-sm font-semibold text-white">Twitter Description</label>
+                      <CharBadge val={fields.twitterDesc} max={160} />
+                    </div>
+                    <textarea value={fields.twitterDesc} onChange={e => set("twitterDesc")(e.target.value)}
+                      rows={3} placeholder="Auto-filled from meta description"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none min-w-0" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-white mb-1">
+                      Twitter Image URL <span className="text-gray-500 font-normal text-xs">(min 120×120px)</span>
+                    </label>
+                    <input value={fields.twitterImage} onChange={e => set("twitterImage")(e.target.value)}
+                      placeholder="https://yoursite.com/twitter-card.png"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all min-w-0" />
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -378,8 +381,8 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
                 <div className="min-w-0 flex-1">
                   <div className="text-xs text-gray-400">{grade.score}/55 points</div>
                   <div className="h-1.5 w-full bg-[#0A0A14] rounded-full overflow-hidden mt-1">
-                    <div className={`h-full rounded-full ${grade.grade==="A"?"bg-green-500":grade.grade==="B"?"bg-cyan-500":grade.grade==="C"?"bg-yellow-500":"bg-[#FF3A6C]"}`}
-                      style={{ width:`${(grade.score/55)*100}%` }} />
+                    <div className={`h-full rounded-full ${grade.grade === "A" ? "bg-green-500" : grade.grade === "B" ? "bg-cyan-500" : grade.grade === "C" ? "bg-yellow-500" : "bg-[#FF3A6C]"}`}
+                      style={{ width: `${(grade.score / 55) * 100}%` }} />
                   </div>
                 </div>
               </div>
@@ -413,7 +416,11 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
               </div>
               {serpView === "desktop" && (
                 <div className="bg-white rounded-xl p-4 w-full overflow-hidden">
-                  <div className="text-xs text-green-700 mb-0.5 truncate">{displayUrl}</div>
+                  <div className="text-xs text-green-700 mb-0.5 flex items-center gap-1 truncate">
+                    <span className="bg-green-50 border border-green-200 rounded px-1 text-xs">G</span>
+                    <span className="truncate">{displayUrl}</span>
+                    <span className="text-gray-400">›</span>
+                  </div>
                   <div className="text-[#1a0dab] text-base font-medium leading-tight mb-1 truncate">{titleTrunc}</div>
                   <div className="text-sm text-gray-600 leading-relaxed break-words line-clamp-2">{descTrunc}</div>
                 </div>
