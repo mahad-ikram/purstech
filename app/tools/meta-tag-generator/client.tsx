@@ -2,16 +2,62 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
+
+// ✅ FIX: This array is properly defined here so line 498 can map over it!
+const META_TAG_FAQ = [
+  {
+    q: "What are meta tags and why are they important for SEO?",
+    a: "Meta tags are HTML elements in the <head> section that provide information about your page to search engines and social platforms. The title tag and meta description are most critical — they appear directly in Google search results and heavily influence click-through rates. A well-optimized title and description can increase organic traffic by 20–30% without any change in ranking.",
+  },
+  {
+    q: "What is the ideal length for a meta title and meta description?",
+    a: "Meta titles should be 50–60 characters — Google truncates anything longer in desktop results. Meta descriptions should be 150–160 characters. Our generator shows a live character count with colour-coded warnings and displays exactly how your snippet will look on both mobile and desktop Google results.",
+  },
+  {
+    q: "What are Open Graph tags and do I need them?",
+    a: "Open Graph tags control how your page appears when shared on Facebook, LinkedIn, WhatsApp and other platforms — defining the title, description and preview image. Without OG tags, platforms make their own guess, often with poor results. Adding them takes under 2 minutes and dramatically improves social sharing appearance and click-through rates.",
+  },
+  {
+    q: "What is the difference between Open Graph and Twitter Card tags?",
+    a: "Both control link preview appearance but for different platforms. Open Graph tags are used by Facebook, LinkedIn, WhatsApp, Discord and most platforms. Twitter Card tags are specifically for Twitter/X and override OG tags when present. You should include both sets for complete social coverage — our generator creates both simultaneously.",
+  },
+  {
+    q: "Should I use the keywords meta tag for SEO?",
+    a: "No — Google officially ignores the keywords meta tag and has done so since 2009. Including it provides zero SEO benefit and may signal spam to some filters. Focus on title, description, Open Graph and Twitter Card tags instead. The tags that actually matter are exactly what our generator produces.",
+  },
+];
 
 // ── Templates ──────────────────────────────────────────────────────────────────
 const TEMPLATES = {
-  "Blog Post":     { title:"How to [Topic] — Complete Guide [Year]",               description:"Learn how to [topic] with our step-by-step guide. Discover [benefit 1], [benefit 2] and expert tips to help you [achieve goal] faster.",             robots:"index, follow", ogType:"article"  },
-  "Homepage":      { title:"[Brand] — [Primary Value Proposition] | [Category]",   description:"[Brand] helps you [primary benefit]. [Differentiator]. Try it free — no signup required.",                                                              robots:"index, follow", ogType:"website"  },
-  "Product Page":  { title:"Buy [Product Name] — [Key Benefit] | [Brand]",         description:"[Product name] — [key feature]. [Social proof or urgency]. Free shipping. [CTA].",                                                                      robots:"index, follow", ogType:"product"  },
-  "Landing Page":  { title:"[Offer]: [Specific Outcome] in [Timeframe]",            description:"Discover how [audience] can [achieve outcome] without [pain point]. [Social proof]. Start free today.",                                                 robots:"index, follow", ogType:"website"  },
-  "Local Business":{ title:"[Service] in [City] — [Business Name]",                description:"Looking for [service] in [city]? [Business name] offers [key services]. [Trust signal]. Call [phone] or book online.",                                  robots:"index, follow", ogType:"website"  },
-  "No-Index Page": { title:"",                                                       description:"",                                                                                                                                                        robots:"noindex, nofollow", ogType:"website" },
+  "Blog Post": {
+    title: "How to [Topic] — Complete Guide [Year]",
+    description: "Learn how to [topic] with our step-by-step guide. Discover [benefit 1], [benefit 2] and expert tips to help you [achieve goal] faster.",
+    robots: "index, follow", ogType: "article",
+  },
+  "Homepage": {
+    title: "[Brand] — [Primary Value Proposition] | [Category]",
+    description: "[Brand] helps you [primary benefit]. [Differentiator]. Try it free — no signup required.",
+    robots: "index, follow", ogType: "website",
+  },
+  "Product Page": {
+    title: "Buy [Product Name] — [Key Benefit] | [Brand]",
+    description: "[Product name] — [key feature]. [Social proof or urgency]. Free shipping. [CTA].",
+    robots: "index, follow", ogType: "product",
+  },
+  "Landing Page": {
+    title: "[Offer]: [Specific Outcome] in [Timeframe]",
+    description: "Discover how [audience] can [achieve outcome] without [pain point]. [Social proof]. Start free today.",
+    robots: "index, follow", ogType: "website",
+  },
+  "Local Business": {
+    title: "[Service] in [City] — [Business Name]",
+    description: "Looking for [service] in [city]? [Business name] offers [key services]. [Trust signal]. Call [phone] or book online.",
+    robots: "index, follow", ogType: "website",
+  },
+  "No-Index Page": {
+    title: "", description: "", robots: "noindex, nofollow", ogType: "website",
+  },
 };
 
 // ── SEO Grader ─────────────────────────────────────────────────────────────────
@@ -190,9 +236,7 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
             {Object.keys(TEMPLATES).map(name => (
               <button key={name} onClick={() => applyTemplate(name)}
                 className={`px-4 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
-                  activeTemplate === name
-                    ? "bg-[#6C3AFF] text-white border-transparent"
-                    : "bg-[#13131F] border-white/5 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30"
+                  activeTemplate === name ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#13131F] border-white/5 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30"
                 }`}>{name}</button>
             ))}
           </div>
