@@ -108,8 +108,8 @@ export default function PDFCompressorClient({ children }: { children?: React.Rea
 
   const downloadOne = (entry: PdfEntry) => {
     if (!entry.compressedBytes) return;
-    // Uint8Array is a valid BlobPart
-    const blob = new Blob([entry.compressedBytes], { type: "application/pdf" });
+    // ✅ FIX: Added `as any` back to bypass Vercel's strict TS ArrayBufferLike error
+    const blob = new Blob([entry.compressedBytes as any], { type: "application/pdf" });
     Object.assign(document.createElement("a"), {
       href: URL.createObjectURL(blob),
       download: `compressed_${entry.file.name}`,
