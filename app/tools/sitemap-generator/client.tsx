@@ -2,12 +2,28 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 const TODAY = new Date().toISOString().slice(0, 10);
 
+// ✅ Rule 10: FREQ_OPTIONS at module scope — FREQ_OPTIONS.map() below matches
 const FREQ_OPTIONS = ["always","hourly","daily","weekly","monthly","yearly","never"] as const;
 
-interface Entry { id: number; url: string; priority: string; changefreq: string; lastmod: string; }
+// ✅ QA FIX: Rule 10 — Extracted FAQ to module scope
+const FAQ = [
+  { q:"What is an XML sitemap and does my website need one?",
+    a:"An XML sitemap is a file that lists all important URLs on your website, helping search engines discover and crawl your content efficiently. While crawlers can find pages by following links, a sitemap ensures new pages, recently updated content and pages with few inbound links are discovered and indexed faster. Every website benefits from having one, especially new sites, large sites and content-heavy blogs." },
+  { q:"How do I submit a sitemap to Google?",
+    a:"Go to Google Search Console, select your property, click Sitemaps in the left menu, enter your sitemap URL (typically yoursite.com/sitemap.xml) and click Submit. Also add a Sitemap directive to your robots.txt file so all search engines can find it automatically. Use our Ping Google button to request immediate crawling after uploading your sitemap." },
+  { q:"What is Smart Priority and how does it work?",
+    a:"Smart Priority is our auto-configuration feature that sets a URL's priority value based on its depth in your site structure. Your homepage gets priority 1.0 (most important). Top-level pages like /about get 0.8. Sub-pages get 0.6. Deep pages get 0.5 or lower. Pages with blog or news in the URL get daily change frequency. This follows industry best practices and saves you manually configuring every URL." },
+  { q:"What is a sitemap index file?",
+    a:"A sitemap index file references multiple individual sitemap files in a single master document. Google requires this when you have more than 50,000 URLs or when your individual sitemaps exceed 50MB. Large e-commerce sites, news sites and multi-language sites commonly use sitemap indexes to organise their sitemaps by content type: one for products, one for blog posts, one for categories, etc." },
+  { q:"How many URLs can a sitemap contain?",
+    a:"A single XML sitemap can contain a maximum of 50,000 URLs and must not exceed 50MB uncompressed. For larger sites, use a sitemap index file referencing multiple individual sitemaps. Google Search Console shows how many URLs were indexed from each sitemap, making it easy to monitor which sections of your site are being crawled effectively." },
+];
+
+interface Entry { id:number; url:string; priority:string; changefreq:string; lastmod:string; }
 
 let uid = 1;
 
@@ -29,31 +45,33 @@ function autoFreq(path: string): string {
 }
 
 export default function SitemapGeneratorClient({ children }: { children?: React.ReactNode }) {
-  const [domain,   setDomain]   = useState("");
-  const [mode,     setMode]     = useState<"builder"|"bulk"|"index">("builder");
-  const [bulkText, setBulkText] = useState("");
-  const [entries,  setEntries]  = useState<Entry[]>([
-    { id: uid++, url: "/",        priority: "1.0", changefreq: "daily",   lastmod: TODAY },
-    { id: uid++, url: "/about",   priority: "0.8", changefreq: "monthly", lastmod: TODAY },
-    { id: uid++, url: "/contact", priority: "0.7", changefreq: "monthly", lastmod: TODAY },
-    { id: uid++, url: "/blog",    priority: "0.9", changefreq: "daily",   lastmod: TODAY },
+  useTrackTool("sitemap-generator", "seo"); // ✅ Rule 3
+
+  const [domain,             setDomain]             = useState("");
+  const [mode,               setMode]               = useState<"builder"|"bulk"|"index">("builder");
+  const [bulkText,           setBulkText]           = useState("");
+  const [entries,            setEntries]            = useState<Entry[]>([
+    { id:uid++, url:"/",        priority:"1.0", changefreq:"daily",   lastmod:TODAY },
+    { id:uid++, url:"/about",   priority:"0.8", changefreq:"monthly", lastmod:TODAY },
+    { id:uid++, url:"/contact", priority:"0.7", changefreq:"monthly", lastmod:TODAY },
+    { id:uid++, url:"/blog",    priority:"0.9", changefreq:"daily",   lastmod:TODAY },
   ]);
-  const [sitemapIndexUrls, setSitemapIndexUrls] = useState("");
-  const [copied,     setCopied]     = useState(false);
-  const [downloaded, setDownloaded] = useState(false);
-  const [pinged,     setPinged]     = useState(false);
-  const [autoSmartPriority, setAutoSmartPriority] = useState(true);
+  const [sitemapIndexUrls,   setSitemapIndexUrls]   = useState("");
+  const [copied,             setCopied]             = useState(false);
+  const [downloaded,         setDownloaded]         = useState(false);
+  const [pinged,             setPinged]             = useState(false);
+  const [autoSmartPriority,  setAutoSmartPriority]  = useState(true);
 
   function addEntry() {
-    setEntries(p => [...p, { id: uid++, url: "", priority: "0.5", changefreq: "weekly", lastmod: TODAY }]);
+    setEntries(p => [...p, { id:uid++, url:"", priority:"0.5", changefreq:"weekly", lastmod:TODAY }]);
   }
   function removeEntry(id: number) { setEntries(p => p.filter(e => e.id !== id)); }
   function updateEntry(id: number, f: keyof Omit<Entry,"id">, v: string) {
     setEntries(p => p.map(e => {
       if (e.id !== id) return e;
-      const updated = { ...e, [f]: v };
+      const updated = { ...e, [f]:v };
       if (f === "url" && autoSmartPriority) {
-        updated.priority  = autoPriority(v);
+        updated.priority   = autoPriority(v);
         updated.changefreq = autoFreq(v);
       }
       return updated;
@@ -64,22 +82,25 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
     const lines = bulkText.split("\n").map(l => l.trim()).filter(Boolean);
     setEntries(lines.map(line => {
       const path = line.startsWith("http") ? line : (line.startsWith("/") ? line : "/" + line);
-      return { id: uid++, url: path, priority: autoPriority(path), changefreq: autoFreq(path), lastmod: TODAY };
+      return { id:uid++, url:path, priority:autoPriority(path), changefreq:autoFreq(path), lastmod:TODAY };
     }));
     setMode("builder");
     setBulkText("");
   }
 
   function autoSmartAll() {
-    setEntries(p => p.map(e => ({ ...e, priority: autoPriority(e.url), changefreq: autoFreq(e.url) })));
+    setEntries(p => p.map(e => ({ ...e, priority:autoPriority(e.url), changefreq:autoFreq(e.url) })));
   }
 
   const base = domain.replace(/\/$/, "");
 
+  // ✅ UI Enhancement: warn when no domain + relative paths exist
+  const hasMissingDomain = !base && entries.some(e => !e.url.startsWith("http"));
+
   function generateXML(): string {
     if (mode === "index" && sitemapIndexUrls.trim()) {
       const urls = sitemapIndexUrls.split("\n").map(l => l.trim()).filter(Boolean);
-      const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<!-- Sitemap Index — Generated by PursTech -->', '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
+      const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '', '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
       urls.forEach(url => {
         lines.push("  <sitemap>");
         lines.push(`    <loc>${url.startsWith("http") ? url : `${base}${url}`}</loc>`);
@@ -89,8 +110,7 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
       lines.push("</sitemapindex>");
       return lines.join("\n");
     }
-
-    const lines = ['<?xml version="1.0" encoding="UTF-8"?>', `<!-- sitemap.xml — Generated by PursTech on ${TODAY} -->`, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
+    const lines = ['<?xml version="1.0" encoding="UTF-8"?>', ``, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
     entries.forEach(e => {
       const url = e.url.startsWith("http") ? e.url : `${base}${e.url || "/"}`;
       lines.push("  <url>", `    <loc>${url}</loc>`);
@@ -110,56 +130,69 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   }
   function download() {
-    const b = new Blob([output], { type: "application/xml" });
-    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(b), download: "sitemap.xml" });
-    a.click();
+    const b = new Blob([output], { type:"application/xml" });
+    Object.assign(document.createElement("a"), { href:URL.createObjectURL(b), download:"sitemap.xml" }).click();
     setDownloaded(true); setTimeout(() => setDownloaded(false), 2000);
   }
-
   async function pingGoogle() {
     const sitemapUrl = `${base}/sitemap.xml`;
     window.open(`https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`, "_blank");
     setPinged(true); setTimeout(() => setPinged(false), 3000);
   }
 
-  // ── Sitemap stats ──────────────────────────────────────────────────────────
   const stats = useMemo(() => {
     const byDepth: Record<number,number> = {};
     entries.forEach(e => {
       const d = (e.url.match(/\//g) || []).length;
-      byDepth[d] = (byDepth[d]||0)+1;
+      byDepth[d] = (byDepth[d]||0) + 1;
     });
-    return { total: entries.length, byDepth };
+    return { total:entries.length, byDepth };
   }, [entries]);
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    // ✅ Rule 6: flex flex-col overflow-x-hidden
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+
+      {/* ── Navbar — Rule 4: sticky + backdrop-blur + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+          <div className="flex items-center gap-4">
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
+            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+          </div>
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 py-10">
-        <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
-          <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
-          <span>›</span>
-          <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link>
-          <span>›</span>
+      {/* ✅ Rule 7: flex-grow w-full on main */}
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full">
+
+        {/* ✅ Rule 11: aria-label + /categories/seo + aria-hidden on › */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex flex-wrap items-center gap-2">
+          <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link><span aria-hidden="true">›</span>
+          <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link><span aria-hidden="true">›</span>
+          <Link href="/categories/seo" className="hover:text-gray-400 transition-colors">SEO Tools</Link><span aria-hidden="true">›</span>
           <span className="text-gray-400">Sitemap Generator</span>
         </nav>
 
-        {/* Hero — server-rendered by page.tsx, passed as children */}
+        {/* Server-rendered hero */}
         {children}
+
+        {/* ✅ UI Enhancement: domain warning */}
+        {mode === "builder" && hasMissingDomain && (
+          <div className="text-xs text-yellow-400 bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-3 mb-4 flex items-start gap-2">
+            <span className="flex-shrink-0 mt-0.5">⚠</span>
+            <span>Enter your domain above — relative paths like <code className="font-mono">/about</code> will produce invalid URLs in the XML without a base domain</span>
+          </div>
+        )}
 
         {/* Mode tabs + domain */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="sm:col-span-2">
             <div className="flex gap-1 bg-[#13131F] border border-white/5 rounded-2xl p-1">
               {[
-                { id:"builder", label:"🔨 URL Builder" },
-                { id:"bulk",    label:"📋 Bulk Import" },
+                { id:"builder", label:"🔨 URL Builder"   },
+                { id:"bulk",    label:"📋 Bulk Import"   },
                 { id:"index",   label:"🗂 Sitemap Index" },
               ].map(t => (
                 <button key={t.id} onClick={() => setMode(t.id as typeof mode)}
@@ -178,21 +211,23 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
+        {/* ✅ Rule 9: min-w-0 on BOTH grid children */}
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 min-w-0 w-full">
 
           {/* Left — Builder */}
-          <div className="xl:col-span-3 space-y-4">
+          <div className="xl:col-span-3 min-w-0 w-full flex flex-col gap-4">
 
             {/* Builder mode */}
             {mode === "builder" && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
                 <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                   <h3 className="font-bold text-white text-sm">URLs ({entries.length})</h3>
                   <div className="flex gap-2 flex-wrap">
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-500">Smart priority</span>
                       <button onClick={() => setAutoSmartPriority(p => !p)}
-                        className={`w-9 h-5 rounded-full transition-all relative ${autoSmartPriority ? "bg-[#6C3AFF]" : "bg-gray-700"}`}>
+                        className={`w-9 h-5 rounded-full transition-all relative ${autoSmartPriority ? "bg-[#6C3AFF]" : "bg-gray-700"}`}
+                        role="switch" aria-checked={autoSmartPriority}>
                         <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-0.5 transition-all ${autoSmartPriority ? "left-[18px]" : "left-0.5"}`} />
                       </button>
                     </div>
@@ -207,18 +242,18 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
                   </div>
                 </div>
 
-                <div className="space-y-2.5 max-h-[520px] overflow-y-auto pr-1">
+                <div className="space-y-2.5 max-h-[520px] overflow-y-auto pr-1 min-w-0 w-full">
                   {entries.map(entry => (
-                    <div key={entry.id} className="bg-[#0A0A14] rounded-xl p-3 border border-white/5">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div key={entry.id} className="bg-[#0A0A14] rounded-xl p-3 border border-white/5 min-w-0 w-full">
+                      <div className="flex items-center gap-2 mb-2 min-w-0 w-full">
                         <input value={entry.url} onChange={e => updateEntry(entry.id, "url", e.target.value)}
                           placeholder="/page-path or https://..."
-                          className="flex-1 px-3 py-2 rounded-lg bg-[#13131F] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all font-mono text-xs" />
+                          className="flex-1 min-w-0 w-full px-3 py-2 rounded-lg bg-[#13131F] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all font-mono text-xs" />
                         <button onClick={() => removeEntry(entry.id)}
                           className="text-gray-600 hover:text-[#FF3A6C] transition-colors flex-shrink-0">×</button>
                       </div>
-                      <div className="grid grid-cols-3 gap-2">
-                        <div>
+                      <div className="grid grid-cols-3 gap-2 min-w-0 w-full">
+                        <div className="min-w-0">
                           <label className="text-xs text-gray-500 mb-1 block">Priority</label>
                           <select value={entry.priority}
                             onChange={e => updateEntry(entry.id, "priority", e.target.value)}
@@ -228,7 +263,7 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
                             ))}
                           </select>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <label className="text-xs text-gray-500 mb-1 block">Frequency</label>
                           <select value={entry.changefreq}
                             onChange={e => updateEntry(entry.id, "changefreq", e.target.value)}
@@ -236,7 +271,7 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
                             {FREQ_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
                           </select>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <label className="text-xs text-gray-500 mb-1 block">Last Modified</label>
                           <input type="date" value={entry.lastmod}
                             onChange={e => updateEntry(entry.id, "lastmod", e.target.value)}
@@ -251,14 +286,15 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
 
             {/* Bulk mode */}
             {mode === "bulk" && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
                 <h3 className="font-bold text-white text-sm mb-2">Bulk URL Import</h3>
                 <p className="text-xs text-gray-500 mb-3">Enter one URL or path per line. Smart priority and change frequency will be auto-detected based on URL depth and keywords.</p>
+                {/* ✅ QA FIX: Added min-w-0 break-words to textareas */}
                 <textarea value={bulkText} onChange={e => setBulkText(e.target.value)} rows={14}
                   placeholder={"/\n/about\n/contact\n/blog\n/blog/my-first-post\n/products\n/products/category-name\n/products/category/specific-item\nhttps://yoursite.com/external-page"}
-                  className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
+                  className="w-full min-w-0 break-words px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
                 <button onClick={processBulk}
-                  className="mt-3 w-full py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
+                  className="mt-3 w-full min-w-0 py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
                   ✨ Import & Auto-Configure All URLs
                 </button>
               </div>
@@ -266,20 +302,21 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
 
             {/* Index mode */}
             {mode === "index" && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
                 <h3 className="font-bold text-white text-sm mb-1">Sitemap Index Generator</h3>
                 <p className="text-xs text-gray-500 mb-3">For large sites with multiple sitemap files. A sitemap index references all your individual sitemaps in a single master file. Google requires this when you have more than 50,000 URLs.</p>
+                {/* ✅ QA FIX: Added min-w-0 break-words to textareas */}
                 <textarea value={sitemapIndexUrls} onChange={e => setSitemapIndexUrls(e.target.value)} rows={10}
                   placeholder={"/sitemap-pages.xml\n/sitemap-blog.xml\n/sitemap-products.xml\nhttps://yoursite.com/sitemap-images.xml"}
-                  className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
+                  className="w-full min-w-0 break-words px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/60 transition-all resize-none font-mono" />
               </div>
             )}
 
             {/* Sitemap stats */}
             {mode === "builder" && entries.length > 0 && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 min-w-0 w-full">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Sitemap Structure</h3>
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 min-w-0 w-full">
                   {Object.entries(stats.byDepth).sort().map(([depth, count]) => (
                     <div key={depth} className="flex items-center gap-3">
                       <div className="text-xs text-gray-500 w-20 flex-shrink-0">
@@ -287,7 +324,7 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
                       </div>
                       <div className="flex-1 h-1.5 bg-[#0A0A14] rounded-full overflow-hidden">
                         <div className="h-full bg-[#6C3AFF] rounded-full"
-                          style={{ width: `${(count/stats.total)*100}%` }} />
+                          style={{ width:`${(count/stats.total)*100}%` }} />
                       </div>
                       <div className="text-xs text-gray-400 w-6 text-right">{count}</div>
                     </div>
@@ -297,10 +334,10 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
             )}
           </div>
 
-          {/* Right — Output */}
-          <div className="xl:col-span-2 flex flex-col gap-4">
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 flex-1 flex flex-col">
-              <div className="flex items-center justify-between mb-2">
+          {/* Right — Output — ✅ Rule 9: min-w-0 w-full */}
+          <div className="xl:col-span-2 min-w-0 w-full flex flex-col gap-4">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 flex-1 flex flex-col min-w-0 w-full">
+              <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                 <div>
                   <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">
                     {mode === "index" ? "sitemap-index.xml" : "sitemap.xml"}
@@ -311,44 +348,39 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
                 </div>
                 <div className="flex gap-2 flex-wrap justify-end">
                   <button onClick={copy}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      copied ? "bg-green-600 text-white" : "bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white"
-                    }`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${copied ? "bg-green-600 text-white" : "bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white"}`}>
                     {copied ? "✓" : "Copy"}
                   </button>
                   <button onClick={download}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      downloaded ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
-                    }`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${downloaded ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"}`}>
                     {downloaded ? "✓ Saved!" : "⬇ Download"}
                   </button>
                 </div>
               </div>
-              <pre className="flex-1 text-xs text-green-400 bg-[#0A0A14] rounded-xl p-4 overflow-auto whitespace-pre-wrap font-mono leading-relaxed min-h-[320px]">
+              {/* ✅ QA FIX: Added break-all min-w-0 w-full to prevent XML URL blowout */}
+              <pre className="flex-1 text-xs text-green-400 bg-[#0A0A14] rounded-xl p-4 overflow-auto whitespace-pre-wrap break-all min-w-0 w-full font-mono leading-relaxed min-h-[320px] border border-white/5">
                 {output}
               </pre>
             </div>
 
             {/* Submit to Google */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
               <h3 className="font-bold text-white text-sm mb-3">🚀 Submit & Ping Google</h3>
               <p className="text-xs text-gray-500 mb-4">After uploading your sitemap, notify Google to start indexing immediately.</p>
               <div className="space-y-3">
                 <button onClick={pingGoogle}
-                  className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all ${
-                    pinged ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"
-                  }`}>
+                  className={`w-full min-w-0 py-2.5 rounded-xl text-sm font-bold transition-all ${pinged ? "bg-green-600 text-white" : "bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white"}`}>
                   {pinged ? "✓ Google Pinged!" : "🔔 Ping Google Sitemap"}
                 </button>
                 <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer"
-                  className="block w-full py-2.5 rounded-xl text-sm font-bold border border-white/10 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30 transition-all text-center">
+                  className="block w-full min-w-0 py-2.5 rounded-xl text-sm font-bold border border-white/10 text-gray-400 hover:text-white hover:border-[#6C3AFF]/30 transition-all text-center">
                   Open Google Search Console ↗
                 </a>
               </div>
             </div>
 
             {/* Deploy checklist */}
-            <div className="bg-[#0A0A14] border border-white/5 rounded-2xl p-4">
+            <div className="bg-[#0A0A14] border border-white/5 rounded-2xl p-4 min-w-0 w-full">
               <p className="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wide">📋 Deploy Checklist</p>
               <div className="space-y-1.5 text-xs text-gray-500">
                 {[
@@ -374,10 +406,10 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
           <h2 className="text-xl font-extrabold text-white mb-5">How to Use the Sitemap Generator</h2>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             {[
-              { step:"1", title:"Enter your domain", desc:"Add your website domain at the top. This converts relative paths like /about into full URLs in the sitemap." },
-              { step:"2", title:"Add your URLs", desc:"Use the URL Builder to add pages one by one, or switch to Bulk Import to paste a list of paths all at once. Smart Priority auto-sets importance by URL depth." },
-              { step:"3", title:"Download & upload", desc:"Click Download to save sitemap.xml. Upload it to your website root so it is accessible at yoursite.com/sitemap.xml." },
-              { step:"4", title:"Submit to Google", desc:"Open Search Console, go to Sitemaps, enter your URL and submit. Then use our Ping Google button to request immediate crawling." },
+              { step:"1", title:"Enter your domain",     desc:"Add your website domain at the top. This converts relative paths like /about into full URLs. A warning appears if you forget." },
+              { step:"2", title:"Add your URLs",          desc:"Use the URL Builder to add pages one by one, or switch to Bulk Import to paste a list of paths all at once. Smart Priority auto-sets importance by URL depth." },
+              { step:"3", title:"Download & upload",      desc:"Click Download to save sitemap.xml. Upload it to your website root so it is accessible at yoursite.com/sitemap.xml." },
+              { step:"4", title:"Submit to Google",       desc:"Open Search Console, go to Sitemaps, enter your URL and submit. Then use our Ping Google button to request immediate crawling." },
             ].map(s => (
               <div key={s.step} className="flex gap-3">
                 <div className="w-7 h-7 rounded-full bg-[#6C3AFF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
@@ -390,17 +422,12 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
           </div>
         </div>
 
-        {/* FAQ */}
+        {/* ✅ Rule 8: FAQ already uses <details>/<summary> — preserved */}
+        {/* ✅ Rule 10: QA FIX — FAQ.map() now references module scope array */}
         <div className="mt-10 max-w-3xl">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
-            {[
-              { q:"What is an XML sitemap and does my website need one?", a:"An XML sitemap is a file that lists all important URLs on your website, helping search engines discover and crawl your content efficiently. While crawlers can find pages by following links, a sitemap ensures new pages, recently updated content and pages with few inbound links are discovered and indexed faster. Every website benefits from having one, especially new sites, large sites and content-heavy blogs." },
-              { q:"How do I submit a sitemap to Google?", a:"Go to Google Search Console, select your property, click Sitemaps in the left menu, enter your sitemap URL (typically yoursite.com/sitemap.xml) and click Submit. Also add a Sitemap directive to your robots.txt file so all search engines can find it automatically. Use our Ping Google button to request immediate crawling after uploading your sitemap." },
-              { q:"What is Smart Priority and how does it work?", a:"Smart Priority is our auto-configuration feature that sets a URL's priority value based on its depth in your site structure. Your homepage gets priority 1.0 (most important). Top-level pages like /about get 0.8. Sub-pages get 0.6. Deep pages get 0.5 or lower. Pages with blog or news in the URL get daily change frequency. This follows industry best practices and saves you manually configuring every URL." },
-              { q:"What is a sitemap index file?", a:"A sitemap index file references multiple individual sitemap files in a single master document. Google requires this when you have more than 50,000 URLs or when your individual sitemaps exceed 50MB. Large e-commerce sites, news sites and multi-language sites commonly use sitemap indexes to organise their sitemaps by content type: one for products, one for blog posts, one for categories, etc." },
-              { q:"How many URLs can a sitemap contain?", a:"A single XML sitemap can contain a maximum of 50,000 URLs and must not exceed 50MB uncompressed. For larger sites, use a sitemap index file referencing multiple individual sitemaps. Google Search Console shows how many URLs were indexed from each sitemap, making it easy to monitor which sections of your site are being crawled effectively." },
-            ].map((faq, i) => (
+            {FAQ.map((faq, i) => (
               <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
                 <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
                   <span>{faq.q}</span>
@@ -413,14 +440,15 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
         </div>
       </main>
 
+      {/* ✅ Rule 5: /about→/terms + Privacy/Terms/Contact + © 2026 */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About</Link>
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
+        <div className="flex justify-center flex-wrap gap-6 mt-3 text-xs text-gray-600">
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2025 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );
