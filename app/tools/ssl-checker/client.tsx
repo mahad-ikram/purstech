@@ -86,6 +86,23 @@ A certificate grade of B or above is sufficient for SEO purposes. The difference
   },
 ];
 
+/* ── Content Repositioned for UX ─────────────────────────────────────────── */
+const FEATURES = [
+  { icon:"🏅", title:"Security Grade A+ to F",       desc:"Instant letter grade based on TLS version, key strength and certificate validity." },
+  { icon:"📅", title:"Expiry Countdown",             desc:"See exactly how many days remain before the certificate expires, colour-coded by urgency." },
+  { icon:"🔒", title:"TLS Protocol Version",         desc:"Confirms whether the server uses TLS 1.3 (best), TLS 1.2 (acceptable) or older deprecated versions." },
+  { icon:"🔑", title:"Cipher Suite & Key Strength",  desc:"Identifies the encryption algorithm and key size — 2048 bits is the current minimum standard." },
+  { icon:"📋", title:"Full SAN List",                desc:"Lists every domain name the certificate covers, including wildcards and multi-domain entries." },
+  { icon:"🔍", title:"SHA-256 Fingerprint",          desc:"Cryptographic fingerprint to verify certificate authenticity and detect potential spoofing." },
+];
+
+const USE_CASES = [
+  { who:"Website Owners",    why:"Verify your certificate is valid and won't expire without warning, protecting your visitors and SEO." },
+  { who:"Developers",        why:"Debug HTTPS connection issues, confirm the right certificate is deployed and check SANs during setup." },
+  { who:"Security Teams",    why:"Audit cipher suites and TLS versions across your organisation's domains for compliance and hardening." },
+  { who:"SEO Professionals", why:"HTTPS is a Google ranking factor. Check that certificates are valid before and after migrations." },
+];
+
 /* ── Security recommendations by grade ───────────────────────────────────── */
 const GRADE_RECS: Record<string, { color:string; bg:string; border:string; icon:string; headline:string; actions:string[] }> = {
   "A+": { color:"text-green-400", bg:"bg-green-500/10", border:"border-green-500/20", icon:"✅", headline:"Excellent — your SSL configuration is optimal.",
@@ -337,6 +354,36 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
             </button>
           </div>
         )}
+
+        {/* ── Re-positioned SEO Content (Below Tool, Above How-to) ── */}
+        <div className="mt-16 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {FEATURES.map(f => (
+              <div key={f.title} className="bg-[#13131F] border border-white/5 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-xl">{f.icon}</span>
+                  <span className="text-sm font-bold text-white">{f.title}</span>
+                </div>
+                <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
+            <h2 className="text-sm font-bold text-white mb-3">Who uses the SSL Checker?</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {USE_CASES.map(u => (
+                <div key={u.who} className="flex gap-3">
+                  <span className="text-[#00D4FF] font-extrabold text-sm flex-shrink-0 mt-0.5">→</span>
+                  <div>
+                    <span className="text-sm font-semibold text-white">{u.who}: </span>
+                    <span className="text-sm text-gray-400">{u.why}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* How to Use */}
         <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
