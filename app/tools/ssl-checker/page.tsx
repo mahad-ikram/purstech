@@ -21,11 +21,9 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
     creator: "@purstech",
   },
-  // ✅ robots as object (not string)
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
 };
 
-// ✅ WebApplication (was SoftwareApplication)
 const APP_SCHEMA = {
   "@context": "https://schema.org", "@type": "WebApplication",
   name: "SSL Certificate Checker",
@@ -50,7 +48,6 @@ const APP_SCHEMA = {
   publisher: { "@id": "https://www.purstech.com/#organization" },
 };
 
-// ✅ HowTo schema ADDED
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
   name: "How to Check an SSL Certificate Online",
@@ -88,7 +85,6 @@ const FAQ_SCHEMA = {
   ],
 };
 
-// ✅ BreadcrumbList with /categories/security intermediate step
 const BREADCRUMB_SCHEMA = {
   "@context": "https://schema.org", "@type": "BreadcrumbList",
   itemListElement: [
@@ -98,22 +94,6 @@ const BREADCRUMB_SCHEMA = {
     { "@type": "ListItem", position: 4, name: "SSL Checker",    item: "https://www.purstech.com/tools/ssl-checker" },
   ],
 };
-
-const FEATURES = [
-  { icon:"🏅", title:"Security Grade A+ to F",       desc:"Instant letter grade based on TLS version, key strength and certificate validity." },
-  { icon:"📅", title:"Expiry Countdown",             desc:"See exactly how many days remain before the certificate expires, colour-coded by urgency." },
-  { icon:"🔒", title:"TLS Protocol Version",         desc:"Confirms whether the server uses TLS 1.3 (best), TLS 1.2 (acceptable) or older deprecated versions." },
-  { icon:"🔑", title:"Cipher Suite & Key Strength",  desc:"Identifies the encryption algorithm and key size — 2048 bits is the current minimum standard." },
-  { icon:"📋", title:"Full SAN List",                desc:"Lists every domain name the certificate covers, including wildcards and multi-domain entries." },
-  { icon:"🔍", title:"SHA-256 Fingerprint",          desc:"Cryptographic fingerprint to verify certificate authenticity and detect potential spoofing." },
-];
-
-const USE_CASES = [
-  { who:"Website Owners",    why:"Verify your certificate is valid and won't expire without warning, protecting your visitors and SEO." },
-  { who:"Developers",        why:"Debug HTTPS connection issues, confirm the right certificate is deployed and check SANs during setup." },
-  { who:"Security Teams",    why:"Audit cipher suites and TLS versions across your organisation's domains for compliance and hardening." },
-  { who:"SEO Professionals", why:"HTTPS is a Google ranking factor. Check that certificates are valid before and after migrations." },
-];
 
 export default function SSLCheckerPage() {
   return (
@@ -131,42 +111,12 @@ export default function SSLCheckerPage() {
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
             Free SSL Certificate Checker — Security Grade, Expiry &amp; TLS Details
           </h1>
-          <p className="text-gray-400 max-w-2xl mb-3 leading-relaxed text-base">
+          <p className="text-gray-400 max-w-2xl leading-relaxed text-base">
             Instantly inspect any website's SSL/TLS certificate. Our checker connects directly
             to the domain and retrieves the live certificate — giving you the security grade,
             exact expiry date, TLS protocol version, cipher suite, certificate issuer and every
-            domain name the certificate covers. No browser extension needed. No login.
+            domain name the certificate covers. No browser extension needed.
           </p>
-          <p className="text-gray-500 max-w-2xl mb-6 leading-relaxed text-sm">
-            Used by developers, security teams, SEO professionals and site owners to verify
-            HTTPS is correctly configured, catch certificates before they expire, and audit
-            TLS versions across multiple domains.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            {FEATURES.map(f => (
-              <div key={f.title} className="bg-[#13131F] border border-white/5 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-xl">{f.icon}</span>
-                  <span className="text-sm font-bold text-white">{f.title}</span>
-                </div>
-                <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-            <h2 className="text-sm font-bold text-white mb-3">Who uses the SSL Checker?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {USE_CASES.map(u => (
-                <div key={u.who} className="flex gap-3">
-                  <span className="text-[#00D4FF] font-extrabold text-sm flex-shrink-0 mt-0.5">→</span>
-                  <div>
-                    <span className="text-sm font-semibold text-white">{u.who}: </span>
-                    <span className="text-sm text-gray-400">{u.why}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </SSLCheckerClient>
     </>
