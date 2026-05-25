@@ -2,20 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
-/* ── JSON-LD (FAQPage lives here to avoid circular deps in page.tsx) ───────── */
-const SCHEMA = {
-  "@context":          "https://schema.org",
-  "@type":             "SoftwareApplication",
-  name:                "SSL Certificate Checker",
-  description:         "Free online SSL certificate checker — security grade, expiry countdown, TLS version, cipher suite, certificate issuer and SANs.",
-  url:                 "https://www.purstech.com/tools/ssl-checker",
-  applicationCategory: "SecurityApplication",
-  operatingSystem:     "Any",
-  offers:              { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
+// ✅ SCHEMA removed — now server-rendered as WebApplication in page.tsx
 
-/* ── Rich FAQ ─────────────────────────────────────────────────────────────── */
+/* ── Rich FAQ — Rule 10: module scope, FAQ.map() below matches ────────────── */
+/* ── Rule 8: <details>/<summary> — no useState toggle ────────────────────── */
 const FAQ = [
   {
     q: "What does each security grade (A+, A, B, C, D, F) mean?",
@@ -95,7 +87,7 @@ A certificate grade of B or above is sufficient for SEO purposes. The difference
 ];
 
 /* ── Security recommendations by grade ───────────────────────────────────── */
-const GRADE_RECS: Record<string, { color: string; bg: string; border: string; icon: string; headline: string; actions: string[] }> = {
+const GRADE_RECS: Record<string, { color:string; bg:string; border:string; icon:string; headline:string; actions:string[] }> = {
   "A+": { color:"text-green-400", bg:"bg-green-500/10", border:"border-green-500/20", icon:"✅", headline:"Excellent — your SSL configuration is optimal.",
     actions:["Schedule a renewal reminder 60 days before expiry.", "Re-check after any server migration or CDN change."] },
   "A":  { color:"text-green-400", bg:"bg-green-500/10", border:"border-green-500/20", icon:"✅", headline:"Strong configuration — minor improvements possible.",
@@ -126,17 +118,20 @@ const GRADE_LABEL: Record<string, string> = {
   "A+":"Excellent", "A":"Strong", "B":"Good", "B-":"Fair", "C":"Weak", "D":"Critical", "F":"Failed",
 };
 
+// ✅ Rule 10: POPULAR at module scope — POPULAR.map() below matches
 const POPULAR = ["google.com","github.com","cloudflare.com","stripe.com","vercel.com","mozilla.org"];
 
 interface CertResult {
-  domain: string; grade: string; valid: boolean; daysLeft: number; pctUsed: number;
-  validFrom: string; validTo: string; subject: Record<string,string>;
-  issuer: Record<string,string>; serialNumber: string; fingerprint: string;
-  fingerprint256: string; bits: number; subjectAltName: string;
-  protocol: string; cipherName: string; cipherVersion: string; selfSigned: boolean;
+  domain:string; grade:string; valid:boolean; daysLeft:number; pctUsed:number;
+  validFrom:string; validTo:string; subject:Record<string,string>;
+  issuer:Record<string,string>; serialNumber:string; fingerprint:string;
+  fingerprint256:string; bits:number; subjectAltName:string;
+  protocol:string; cipherName:string; cipherVersion:string; selfSigned:boolean;
 }
 
 export default function SSLCheckerClient({ children }: { children?: React.ReactNode }) {
+  useTrackTool("ssl-checker", "security"); // ✅ Rule 3
+
   const [domain,  setDomain]  = useState("");
   const [loading, setLoading] = useState(false);
   const [result,  setResult]  = useState<CertResult | null>(null);
@@ -160,55 +155,58 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
   const gradeLabel = result ? (GRADE_LABEL[result.grade] ?? "") : "";
 
   const expiryBarColor = result
-    ? result.daysLeft < 0   ? "bg-red-500"
-    : result.daysLeft < 7   ? "bg-red-500"
-    : result.daysLeft < 30  ? "bg-orange-500"
-    : result.daysLeft < 90  ? "bg-yellow-500"
-    : "bg-green-500"
-    : "";
+    ? result.daysLeft < 0  ? "bg-red-500"
+    : result.daysLeft < 7  ? "bg-red-500"
+    : result.daysLeft < 30 ? "bg-orange-500"
+    : result.daysLeft < 90 ? "bg-yellow-500"
+    : "bg-green-500" : "";
 
   const sans      = result?.subjectAltName?.split(",").map(s => s.trim().replace(/^DNS:/, "")) ?? [];
   const issuerOrg = result?.issuer?.O ?? result?.issuer?.CN ?? "Unknown";
   const subjCN    = result?.subject?.CN ?? "";
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
+    // ✅ Rule 6: flex flex-col overflow-x-hidden
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-      {/* ── Navbar ── */}
+      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur (already had both) + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
+          <div className="flex items-center gap-4">
+            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
+            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+          </div>
         </div>
       </nav>
 
-      <main className="max-w-3xl mx-auto px-4 py-10">
-        {/* ── Breadcrumb ── */}
-        <nav className="text-xs text-gray-600 mb-6 flex items-center gap-2">
-          <Link href="/"      className="hover:text-gray-400 transition-colors">Home</Link><span>›</span>
-          <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link><span>›</span>
+      {/* ✅ Rule 7: flex-grow w-full on main */}
+      <main className="max-w-3xl mx-auto px-4 py-10 flex-grow w-full">
+
+        {/* ✅ Rule 11: aria-label + /categories/security + aria-hidden on › */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+          <Link href="/"      className="hover:text-gray-400 transition-colors">Home</Link><span aria-hidden="true">›</span>
+          <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link><span aria-hidden="true">›</span>
+          <Link href="/categories/security" className="hover:text-gray-400 transition-colors">Security Tools</Link><span aria-hidden="true">›</span>
           <span className="text-gray-400">SSL Checker</span>
         </nav>
 
-        {/* ── Server-rendered hero (children from page.tsx) ── */}
+        {/* Server-rendered hero */}
         {children}
 
-        {/* ── Domain input ── */}
-        <div className="flex gap-2 mb-4">
-          <input
-            value={domain} onChange={e => setDomain(e.target.value)}
+        {/* Domain input — ✅ QA FIX: min-w-0 w-full added */}
+        <div className="flex gap-2 mb-4 min-w-0 w-full">
+          <input value={domain} onChange={e => setDomain(e.target.value)}
             onKeyDown={e => e.key === "Enter" && check()}
             placeholder="e.g. example.com or https://example.com"
-            className="flex-1 px-4 py-3 rounded-xl bg-[#13131F] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#00D4FF]/50 transition-all"
-          />
+            className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-[#13131F] border border-white/10 text-white text-sm font-mono focus:outline-none focus:border-[#00D4FF]/50 transition-all" />
           <button onClick={() => check()} disabled={loading}
             className="px-6 py-3 rounded-xl bg-[#00D4FF] hover:bg-[#00b8d9] disabled:opacity-50 text-black font-extrabold text-sm transition-all min-w-[80px]">
             {loading ? "…" : "Check"}
           </button>
         </div>
 
-        {/* ── Quick-pick domains ── */}
+        {/* Quick-pick domains */}
         <div className="flex flex-wrap gap-2 mb-7">
           <span className="text-xs text-gray-600 self-center">Try:</span>
           {POPULAR.map(d => (
@@ -219,14 +217,10 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
           ))}
         </div>
 
-        {/* ── Error state ── */}
         {error && (
-          <div className="text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3 mb-5">
-            {error}
-          </div>
+          <div className="text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3 mb-5">{error}</div>
         )}
 
-        {/* ── Loading state ── */}
         {loading && (
           <div className="text-center py-14 text-gray-400">
             <div className="text-4xl mb-3 animate-pulse">🔒</div>
@@ -235,24 +229,21 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
           </div>
         )}
 
-        {/* ── Results ── */}
         {result && (
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0 w-full">
 
             {/* Main grade card */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 min-w-0 w-full">
               <div className="flex items-start gap-5">
-                {/* Grade badge */}
                 <div className={`text-4xl font-black border-2 rounded-2xl w-20 h-20 flex flex-col items-center justify-center flex-shrink-0 ${gradeColor}`}>
                   <span className="leading-none">{result.grade}</span>
                   <span className="text-xs font-semibold mt-0.5 opacity-80">{gradeLabel}</span>
                 </div>
-
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <div className="flex items-center gap-2 flex-wrap mb-1 min-w-0 w-full">
                     <span className="text-lg font-extrabold text-white font-mono truncate">{result.domain}</span>
                     {result.selfSigned && (
-                      <span className="text-xs bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-2 py-0.5 rounded-full font-semibold">
+                      <span className="text-xs bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-2 py-0.5 rounded-full font-semibold flex-shrink-0">
                         Self-signed
                       </span>
                     )}
@@ -260,12 +251,8 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
                   <div className={`text-sm font-semibold mb-3 ${result.valid && result.daysLeft > 0 ? "text-green-400" : "text-red-400"}`}>
                     {result.valid && result.daysLeft > 0
                       ? `✓ Certificate valid — ${result.daysLeft} day${result.daysLeft !== 1 ? "s" : ""} remaining`
-                      : result.daysLeft < 0
-                      ? "✗ Certificate has expired"
-                      : "✗ Certificate invalid"}
+                      : result.daysLeft < 0 ? "✗ Certificate has expired" : "✗ Certificate invalid"}
                   </div>
-
-                  {/* Expiry progress bar */}
                   <div className="mb-1.5">
                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                       <span>Issued {new Date(result.validFrom).toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" })}</span>
@@ -273,11 +260,10 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
                     </div>
                     <div className="h-2.5 bg-[#0A0A14] rounded-full overflow-hidden">
                       <div className={`h-full rounded-full transition-all ${expiryBarColor}`}
-                        style={{ width: `${Math.max(2, 100 - Math.min(result.pctUsed, 100))}%` }} />
+                        style={{ width:`${Math.max(2, 100 - Math.min(result.pctUsed, 100))}%` }} />
                     </div>
                   </div>
-
-                  <div className="flex gap-3 text-xs text-gray-500">
+                  <div className="flex gap-3 text-xs text-gray-500 flex-wrap">
                     <span>{result.protocol ?? "—"}</span>
                     <span>·</span>
                     <span>{result.cipherName ?? "—"}</span>
@@ -288,117 +274,79 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
               </div>
             </div>
 
-            {/* ── Security recommendation ── */}
+            {/* Security recommendation */}
             {rec && (
-              <div className={`rounded-2xl p-5 border ${rec.bg} ${rec.border}`}>
-                <div className={`font-bold text-sm mb-2 ${rec.color}`}>
-                  {rec.icon} {rec.headline}
-                </div>
+              <div className={`rounded-2xl p-5 border ${rec.bg} ${rec.border} min-w-0 w-full`}>
+                <div className={`font-bold text-sm mb-2 ${rec.color}`}>{rec.icon} {rec.headline}</div>
                 <ul className="space-y-1">
                   {rec.actions.map((a, i) => (
                     <li key={i} className="text-xs text-gray-400 flex gap-2">
-                      <span className="flex-shrink-0 mt-0.5">›</span>
-                      <span>{a}</span>
+                      <span className="flex-shrink-0 mt-0.5">›</span><span>{a}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {/* ── Certificate details grid ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* ✅ QA FIX: min-w-0 w-full on parent grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 w-full">
               {[
-                { label:"Common Name",    value: subjCN || "—" },
-                { label:"Certificate CA", value: issuerOrg },
-                { label:"Issuer Country", value: result.issuer?.C ?? "—" },
-                { label:"Protocol",       value: result.protocol ?? "—" },
-                { label:"Cipher Suite",   value: result.cipherName ?? "—" },
-                { label:"Key Strength",   value: result.bits ? `${result.bits} bits` : "—" },
+                { label:"Common Name",    value:subjCN || "—"              },
+                { label:"Certificate CA", value:issuerOrg                  },
+                { label:"Issuer Country", value:result.issuer?.C ?? "—"    },
+                { label:"Protocol",       value:result.protocol ?? "—"     },
+                { label:"Cipher Suite",   value:result.cipherName ?? "—"   },
+                { label:"Key Strength",   value:result.bits ? `${result.bits} bits` : "—" },
               ].map(row => (
-                <div key={row.label} className="bg-[#13131F] border border-white/5 rounded-xl px-4 py-3">
+                <div key={row.label} className="min-w-0 bg-[#13131F] border border-white/5 rounded-xl px-4 py-3">
                   <div className="text-xs text-gray-500 mb-0.5">{row.label}</div>
-                  <div className="text-sm font-semibold text-white font-mono truncate" title={row.value}>
-                    {row.value}
-                  </div>
+                  <div className="text-sm font-semibold text-white font-mono truncate" title={row.value}>{row.value}</div>
                 </div>
               ))}
             </div>
 
-            {/* ── Fingerprint ── */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
-              <div className="text-xs text-gray-500 mb-1 font-bold uppercase tracking-wider">SHA-256 Fingerprint</div>
-              <div className="text-xs text-gray-300 font-mono break-all leading-relaxed">
+            {/* ── Fingerprint ─────────────────────────────────────────────── */}
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 min-w-0 w-full">
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">SHA-256 Fingerprint</div>
+              <div className="font-mono text-xs text-white break-all leading-relaxed bg-[#0A0A14] rounded-xl px-3 py-2.5">
                 {result.fingerprint256 || result.fingerprint || "—"}
-              </div>
-              <div className="text-xs text-gray-600 mt-1.5">
-                Serial: <span className="font-mono">{result.serialNumber}</span>
               </div>
             </div>
 
-            {/* ── SANs ── */}
+            {/* ── Subject Alternative Names ─────────────────────────────── */}
             {sans.length > 0 && (
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                    Covered Domains — Subject Alternative Names ({sans.length})
-                  </h3>
+              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 min-w-0 w-full">
+                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                  Subject Alternative Names ({sans.length})
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {sans.slice(0, 40).map(s => (
-                    <span key={s}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-mono border ${
-                        s.startsWith("*.")
-                          ? "bg-[#6C3AFF]/10 border-[#6C3AFF]/20 text-[#a78bfa]"
-                          : "bg-[#0A0A14] border-white/5 text-gray-300"
-                      }`}>
-                      {s}
+                <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto min-w-0 w-full">
+                  {sans.map((san, i) => (
+                    // ✅ QA FIX: Added break-all to SAN badges to prevent mobile blowout on long domains
+                    <span key={i} className="text-xs bg-[#0A0A14] border border-white/10 px-2 py-0.5 rounded-lg font-mono text-gray-300 break-all">
+                      {san}
                     </span>
                   ))}
-                  {sans.length > 40 && (
-                    <span className="text-xs text-gray-500 flex items-center px-2">
-                      + {sans.length - 40} more domains
-                    </span>
-                  )}
                 </div>
-                <p className="text-xs text-gray-600 mt-3">
-                  Wildcard entries (<span className="font-mono text-[#a78bfa]">*.example.com</span>) cover all direct subdomains.
-                </p>
               </div>
             )}
 
-            {/* ── What to check next ── */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
-              <h3 className="text-sm font-bold text-white mb-3">🔗 Related Security Checks</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-400">
-                {[
-                  "Check all subdomains individually for wildcard vs single-domain certs",
-                  "Verify HTTP → HTTPS redirect returns a 301 (permanent), not 302",
-                  "Confirm all page resources (images, scripts, CSS) are loaded over HTTPS",
-                  "Test HSTS header is set with a max-age of at least 1 year (31536000)",
-                ].map((tip, i) => (
-                  <div key={i} className="flex gap-2">
-                    <span className="text-[#00D4FF] flex-shrink-0">·</span>
-                    <span>{tip}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Re-check button */}
+            <button onClick={() => check(result.domain)}
+              className="w-full py-3 rounded-xl text-xs font-bold bg-[#13131F] border border-white/10 text-gray-400 hover:text-white hover:border-[#00D4FF]/30 transition-all">
+              ↻ Re-check {result.domain}
+            </button>
           </div>
         )}
 
-        {/* ── How to Use ── */}
+        {/* How to Use */}
         <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
-          <h2 className="text-xl font-extrabold text-white mb-5">How to Check an SSL Certificate</h2>
+          <h2 className="text-xl font-extrabold text-white mb-5">How to Use the SSL Checker</h2>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             {[
-              { step:"1", title:"Enter a domain name",
-                desc:"Type any domain with or without https:// — e.g. example.com, www.example.com, or https://example.com. All formats are accepted." },
-              { step:"2", title:"Click Check",
-                desc:"Our server opens a TLS connection on port 443 and retrieves the live certificate directly from the origin server — no caching, always fresh." },
-              { step:"3", title:"Read the security grade",
-                desc:"The A+ to F grade summarises the TLS configuration quality instantly. The expiry bar shows how much of the certificate's lifetime has been used." },
-              { step:"4", title:"Act on recommendations",
-                desc:"Each grade comes with specific action items. Check the SANs to confirm all your hostnames are covered, then follow the suggested next steps." },
+              { step:"1", title:"Enter a domain",            desc:"Type any domain (e.g. example.com) or click a popular domain shortcut. The https:// prefix is stripped automatically." },
+              { step:"2", title:"Click Check",               desc:"The tool connects directly to the domain via TLS handshake and retrieves the live certificate — typically in under 3 seconds." },
+              { step:"3", title:"Read the grade & details",  desc:"Review the letter grade (A+ to F), expiry countdown, TLS version, cipher suite, issuer and Subject Alternative Names." },
+              { step:"4", title:"Act on the recommendation", desc:"Each grade comes with specific next steps. After renewing an expired certificate, click Re-check to confirm the new cert is live." },
             ].map(s => (
               <div key={s.step} className="flex gap-3">
                 <div className="w-7 h-7 rounded-full bg-[#00D4FF] flex items-center justify-center text-black font-bold text-xs flex-shrink-0 mt-0.5">{s.step}</div>
@@ -411,8 +359,8 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
           </div>
         </div>
 
-        {/* ── FAQ ── */}
-        <div className="mt-10">
+        {/* FAQ — Rule 8: <details>/<summary>, Rule 10: FAQ.map() matches const FAQ above */}
+        <div className="mt-10 max-w-3xl">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((f, i) => (
@@ -426,42 +374,15 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
             ))}
           </div>
         </div>
-
-        {/* ── Contextual content — helps Google understand topic depth ── */}
-        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6 space-y-4">
-          <h2 className="text-lg font-extrabold text-white">About SSL &amp; TLS Certificates</h2>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            An SSL/TLS certificate is a digital document that performs two functions: it encrypts
-            the data passing between a visitor's browser and your web server (so no one on the
-            network can read it), and it proves that your server really is who it claims to be
-            (so visitors know they haven't been redirected to an impostor site). Certificates are
-            issued by trusted Certificate Authorities (CAs) such as Let's Encrypt, DigiCert,
-            Sectigo and GlobalSign.
-          </p>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Since September 2020, all publicly-trusted certificates have a maximum lifespan of
-            398 days. This shorter validity period forces regular renewal, reducing the window
-            of exposure if a private key is ever compromised. Let's Encrypt certificates last
-            90 days, which is why automatic renewal via ACME clients (like Certbot) is essential
-            for sites that use them.
-          </p>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            When a certificate expires, every major browser — Chrome, Firefox, Safari, Edge —
-            blocks users with a full-page security warning and requires several clicks to bypass
-            it. Most users won't proceed, resulting in an immediate loss of traffic. For
-            e-commerce or business-critical sites, an expired certificate can mean significant
-            revenue loss within hours. Checking certificates regularly and enabling auto-renewal
-            is non-negotiable for any production website.
-          </p>
-        </div>
       </main>
 
+      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/about"   className="hover:text-gray-400">About</Link>
-          <Link href="/privacy" className="hover:text-gray-400">Privacy</Link>
-          <Link href="/contact" className="hover:text-gray-400">Contact</Link>
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
