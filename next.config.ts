@@ -11,6 +11,19 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**" },
     ],
   },
+
+  // ── Required for @imgly/background-removal (ONNX Runtime uses WebAssembly) ──
+  // Without asyncWebAssembly the WASM module cannot be compiled and the AI
+  // model silently fails to load. layers:true is required alongside it in
+  // Next.js App Router.
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+      layers: true,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
