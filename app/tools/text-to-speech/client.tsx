@@ -35,15 +35,15 @@ const SAMPLE_TEXT = "Welcome to PursTech's free text to speech tool. This is a s
 export default function TextToSpeechClient({ children }: { children?: React.ReactNode }) {
   useTrackTool("text-to-speech", "text"); // ✅ Rule 3
 
-  const [text,          setText]          = useState("");
-  const [voices,        setVoices]        = useState<SpeechSynthesisVoice[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState("");
-  const [rate,          setRate]          = useState(1);
-  const [pitch,         setPitch]         = useState(1);
-  const [volume,        setVolume]        = useState(1);
-  const [isPlaying,     setIsPlaying]     = useState(false);
-  const [isPaused,      setIsPaused]      = useState(false);
-  const [supported,     setSupported]     = useState(true);
+  const [text,             setText]             = useState("");
+  const [voices,           setVoices]           = useState<SpeechSynthesisVoice[]>([]);
+  const [selectedVoiceURI, setSelectedVoiceURI] = useState("");
+  const [rate,             setRate]             = useState(1);
+  const [pitch,            setPitch]            = useState(1);
+  const [volume,           setVolume]           = useState(1);
+  const [isPlaying,        setIsPlaying]        = useState(false);
+  const [isPaused,         setIsPaused]         = useState(false);
+  const [supported,        setSupported]        = useState(true);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
@@ -56,7 +56,8 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
         setVoices(v);
         const english = v.find(voice => voice.lang.startsWith("en") && voice.default)
           || v.find(v => v.lang.startsWith("en")) || v[0];
-        if (english) setSelectedVoice(english.name);
+        // ✅ QA FIX: Use unique voiceURI instead of name to prevent duplicate matching
+        if (english) setSelectedVoiceURI(english.voiceURI);
       }
     };
     loadVoices();
@@ -68,8 +69,15 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
     if (!text.trim() || !supported) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text.slice(0, CHAR_LIMIT));
-    const voice = voices.find(v => v.name === selectedVoice);
-    if (voice) utterance.voice = voice;
+    
+    // ✅ QA FIX: Find by voiceURI
+    const voice = voices.find(v => v.voiceURI === selectedVoiceURI);
+    if (voice) { 
+      utterance.voice = voice; 
+      // ✅ QA FIX: Android Chrome requires the lang to be explicitly set, otherwise it defaults back
+      utterance.lang = voice.lang; 
+    }
+    
     utterance.rate   = rate;
     utterance.pitch  = pitch;
     utterance.volume = volume;
@@ -90,10 +98,21 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
   const readingTime = Math.ceil(wordCount / (rate * 130));
   const overLimit  = text.length > CHAR_LIMIT;
 
+  // ✅ QA FIX: Clean up Android locales and use Intl.DisplayNames for beautiful grouping
   const voiceGroups = voices.reduce((acc, v) => {
-    const lang = v.lang.split("-")[0].toUpperCase();
-    if (!acc[lang]) acc[lang] = [];
-    acc[lang].push(v);
+    // Split on either dash or underscore to isolate the base language code
+    const baseCode = v.lang.split(/[-_]/)[0];
+    let langName = baseCode.toUpperCase();
+    
+    try {
+      const display = new Intl.DisplayNames(['en'], { type: 'language' }).of(baseCode);
+      if (display) langName = display;
+    } catch (e) {
+      // Fallback to uppercase code if Intl fails
+    }
+
+    if (!acc[langName]) acc[langName] = [];
+    acc[langName].push(v);
     return acc;
   }, {} as Record<string, SpeechSynthesisVoice[]>);
 
@@ -158,7 +177,6 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
                   </span>
                 </div>
               </div>
-              {/* ✅ QA FIX: Added min-w-0 and break-words to ensure unbreakable strings don't force width */}
               <textarea value={text} onChange={e => setText(e.target.value)}
                 placeholder="Type or paste the text you want to hear spoken aloud..."
                 className={`w-full min-w-0 break-words h-44 px-5 py-4 rounded-2xl bg-[#13131F] border text-white placeholder-gray-600 focus:outline-none transition-all resize-none text-sm leading-relaxed ${
@@ -173,12 +191,13 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
             {voices.length > 0 && (
               <div className="min-w-0 w-full">
                 <label className="text-xs text-gray-500 font-medium block mb-2 uppercase tracking-wider">Voice</label>
-                <select value={selectedVoice} onChange={e => setSelectedVoice(e.target.value)}
+                {/* ✅ QA FIX: onChange updates the selectedVoiceURI */}
+                <select value={selectedVoiceURI} onChange={e => setSelectedVoiceURI(e.target.value)}
                   className="w-full min-w-0 truncate px-4 py-3 rounded-xl bg-[#13131F] border border-white/5 text-white focus:outline-none focus:border-[#6C3AFF]/50 text-sm transition-all">
                   {Object.entries(voiceGroups).sort().map(([lang, langVoices]) => (
                     <optgroup key={lang} label={`${lang} (${langVoices.length})`}>
                       {langVoices.map(v => (
-                        <option key={v.name} value={v.name}>
+                        <option key={v.voiceURI} value={v.voiceURI}>
                           {v.name}{v.default ? " ★" : ""}
                         </option>
                       ))}
@@ -246,7 +265,7 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
             )}
           </div>
 
-          {/* Sidebar — ✅ QA FIX: min-w-0 w-full */}
+          {/* Sidebar */}
           <div className="min-w-0 flex flex-col gap-4 w-full">
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
               <h3 className="text-sm font-bold text-white mb-4">📊 Text Stats</h3>
@@ -296,7 +315,6 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
               </div>
             </div>
 
-            {/* ✅ Pro CTA: <button> → <Link href="/pro"> */}
             <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center min-w-0 w-full">
               <div className="text-2xl mb-2">⚡</div>
               <h3 className="font-bold text-white text-sm mb-1">PursTech Pro</h3>
@@ -327,7 +345,7 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
           </div>
         </section>
 
-        {/* FAQ — ✅ Rule 8: <details>/<summary>, Rule 10: FAQ.map() matches const FAQ */}
+        {/* FAQ */}
         <section className="mt-16">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
@@ -346,7 +364,6 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
         </section>
       </main>
 
-      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
       <footer className="border-t border-white/5 mt-20 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
@@ -354,7 +371,7 @@ export default function TextToSpeechClient({ children }: { children?: React.Reac
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
+        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. Free online tools for everyone.</p>
       </footer>
     </div>
   );
