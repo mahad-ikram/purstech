@@ -404,6 +404,9 @@ export default function SVGEditorClient({ children }: { children?: React.ReactNo
   const lineCount = code.split("\n").length;
   const fileSize  = (code.length / 1024).toFixed(1);
 
+  // ✅ QA FIX: Re-added svgDataUrl to allow <img> tag preview
+  const svgDataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(code)}`;
+
   return (
     // ✅ Rule 6: flex flex-col overflow-x-hidden
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
@@ -592,10 +595,10 @@ export default function SVGEditorClient({ children }: { children?: React.ReactNo
               ))}
             </div>
 
-            {/* SVG preview */}
+            {/* SVG preview — ✅ QA FIX: Restored <img> tag with svgDataUrl */}
             <div className={`flex-1 flex items-center justify-center min-h-[300px] overflow-hidden relative ${bgStyle} ${showGrid ? "[background-image:linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:20px_20px]" : ""}`}>
-              <div style={{transform:`scale(${zoom})`,maxWidth:"80%",maxHeight:"80%"}}
-                dangerouslySetInnerHTML={{ __html: code }} />
+              <img src={svgDataUrl} alt="SVG Preview"
+                   style={{ transform:`scale(${zoom})`, maxWidth:"80%", maxHeight:"80%", objectFit:"contain", transition:"transform 0.15s ease" }} />
             </div>
 
             {/* Hidden PNG canvas */}
