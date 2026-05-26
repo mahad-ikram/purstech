@@ -210,13 +210,13 @@ export default function BackgroundRemoverClient() {
 
       setProgress(20); setProgressMsg("Loading AI model (~5MB, cached after first use)…");
 
-      // ✅ FIX 1: absolute CDN URL pinned to @1.4.5 — must match package.json version
-      //    new URL(modelFile, publicPath) requires publicPath to be absolute.
-      //    No version pin → jsDelivr "latest" resolves to a newer release with
-      //    different model filenames → 404. Pinned = deterministic = safe.
-      // ✅ FIX 2: proxyToWorker:false — Next.js App Router cannot bundle Web Workers
+      // ✅ publicPath: absolute URL to local files in public/bg-removal/
+      //    Files are copied from node_modules by the build script in package.json:
+      //    "build": "mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/ && next build"
+      //    window.location.origin makes the base absolute so new URL(file, base) works.
+      // ✅ proxyToWorker:false — Next.js App Router cannot bundle Web Workers
       const resultBlob: Blob = await removeBgFn(file, {
-        publicPath:    "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/",
+        publicPath:    `${window.location.origin}/bg-removal/`,
         proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
@@ -695,4 +695,3 @@ export default function BackgroundRemoverClient() {
     </div>
   );
 }
-
