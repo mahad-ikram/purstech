@@ -12,10 +12,17 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // ── Required for @imgly/background-removal (ONNX Runtime uses WebAssembly) ──
-  // Without asyncWebAssembly the WASM module cannot be compiled and the AI
-  // model silently fails to load. layers:true is required alongside it in
-  // Next.js App Router.
+  // ── Turbopack (Next.js 16 default bundler) ────────────────────────────────
+  // Empty config silences the hard build error:
+  //   "webpack config present but no turbopack config"
+  // Turbopack handles WebAssembly natively — no additional rules needed for
+  // @imgly/background-removal (ONNX Runtime loads WASM at browser runtime,
+  // not at build time, so no bundler WASM config is required).
+  turbopack: {},
+
+  // ── webpack (fallback — only runs when Next.js is started with --webpack) ─
+  // asyncWebAssembly + layers enable WASM module bundling for ONNX Runtime.
+  // Kept here for local --webpack dev mode; Turbopack ignores this block.
   webpack: (config) => {
     config.experiments = {
       ...config.experiments,
