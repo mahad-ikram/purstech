@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
-// ✅ SCHEMA removed — now server-rendered as WebApplication in page.tsx
-
 // ✅ Rule 10: module scope — FAQ.map() and CITIES.map() below match
 const FAQ = [
   { q:"What is UTC and why is it used as a reference for time zones?",
@@ -130,10 +128,10 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
     return () => clearInterval(t);
   }, []);
 
-  // ✅ UI: Swap TZ (zero new state)
+  // ✅ UI: Swap TZ
   const swapTZ = () => { setFromTZ(toTZ); setToTZ(fromTZ); };
 
-  // ✅ UI: Reset to current time (zero new state)
+  // ✅ UI: Reset to current time
   const resetToNow = () => {
     const n = new Date();
     setInputDate(n.toISOString().slice(0, 10));
@@ -184,7 +182,7 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
     // ✅ Rule 6: flex flex-col overflow-x-hidden
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur (preserved) + Go Pro ── */}
+      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -206,7 +204,7 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
           <span className="text-gray-400">Time Zone Converter</span>
         </nav>
 
-        {/* ✅ Hero rendered cleanly via {children} */}
+        {/* ✅ Hero properly injected via {children} */}
         {children}
 
         {/* World Clock ── Rule 9: min-w-0 on grid children */}
@@ -310,7 +308,7 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
             </div>
           </div>
 
-          {/* ✅ UI Enhancement: Swap + Now buttons */}
+          {/* Swap + Now buttons */}
           <div className="flex items-center gap-2 mb-4">
             <button onClick={swapTZ}
               className="px-4 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white hover:border-[#6C3AFF]/40 text-xs font-semibold transition-all">
@@ -375,7 +373,7 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
                       ? <>Best times: <span className="text-green-400 font-semibold">{bestHours.map(h => `${h.hour}:00`).join(", ")}</span> — {maxScore}/{meetingCities.length} cities in business hours</>
                       : "No overlap found for the selected cities"}
                   </div>
-                  {/* ✅ QA FIX: Added overflow-x-auto to protect grid integrity on ultra-small screens */}
+                  {/* QA FIX: Added overflow-x-auto to protect grid integrity */}
                   <div className="flex gap-0.5 items-end h-10 min-w-0 w-full overflow-x-auto">
                     {meetingHours.map(({ hour, score }) => {
                       const pct      = meetingCities.length > 0 ? score / meetingCities.length : 0;
