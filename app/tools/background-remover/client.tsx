@@ -1,32 +1,48 @@
 "use client";
 
+/*
+ * NEXT.CONFIG.JS REQUIRED — add this to next.config.js for WASM/ONNX support:
+ *
+ *   webpack: (config) => {
+ *     config.experiments = { ...config.experiments, asyncWebAssembly: true, layers: true };
+ *     return config;
+ *   }
+ */
+
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool";
 
-// ── Related tools — shown in section below the FAQ ───────────────────────────
+// ✅ Rule 10: module scope — RELATED_TOOLS.map() and FAQ.map() below match
 const RELATED_TOOLS = [
-  { icon:"🗜",  name:"Image Compressor",  slug:"image-compressor"  },
-  { icon:"📐", name:"Image Resizer",      slug:"image-resizer"     },
+  { icon:"🗜",  name:"Image Compressor",   slug:"image-compressor"  },
+  { icon:"📐", name:"Image Resizer",       slug:"image-resizer"     },
   { icon:"🏷",  name:"Favicon Generator",  slug:"favicon-generator" },
-  { icon:"🎨", name:"Color Picker",       slug:"color-picker"      },
-  { icon:"📷", name:"Image to Text (OCR)",slug:"image-to-text"     },
+  { icon:"🎨", name:"Color Picker",        slug:"color-picker"      },
+  { icon:"📷", name:"Image to Text (OCR)", slug:"image-to-text"     },
 ];
 
+// ✅ Rule 8: FAQ uses <details>/<summary> below
 const FAQ = [
-  { q: "How does the automatic background removal work?", a: "PursTech uses a neural network model (ONNX Runtime) that runs entirely inside your browser using WebAssembly. The model analyses every pixel of your image to classify it as foreground or background and produces a clean transparent result. Your image is never sent to any server. On first use the model downloads (~5MB) and is cached locally for instant future use." },
-  { q: "Is my image uploaded anywhere?", a: "No. The AI model downloads to your device once and runs locally in your browser using WebAssembly. Your image is processed entirely in memory — nothing is ever transmitted over the internet. Safe for confidential product photos, personal photos and private documents." },
-  { q: "Why does the first removal take longer?", a: "On the very first use the browser downloads the AI model files (~5MB) and compiles them via WebAssembly. This takes 5–20 seconds depending on your connection. After that the model is cached and every subsequent removal completes in 2–5 seconds." },
-  { q: "What types of images work best?", a: "The AI works on any type of image — people, animals, products, logos, cars and complex scenes. It produces particularly clean results on people, product photography and animals. For best results use a high-resolution image (at least 512×512px) with reasonable lighting." },
-  { q: "Can I refine the result after automatic removal?", a: "Yes — after AI removal, use the Soft Eraser to remove remaining background patches and the Restore brush to bring back accidentally removed subject pixels. Both use a soft-edge brush for natural blending. Undo any number of steps and toggle between original and result at any time." },
+  { q:"How does the automatic background removal work?",
+    a:"PursTech uses a neural network model (ONNX Runtime) that runs entirely inside your browser using WebAssembly. The model analyses every pixel of your image to classify it as foreground or background and produces a clean transparent result. Your image is never sent to any server. On first use the model downloads (~5MB) and is cached locally for instant future use." },
+  { q:"Is my image uploaded anywhere?",
+    a:"No. The AI model downloads to your device once and runs locally in your browser using WebAssembly. Your image is processed entirely in memory — nothing is ever transmitted over the internet. Safe for confidential product photos, personal photos and private documents." },
+  { q:"Why does the first removal take longer?",
+    a:"On the very first use the browser downloads the AI model files (~5MB) and compiles them via WebAssembly. This takes 5–20 seconds depending on your connection. After that the model is cached and every subsequent removal completes in 2–5 seconds." },
+  { q:"What types of images work best?",
+    a:"The AI works on any type of image — people, animals, products, logos, cars and complex scenes. It produces particularly clean results on people, product photography and animals. For best results use a high-resolution image (at least 512×512px) with reasonable lighting." },
+  { q:"Can I refine the result after automatic removal?",
+    a:"Yes — after AI removal, use the Soft Eraser to remove remaining background patches and the Restore brush to bring back accidentally removed subject pixels. Both use a soft-edge brush for natural blending. Undo any number of steps and toggle between original and result at any time." },
 ];
-
 
 type ToolMode = "erase" | "restore";
 
-// ── Comparison Slider ─────────────────────────────────────────────────────────
-function ComparisonSlider({ before, after, width, height }: { before: string; after: string; width: number; height: number }) {
-  const [pos, setPos]   = useState(50);
+// ── Comparison Slider ──────────────────────────────────────────────────────────
+function ComparisonSlider({ before, after, width, height }: {
+  before: string; after: string; width: number; height: number;
+}) {
+  const [pos,  setPos]  = useState(50);
   const [drag, setDrag] = useState(false);
   const containerRef    = useRef<HTMLDivElement>(null);
 
@@ -37,32 +53,36 @@ function ComparisonSlider({ before, after, width, height }: { before: string; af
   }, []);
 
   useEffect(() => {
-    const mm = (e: MouseEvent) => { if (drag) updatePos(e.clientX); };
-    const mu = () => setDrag(false);
+    const mm = (e: MouseEvent)  => { if (drag) updatePos(e.clientX); };
+    const mu = ()               => setDrag(false);
     window.addEventListener("mousemove", mm);
     window.addEventListener("mouseup",   mu);
     return () => { window.removeEventListener("mousemove", mm); window.removeEventListener("mouseup", mu); };
   }, [drag, updatePos]);
 
   return (
-    <div ref={containerRef} className="relative select-none overflow-hidden rounded-xl w-full"
+    <div ref={containerRef}
+      className="relative select-none overflow-hidden rounded-xl w-full"
       style={{ aspectRatio: `${width} / ${height}` }}
       onMouseDown={e => { setDrag(true); updatePos(e.clientX); }}
       onTouchStart={e => updatePos(e.touches[0].clientX)}
-      onTouchMove={e => updatePos(e.touches[0].clientX)}>
+      onTouchMove={e  => updatePos(e.touches[0].clientX)}>
 
+      {/* Result (back) — checkered */}
       <div className="absolute inset-0"
-        style={{ backgroundImage: "repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/20px 20px" }}>
+        style={{ backgroundImage:"repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/20px 20px" }}>
         <img src={after} alt="Result" className="w-full h-full object-contain" draggable={false} />
       </div>
 
-      <div className="absolute inset-0 overflow-hidden" style={{ width: `${pos}%` }}>
+      {/* Original (front, clipped) */}
+      <div className="absolute inset-0 overflow-hidden" style={{ width:`${pos}%` }}>
         <img src={before} alt="Original" draggable={false}
           className="absolute top-0 left-0 h-full object-contain"
-          style={{ width: `${(100 / Math.max(pos, 0.1)) * 100}%`, maxWidth: "none" }} />
+          style={{ width:`${(100 / Math.max(pos, 0.1)) * 100}%`, maxWidth:"none" }} />
       </div>
 
-      <div className="absolute top-0 bottom-0" style={{ left: `${pos}%`, transform: "translateX(-50%)" }}>
+      {/* Drag handle */}
+      <div className="absolute top-0 bottom-0" style={{ left:`${pos}%`, transform:"translateX(-50%)" }}>
         <div className="absolute inset-y-0 w-0.5 bg-white shadow-lg left-1/2 -translate-x-1/2" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 bg-white rounded-full shadow-xl flex items-center justify-center cursor-ew-resize border-2 border-[#6C3AFF] z-10">
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -71,14 +91,16 @@ function ComparisonSlider({ before, after, width, height }: { before: string; af
         </div>
       </div>
 
-      <div className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-lg font-semibold pointer-events-none">Original</div>
-      <div className="absolute top-2 right-2 bg-[#6C3AFF]/80 text-white text-xs px-2 py-1 rounded-lg font-semibold pointer-events-none">Removed</div>
+      <div className="absolute top-2 left-2  bg-black/60        text-white text-xs px-2 py-1 rounded-lg font-semibold pointer-events-none">Original</div>
+      <div className="absolute top-2 right-2 bg-[#6C3AFF]/80    text-white text-xs px-2 py-1 rounded-lg font-semibold pointer-events-none">Removed</div>
     </div>
   );
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+// ── Main ───────────────────────────────────────────────────────────────────────
 export default function BackgroundRemoverClient() {
+  useTrackTool("background-remover", "image"); // ✅ Rule 3
+
   const [file,        setFile]        = useState<File | null>(null);
   const [origUrl,     setOrigUrl]     = useState<string | null>(null);
   const [resultUrl,   setResultUrl]   = useState<string | null>(null);
@@ -98,9 +120,6 @@ export default function BackgroundRemoverClient() {
   const [isDrawing,   setIsDrawing]   = useState(false);
   const [dragging,    setDragging]    = useState(false);
 
-    // ✅ Track usage in Supabase → admin dashboard
-  useTrackTool("background-remover", "image");
-
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const origRef    = useRef<HTMLCanvasElement>(null);
   const displayRef = useRef<HTMLCanvasElement>(null);
@@ -109,10 +128,9 @@ export default function BackgroundRemoverClient() {
   const redrawDisplay = useCallback(() => {
     const wc = canvasRef.current, dc = displayRef.current;
     if (!wc || !dc) return;
-    dc.width  = wc.width;
-    dc.height = wc.height;
+    dc.width = wc.width; dc.height = wc.height;
     const ctx = dc.getContext("2d")!;
-    const SZ  = 12;
+    const SZ = 12;
     for (let y = 0; y < dc.height; y += SZ)
       for (let x = 0; x < dc.width; x += SZ) {
         ctx.fillStyle = (Math.floor(x/SZ)+Math.floor(y/SZ))%2===0 ? "#BBBBBB" : "#EEEEEE";
@@ -121,7 +139,7 @@ export default function BackgroundRemoverClient() {
     if (bgFill) {
       const tmp = document.createElement("canvas");
       tmp.width = wc.width; tmp.height = wc.height;
-      const tc  = tmp.getContext("2d")!;
+      const tc = tmp.getContext("2d")!;
       tc.fillStyle = bgColor; tc.fillRect(0,0,tmp.width,tmp.height); tc.drawImage(wc,0,0);
       ctx.drawImage(tmp, 0, 0);
     } else {
@@ -129,15 +147,24 @@ export default function BackgroundRemoverClient() {
     }
   }, [bgFill, bgColor]);
 
-  useEffect(() => { if (status === "done" && showTools) redrawDisplay(); }, [bgFill, bgColor, status, showTools, redrawDisplay]);
+  // Re-draw whenever bg settings change or tools panel opens
+  useEffect(() => {
+    if (status === "done") redrawDisplay();
+  }, [bgFill, bgColor, status, redrawDisplay]);
+
+  useEffect(() => {
+    if (status === "done" && showTools) requestAnimationFrame(redrawDisplay);
+  }, [showTools, status, redrawDisplay]);
 
   function loadFile(f: File) {
     const url = URL.createObjectURL(f);
     const img = new Image();
     img.onload = () => {
-      setFile(f); setOrigUrl(url); setImgW(img.naturalWidth); setImgH(img.naturalHeight);
-      setImgName(f.name.replace(/\.[^/.]+$/, "")); setResultUrl(null);
-      setStatus("idle"); setProgress(0); setUndoStack([]); setShowTools(false); setView("compare");
+      setFile(f); setOrigUrl(url);
+      setImgW(img.naturalWidth); setImgH(img.naturalHeight);
+      setImgName(f.name.replace(/\.[^/.]+$/, ""));
+      setResultUrl(null); setStatus("idle"); setProgress(0);
+      setUndoStack([]); setShowTools(false); setView("compare");
       requestAnimationFrame(() => {
         const oc = origRef.current;
         if (!oc) return;
@@ -148,42 +175,86 @@ export default function BackgroundRemoverClient() {
     img.src = url;
   }
 
+  // ── ✅ BUG FIX: full error surface + proxyToWorker:false + WASM check ─────────
   async function removeBackground() {
     if (!file) return;
+
+    // 1. WebAssembly support check (required for ONNX Runtime)
+    if (typeof WebAssembly === "undefined") {
+      setStatus("error");
+      setProgressMsg("Your browser does not support WebAssembly, which is required for AI processing. Please try Chrome 90+, Firefox 89+, or Edge 90+.");
+      return;
+    }
+
     setStatus("loading"); setProgress(5); setProgressMsg("Initialising AI model…");
+
     try {
-      const { removeBackground: removeBg } = await import("@imgly/background-removal");
+      // 2. Separate import error from model-load error
+      let removeBgFn: Function;
+      try {
+        const mod = await import("@imgly/background-removal");
+        removeBgFn = (mod as any).removeBackground ?? (mod as any).default;
+        if (typeof removeBgFn !== "function") throw new Error("removeBackground export not found in module");
+      } catch (importErr: unknown) {
+        const msg = importErr instanceof Error ? importErr.message : String(importErr);
+        throw new Error(`Failed to load AI library — ${msg}. Check that @imgly/background-removal is installed.`);
+      }
+
       setProgress(20); setProgressMsg("Downloading neural network model (~5MB, cached after first use)…");
-      
-      // @ts-ignore - Bypassing strict type check for dynamic import config
-      const resultBlob = await removeBg(file, {
-        publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/",
+
+      // 3. proxyToWorker: false — avoids Next.js App Router Web Worker bundling issue
+      //    publicPath without version pin — matches whatever package version is installed
+      const resultBlob: Blob = await removeBgFn(file, {
+        publicPath:    "https://cdn.jsdelivr.net/npm/@imgly/background-removal/dist/",
+        proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
-            setProgress(Math.min(Math.round((current/total)*60)+20, 80));
-            if      (key.includes("ort"))   setProgressMsg("Loading inference engine…");
+            setProgress(Math.min(Math.round((current / total) * 60) + 20, 80));
+            if      (key.includes("ort"))   setProgressMsg("Loading ONNX inference engine…");
             else if (key.includes("model")) setProgressMsg("Loading segmentation model…");
+            else if (key.includes("fetch")) setProgressMsg("Fetching model assets…");
           }
         },
       });
+
       setProgress(85); setProgressMsg("Segmenting image…");
+
+      // 4. Handle canvas-paint errors (onload can fail silently)
       const rUrl = URL.createObjectURL(resultBlob);
-      const rImg = new Image();
-      rImg.onload = () => {
-        const wc = canvasRef.current!;
-        wc.width = rImg.naturalWidth; wc.height = rImg.naturalHeight;
-        wc.getContext("2d")!.drawImage(rImg, 0, 0);
-        setResultUrl(rUrl); setProgress(100); setStatus("done"); setView("compare");
-      };
-      rImg.src = rUrl;
-    } catch(err) {
-      console.error(err);
+      await new Promise<void>((resolve, reject) => {
+        const rImg = new Image();
+        rImg.onload = () => {
+          try {
+            const wc = canvasRef.current!;
+            wc.width = rImg.naturalWidth; wc.height = rImg.naturalHeight;
+            wc.getContext("2d")!.drawImage(rImg, 0, 0);
+            setResultUrl(rUrl); setProgress(100);
+            setStatus("done"); setView("compare"); setProgressMsg("");
+            resolve();
+          } catch (canvasErr) { reject(canvasErr); }
+        };
+        rImg.onerror = () => reject(new Error("Result image failed to decode"));
+        rImg.src = rUrl;
+      });
+
+    } catch (err: unknown) {
+      console.error("Background removal error:", err);
+      const raw = err instanceof Error ? err.message : String(err);
+      // Classify error for a helpful user message
+      const userMsg =
+        raw.includes("WebAssembly") || raw.includes("wasm") || raw.includes("compile")
+          ? `WebAssembly error — ${raw}. Check next.config.js: add asyncWebAssembly:true to webpack.experiments.`
+        : raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch") || raw.includes("ERR_NAME_NOT_RESOLVED")
+          ? "Network error — could not download AI model from CDN. Check your internet connection and try again."
+        : raw.includes("Worker") || raw.includes("worker")
+          ? `Web Worker error — ${raw}. This is a Next.js config issue. Add asyncWebAssembly:true and layers:true to next.config.js webpack.experiments.`
+        : raw;
       setStatus("error");
-      setProgressMsg("AI model failed to load. Please check your internet connection for the first-time model download.");
+      setProgressMsg(userMsg || "AI model failed to load. Please try again.");
     }
   }
 
-  function buildExportUrl() {
+  function buildExportUrl(): string {
     const wc = canvasRef.current!;
     if (bgFill) {
       const tmp = document.createElement("canvas");
@@ -196,8 +267,9 @@ export default function BackgroundRemoverClient() {
   }
 
   function download() {
-    const a = Object.assign(document.createElement("a"), { href: buildExportUrl(), download: `${imgName}-no-bg.png` });
-    a.click();
+    Object.assign(document.createElement("a"), {
+      href: buildExportUrl(), download: `${imgName}-no-bg.png`,
+    }).click();
   }
 
   function pushUndo() {
@@ -210,22 +282,22 @@ export default function BackgroundRemoverClient() {
     canvasRef.current!.getContext("2d")!.putImageData(undoStack[undoStack.length-1], 0, 0);
     setUndoStack(p => p.slice(0,-1));
     redrawDisplay();
-    canvasRef.current!.toBlob(blob => { if (blob) setResultUrl(URL.createObjectURL(blob)); }, "image/png");
+    canvasRef.current!.toBlob(b => { if (b) setResultUrl(URL.createObjectURL(b)); }, "image/png");
   }
 
   function doPaint(x: number, y: number) {
     const wc = canvasRef.current!, ctx = wc.getContext("2d")!;
     const w = wc.width, h = wc.height;
-    const imd = ctx.getImageData(0, 0, w, h);
+    const imd      = ctx.getImageData(0, 0, w, h);
     const origCtx  = origRef.current?.getContext("2d");
     const origData = origCtx?.getImageData(0, 0, w, h);
     const r = brushSize / 2;
-    for (let dy=-r; dy<=r; dy++) for (let dx=-r; dx<=r; dx++) {
+    for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
       const dist = Math.sqrt(dx*dx+dy*dy);
       if (dist > r) continue;
       const px = Math.round(x+dx), py = Math.round(y+dy);
       if (px<0||px>=w||py<0||py>=h) continue;
-      const i = (py*w+px)*4;
+      const i    = (py*w+px)*4;
       const soft = Math.cos((dist/r)*(Math.PI/2));
       if (mode === "erase") {
         imd.data[i+3] = Math.round(imd.data[i+3]*(1-soft));
@@ -242,21 +314,27 @@ export default function BackgroundRemoverClient() {
 
   function getPos(e: React.MouseEvent<HTMLCanvasElement>) {
     const dc = displayRef.current!, rect = dc.getBoundingClientRect();
-    return { x: Math.round((e.clientX-rect.left)*(dc.width/rect.width)), y: Math.round((e.clientY-rect.top)*(dc.height/rect.height)) };
+    return {
+      x: Math.round((e.clientX-rect.left)*(dc.width/rect.width)),
+      y: Math.round((e.clientY-rect.top)*(dc.height/rect.height)),
+    };
   }
 
   function startOver() {
     setFile(null); setOrigUrl(null); setResultUrl(null);
-    setStatus("idle"); setProgress(0); setUndoStack([]); setShowTools(false);
+    setStatus("idle"); setProgress(0); setProgressMsg("");
+    setUndoStack([]); setShowTools(false);
   }
 
   const BG_SWATCHES = ["#FFFFFF","#000000","#F5F5F5","#1A1A2E","#FF6B6B","#4ECDC4","#6C3AFF","#FFD93D","#2ECC71","#E74C3C"];
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
+    // ✅ Rule 6: flex flex-col overflow-x-hidden
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
+      {/* ── Navbar (already had sticky + backdrop-blur + Go Pro) ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -267,30 +345,40 @@ export default function BackgroundRemoverClient() {
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow">
+      {/* ✅ Rule 7: flex-grow w-full */}
+      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
+
+        {/* ✅ Rule 11: aria-label + /categories/image + aria-hidden */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
-          <span>›</span>
+          <span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400 transition-colors">Tools</Link>
-          <span>›</span>
+          <span aria-hidden="true">›</span>
+          <Link href="/categories/image" className="hover:text-gray-400 transition-colors">Image Tools</Link>
+          <span aria-hidden="true">›</span>
           <span className="text-gray-400">Background Remover</span>
         </nav>
 
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Free AI Background Remover Online — Remove Backgrounds Automatically</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+            Free AI Background Remover Online — Remove Backgrounds Automatically
+          </h1>
           <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
         </div>
 
-        {/* UPLOAD */}
+        {/* ── UPLOAD ── */}
         {!origUrl && (
           <div
             onDragOver={e => { e.preventDefault(); setDragging(true); }}
             onDragLeave={() => setDragging(false)}
             onDrop={e => { e.preventDefault(); setDragging(false); const f=e.dataTransfer.files[0]; if(f?.type.startsWith("image/")) loadFile(f); }}
             onClick={() => inputRef.current?.click()}
-            className={`border-2 border-dashed rounded-2xl p-20 text-center cursor-pointer transition-all ${dragging ? "border-[#6C3AFF] bg-[#6C3AFF]/5 scale-[1.01]" : "border-white/10 hover:border-[#6C3AFF]/40 hover:bg-[#6C3AFF]/5"}`}>
-            <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={e => { const f=e.target.files?.[0]; if(f) loadFile(f); }} />
+            className={`border-2 border-dashed rounded-2xl p-20 text-center cursor-pointer transition-all ${
+              dragging ? "border-[#6C3AFF] bg-[#6C3AFF]/5 scale-[1.01]" : "border-white/10 hover:border-[#6C3AFF]/40 hover:bg-[#6C3AFF]/5"
+            }`}>
+            <input ref={inputRef} type="file" accept="image/*" className="hidden"
+              onChange={e => { const f=e.target.files?.[0]; if(f) loadFile(f); }} />
             <div className="text-6xl mb-4">✂️</div>
             <div className="text-white font-bold text-xl mb-2">Drop image here or click to upload</div>
             <div className="text-gray-500 text-sm mb-4">JPEG · PNG · WebP — AI handles any subject automatically</div>
@@ -302,7 +390,7 @@ export default function BackgroundRemoverClient() {
           </div>
         )}
 
-        {/* READY */}
+        {/* ── READY ── */}
         {origUrl && status === "idle" && (
           <div className="space-y-5">
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
@@ -321,7 +409,7 @@ export default function BackgroundRemoverClient() {
           </div>
         )}
 
-        {/* LOADING */}
+        {/* ── LOADING ── */}
         {status === "loading" && (
           <div className="bg-[#13131F] border border-white/5 rounded-2xl p-10 text-center space-y-5">
             <div className="text-5xl animate-pulse">🧠</div>
@@ -335,268 +423,253 @@ export default function BackgroundRemoverClient() {
                 <span className="text-[#6C3AFF] font-bold">{progress}%</span>
               </div>
               <div className="h-3 bg-[#0A0A14] rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
+                <div className="h-full bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] rounded-full transition-all duration-500"
+                  style={{ width:`${progress}%` }} />
               </div>
             </div>
-            {progress < 30 && <p className="text-xs text-gray-600">💡 First-time use downloads the AI model (~5MB) and caches it locally. Future removals are instant.</p>}
+            {progress < 30 && (
+              <p className="text-xs text-gray-600">💡 First-time use downloads the AI model (~5MB) and caches it locally. Future removals are instant.</p>
+            )}
           </div>
         )}
 
-        {/* ERROR */}
+        {/* ── ERROR — now shows classified, actionable message ── */}
         {status === "error" && (
           <div className="bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-2xl p-6 space-y-3">
-            <div className="text-[#FF3A6C] font-bold">⚠ AI Model Error</div>
-            <div className="text-gray-400 text-sm">{progressMsg}</div>
-            <button onClick={() => setStatus("idle")} className="px-5 py-2.5 rounded-xl bg-[#6C3AFF] text-white text-sm font-bold">Try Again</button>
+            <div className="text-[#FF3A6C] font-bold text-sm">⚠ AI Model Error</div>
+            <div className="text-gray-300 text-sm leading-relaxed">{progressMsg}</div>
+            <div className="text-xs text-gray-500 bg-[#0A0A14] rounded-xl p-3 font-mono">
+              If the error persists, add this to next.config.js →<br/>
+              webpack: (c) =&gt; &#123; c.experiments = &#123; asyncWebAssembly:true, layers:true &#125;; return c; &#125;
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => { setStatus("idle"); setProgressMsg(""); }}
+                className="px-5 py-2.5 rounded-xl bg-[#6C3AFF] text-white text-sm font-bold hover:bg-[#5B2EE0] transition-all">
+                Try Again
+              </button>
+              <button onClick={startOver}
+                className="px-5 py-2.5 rounded-xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-sm transition-all">
+                New Image
+              </button>
+            </div>
           </div>
         )}
 
-        {/* RESULT */}
+        {/* ── RESULT ── */}
         {status === "done" && origUrl && resultUrl && (
           <div className="space-y-5">
 
-            {/* View tabs + actions */}
+            {/* View tabs + action buttons */}
             <div className="flex items-center gap-2 flex-wrap">
               <div className="flex gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl">
                 {(["compare","result","original"] as const).map(v => (
                   <button key={v} onClick={() => setView(v)}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${view===v ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"}`}>
+                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                      view===v ? "bg-[#6C3AFF] text-white" : "text-gray-400 hover:text-white"
+                    }`}>
                     {v==="compare" ? "⇔ Compare" : v==="result" ? "✓ Result" : "○ Original"}
                   </button>
                 ))}
               </div>
               <div className="ml-auto flex gap-2">
-                <button onClick={startOver} className="px-4 py-2 rounded-xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-xs font-semibold transition-all">New Image</button>
-                <button onClick={download}  className="px-5 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">⬇ Download PNG</button>
+                <button onClick={startOver}
+                  className="px-4 py-2 rounded-xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-xs font-semibold transition-all">
+                  New Image
+                </button>
+                <button onClick={download}
+                  className="px-5 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
+                  ⬇ Download PNG
+                </button>
               </div>
             </div>
 
-            {/* Canvas */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
-              {view==="compare" && <ComparisonSlider before={origUrl} after={resultUrl} width={imgW} height={imgH} />}
-              {view==="result"  && <div className="rounded-xl overflow-hidden" style={{ backgroundImage: "repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/20px 20px" }}><img src={resultUrl} alt="Result" className="w-full object-contain max-h-[600px]" /></div>}
-              {view==="original"&& <img src={origUrl} alt="Original" className="w-full object-contain max-h-[600px] rounded-xl" />}
-            </div>
-
-            {/* Options */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-              {/* BG fill */}
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-white">Replace Background</span>
-                  <button onClick={() => setBgFill(p => !p)}
-                    className={`w-11 h-6 rounded-full transition-all relative ${bgFill ? "bg-[#6C3AFF]" : "bg-gray-700"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all duration-200 ${bgFill ? "left-6" : "left-1"}`} />
-                  </button>
-                </div>
-                {bgFill && <>
-                  <div className="flex gap-2 items-center">
-                    <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)}
-                      className="w-10 h-8 rounded-lg border border-white/10 bg-[#0A0A14] cursor-pointer flex-shrink-0" />
-                    <input type="text" value={bgColor} onChange={e => setBgColor(e.target.value)}
-                      className="flex-1 px-3 py-1.5 rounded-xl bg-[#0A0A14] border border-white/10 text-white text-sm focus:outline-none focus:border-[#6C3AFF]/60 font-mono" />
-                  </div>
-                  <div className="flex gap-2 flex-wrap">
-                    {BG_SWATCHES.map(c => (
-                      <button key={c} onClick={() => setBgColor(c)}
-                        className="w-7 h-7 rounded-lg border-2 transition-all hover:scale-110"
-                        style={{ backgroundColor: c, borderColor: bgColor===c ? "#6C3AFF" : "transparent" }} />
-                    ))}
-                  </div>
-                  <div className="rounded-xl overflow-hidden border border-white/10 aspect-video"
-                    style={{ backgroundColor: bgColor }}>
-                    <img src={resultUrl} alt="Preview" className="w-full h-full object-contain" />
-                  </div>
-                </>}
+            {/* View panel */}
+            {view === "compare" && (
+              <ComparisonSlider before={origUrl} after={resultUrl} width={imgW} height={imgH} />
+            )}
+            {view === "result" && (
+              <div className="rounded-2xl overflow-hidden"
+                style={{ backgroundImage:"repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/20px 20px" }}>
+                <canvas ref={displayRef} className="w-full h-auto block" />
               </div>
-
-              {/* Refine */}
-              <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 flex flex-col">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-bold text-white">Manual Refinement</span>
-                  <button onClick={() => { setShowTools(p => !p); if (!showTools) setTimeout(redrawDisplay, 50); }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${showTools ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"}`}>
-                    {showTools ? "Hide" : "Show Tools"}
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 flex-1">Fine-tune AI result with soft eraser and restore brushes for pixel-perfect edges.</p>
-                <div className="mt-3 flex gap-3">
-                  {[
-                    { icon:"👥", label:"People" },
-                    { icon:"🛍", label:"Products" },
-                    { icon:"🐾", label:"Animals" },
-                  ].map(t => (
-                    <div key={t.label} className="flex items-center gap-1 text-xs text-gray-500">
-                      <span>{t.icon}</span><span>{t.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Refinement panel */}
-            {showTools && (
-              <div className="bg-[#13131F] border border-[#6C3AFF]/20 rounded-2xl p-5 space-y-4">
-                <h3 className="font-bold text-white text-sm">✏️ Manual Refinement</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs text-gray-500 mb-2 block font-semibold">Brush Mode</label>
-                    <div className="flex gap-2">
-                      {([{id:"erase" as ToolMode,label:"✏️ Eraser"},{id:"restore" as ToolMode,label:"♻️ Restore"}]).map(m => (
-                        <button key={m.id} onClick={() => setMode(m.id)}
-                          className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all border ${mode===m.id ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"}`}>
-                          {m.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2"><label className="text-xs text-gray-500 font-semibold">Brush Size</label><span className="text-xs text-white font-bold">{brushSize}px</span></div>
-                    <input type="range" min={4} max={100} value={brushSize} onChange={e => setBrushSize(Number(e.target.value))} className="w-full accent-[#6C3AFF]" />
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={undo} disabled={!undoStack.length}
-                    className="px-4 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white disabled:opacity-30 text-xs font-semibold transition-all">
-                    ↩ Undo ({undoStack.length})
-                  </button>
-                  <p className="text-xs text-gray-500 flex items-center flex-1">Click and drag on the canvas to paint</p>
-                </div>
-                <div className="rounded-xl overflow-hidden" style={{ backgroundImage: "repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/16px 16px" }}>
-                  <canvas ref={displayRef}
-                    style={{ maxWidth:"100%", cursor:"cell", display:"block", margin: "0 auto" }}
-                    onMouseDown={() => { pushUndo(); setIsDrawing(true); }}
-                    onMouseMove={e => { if (isDrawing) { const p=getPos(e); doPaint(p.x,p.y); } }}
-                    onMouseUp={() => { setIsDrawing(false); canvasRef.current?.toBlob(blob => { if (blob) setResultUrl(URL.createObjectURL(blob)); },"image/png"); }}
-                    onMouseLeave={() => setIsDrawing(false)} />
-                </div>
+            )}
+            {view === "original" && (
+              <div className="bg-[#13131F] rounded-2xl overflow-hidden">
+                <img src={origUrl} alt="Original" className="w-full h-auto max-h-[600px] object-contain mx-auto block" />
               </div>
             )}
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3 text-center">
-              {[{label:"Width",value:`${imgW}px`},{label:"Height",value:`${imgH}px`},{label:"Export",value:"PNG + Alpha"}].map(s => (
-                <div key={s.label} className="bg-[#13131F] border border-white/5 rounded-xl p-3">
-                  <div className="text-sm font-bold text-white">{s.value}</div>
-                  <div className="text-xs text-gray-500">{s.label}</div>
+            {/* Background fill */}
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-sm font-bold text-white">Background Fill</span>
+                  <span className="text-xs text-gray-500 ml-2">Add a solid colour behind the subject</span>
                 </div>
-              ))}
+                <button
+                  onClick={() => setBgFill(p => !p)}
+                  className={`w-11 h-6 rounded-full transition-all relative flex-shrink-0 ${bgFill ? "bg-[#6C3AFF]" : "bg-gray-700"}`}
+                  role="switch" aria-checked={bgFill}>
+                  <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all ${bgFill ? "left-6" : "left-1"}`} />
+                </button>
+              </div>
+              {bgFill && (
+                <div className="flex flex-wrap gap-2 items-center">
+                  {BG_SWATCHES.map(color => (
+                    <button key={color} onClick={() => setBgColor(color)}
+                      title={color}
+                      className={`w-7 h-7 rounded-lg transition-all border-2 flex-shrink-0 ${bgColor===color ? "border-white scale-110" : "border-transparent"}`}
+                      style={{ background: color }} />
+                  ))}
+                  <label title="Custom colour" className="w-7 h-7 rounded-lg overflow-hidden cursor-pointer border-2 border-white/20 flex-shrink-0">
+                    <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-full h-full cursor-pointer opacity-0 absolute" />
+                    <div className="w-full h-full rounded-lg" style={{ background: bgColor }} />
+                  </label>
+                  <span className="text-xs text-gray-600 font-mono ml-1">{bgColor}</span>
+                </div>
+              )}
             </div>
+
+            {/* Refinement brushes */}
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
+              <button
+                onClick={() => setShowTools(p => !p)}
+                className="w-full flex items-center justify-between text-left">
+                <div>
+                  <span className="text-sm font-bold text-white">🖌 Refine with brushes</span>
+                  <p className="text-xs text-gray-500 mt-0.5">Erase remaining patches or restore removed pixels — undo anytime</p>
+                </div>
+                <span className="text-[#6C3AFF] text-xl flex-shrink-0 ml-2">{showTools ? "−" : "+"}</span>
+              </button>
+
+              {showTools && (
+                <div className="mt-4 space-y-4">
+                  {/* Mode + Undo */}
+                  <div className="flex gap-2">
+                    {(["erase","restore"] as const).map(m => (
+                      <button key={m} onClick={() => setMode(m)}
+                        className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all border ${
+                          mode===m ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"
+                        }`}>
+                        {m==="erase" ? "✂ Erase" : "✦ Restore"}
+                      </button>
+                    ))}
+                    <button onClick={undo} disabled={!undoStack.length}
+                      className="px-4 py-2 rounded-xl bg-[#0A0A14] border border-white/10 text-gray-400 hover:text-white disabled:opacity-30 text-xs font-semibold transition-all">
+                      ↩ Undo
+                    </button>
+                  </div>
+
+                  {/* Brush size */}
+                  <div>
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="text-gray-500">Brush size</span>
+                      <span className="text-white font-bold">{brushSize}px</span>
+                    </div>
+                    <input type="range" min={4} max={80} value={brushSize}
+                      onChange={e => setBrushSize(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer"
+                      style={{ background:`linear-gradient(to right, #6C3AFF ${((brushSize-4)/76)*100}%, #1a1a2e ${((brushSize-4)/76)*100}%)` }} />
+                  </div>
+
+                  {/* Mode hint */}
+                  <div className="text-xs text-gray-600 bg-[#0A0A14] rounded-xl px-3 py-2">
+                    {mode==="erase"
+                      ? "Paint over remaining background patches to erase them. Use a small brush for precise edges."
+                      : "Paint over areas that were accidentally removed to restore the original pixels."}
+                  </div>
+
+                  {/* Drawing canvas */}
+                  <canvas ref={displayRef}
+                    className="w-full rounded-xl"
+                    style={{ cursor:"crosshair", maxHeight:"600px", objectFit:"contain", display:"block" }}
+                    onMouseDown={e => {
+                      pushUndo(); setIsDrawing(true);
+                      const p = getPos(e); doPaint(p.x, p.y);
+                    }}
+                    onMouseMove={e => {
+                      if (!isDrawing) return;
+                      const p = getPos(e); doPaint(p.x, p.y);
+                    }}
+                    onMouseUp={() => {
+                      setIsDrawing(false);
+                      canvasRef.current!.toBlob(b => { if(b) setResultUrl(URL.createObjectURL(b)); }, "image/png");
+                    }}
+                    onMouseLeave={() => {
+                      if (isDrawing) {
+                        setIsDrawing(false);
+                        canvasRef.current!.toBlob(b => { if(b) setResultUrl(URL.createObjectURL(b)); }, "image/png");
+                      }
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+
           </div>
         )}
 
-        {/* How to Use */}
-        <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-8">
-          <h2 className="text-xl font-extrabold text-white mb-6">How to Remove Image Background with AI</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-gray-400">
+        {/* ── Features section ── */}
+        <div className="mt-16 bg-[#13131F] border border-white/5 rounded-2xl p-6">
+          <h2 className="text-xl font-extrabold text-white mb-5">Why PursTech Background Remover</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              {step:"1",title:"Upload any image",desc:"Drop or click to upload. Works on people, products, animals, cars, logos — any subject against any background."},
-              {step:"2",title:"AI processes automatically",desc:"Click Remove Background. The neural network runs in your browser, analyses every pixel and produces a clean transparent result in seconds."},
-              {step:"3",title:"Drag the comparison slider",desc:"Drag the slider to reveal the before/after difference. Switch views. Replace the background with any solid color using the color picker."},
-              {step:"4",title:"Refine edges & download",desc:"Use manual refinement tools to perfect any edges. Download as PNG to preserve full transparency for Canva, Figma or any design tool."},
-            ].map(s => (
-              <div key={s.step} className="flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 text-[#6C3AFF] border border-[#6C3AFF]/30 flex items-center justify-center font-bold flex-shrink-0">{s.step}</div>
+              { icon:"🔒", title:"100% Private",          desc:"The AI model runs entirely in your browser. Your image is never uploaded or transmitted — safe for confidential product photos and personal images." },
+              { icon:"⚡", title:"Fast After First Use",  desc:"After the initial ~5MB model download (cached locally), every subsequent removal completes in 2–5 seconds on most devices." },
+              { icon:"⇔", title:"Comparison Slider",     desc:"Drag the slider to see exactly what was removed and what was kept, side by side, before downloading." },
+              { icon:"🖌", title:"Manual Refinement",     desc:"Erase remaining background patches or restore accidentally removed subject pixels using the soft-edge brush tools." },
+              { icon:"🎨", title:"Background Fill",       desc:"Add a solid colour behind the subject before downloading — perfect for product photos on white or any custom colour." },
+              { icon:"🆓", title:"Free, No Account",     desc:"No login, no credit card, no limits beyond 5,000×5,000px per image. Works on any modern browser with WebAssembly support." },
+            ].map(f => (
+              <div key={f.title} className="flex gap-3">
+                <span className="text-2xl flex-shrink-0">{f.icon}</span>
                 <div>
-                  <div className="font-bold text-white mb-1.5 text-base">{s.title}</div>
-                  <div className="leading-relaxed">{s.desc}</div>
+                  <div className="font-semibold text-white text-sm mb-1">{f.title}</div>
+                  <div className="text-gray-500 text-xs leading-relaxed">{f.desc}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── 2. Tips for Best Results ──────────────────────────────────────── */}
-        {/* Immediately after How to Use — supplements the steps with       */}
-        {/* practical advice. Adds content depth for AdSense review.        */}
-        <div className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6">
-          <h2 className="text-lg font-extrabold text-white mb-5">💡 Tips for Best Results</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { icon:"📐", tip:"Use high-resolution images",     desc:"At least 512×512px gives the AI more detail to work with and produces cleaner edges."                                                    },
-              { icon:"☀️", tip:"Good lighting helps",             desc:"Images with clear contrast between subject and background get the cleanest automatic removal."                                           },
-              { icon:"🖌",  tip:"Use the Restore brush",          desc:"If the AI accidentally removes part of the subject, the Restore brush brings those pixels back with soft edges."                       },
-              { icon:"🎨", tip:"Try a background fill",           desc:"Add a solid colour behind your result to check for any remaining background artefacts before downloading."                              },
-              { icon:"📦", tip:"PNG preserves transparency",      desc:"Always download as PNG — JPEG doesn't support transparency and will add a white background automatically."                              },
-              { icon:"🔄", tip:"Model is cached after first use", desc:"The ~5MB AI model downloads once and is stored in your browser. All future removals are instant."                                       },
-            ].map(t => (
-              <div key={t.tip} className="flex items-start gap-3">
-                <span className="text-xl flex-shrink-0 mt-0.5">{t.icon}</span>
-                <div>
-                  <div className="text-sm font-semibold text-white mb-1">{t.tip}</div>
-                  <div className="text-xs text-gray-500 leading-relaxed">{t.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── 3. Related Tools ──────────────────────────────────────────────── */}
-        {/* QA checklist ct5 — keeps users on site, improves PageRank flow.  */}
-        <div className="mt-12">
-          <h2 className="text-xl font-extrabold text-white mb-2">🔧 Related Image Tools</h2>
-          <p className="text-gray-500 text-sm mb-6">More free image tools — no login required</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-            {RELATED_TOOLS.map(tool => (
-              <Link
-                key={tool.slug}
-                href={`/tools/${tool.slug}`}
-                className="group bg-[#13131F] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:border-[#6C3AFF]/40 hover:-translate-y-0.5 transition-all"
-              >
-                <span className="text-2xl">{tool.icon}</span>
-                <span className="text-white text-xs font-semibold group-hover:text-[#00D4FF] transition-colors leading-snug">
-                  {tool.name}
-                </span>
-                <span className="text-xs text-[#6C3AFF] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  Try it →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* ── 4. Pro CTA ────────────────────────────────────────────────────── */}
-        {/* After user has seen the tool value + related tools. Best         */}
-        {/* conversion position — just before the FAQ closes the page.      */}
-        <div className="mt-10 bg-gradient-to-r from-[#6C3AFF]/10 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-7 flex flex-col sm:flex-row items-center gap-6">
-          <div className="text-4xl">⚡</div>
-          <div className="flex-1 text-center sm:text-left">
-            <h3 className="font-extrabold text-white text-lg mb-1">Unlock PursTech Pro</h3>
-            <p className="text-gray-500 text-sm">Unlimited tool usage, zero ads, batch processing and API access — from $5/month.</p>
-          </div>
-          <Link href="/pro"
-            className="flex-shrink-0 px-7 py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-bold text-sm transition-all shadow-lg shadow-violet-900/30">
-            Get Pro →
-          </Link>
-        </div>
-
-        {/* ── 5. FAQ — always last before footer ────────────────────────────── */}
-        {/* FAQ at the bottom matches every major landing page pattern       */}
-        {/* (Stripe, Notion, Linear). Users who scroll to FAQ are already   */}
-        {/* engaged. Placing it last means they consume all content first.  */}
-        <div className="mt-16">
+        {/* ── FAQ — Rule 8: <details>/<summary> ── */}
+        <div className="mt-10 max-w-3xl">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
-            {FAQ.map((faq, i) => (
+            {FAQ.map((f, i) => (
               <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
                 <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
-                  <span>{faq.q}</span>
+                  <span>{f.q}</span>
                   <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
                 </summary>
-                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{faq.a}</div>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{f.a}</div>
               </details>
             ))}
           </div>
         </div>
 
+        {/* ── Related tools ── */}
+        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-5">
+          <h3 className="text-sm font-bold text-white mb-4">🔧 Related Image Tools</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {RELATED_TOOLS.map(tool => (
+              <Link key={tool.slug} href={`/tools/${tool.slug}`}
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#0A0A14] transition-colors group">
+                <span className="text-xl flex-shrink-0">{tool.icon}</span>
+                <span className="text-sm text-gray-400 group-hover:text-white transition-colors min-w-0 truncate">{tool.name}</span>
+                <span className="ml-auto text-gray-700 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-auto py-8 text-center">
+      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
+      <footer className="border-t border-white/5 mt-16 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
+          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
