@@ -203,9 +203,11 @@ export default function BackgroundRemoverClient() {
       setProgress(20); setProgressMsg("Downloading neural network model (~5MB, cached after first use)…");
 
       // 3. proxyToWorker: false — avoids Next.js App Router Web Worker bundling issue
-      //    publicPath without version pin — matches whatever package version is installed
+      //    publicPath → local /bg-removal/ (REQUIRED SETUP — run once in terminal):
+      //    mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/
+      //    This guarantees the model files always match the installed package version.
       const resultBlob: Blob = await removeBgFn(file, {
-        publicPath:    "https://cdn.jsdelivr.net/npm/@imgly/background-removal/dist/",
+        publicPath:    "/bg-removal/",
         proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
@@ -242,12 +244,14 @@ export default function BackgroundRemoverClient() {
       const raw = err instanceof Error ? err.message : String(err);
       // Classify error for a helpful user message
       const userMsg =
-        raw.includes("WebAssembly") || raw.includes("wasm") || raw.includes("compile")
+        raw.includes("not found") || raw.includes("isnet") || raw.includes("publicPath")
+          ? `Model file not found — run this once in your terminal, then reload:\n  mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/`
+        : raw.includes("WebAssembly") || raw.includes("wasm") || raw.includes("compile")
           ? `WebAssembly error — ${raw}. Check next.config.js: add asyncWebAssembly:true to webpack.experiments.`
         : raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch") || raw.includes("ERR_NAME_NOT_RESOLVED")
-          ? "Network error — could not download AI model from CDN. Check your internet connection and try again."
+          ? "Network error — could not reach model files. Run the setup command above, then reload."
         : raw.includes("Worker") || raw.includes("worker")
-          ? `Web Worker error — ${raw}. This is a Next.js config issue. Add asyncWebAssembly:true and layers:true to next.config.js webpack.experiments.`
+          ? `Web Worker error — ${raw}. Add asyncWebAssembly:true and layers:true to next.config.js webpack.experiments.`
         : raw;
       setStatus("error");
       setProgressMsg(userMsg || "AI model failed to load. Please try again.");
@@ -437,9 +441,11 @@ export default function BackgroundRemoverClient() {
         {status === "error" && (
           <div className="bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-2xl p-6 space-y-3">
             <div className="text-[#FF3A6C] font-bold text-sm">⚠ AI Model Error</div>
-            <div className="text-gray-300 text-sm leading-relaxed">{progressMsg}</div>
-            <div className="text-xs text-gray-500 bg-[#0A0A14] rounded-xl p-3 font-mono">
-              If the error persists, add this to next.config.js →<br/>
+            <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{progressMsg}</div>
+            <div className="text-xs text-gray-500 bg-[#0A0A14] rounded-xl p-3 font-mono leading-relaxed">
+              <div className="text-gray-400 mb-1">Required setup (run once in terminal):</div>
+              mkdir -p public/bg-removal &amp;&amp; cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/<br/>
+              <div className="text-gray-400 mt-2 mb-1">Also add to next.config.js:</div>
               webpack: (c) =&gt; &#123; c.experiments = &#123; asyncWebAssembly:true, layers:true &#125;; return c; &#125;
             </div>
             <div className="flex gap-2">
