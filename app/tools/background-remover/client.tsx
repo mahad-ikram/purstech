@@ -194,10 +194,10 @@ export default function BackgroundRemoverClient({ children }: { children?: React
 
       setProgress(20); setProgressMsg("Connecting to AI CDN (~5MB, cached after first use)…");
 
-      // ✅ FIX: Force the library to use the official Img.ly CDN for the AI models.
-      // This completely bypasses the Vercel/GitHub local file issues.
+      // ✅ THE ULTIMATE FIX: By omitting `publicPath` entirely, the library automatically
+      // falls back to its own built-in official CDN. This completely bypasses the bad typos
+      // and local Vercel file errors, requiring ZERO terminal commands!
       const resultBlob: Blob = await removeBgFn(file, {
-        publicPath: "https://static.imgly.com/@imgly/background-removal/1.4.5/dist/",
         proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
@@ -236,10 +236,10 @@ export default function BackgroundRemoverClient({ children }: { children?: React
       console.error("Background removal error:", err);
       const raw = err instanceof Error ? err.message : String(err);
 
-      // ✅ Cleaned up error messages (no more terminal command instructions)
+      // Clean, simple error messages without asking the user to run terminal commands
       const userMsg =
         raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch")
-          ? "Network error — could not reach the AI CDN. Please check your internet connection or disable your adblocker."
+          ? "Network error — could not reach the AI server. Please check your internet connection or try turning off strict adblockers temporarily."
         : raw.includes("WebAssembly") || raw.includes("wasm") || raw.includes("compile")
           ? `WebAssembly error — ${raw}.\nEnsure your browser is up to date.`
         : `AI model failed to load. Please try again.\n(Error: ${raw})`;
@@ -372,15 +372,6 @@ export default function BackgroundRemoverClient({ children }: { children?: React
 
         {children}
 
-        {/* ✅ FIX: Hardcoded Title & Description to guarantee it renders */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free AI Background Remover Online — Remove Backgrounds Automatically
-          </h1>
-          <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
-        </div>
-
         {/* UPLOAD */}
         {!origUrl && (
           <div
@@ -452,7 +443,6 @@ export default function BackgroundRemoverClient({ children }: { children?: React
           <div className="bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-2xl p-6 space-y-4 min-w-0 w-full">
             <div className="text-[#FF3A6C] font-bold text-sm">⚠ AI Model Error</div>
             <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{progressMsg}</div>
-            
             <div className="flex gap-2">
               <button onClick={() => { setStatus("idle"); setProgressMsg(""); }}
                 className="px-5 py-2.5 rounded-xl bg-[#6C3AFF] text-white text-sm font-bold hover:bg-[#5B2EE0] transition-all">
