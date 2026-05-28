@@ -2,18 +2,18 @@
 
 /*
  * REQUIRED SETUP (run once in terminal after npm install):
- *   mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/
+ * mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/
  *
  * REQUIRED next.config.js:
- *   webpack: (config) => {
- *     config.experiments = { ...config.experiments, asyncWebAssembly: true, layers: true };
- *     return config;
- *   }
+ * webpack: (config) => {
+ * config.experiments = { ...config.experiments, asyncWebAssembly: true, layers: true };
+ * return config;
+ * }
  */
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 // ── Module-scope constants (Rule 10 + no per-render allocation) ───────────────
 const RELATED_TOOLS = [
@@ -37,7 +37,6 @@ const FAQ = [
     a:"Yes — after AI removal, use the Soft Eraser to remove remaining background patches and the Restore brush to bring back accidentally removed subject pixels. Both use a soft-edge brush for natural blending. Undo any number of steps and toggle between original and result at any time." },
 ];
 
-// ✅ FIX: moved from inside component — no per-render rebuild
 const BG_SWATCHES = ["#FFFFFF","#000000","#F5F5F5","#1A1A2E","#FF6B6B","#4ECDC4","#6C3AFF","#FFD93D","#2ECC71","#E74C3C"];
 
 type ToolMode = "erase" | "restore";
@@ -66,7 +65,7 @@ function ComparisonSlider({ before, after, width, height }: {
 
   return (
     <div ref={containerRef}
-      className="relative select-none overflow-hidden rounded-xl w-full"
+      className="relative select-none overflow-hidden rounded-xl w-full min-w-0"
       style={{ aspectRatio:`${width} / ${height}` }}
       onMouseDown={e => { setDrag(true); updatePos(e.clientX); }}
       onTouchStart={e => updatePos(e.touches[0].clientX)}
@@ -96,8 +95,8 @@ function ComparisonSlider({ before, after, width, height }: {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-export default function BackgroundRemoverClient() {
-  useTrackTool("background-remover", "image");
+export default function BackgroundRemoverClient({ children }: { children?: React.ReactNode }) {
+  useTrackTool("background-remover", "image"); // ✅ Rule 3
 
   const [file,        setFile]        = useState<File | null>(null);
   const [origUrl,     setOrigUrl]     = useState<string | null>(null);
@@ -154,12 +153,11 @@ export default function BackgroundRemoverClient() {
     if (status === "done" && showTools) requestAnimationFrame(redrawDisplay);
   }, [showTools, status, redrawDisplay]);
 
-  // ── ✅ FIX: revoke old blob URLs to prevent memory leaks ──────────────────
+  // ── revokeIfBlob ──────────────────
   function revokeIfBlob(url: string | null) {
     if (url?.startsWith("blob:")) URL.revokeObjectURL(url);
   }
 
-  // ── ✅ FIX: revoke previous origUrl before creating a new one ─────────────
   function loadFile(f: File) {
     revokeIfBlob(origUrl);
     revokeIfBlob(resultUrl);
@@ -182,11 +180,10 @@ export default function BackgroundRemoverClient() {
     img.src = url;
   }
 
-  // ── removeBackground — production-hardened ───────────────────────────────
+  // ── removeBackground ───────────────────────────────
   async function removeBackground() {
     if (!file) return;
 
-    // Guard: WebAssembly required for ONNX Runtime
     if (typeof WebAssembly === "undefined") {
       setStatus("error");
       setProgressMsg("Your browser does not support WebAssembly, which is required for AI processing. Please try Chrome 90+, Firefox 89+, or Edge 90+.");
@@ -196,7 +193,6 @@ export default function BackgroundRemoverClient() {
     setStatus("loading"); setProgress(5); setProgressMsg("Initialising AI model…");
 
     try {
-      // Isolate import errors from runtime errors
       let removeBgFn: Function;
       try {
         const mod  = await import("@imgly/background-removal");
@@ -210,11 +206,6 @@ export default function BackgroundRemoverClient() {
 
       setProgress(20); setProgressMsg("Loading AI model (~5MB, cached after first use)…");
 
-      // ✅ publicPath: absolute URL to local files in public/bg-removal/
-      //    Files are copied from node_modules by the build script in package.json:
-      //    "build": "mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/ && next build"
-      //    window.location.origin makes the base absolute so new URL(file, base) works.
-      // ✅ proxyToWorker:false — Next.js App Router cannot bundle Web Workers
       const resultBlob: Blob = await removeBgFn(file, {
         publicPath:    `${window.location.origin}/bg-removal/`,
         proxyToWorker: false,
@@ -230,7 +221,6 @@ export default function BackgroundRemoverClient() {
 
       setProgress(85); setProgressMsg("Segmenting image…");
 
-      // ✅ FIX 3: revokeIfBlob old resultUrl before creating new one
       revokeIfBlob(resultUrl);
       const rUrl = URL.createObjectURL(resultBlob);
 
@@ -256,7 +246,6 @@ export default function BackgroundRemoverClient() {
       console.error("Background removal error:", err);
       const raw = err instanceof Error ? err.message : String(err);
 
-      // ✅ FIX 4: classify "Invalid base URL" explicitly
       const userMsg =
         raw.includes("Invalid base URL") || raw.includes("URL")
           ? `URL error — the model path could not be resolved. Ensure the setup command has been run:\nmkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/`
@@ -300,7 +289,6 @@ export default function BackgroundRemoverClient() {
     setUndoStack(prev => [...prev.slice(-19), wc.getContext("2d")!.getImageData(0,0,wc.width,wc.height)]);
   }
 
-  // ✅ FIX: revoke old resultUrl when undo creates a new blob
   function undo() {
     const wc = canvasRef.current;
     if (!undoStack.length || !wc) return;
@@ -314,7 +302,6 @@ export default function BackgroundRemoverClient() {
     }, "image/png");
   }
 
-  // ✅ FIX: revoke old resultUrl when brush creates a new blob
   function commitBrushStroke() {
     const wc = canvasRef.current;
     if (!wc) return;
@@ -372,10 +359,12 @@ export default function BackgroundRemoverClient() {
 
   // ── JSX ───────────────────────────────────────────────────────────────────
   return (
+    // ✅ Rule 6: flex flex-col overflow-x-hidden
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
+      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -386,7 +375,10 @@ export default function BackgroundRemoverClient() {
         </div>
       </nav>
 
+      {/* ✅ Rule 7: flex-grow w-full on main */}
       <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
+        
+        {/* ✅ Rule 11: aria-label + aria-hidden on › */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span aria-hidden="true">›</span>
@@ -397,13 +389,8 @@ export default function BackgroundRemoverClient() {
           <span className="text-gray-400">Background Remover</span>
         </nav>
 
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free AI Background Remover Online — Remove Backgrounds Automatically
-          </h1>
-          <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
-        </div>
+        {/* ✅ Hero properly injected via {children} */}
+        {children}
 
         {/* UPLOAD */}
         {!origUrl && (
@@ -412,7 +399,7 @@ export default function BackgroundRemoverClient() {
             onDragLeave={() => setDragging(false)}
             onDrop={e => { e.preventDefault(); setDragging(false); const f=e.dataTransfer.files[0]; if(f?.type.startsWith("image/")) loadFile(f); }}
             onClick={() => inputRef.current?.click()}
-            className={`border-2 border-dashed rounded-2xl p-20 text-center cursor-pointer transition-all ${
+            className={`border-2 border-dashed rounded-2xl p-20 text-center cursor-pointer transition-all min-w-0 w-full ${
               dragging ? "border-[#6C3AFF] bg-[#6C3AFF]/5 scale-[1.01]" : "border-white/10 hover:border-[#6C3AFF]/40 hover:bg-[#6C3AFF]/5"
             }`}>
             <input ref={inputRef} type="file" accept="image/*" className="hidden"
@@ -420,7 +407,7 @@ export default function BackgroundRemoverClient() {
             <div className="text-6xl mb-4">✂️</div>
             <div className="text-white font-bold text-xl mb-2">Drop image here or click to upload</div>
             <div className="text-gray-500 text-sm mb-4">JPEG · PNG · WebP — AI handles any subject automatically</div>
-            <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-600">
+            <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-600 min-w-0">
               {["People","Products","Animals","Logos","Cars","Furniture","Food","Flowers"].map(t => (
                 <span key={t} className="bg-[#13131F] px-3 py-1 rounded-full border border-white/5">{t}</span>
               ))}
@@ -430,17 +417,17 @@ export default function BackgroundRemoverClient() {
 
         {/* READY */}
         {origUrl && status === "idle" && (
-          <div className="space-y-5">
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
+          <div className="space-y-5 min-w-0 w-full">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 min-w-0 w-full">
               <img src={origUrl} alt="Upload" className="max-w-full max-h-96 object-contain mx-auto rounded-xl" />
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 min-w-0 w-full">
               <button onClick={removeBackground}
-                className="flex-1 py-4 rounded-2xl bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] text-white font-extrabold text-lg hover:opacity-90 transition-all shadow-2xl shadow-violet-900/40">
+                className="flex-1 min-w-0 py-4 rounded-2xl bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] text-white font-extrabold text-lg hover:opacity-90 transition-all shadow-2xl shadow-violet-900/40">
                 ✨ Remove Background Automatically
               </button>
               <button onClick={startOver}
-                className="px-5 rounded-2xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-sm transition-all">
+                className="px-5 min-w-[80px] rounded-2xl bg-[#13131F] border border-white/10 text-gray-400 hover:text-white text-sm transition-all">
                 Change
               </button>
             </div>
@@ -449,18 +436,18 @@ export default function BackgroundRemoverClient() {
 
         {/* LOADING */}
         {status === "loading" && (
-          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-10 text-center space-y-5">
+          <div className="bg-[#13131F] border border-white/5 rounded-2xl p-10 text-center space-y-5 min-w-0 w-full">
             <div className="text-5xl animate-pulse">🧠</div>
             <div>
               <div className="text-white font-bold text-lg mb-1">{progressMsg}</div>
               <div className="text-gray-500 text-sm">Neural network running locally — your image never leaves your device</div>
             </div>
-            <div>
+            <div className="min-w-0 w-full">
               <div className="flex justify-between text-xs text-gray-500 mb-2">
                 <span>Progress</span>
                 <span className="text-[#6C3AFF] font-bold">{progress}%</span>
               </div>
-              <div className="h-3 bg-[#0A0A14] rounded-full overflow-hidden">
+              <div className="h-3 bg-[#0A0A14] rounded-full overflow-hidden w-full">
                 <div className="h-full bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] rounded-full transition-all duration-500"
                   style={{ width:`${progress}%` }} />
               </div>
@@ -473,16 +460,17 @@ export default function BackgroundRemoverClient() {
 
         {/* ERROR */}
         {status === "error" && (
-          <div className="bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-2xl p-6 space-y-4">
+          <div className="bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-2xl p-6 space-y-4 min-w-0 w-full">
             <div className="text-[#FF3A6C] font-bold text-sm">⚠ AI Model Error</div>
             <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{progressMsg}</div>
-            <div className="bg-[#0A0A14] rounded-xl p-4 space-y-2">
+            <div className="bg-[#0A0A14] rounded-xl p-4 space-y-2 min-w-0 w-full">
               <div className="text-xs text-gray-400 font-semibold">Required setup (run once in terminal):</div>
-              <code className="block text-xs text-green-400 font-mono break-all leading-relaxed">
+              {/* ✅ QA FIX: Added break-all to code blocks to prevent mobile layout stretch */}
+              <code className="block text-xs text-green-400 font-mono break-all leading-relaxed w-full">
                 mkdir -p public/bg-removal &amp;&amp; cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/
               </code>
               <div className="text-xs text-gray-400 font-semibold mt-2">Required in next.config.js:</div>
-              <code className="block text-xs text-green-400 font-mono">
+              <code className="block text-xs text-green-400 font-mono break-all w-full">
                 webpack: (c) =&gt; &#123; c.experiments = &#123; asyncWebAssembly:true, layers:true &#125;; return c; &#125;
               </code>
             </div>
@@ -501,9 +489,9 @@ export default function BackgroundRemoverClient() {
 
         {/* RESULT */}
         {status === "done" && origUrl && resultUrl && (
-          <div className="space-y-5">
+          <div className="space-y-5 min-w-0 w-full">
             {/* View tabs + actions */}
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap min-w-0 w-full">
               <div className="flex gap-1 bg-[#13131F] border border-white/5 p-1 rounded-xl">
                 {(["compare","result","original"] as const).map(v => (
                   <button key={v} onClick={() => setView(v)}
@@ -520,7 +508,7 @@ export default function BackgroundRemoverClient() {
                   New Image
                 </button>
                 <button onClick={download}
-                  className="px-5 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all">
+                  className="px-5 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-sm font-bold transition-all truncate">
                   ⬇ Download PNG
                 </button>
               </div>
@@ -531,23 +519,23 @@ export default function BackgroundRemoverClient() {
               <ComparisonSlider before={origUrl} after={resultUrl} width={imgW} height={imgH} />
             )}
             {view === "result" && (
-              <div className="rounded-2xl overflow-hidden"
+              <div className="rounded-2xl overflow-hidden min-w-0 w-full"
                 style={{ backgroundImage:"repeating-conic-gradient(#AAAAAA 0% 25%,#EEEEEE 0% 50%) 0 0/20px 20px" }}>
                 <canvas ref={displayRef} className="w-full h-auto block" />
               </div>
             )}
             {view === "original" && (
-              <div className="bg-[#13131F] rounded-2xl overflow-hidden">
+              <div className="bg-[#13131F] rounded-2xl overflow-hidden min-w-0 w-full">
                 <img src={origUrl} alt="Original" className="w-full h-auto max-h-[600px] object-contain mx-auto block" />
               </div>
             )}
 
             {/* Background fill */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 space-y-3">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 space-y-3 min-w-0 w-full">
               <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-sm font-bold text-white">Background Fill</span>
-                  <span className="text-xs text-gray-500 ml-2">Add a solid colour behind the subject</span>
+                <div className="min-w-0 pr-2">
+                  <span className="text-sm font-bold text-white block sm:inline">Background Fill</span>
+                  <span className="text-xs text-gray-500 sm:ml-2">Add a solid colour behind the subject</span>
                 </div>
                 <button onClick={() => setBgFill(p => !p)}
                   className={`w-11 h-6 rounded-full transition-all relative flex-shrink-0 ${bgFill ? "bg-[#6C3AFF]" : "bg-gray-700"}`}
@@ -556,7 +544,7 @@ export default function BackgroundRemoverClient() {
                 </button>
               </div>
               {bgFill && (
-                <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex flex-wrap gap-2 items-center min-w-0">
                   {BG_SWATCHES.map(color => (
                     <button key={color} onClick={() => setBgColor(color)} title={color}
                       className={`w-7 h-7 rounded-lg transition-all border-2 flex-shrink-0 ${bgColor===color ? "border-white scale-110" : "border-transparent"}`}
@@ -573,22 +561,22 @@ export default function BackgroundRemoverClient() {
             </div>
 
             {/* Refinement brushes */}
-            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4">
+            <div className="bg-[#13131F] border border-white/5 rounded-2xl p-4 min-w-0 w-full">
               <button onClick={() => setShowTools(p => !p)}
-                className="w-full flex items-center justify-between text-left">
-                <div>
-                  <span className="text-sm font-bold text-white">🖌 Refine with brushes</span>
+                className="w-full flex items-center justify-between text-left min-w-0">
+                <div className="min-w-0 pr-2">
+                  <span className="text-sm font-bold text-white block">🖌 Refine with brushes</span>
                   <p className="text-xs text-gray-500 mt-0.5">Erase remaining patches or restore removed pixels — undo anytime</p>
                 </div>
                 <span className="text-[#6C3AFF] text-xl flex-shrink-0 ml-2">{showTools ? "−" : "+"}</span>
               </button>
 
               {showTools && (
-                <div className="mt-4 space-y-4">
-                  <div className="flex gap-2">
+                <div className="mt-4 space-y-4 min-w-0 w-full">
+                  <div className="flex gap-2 min-w-0 w-full">
                     {(["erase","restore"] as const).map(m => (
                       <button key={m} onClick={() => setMode(m)}
-                        className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all border ${
+                        className={`flex-1 min-w-0 py-2 rounded-xl text-xs font-bold transition-all border ${
                           mode===m ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#0A0A14] border-white/10 text-gray-400 hover:text-white"
                         }`}>
                         {m==="erase" ? "✂ Erase" : "✦ Restore"}
@@ -599,23 +587,23 @@ export default function BackgroundRemoverClient() {
                       ↩ Undo
                     </button>
                   </div>
-                  <div>
+                  <div className="min-w-0 w-full">
                     <div className="flex justify-between text-xs mb-1">
                       <span className="text-gray-500">Brush size</span>
                       <span className="text-white font-bold">{brushSize}px</span>
                     </div>
                     <input type="range" min={4} max={80} value={brushSize}
                       onChange={e => setBrushSize(Number(e.target.value))}
-                      className="w-full h-2 rounded-full appearance-none cursor-pointer"
+                      className="w-full min-w-0 h-2 rounded-full appearance-none cursor-pointer"
                       style={{ background:`linear-gradient(to right, #6C3AFF ${((brushSize-4)/76)*100}%, #1a1a2e ${((brushSize-4)/76)*100}%)` }} />
                   </div>
-                  <div className="text-xs text-gray-600 bg-[#0A0A14] rounded-xl px-3 py-2">
+                  <div className="text-xs text-gray-600 bg-[#0A0A14] rounded-xl px-3 py-2 min-w-0 w-full">
                     {mode==="erase"
                       ? "Paint over remaining background patches to erase them. Use a small brush for precise edges."
                       : "Paint over areas that were accidentally removed to restore the original pixels."}
                   </div>
                   <canvas ref={displayRef}
-                    className="w-full rounded-xl block"
+                    className="w-full min-w-0 rounded-xl block"
                     style={{ cursor:"crosshair", maxHeight:"600px" }}
                     onMouseDown={e => { pushUndo(); setIsDrawing(true); const p=getPos(e); doPaint(p.x,p.y); }}
                     onMouseMove={e => { if (!isDrawing) return; const p=getPos(e); doPaint(p.x,p.y); }}
@@ -628,10 +616,13 @@ export default function BackgroundRemoverClient() {
           </div>
         )}
 
+        {/* ── SEO & Marketing Content (Moved Below Tool) ───────────────── */}
+
         {/* Features */}
-        <div className="mt-16 bg-[#13131F] border border-white/5 rounded-2xl p-6">
+        <div className="mt-16 bg-[#13131F] border border-white/5 rounded-2xl p-6 min-w-0 w-full">
           <h2 className="text-xl font-extrabold text-white mb-5">Why PursTech Background Remover</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* ✅ QA FIX: Added min-w-0 w-full to grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-w-0 w-full">
             {[
               { icon:"🔒", title:"100% Private",         desc:"The AI model runs entirely in your browser. Your image is never uploaded or transmitted — safe for confidential product photos and personal images." },
               { icon:"⚡", title:"Fast After First Use", desc:"After the initial ~5MB model download (cached locally), every subsequent removal completes in 2–5 seconds on most devices." },
@@ -640,10 +631,10 @@ export default function BackgroundRemoverClient() {
               { icon:"🎨", title:"Background Fill",      desc:"Add a solid colour behind the subject before downloading — perfect for product photos on white or any custom colour." },
               { icon:"🆓", title:"Free, No Account",    desc:"No login, no credit card, no limits. Works on any modern browser with WebAssembly support." },
             ].map(f => (
-              <div key={f.title} className="flex gap-3">
+              <div key={f.title} className="flex gap-3 min-w-0">
                 <span className="text-2xl flex-shrink-0">{f.icon}</span>
-                <div>
-                  <div className="font-semibold text-white text-sm mb-1">{f.title}</div>
+                <div className="min-w-0">
+                  <div className="font-semibold text-white text-sm mb-1 truncate">{f.title}</div>
                   <div className="text-gray-500 text-xs leading-relaxed">{f.desc}</div>
                 </div>
               </div>
@@ -651,14 +642,14 @@ export default function BackgroundRemoverClient() {
           </div>
         </div>
 
-        {/* FAQ */}
-        <div className="mt-10 max-w-3xl">
+        {/* FAQ — ✅ Rule 8: <details>/<summary>, Rule 10: FAQ.map() matches const FAQ */}
+        <div className="mt-10 max-w-3xl min-w-0 w-full">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
-          <div className="space-y-3">
+          <div className="space-y-3 min-w-0 w-full">
             {FAQ.map((f, i) => (
-              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
-                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
-                  <span>{f.q}</span>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all min-w-0 w-full">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none min-w-0 w-full">
+                  <span className="min-w-0 pr-4">{f.q}</span>
                   <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{f.a}</div>
@@ -668,12 +659,13 @@ export default function BackgroundRemoverClient() {
         </div>
 
         {/* Related tools */}
-        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-5">
+        <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
           <h3 className="text-sm font-bold text-white mb-4">🔧 Related Image Tools</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {/* ✅ QA FIX: Added min-w-0 w-full to grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 min-w-0 w-full">
             {RELATED_TOOLS.map(tool => (
               <Link key={tool.slug} href={`/tools/${tool.slug}`}
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#0A0A14] transition-colors group">
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#0A0A14] transition-colors group min-w-0">
                 <span className="text-xl flex-shrink-0">{tool.icon}</span>
                 <span className="text-sm text-gray-400 group-hover:text-white transition-colors min-w-0 truncate">{tool.name}</span>
                 <span className="ml-auto text-gray-700 group-hover:text-[#6C3AFF] flex-shrink-0">→</span>
@@ -683,6 +675,7 @@ export default function BackgroundRemoverClient() {
         </div>
       </main>
 
+      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
