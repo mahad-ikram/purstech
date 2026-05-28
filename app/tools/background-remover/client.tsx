@@ -1,16 +1,5 @@
 "use client";
 
-/*
- * REQUIRED SETUP (run once in terminal after npm install):
- * mkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/
- *
- * REQUIRED next.config.js:
- * webpack: (config) => {
- * config.experiments = { ...config.experiments, asyncWebAssembly: true, layers: true };
- * return config;
- * }
- */
-
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
@@ -96,7 +85,7 @@ function ComparisonSlider({ before, after, width, height }: {
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function BackgroundRemoverClient({ children }: { children?: React.ReactNode }) {
-  useTrackTool("background-remover", "image"); // ✅ Rule 3
+  useTrackTool("background-remover", "image");
 
   const [file,        setFile]        = useState<File | null>(null);
   const [origUrl,     setOrigUrl]     = useState<string | null>(null);
@@ -153,7 +142,6 @@ export default function BackgroundRemoverClient({ children }: { children?: React
     if (status === "done" && showTools) requestAnimationFrame(redrawDisplay);
   }, [showTools, status, redrawDisplay]);
 
-  // ── revokeIfBlob ──────────────────
   function revokeIfBlob(url: string | null) {
     if (url?.startsWith("blob:")) URL.revokeObjectURL(url);
   }
@@ -204,10 +192,12 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         throw new Error(`Failed to load AI library — ${msg}. Ensure @imgly/background-removal is installed.`);
       }
 
-      setProgress(20); setProgressMsg("Loading AI model (~5MB, cached after first use)…");
+      setProgress(20); setProgressMsg("Connecting to AI CDN (~5MB, cached after first use)…");
 
+      // ✅ FIX: Force the library to use the official Img.ly CDN for the AI models.
+      // This completely bypasses the Vercel/GitHub local file issues.
       const resultBlob: Blob = await removeBgFn(file, {
-        publicPath:    `${window.location.origin}/bg-removal/`,
+        publicPath: "https://static.imgly.com/@imgly/background-removal/1.4.5/dist/",
         proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
@@ -246,18 +236,13 @@ export default function BackgroundRemoverClient({ children }: { children?: React
       console.error("Background removal error:", err);
       const raw = err instanceof Error ? err.message : String(err);
 
+      // ✅ Cleaned up error messages (no more terminal command instructions)
       const userMsg =
-        raw.includes("Invalid base URL") || raw.includes("URL")
-          ? `URL error — the model path could not be resolved. Ensure the setup command has been run:\nmkdir -p public/bg-removal && cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/`
-        : raw.includes("not found") || raw.includes("isnet") || raw.includes("publicPath")
-          ? `Model file not found. Run the setup command below, then reload.`
+        raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch")
+          ? "Network error — could not reach the AI CDN. Please check your internet connection or disable your adblocker."
         : raw.includes("WebAssembly") || raw.includes("wasm") || raw.includes("compile")
-          ? `WebAssembly error — ${raw}.\nCheck next.config.js: add asyncWebAssembly:true to webpack.experiments.`
-        : raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch")
-          ? "Network error — could not reach model files. Check your internet and try again."
-        : raw.includes("Worker") || raw.includes("worker")
-          ? `Web Worker error — add asyncWebAssembly:true and layers:true to next.config.js webpack.experiments.`
-        : raw || "AI model failed to load. Please try again.";
+          ? `WebAssembly error — ${raw}.\nEnsure your browser is up to date.`
+        : `AI model failed to load. Please try again.\n(Error: ${raw})`;
 
       setStatus("error");
       setProgressMsg(userMsg);
@@ -359,12 +344,10 @@ export default function BackgroundRemoverClient({ children }: { children?: React
 
   // ── JSX ───────────────────────────────────────────────────────────────────
   return (
-    // ✅ Rule 6: flex flex-col overflow-x-hidden
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
-      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -375,10 +358,8 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         </div>
       </nav>
 
-      {/* ✅ Rule 7: flex-grow w-full on main */}
       <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
         
-        {/* ✅ Rule 11: aria-label + aria-hidden on › */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span aria-hidden="true">›</span>
@@ -389,8 +370,16 @@ export default function BackgroundRemoverClient({ children }: { children?: React
           <span className="text-gray-400">Background Remover</span>
         </nav>
 
-        {/* ✅ Hero properly injected via {children} */}
         {children}
+
+        {/* ✅ FIX: Hardcoded Title & Description to guarantee it renders */}
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+            Free AI Background Remover Online — Remove Backgrounds Automatically
+          </h1>
+          <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
+        </div>
 
         {/* UPLOAD */}
         {!origUrl && (
@@ -463,17 +452,7 @@ export default function BackgroundRemoverClient({ children }: { children?: React
           <div className="bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-2xl p-6 space-y-4 min-w-0 w-full">
             <div className="text-[#FF3A6C] font-bold text-sm">⚠ AI Model Error</div>
             <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{progressMsg}</div>
-            <div className="bg-[#0A0A14] rounded-xl p-4 space-y-2 min-w-0 w-full">
-              <div className="text-xs text-gray-400 font-semibold">Required setup (run once in terminal):</div>
-              {/* ✅ QA FIX: Added break-all to code blocks to prevent mobile layout stretch */}
-              <code className="block text-xs text-green-400 font-mono break-all leading-relaxed w-full">
-                mkdir -p public/bg-removal &amp;&amp; cp -r node_modules/@imgly/background-removal/dist/. public/bg-removal/
-              </code>
-              <div className="text-xs text-gray-400 font-semibold mt-2">Required in next.config.js:</div>
-              <code className="block text-xs text-green-400 font-mono break-all w-full">
-                webpack: (c) =&gt; &#123; c.experiments = &#123; asyncWebAssembly:true, layers:true &#125;; return c; &#125;
-              </code>
-            </div>
+            
             <div className="flex gap-2">
               <button onClick={() => { setStatus("idle"); setProgressMsg(""); }}
                 className="px-5 py-2.5 rounded-xl bg-[#6C3AFF] text-white text-sm font-bold hover:bg-[#5B2EE0] transition-all">
@@ -616,12 +595,11 @@ export default function BackgroundRemoverClient({ children }: { children?: React
           </div>
         )}
 
-        {/* ── SEO & Marketing Content (Moved Below Tool) ───────────────── */}
+        {/* ── SEO & Marketing Content ───────────────── */}
 
         {/* Features */}
         <div className="mt-16 bg-[#13131F] border border-white/5 rounded-2xl p-6 min-w-0 w-full">
           <h2 className="text-xl font-extrabold text-white mb-5">Why PursTech Background Remover</h2>
-          {/* ✅ QA FIX: Added min-w-0 w-full to grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-w-0 w-full">
             {[
               { icon:"🔒", title:"100% Private",         desc:"The AI model runs entirely in your browser. Your image is never uploaded or transmitted — safe for confidential product photos and personal images." },
@@ -642,7 +620,7 @@ export default function BackgroundRemoverClient({ children }: { children?: React
           </div>
         </div>
 
-        {/* FAQ — ✅ Rule 8: <details>/<summary>, Rule 10: FAQ.map() matches const FAQ */}
+        {/* FAQ */}
         <div className="mt-10 max-w-3xl min-w-0 w-full">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3 min-w-0 w-full">
@@ -661,7 +639,6 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         {/* Related tools */}
         <div className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
           <h3 className="text-sm font-bold text-white mb-4">🔧 Related Image Tools</h3>
-          {/* ✅ QA FIX: Added min-w-0 w-full to grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 min-w-0 w-full">
             {RELATED_TOOLS.map(tool => (
               <Link key={tool.slug} href={`/tools/${tool.slug}`}
@@ -675,7 +652,6 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         </div>
       </main>
 
-      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
       <footer className="border-t border-white/5 mt-16 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
