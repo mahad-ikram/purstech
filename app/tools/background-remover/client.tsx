@@ -4,7 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
-// ── Module-scope constants (Rule 10 + no per-render allocation) ───────────────
+// ── Module-scope constants ───────────────
 const RELATED_TOOLS = [
   { icon:"🗜",  name:"Image Compressor",   slug:"image-compressor"  },
   { icon:"📐", name:"Image Resizer",       slug:"image-resizer"     },
@@ -194,9 +194,7 @@ export default function BackgroundRemoverClient({ children }: { children?: React
 
       setProgress(20); setProgressMsg("Connecting to AI CDN (~5MB, cached after first use)…");
 
-      // ✅ THE ULTIMATE FIX: By omitting `publicPath` entirely, the library automatically
-      // falls back to its own built-in official CDN. This completely bypasses the bad typos
-      // and local Vercel file errors, requiring ZERO terminal commands!
+      // We omit publicPath entirely so it auto-fetches from unpkg/img.ly CDNs
       const resultBlob: Blob = await removeBgFn(file, {
         proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
@@ -236,7 +234,6 @@ export default function BackgroundRemoverClient({ children }: { children?: React
       console.error("Background removal error:", err);
       const raw = err instanceof Error ? err.message : String(err);
 
-      // Clean, simple error messages without asking the user to run terminal commands
       const userMsg =
         raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch")
           ? "Network error — could not reach the AI server. Please check your internet connection or try turning off strict adblockers temporarily."
@@ -371,6 +368,15 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         </nav>
 
         {children}
+
+        {/* ✅ THE MISSING HERO SECTION - HARDCODED SO IT NEVER DISAPPEARS */}
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+            Free AI Background Remover Online — Remove Backgrounds Automatically
+          </h1>
+          <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
+        </div>
 
         {/* UPLOAD */}
         {!origUrl && (
