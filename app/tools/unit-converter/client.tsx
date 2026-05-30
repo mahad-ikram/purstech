@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
+import { useTrackTool } from "@/hooks/useTrackTool"; 
 
-// ✅ Rule 10: module scope
 const RELATED_TOOLS = [
   { icon:"🎂", name:"Age Calculator",       slug:"age-calculator"        },
   { icon:"⚖️", name:"BMI Calculator",        slug:"bmi-calculator"        },
@@ -149,7 +148,7 @@ function formatResult(n: number): string {
 }
 
 export default function UnitConverterClient({ children }: { children?: React.ReactNode }) {
-  useTrackTool("unit-converter", "math"); // ✅ Fixed Category
+  useTrackTool("unit-converter", "finance"); // ✅ Category safely reverted to "finance"
 
   const [catId,  setCatId]  = useState("length");
   const [fromId, setFromId] = useState("m");
@@ -181,10 +180,8 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
   }
 
   return (
-    // ✅ Rule 6: flex flex-col overflow-x-hidden
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur + Go Pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
@@ -195,21 +192,18 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
         </div>
       </nav>
 
-      {/* ✅ Rule 7: flex-grow w-full */}
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
 
-        {/* ✅ Rule 11: aria-label + aria-hidden + Fixed Math Tools Breadcrumb */}
+        {/* ✅ Safely restored to /categories/finance to avoid 404 */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
-          <Link href="/categories/math" className="hover:text-gray-400">Math Tools</Link><span aria-hidden="true">›</span>
+          <Link href="/categories/finance" className="hover:text-gray-400">Finance Tools</Link><span aria-hidden="true">›</span>
           <span className="text-gray-400">Unit Converter</span>
         </nav>
 
-        {/* ✅ Rule 12: Hero from page.tsx rendered here */}
         {children}
 
-        {/* ✅ Rule 9: min-w-0 w-full on parent grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-w-0 w-full">
           <div className="lg:col-span-2 min-w-0 flex flex-col gap-5 w-full">
 
@@ -302,7 +296,7 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
             </div>
           </div>
 
-          {/* Sidebar — ✅ Rule 9: min-w-0 */}
+          {/* Sidebar */}
           <div className="min-w-0 flex flex-col gap-4 w-full">
             <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
               <h3 className="text-sm font-bold text-white mb-4">📊 Categories</h3>
@@ -332,7 +326,7 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
               </div>
             </div>
 
-            {/* ✅ Pro CTA */}
+            {/* Pro CTA */}
             <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center min-w-0 w-full">
               <div className="text-2xl mb-2">⚡</div>
               <h3 className="font-bold text-white text-sm mb-1">PursTech Pro</h3>
@@ -363,7 +357,7 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
           </div>
         </section>
 
-        {/* FAQ — ✅ Rule 8: <details>/<summary> */}
+        {/* FAQ */}
         <section className="mt-16 min-w-0 w-full">
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3 max-w-3xl min-w-0 w-full">
@@ -380,7 +374,6 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
         </section>
       </main>
 
-      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
       <footer className="border-t border-white/5 mt-20 py-8 text-center min-w-0 w-full">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
