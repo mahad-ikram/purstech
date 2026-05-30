@@ -103,12 +103,14 @@ export default function UnitConverterPage() {
               <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-2">
                 Finance Tools
               </div>
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white">Unit Converter</h1>
-              <p className="text-gray-500 mt-2 max-w-2xl leading-relaxed text-base">Convert between length, weight, temperature, volume, area, speed, time and more — instant results.</p>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white">Universal Unit Converter</h1>
+              <p className="text-gray-500 mt-2 max-w-2xl leading-relaxed text-base">
+                Easily convert between 50+ metric and imperial units. Whether you need to translate kilometres to miles for travel, kilograms to pounds for fitness, or Celsius to Fahrenheit for cooking, our universal converter provides instant, scientifically accurate results.
+              </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 mt-4">
-            {["Free","No Login","8 Categories","50+ Units","Instant"].map(b => (
+            {["Free","No Login","8 Categories","50+ Units","Instant","Mobile Friendly"].map(b => (
               <span key={b} className="text-xs bg-[#6C3AFF]/10 text-[#6C3AFF] border border-[#6C3AFF]/20 px-3 py-1 rounded-full font-medium">✓ {b}</span>
             ))}
           </div>
