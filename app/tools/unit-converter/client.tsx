@@ -148,7 +148,7 @@ function formatResult(n: number): string {
 }
 
 export default function UnitConverterClient({ children }: { children?: React.ReactNode }) {
-  useTrackTool("unit-converter", "finance"); // ✅ Category safely reverted to "finance"
+  useTrackTool("unit-converter", "finance");
 
   const [catId,  setCatId]  = useState("length");
   const [fromId, setFromId] = useState("m");
@@ -194,7 +194,6 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
 
       <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
 
-        {/* ✅ Safely restored to /categories/finance to avoid 404 */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400">Home</Link><span aria-hidden="true">›</span>
           <Link href="/tools" className="hover:text-gray-400">Tools</Link><span aria-hidden="true">›</span>
@@ -204,7 +203,7 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
 
         {children}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-w-0 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-w-0 w-full mb-16">
           <div className="lg:col-span-2 min-w-0 flex flex-col gap-5 w-full">
 
             {/* Category tabs */}
@@ -338,6 +337,56 @@ export default function UnitConverterClient({ children }: { children?: React.Rea
             </div>
           </div>
         </div>
+
+        {/* ── RICH SEO & ADSENSE CONTENT ── */}
+        
+        {/* Comprehensive Guide Section */}
+        <section className="bg-[#13131F] border border-white/5 rounded-2xl p-6 lg:p-8 mb-10 min-w-0 w-full">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-6">The Ultimate Guide to Unit Conversion</h2>
+          <div className="text-gray-400 text-sm leading-relaxed space-y-6">
+            <p>
+              Navigating between different measurement systems is a daily necessity for professionals, students, travelers, and home cooks. Whether you are attempting to understand speed limits in a foreign country, converting a baking recipe from cups to millilitres, or interpreting technical specifications, an accurate unit converter is indispensable. Our tool bridges the gap between the <strong>Metric System</strong> (used by 95% of the world) and the <strong>Imperial System</strong> (predominantly used in the United States, Liberia, and Myanmar).
+            </p>
+            
+            <h3 className="text-lg font-bold text-white mt-8 mb-3">Understanding the Metric vs. Imperial Systems</h3>
+            <p>
+              The Metric system is a decimal-based system of measurement. Because it is based on multiples of ten, converting within the metric system is as simple as moving a decimal point. For example, there are exactly 1,000 metres in a kilometre, and 1,000 grams in a kilogram.
+            </p>
+            <p>
+              Conversely, the Imperial system is rooted in historical measurements and relies on fractions and irregular scales. There are 12 inches in a foot, 3 feet in a yard, and 5,280 feet in a mile. This complexity is why relying on an automated, scientifically accurate unit calculator is essential for avoiding costly miscalculations in engineering, dosage, or construction.
+            </p>
+
+            <h3 className="text-lg font-bold text-white mt-8 mb-3">Popular Daily Conversions</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-[#0A0A14] rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-semibold mb-2">Length & Distance</h4>
+                <ul className="space-y-2 text-xs text-gray-500">
+                  <li><strong className="text-[#6C3AFF]">1 Mile</strong> = 1.60934 Kilometres</li>
+                  <li><strong className="text-[#6C3AFF]">1 Foot</strong> = 30.48 Centimetres</li>
+                  <li><strong className="text-[#6C3AFF]">1 Inch</strong> = 2.54 Centimetres</li>
+                </ul>
+              </div>
+              <div className="bg-[#0A0A14] rounded-xl p-4 border border-white/5">
+                <h4 className="text-white font-semibold mb-2">Weight & Mass</h4>
+                <ul className="space-y-2 text-xs text-gray-500">
+                  <li><strong className="text-[#6C3AFF]">1 Kilogram</strong> = 2.20462 Pounds</li>
+                  <li><strong className="text-[#6C3AFF]">1 Ounce</strong> = 28.3495 Grams</li>
+                  <li><strong className="text-[#6C3AFF]">1 Stone</strong> = 14 Pounds (6.35 kg)</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-bold text-white mt-8 mb-3">How Temperature Conversion Works</h3>
+            <p>
+              Temperature is unique because it cannot be converted by simple multiplication. The scales (Celsius, Fahrenheit, and Kelvin) do not share the same "zero" point. 
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong>Celsius to Fahrenheit:</strong> Multiply the Celsius temperature by 1.8 (or 9/5) and add 32. Formula: <code>(°C × 1.8) + 32 = °F</code></li>
+              <li><strong>Fahrenheit to Celsius:</strong> Subtract 32 from the Fahrenheit temperature, then divide by 1.8. Formula: <code>(°F - 32) / 1.8 = °C</code></li>
+              <li><strong>Kelvin:</strong> Used primarily in physical sciences, Kelvin represents absolute temperature. Zero Kelvin is absolute zero. Formula: <code>°C + 273.15 = K</code></li>
+            </ul>
+          </div>
+        </section>
 
         {/* How to Use */}
         <section className="mt-16 min-w-0 w-full">
