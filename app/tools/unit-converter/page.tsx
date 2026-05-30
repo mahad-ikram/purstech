@@ -83,7 +83,7 @@ const BREADCRUMB_SCHEMA = {
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home",           item: "https://www.purstech.com" },
     { "@type": "ListItem", position: 2, name: "Tools",          item: "https://www.purstech.com/tools" },
-    { "@type": "ListItem", position: 3, name: "Math Tools",     item: "https://www.purstech.com/categories/math" },
+    { "@type": "ListItem", position: 3, name: "Finance Tools",  item: "https://www.purstech.com/categories/finance" },
     { "@type": "ListItem", position: 4, name: "Unit Converter", item: "https://www.purstech.com/tools/unit-converter" },
   ],
 };
@@ -101,7 +101,7 @@ export default function UnitConverterPage() {
             <span className="text-4xl flex-shrink-0">📏</span>
             <div>
               <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-2">
-                Math Tools
+                Finance Tools
               </div>
               <h1 className="text-3xl md:text-4xl font-extrabold text-white">Unit Converter</h1>
               <p className="text-gray-500 mt-2 max-w-2xl leading-relaxed text-base">Convert between length, weight, temperature, volume, area, speed, time and more — instant results.</p>
