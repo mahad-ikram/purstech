@@ -2,24 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
-// QA fixes:
-//  ✅ Title fixed — was "Privacy Policy | PursTech" which doubled to
-//     "Privacy Policy | PursTech | PursTech" with layout template
-//  ✅ alternates.canonical added
-//  ✅ openGraph added
-//  ✅ robots added (noindex on legal pages is a common mistake — we DO index this)
-//  ✅ Description improved
 
 export const metadata: Metadata = {
-  // Renders: "Privacy Policy | PursTech" (25 chars ✅)
   title: "Privacy Policy",
-
   description:
     "Read the PursTech Privacy Policy — how we collect, use and protect your personal data, our cookies policy, Google AdSense disclosure and your GDPR rights.",
-  // 156 chars ✅
-
   alternates: { canonical: "/privacy" },
-
   openGraph: {
     type:        "website",
     url:         "https://www.purstech.com/privacy",
@@ -28,70 +16,48 @@ export const metadata: Metadata = {
     description: "How PursTech collects, uses and protects your data. Includes AdSense disclosure, cookies policy and GDPR rights.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "PursTech Privacy Policy" }],
   },
-
-  // Privacy pages SHOULD be indexed — AdSense verifies the URL is accessible
-  robots: {
-    index:  true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 };
 
-// ─── Update this whenever the policy changes ─────────────────────────────────
-// AdSense tip: update this date whenever you add new disclosures (e.g. new
-// third-party services). Google checks that the policy is kept current.
-const LAST_UPDATED = "May 2026";
+// ✅ Bumped to current month — AdSense reviewers check freshness on legal pages
+const LAST_UPDATED = "June 2026";
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
 
-      {/* ── Navbar — fixed: added /tools, /blog, /pro ── */}
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">
-            Purs<span className="text-[#6C3AFF]">Tech</span>
-          </Link>
+          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
           <div className="flex items-center gap-4">
             <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
             <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
             <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
-            <Link href="/pro"
-              className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
-              Go Pro ⚡
-            </Link>
+            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
           </div>
         </div>
       </nav>
 
       <main className="max-w-3xl mx-auto px-4 py-16">
 
-        {/* ── Breadcrumb — added ── */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-8 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
           <span aria-hidden="true">›</span>
           <span className="text-gray-400">Privacy Policy</span>
         </nav>
 
-        {/* Header */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-4 py-1.5 text-xs text-[#6C3AFF] font-semibold mb-4">
-            Legal
-          </div>
+          <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-4 py-1.5 text-xs text-[#6C3AFF] font-semibold mb-4">Legal</div>
           <h1 className="text-4xl font-extrabold text-white mb-3">Privacy Policy</h1>
           <p className="text-gray-500 text-sm">Last updated: {LAST_UPDATED}</p>
         </div>
 
-        {/* Content */}
         <div className="prose prose-invert max-w-none space-y-10 text-gray-400 leading-relaxed">
 
           <Section title="1. Introduction">
             <p>
               Welcome to PursTech (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). We operate the website{" "}
-              {/* ✅ Fixed: was href="https://purstech.com" (non-www) */}
-              <a href="https://www.purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                www.purstech.com
-              </a>{" "}
+              <a href="https://www.purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">www.purstech.com</a>{" "}
               (the &quot;Service&quot;). This Privacy Policy explains how we collect, use, disclose and safeguard your
               information when you visit PursTech. Please read this policy carefully. If you disagree with its terms,
               please discontinue use of the site.
@@ -102,8 +68,8 @@ export default function PrivacyPage() {
             <SubTitle>2.1 Information You Provide</SubTitle>
             <p>We may collect information you voluntarily provide when you:</p>
             <ul className="list-disc list-inside space-y-1 mt-2 text-gray-400">
-              <li>Subscribe to our newsletter (email address only)</li>
-              <li>Contact us via our contact form (name and email address)</li>
+              {/* ✅ Newsletter line REMOVED — site no longer has a newsletter */}
+              <li>Contact us via our contact form (name, email address and your message)</li>
               <li>Create a Pro account (email address and billing information via Stripe)</li>
             </ul>
 
@@ -130,7 +96,7 @@ export default function PrivacyPage() {
             <p>We use the information we collect to:</p>
             <ul className="list-disc list-inside space-y-1 mt-2 text-gray-400">
               <li>Operate, maintain and improve the PursTech platform</li>
-              <li>Send newsletter emails to subscribers (with your explicit consent)</li>
+              {/* ✅ Newsletter line REMOVED */}
               <li>Process Pro subscription payments</li>
               <li>Respond to your enquiries and support requests</li>
               <li>Analyse usage patterns to understand which tools are most valuable</li>
@@ -139,9 +105,6 @@ export default function PrivacyPage() {
             </ul>
           </Section>
 
-          {/* ── Section 4: Google AdSense — CRITICAL for AdSense approval ── */}
-          {/* AdSense policy requires the privacy policy to explicitly name   */}
-          {/* AdSense and explain cookie/ad targeting. This section does that. */}
           <Section title="4. Google AdSense and Advertising">
             <p>
               PursTech uses <strong className="text-white">Google AdSense</strong> to display advertisements.
@@ -151,22 +114,12 @@ export default function PrivacyPage() {
             </p>
             <p className="mt-3">
               You may opt out of personalised advertising by visiting{" "}
-              <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer"
-                className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                Google Ads Settings
-              </a>
-              {" "}or by visiting{" "}
-              <a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer"
-                className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                aboutads.info
-              </a>.
+              <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">Google Ads Settings</a>{" "}or by visiting{" "}
+              <a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">aboutads.info</a>.
             </p>
             <p className="mt-3">
               For more information on how Google uses data when you use our site, visit:{" "}
-              <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer"
-                className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                How Google uses data from sites that use Google products
-              </a>.
+              <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">How Google uses data from sites that use Google products</a>.
             </p>
           </Section>
 
@@ -189,21 +142,18 @@ export default function PrivacyPage() {
             <p>We use the following third-party services that may collect information:</p>
             <div className="mt-3 space-y-3">
               {[
-                { name:"Google Analytics",  purpose:"Website traffic analysis",      link:"https://policies.google.com/privacy"     },
-                { name:"Google AdSense",    purpose:"Advertising",                    link:"https://policies.google.com/privacy"     },
-                { name:"Vercel",            purpose:"Website hosting and deployment", link:"https://vercel.com/legal/privacy-policy" },
-                { name:"Supabase",          purpose:"Database and authentication",    link:"https://supabase.com/privacy"            },
-                { name:"Stripe",            purpose:"Payment processing (Pro tier)",  link:"https://stripe.com/privacy"              },
+                { name:"Google Analytics", purpose:"Website traffic analysis",      link:"https://policies.google.com/privacy"     },
+                { name:"Google AdSense",   purpose:"Advertising",                    link:"https://policies.google.com/privacy"     },
+                { name:"Vercel",           purpose:"Website hosting and deployment", link:"https://vercel.com/legal/privacy-policy" },
+                { name:"Supabase",         purpose:"Database and authentication",    link:"https://supabase.com/privacy"            },
+                { name:"Stripe",           purpose:"Payment processing (Pro tier)",  link:"https://stripe.com/privacy"              },
               ].map(s => (
                 <div key={s.name} className="flex items-start gap-3 bg-[#13131F] rounded-xl px-4 py-3">
                   <div className="flex-1">
                     <span className="text-white font-semibold text-sm">{s.name}</span>
                     <span className="text-gray-500 text-sm"> — {s.purpose}</span>
                   </div>
-                  <a href={s.link} target="_blank" rel="noopener noreferrer"
-                    className="text-xs text-[#6C3AFF] hover:text-[#00D4FF] transition-colors flex-shrink-0">
-                    Privacy Policy →
-                  </a>
+                  <a href={s.link} target="_blank" rel="noopener noreferrer" className="text-xs text-[#6C3AFF] hover:text-[#00D4FF] transition-colors flex-shrink-0">Privacy Policy →</a>
                 </div>
               ))}
             </div>
@@ -211,7 +161,8 @@ export default function PrivacyPage() {
 
           <Section title="7. Data Retention">
             <p>
-              Newsletter subscribers&apos; email addresses are retained until you unsubscribe.
+              {/* ✅ Newsletter retention sentence REMOVED, replaced with contact form retention */}
+              Contact form submissions are retained for up to 24 months for support history.
               Anonymous usage analytics are retained for up to 26 months.
               Pro account data is retained for the duration of your subscription plus 90 days.
               You may request deletion of your data at any time by contacting us.
@@ -226,13 +177,11 @@ export default function PrivacyPage() {
               <li><strong className="text-white">Erasure</strong> — request deletion of your data</li>
               <li><strong className="text-white">Portability</strong> — request your data in a machine-readable format</li>
               <li><strong className="text-white">Objection</strong> — object to processing of your data</li>
-              <li><strong className="text-white">Opt-out</strong> — unsubscribe from emails at any time</li>
+              {/* ✅ Removed: "Opt-out — unsubscribe from emails at any time" — no newsletter */}
             </ul>
             <p className="mt-3">
               To exercise any of these rights, please contact us at{" "}
-              <a href="mailto:privacy@purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                privacy@purstech.com
-              </a>.
+              <a href="mailto:privacy@purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">privacy@purstech.com</a>.
             </p>
           </Section>
 
@@ -254,19 +203,14 @@ export default function PrivacyPage() {
 
           <Section title="11. Contact Us">
             <p>If you have any questions about this Privacy Policy, please contact us:</p>
-            {/* ✅ Fixed: was href="https://purstech.com/contact" (non-www) */}
             <div className="mt-4 bg-[#13131F] rounded-2xl p-5 space-y-2 text-sm">
               <div>
                 <span className="text-gray-500">Email: </span>
-                <a href="mailto:privacy@purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                  privacy@purstech.com
-                </a>
+                <a href="mailto:privacy@purstech.com" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">privacy@purstech.com</a>
               </div>
               <div>
                 <span className="text-gray-500">Website: </span>
-                <a href="https://www.purstech.com/contact" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">
-                  www.purstech.com/contact
-                </a>
+                <a href="https://www.purstech.com/contact" className="text-[#6C3AFF] hover:text-[#00D4FF] transition-colors">www.purstech.com/contact</a>
               </div>
             </div>
           </Section>
@@ -274,17 +218,13 @@ export default function PrivacyPage() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-white/5 mt-20 py-8 text-center">
-        <Link href="/" className="text-xl font-black">
-          Purs<span className="text-[#6C3AFF]">Tech</span>
-        </Link>
+        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
         <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
-        {/* ✅ Fixed: was © 2025 */}
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
