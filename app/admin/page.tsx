@@ -64,7 +64,7 @@ const relTime = (iso: string) => {
   return new Date(iso).toLocaleDateString();
 };
 
-// ─── Sparkline ── kept identical to original ──────────────────────────────────
+// ─── Sparkline ────────────────────────────────────────────────────────────────
 
 function Sparkline({ data }: { data: number[] }) {
   const max = Math.max(...data, 1);
@@ -84,15 +84,13 @@ function Sparkline({ data }: { data: number[] }) {
         </linearGradient>
       </defs>
       <polygon points={`0,${h} ${pts} ${w},${h}`} fill="url(#sparkGrad)" />
-      <polyline points={pts} fill="none" stroke="#6C3AFF" strokeWidth="2"
-        strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={w} cy={h - ((data[data.length-1] - min) / (max - min || 1)) * h}
-        r="3" fill="#6C3AFF" />
+      <polyline points={pts} fill="none" stroke="#6C3AFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={w} cy={h - ((data[data.length-1] - min) / (max - min || 1)) * h} r="3" fill="#6C3AFF" />
     </svg>
   );
 }
 
-// ─── StatCard ── kept identical to original ───────────────────────────────────
+// ─── StatCard ─────────────────────────────────────────────────────────────────
 
 function StatCard({ icon, label, value, sub, color, trend }: {
   icon: string; label: string; value: string | number;
@@ -102,9 +100,7 @@ function StatCard({ icon, label, value, sub, color, trend }: {
     <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 hover:border-[#6C3AFF]/20 transition-colors">
       <div className="flex items-start justify-between mb-3">
         <div className="w-10 h-10 rounded-xl bg-[#0A0A14] flex items-center justify-center text-xl">{icon}</div>
-        {trend && (
-          <span className="text-xs text-green-400 font-bold bg-green-400/10 px-2 py-0.5 rounded-full">{trend}</span>
-        )}
+        {trend && (<span className="text-xs text-green-400 font-bold bg-green-400/10 px-2 py-0.5 rounded-full">{trend}</span>)}
       </div>
       <div className={`text-2xl font-extrabold mb-1 ${color}`}>
         {typeof value === "number" ? value.toLocaleString() : value}
@@ -115,13 +111,11 @@ function StatCard({ icon, label, value, sub, color, trend }: {
   );
 }
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
-
 const Skel = ({ className = "" }: { className?: string }) => (
   <div className={`bg-[#1a1a2e] rounded-xl animate-pulse ${className}`} />
 );
 
-// ─── AI Agents ── unchanged, Phase 6 ─────────────────────────────────────────
+// ─── AI Agents (Phase 6) ──────────────────────────────────────────────────────
 
 const AGENTS = [
   { name:"Scout",  icon:"🔍", status:"idle",      last:"Not yet deployed" },
@@ -138,13 +132,13 @@ const STATUS_COLORS: Record<string, string> = {
   error:"bg-red-500 animate-pulse",     scheduled:"bg-yellow-500",
 };
 
-// ─── Quick Actions ── unchanged ───────────────────────────────────────────────
-
+// ✅ Added "View Messages" as the FIRST quick action — most actionable item for new contact form messages
 const QUICK_ACTIONS = [
-  { icon:"🔧", label:"Add New Tool",    href:"/admin/tools"    },
-  { icon:"📝", label:"Write Blog Post", href:"/admin/blog"     },
-  { icon:"🤖", label:"Run AI Agents",  href:"/admin/agents"   },
-  { icon:"⚙️", label:"Site Settings",  href:"/admin/settings" },
+  { icon:"💬", label:"View Messages",    href:"/admin/messages",  badge:"messages" as const },
+  { icon:"🔧", label:"Manage Tools",     href:"/admin/tools"    },
+  { icon:"📝", label:"Write Blog Post",  href:"/admin/blog"     },
+  { icon:"🤖", label:"Run AI Agents",   href:"/admin/agents"   },
+  { icon:"⚙️", label:"Site Settings",   href:"/admin/settings" },
 ];
 
 // ─── Dashboard ────────────────────────────────────────────────────────────────
@@ -154,6 +148,8 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState("");
   const [time,    setTime]    = useState("");
+  // ✅ New: unread message count for the View Messages badge
+  const [newMessages, setNewMessages] = useState<number | null>(null);
 
   // Live clock
   useEffect(() => {
@@ -174,13 +170,22 @@ export default function AdminDashboard() {
     setLoading(false);
   }, []);
 
+  // ✅ Fetch unread message count (refreshes every 60s along with stats)
+  const fetchMessageCount = useCallback(() => {
+    fetch("/api/admin/messages?status=new&limit=1")
+      .then(r => r.ok ? r.json() : null)
+      .then(j => setNewMessages(j?.counts?.new ?? 0))
+      .catch(() => setNewMessages(null));
+  }, []);
+
   useEffect(() => {
     fetchStats();
-    const id = setInterval(fetchStats, 60_000);
+    fetchMessageCount();
+    const id = setInterval(() => { fetchStats(); fetchMessageCount(); }, 60_000);
     return () => clearInterval(id);
-  }, [fetchStats]);
+  }, [fetchStats, fetchMessageCount]);
 
-  // Build 7-day sparkline (fill missing days with 0)
+  // Build 7-day sparkline
   const sparkline = (() => {
     const out: number[] = [];
     const today = new Date();
@@ -209,7 +214,7 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={fetchStats} disabled={loading}
+          <button onClick={() => { fetchStats(); fetchMessageCount(); }} disabled={loading}
             className="text-xs bg-[#13131F] border border-white/5 rounded-xl px-3 py-2 text-gray-400 hover:text-white transition-all disabled:opacity-50">
             {loading ? "⟳ Loading…" : "↻ Refresh"}
           </button>
@@ -231,15 +236,23 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* ── Quick Actions ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {QUICK_ACTIONS.map(a => (
-          <Link key={a.href} href={a.href}
-            className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 flex flex-col items-center gap-2 text-center transition-all hover:-translate-y-0.5 group">
-            <span className="text-2xl">{a.icon}</span>
-            <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors">{a.label}</span>
-          </Link>
-        ))}
+      {/* ── Quick Actions — now 5 items, with messages badge ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        {QUICK_ACTIONS.map(a => {
+          const showBadge = a.badge === "messages" && newMessages != null && newMessages > 0;
+          return (
+            <Link key={a.href} href={a.href}
+              className="relative bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 flex flex-col items-center gap-2 text-center transition-all hover:-translate-y-0.5 group">
+              <span className="text-2xl">{a.icon}</span>
+              <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors">{a.label}</span>
+              {showBadge && (
+                <span className="absolute -top-2 -right-2 bg-[#FF3A6C] text-white text-[10px] font-bold px-2 py-0.5 rounded-full min-w-[22px] text-center shadow-lg shadow-pink-900/50">
+                  {newMessages! > 99 ? "99+" : newMessages}
+                </span>
+              )}
+            </Link>
+          );
+        })}
       </div>
 
       {/* ── Stat cards — REAL DATA ── */}
@@ -262,7 +275,6 @@ export default function AdminDashboard() {
       {/* ── Sparkline + Live Activity ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-        {/* Sparkline — REAL 7-day trend */}
         <div className="lg:col-span-2 bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -285,7 +297,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Live Activity — REAL DATA */}
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -320,7 +331,6 @@ export default function AdminDashboard() {
       {/* ── Top Tools + Agents ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-        {/* Top Tools — REAL DATA */}
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-sm font-bold text-white">🏆 Top Tools by Usage</h2>
@@ -359,7 +369,6 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        {/* AI Agents — unchanged (Phase 6) */}
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-sm font-bold text-white">🤖 AI Agents Status</h2>
@@ -386,7 +395,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ── Secondary stats ── */}
+      {/* ── Secondary stats — replaced "Active Categories" with "New Messages" (real data) ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-center">
           <div className="text-2xl font-extrabold text-violet-400">0</div>
@@ -403,31 +412,33 @@ export default function AdminDashboard() {
           <div className="text-xs text-gray-500 mt-1">Blog Posts</div>
           <div className="text-xs text-gray-700 mt-0.5">Published</div>
         </div>
-        <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-center">
-          {loading
+        {/* ✅ NEW: live unread message count instead of "Active Categories" */}
+        <Link href="/admin/messages"
+          className="bg-[#13131F] border border-white/5 hover:border-[#FF3A6C]/40 rounded-2xl p-5 text-center transition-all hover:-translate-y-0.5 block">
+          {newMessages == null
             ? <Skel className="h-8 w-16 mx-auto mb-1" />
-            : <div className="text-2xl font-extrabold text-yellow-400">{data?.categories?.length ?? 0}</div>
+            : <div className={`text-2xl font-extrabold ${newMessages > 0 ? "text-[#FF3A6C]" : "text-gray-500"}`}>{newMessages}</div>
           }
-          <div className="text-xs text-gray-500 mt-1">Active Categories</div>
-          <div className="text-xs text-gray-700 mt-0.5">with tracked uses</div>
-        </div>
+          <div className="text-xs text-gray-500 mt-1">New Messages</div>
+          <div className="text-xs text-gray-700 mt-0.5">from /contact form</div>
+        </Link>
       </div>
 
-      {/* ── Alert: AdSense already applied ── */}
+      {/* ── Status alert — updated for AdSense + Contact Form ── */}
       <div className="bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="text-2xl">✅</div>
         <div className="flex-1">
-          <div className="text-sm font-bold text-white mb-0.5">Phase 3A Complete — Admin Connected to Supabase</div>
+          <div className="text-sm font-bold text-white mb-0.5">Contact form + Messages inbox wired to Supabase</div>
           <div className="text-xs text-gray-500">
-            Real tool usage tracking is live. Add <code className="bg-[#0A0A14] px-1 rounded">useTrackTool(slug, category)</code> to
-            each tool&apos;s <code className="bg-[#0A0A14] px-1 rounded">client.tsx</code>.
-            AdSense already applied — awaiting approval.
-            <strong className="text-gray-400"> Next: Phase 3B — Auth system.</strong>
+            Visitors can now submit messages from <code className="bg-[#0A0A14] px-1 rounded">/contact</code>.
+            View them at <Link href="/admin/messages" className="text-[#6C3AFF] hover:text-[#00D4FF]">/admin/messages</Link>.
+            AdSense reviewers test contact forms — yours now works end-to-end.
+            <strong className="text-gray-400"> Next: re-apply for AdSense (Tue/Wed morning) after 3–4 weeks of activity.</strong>
           </div>
         </div>
-        <Link href="/tools"
+        <Link href="/admin/messages"
           className="flex-shrink-0 px-4 py-2 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
-          View Site →
+          View Messages →
         </Link>
       </div>
 
