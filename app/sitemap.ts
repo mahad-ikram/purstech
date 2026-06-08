@@ -50,19 +50,37 @@ const CATEGORY_SLUGS = [
   "text", "image", "dev", "seo", "ai", "finance", "security", "pdf",
 ];
 
-// ── Blog posts ────────────────────────────────────────────────────────────────
+// ── Blog posts (14 — 10 existing + 4 new) ────────────────────────────────────
+// ✅ Updated: removed -2025 from 3 slugs (matches data.ts rename + 301 redirects)
+// ✅ Updated: added 4 new June 2026 articles
 const BLOG_SLUGS = [
-  "best-free-json-formatter-tools-2025",
+  // Existing 10 (3 renamed without -2025 suffix)
+  "best-free-json-formatter-tools",            // ✅ renamed from -2025
   "how-to-compress-images-without-losing-quality",
-  "strong-password-guide-2025",
+  "strong-password-guide",                     // ✅ renamed from -2025
   "hex-vs-rgb-vs-hsl-color-formats",
   "qr-codes-for-business-complete-guide",
   "base64-encoding-explained",
   "bmi-calculator-guide-what-your-score-means",
   "url-encoding-developer-guide",
-  "free-seo-tools-that-work-2025",
+  "free-seo-tools-that-work",                  // ✅ renamed from -2025
   "word-count-guide-every-platform",
+  // New 4 — June 2026
+  "compress-pdf-without-losing-quality",
+  "merge-pdf-files-without-uploading",
+  "loan-calculator-with-extra-payments",
+  "webp-vs-jpeg-vs-png-2026",
 ];
+
+// ── Recently published blog slugs — get higher priority + weekly frequency ────
+// These are the 4 brand-new June 2026 articles. Search engines weight fresh
+// content + weekly changeFrequency higher for new pages still gaining authority.
+const NEW_BLOG_SLUGS = new Set([
+  "compress-pdf-without-losing-quality",
+  "merge-pdf-files-without-uploading",
+  "loan-calculator-with-extra-payments",
+  "webp-vs-jpeg-vs-png-2026",
+]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -112,15 +130,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:        0.7,
   }));
 
-  // ── Blog pages (10) ─────────────────────────────────────────────────────────
-  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map(slug => ({
-    url:             `${BASE_URL}/blog/${slug}`,
-    lastModified:    now,
-    changeFrequency: "monthly" as const,
-    priority:        0.6,
-  }));
+  // ── Blog pages (14) ─────────────────────────────────────────────────────────
+  // New articles get priority 0.7 + weekly (fresher, needs more crawl frequency).
+  // Older articles stay at priority 0.6 + monthly (established, slower-changing).
+  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map(slug => {
+    const isNew = NEW_BLOG_SLUGS.has(slug);
+    return {
+      url:             `${BASE_URL}/blog/${slug}`,
+      lastModified:    now,
+      changeFrequency: isNew ? ("weekly" as const) : ("monthly" as const),
+      priority:        isNew ? 0.7 : 0.6,
+    };
+  });
 
-  // Grand total: 8 core + 10 new tools + 40 established tools + 8 categories + 10 blog = 76 URLs
+  // Grand total: 8 core + 10 new tools + 40 established tools + 8 categories + 14 blog = 80 URLs
   return [
     ...corePages,
     ...newToolPages,
