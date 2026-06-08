@@ -12,6 +12,30 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // ── 301 redirects for renamed blog slugs (preserve Google indexing) ───────
+  async redirects() {
+    return [
+      // Removed `-2025` year suffix from blog slugs to keep URLs timeless.
+      // Old URLs were indexed by Google — these permanent redirects preserve
+      // link equity and prevent 404s for any external backlinks.
+      {
+        source:      "/blog/best-free-json-formatter-tools-2025",
+        destination: "/blog/best-free-json-formatter-tools",
+        permanent:   true,  // 308 (Google treats same as 301)
+      },
+      {
+        source:      "/blog/strong-password-guide-2025",
+        destination: "/blog/strong-password-guide",
+        permanent:   true,
+      },
+      {
+        source:      "/blog/free-seo-tools-that-work-2025",
+        destination: "/blog/free-seo-tools-that-work",
+        permanent:   true,
+      },
+    ];
+  },
+
   // ── Turbopack (Next.js 16 default bundler) ────────────────────────────────
   // Empty config silences the hard build error:
   //   "webpack config present but no turbopack config"
