@@ -1,48 +1,40 @@
 "use client";
 
+// app/admin/layout.tsx
+// ─────────────────────────────────────────────────────────────────────────────
+// Admin shell — sidebar + topbar + unread-message badge.
+//
+// SECURITY: this file no longer contains any password or auth check.
+// Authentication is enforced at the edge by middleware.ts BEFORE this layout
+// ever renders. If you're seeing this UI, middleware has already validated
+// your session cookie.
+//
+// Logout now calls /api/admin/logout to clear the cookie server-side.
+// ─────────────────────────────────────────────────────────────────────────────
+
 import { useState, useEffect, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-// ─── Auth check ───────────────────────────────────────────────────────────────
-// Simple password protection stored in sessionStorage.
-// Replace ADMIN_PASSWORD with your own strong password.
-
-const ADMIN_PASSWORD = "purstech2025admin"; // ← CHANGE THIS to your own password
-
-// ✅ Added: Messages nav item — second from the top so it's visible
 const NAV_ITEMS = [
-  { icon: "📊", label: "Dashboard",    href: "/admin"           },
-  { icon: "💬", label: "Messages",     href: "/admin/messages"  },
-  { icon: "🔧", label: "Tools",        href: "/admin/tools"     },
-  { icon: "🤖", label: "AI Agents",    href: "/admin/agents"    },
-  { icon: "📝", label: "Blog",         href: "/admin/blog"      },
-  { icon: "💰", label: "Revenue",      href: "/admin/revenue"   },
-  { icon: "🔍", label: "SEO",          href: "/admin/seo"       },
-  { icon: "👥", label: "Users",        href: "/admin/users"     },
-  { icon: "⚙️", label: "Settings",     href: "/admin/settings"  },
+  { icon: "📊", label: "Dashboard",  href: "/admin"           },
+  { icon: "💬", label: "Messages",   href: "/admin/messages"  },
+  { icon: "🔧", label: "Tools",      href: "/admin/tools"     },
+  { icon: "🤖", label: "AI Agents",  href: "/admin/agents"    },
+  { icon: "📝", label: "Blog",       href: "/admin/blog"      },
+  { icon: "💰", label: "Revenue",    href: "/admin/revenue"   },
+  { icon: "🔍", label: "SEO",        href: "/admin/seo"       },
+  { icon: "👥", label: "Users",      href: "/admin/users"     },
+  { icon: "⚙️", label: "Settings",   href: "/admin/settings"  },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname  = usePathname();
   const router    = useRouter();
-  const [auth,    setAuth]    = useState(false);
-  const [checked, setChecked] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // ✅ Live unread message count — drives the badge on the Messages nav item
   const [newMessages, setNewMessages] = useState<number | null>(null);
 
-  // Check auth on mount
-  useEffect(() => {
-    const ok = sessionStorage.getItem("purstech_admin") === "true";
-    setAuth(ok);
-    setChecked(true);
-    if (!ok && pathname !== "/admin/login") {
-      router.replace("/admin/login");
-    }
-  }, [pathname, router]);
-
-  // ✅ Fetch unread message count + refresh every 30s
+  // ── Fetch unread message count + refresh every 30s ──────────────────────
   const fetchNewCount = useCallback(() => {
     fetch("/api/admin/messages?status=new&limit=1")
       .then(r => r.ok ? r.json() : null)
@@ -51,23 +43,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, []);
 
   useEffect(() => {
-    if (!auth || pathname === "/admin/login") return;
+    if (pathname === "/admin/login") return;
     fetchNewCount();
     const id = setInterval(fetchNewCount, 30_000);
     return () => clearInterval(id);
-  }, [auth, pathname, fetchNewCount]);
+  }, [pathname, fetchNewCount]);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("purstech_admin");
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch {
+      // Ignore — middleware will redirect on next request either way
+    }
     router.replace("/admin/login");
+    router.refresh();
   };
 
-  // Login page renders without sidebar
+  // Login page renders without sidebar/chrome
   if (pathname === "/admin/login") return <>{children}</>;
-
-  // Loading flicker prevention
-  if (!checked) return null;
-  if (!auth)    return null;
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-white flex font-sans">
@@ -99,7 +92,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {NAV_ITEMS.map((item) => {
             const active = pathname === item.href ||
               (item.href !== "/admin" && pathname.startsWith(item.href));
-            // ✅ Show pink badge with unread count on the Messages item
             const hasBadge = item.href === "/admin/messages" && newMessages != null && newMessages > 0;
             return (
               <Link
@@ -148,7 +140,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="hidden lg:block" />
 
           <div className="flex items-center gap-3">
-            {/* ✅ Unread messages indicator in topbar */}
             {newMessages != null && newMessages > 0 && (
               <Link href="/admin/messages"
                 className="hidden sm:flex items-center gap-2 bg-[#FF3A6C]/10 border border-[#FF3A6C]/30 rounded-full px-3 py-1.5 text-xs hover:bg-[#FF3A6C]/20 transition-all">
@@ -170,4 +161,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   );
 }
-
