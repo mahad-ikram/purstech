@@ -1,7 +1,6 @@
 // proxy.ts
 // ─────────────────────────────────────────────────────────────────────────────
 // Server-side auth guard for the admin panel — Next.js 16 "proxy" convention.
-// (Next 16 renamed middleware.ts → proxy.ts and the export → proxy.)
 //
 // Runs on Vercel's Edge runtime BEFORE any page or API route is reached.
 // Verifies the `purstech_admin_session` cookie using HMAC-SHA256 + the
@@ -16,6 +15,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Must match the cookie name used in login + logout routes
 const COOKIE_NAME = "purstech_admin_session";
+
+// ── Convert any Uint8Array view into a standalone ArrayBuffer ────────────────
+// (Satisfies TypeScript's strict BufferSource typing for crypto.subtle)
+function toArrayBuffer(u8: Uint8Array): ArrayBuffer {
+  const ab = new ArrayBuffer(u8.byteLength);
+  new Uint8Array(ab).set(u8);
+  return ab;
+}
 
 // ── HMAC-SHA256 token verification (Web Crypto — works in Edge runtime) ─────
 async function verifyToken(token: string, secret: string): Promise<boolean> {
@@ -40,13 +47,14 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
   try {
     const key = await crypto.subtle.importKey(
       "raw",
-      enc.encode(secret),
+      toArrayBuffer(enc.encode(secret)),
       { name: "HMAC", hash: "SHA-256" },
       false,
       ["verify"],
     );
-    const sigBytes = b64UrlDecode(sigB64);
-    return await crypto.subtle.verify("HMAC", key, sigBytes, enc.encode(bodyB64));
+    const sig = toArrayBuffer(b64UrlDecode(sigB64));
+    const data = toArrayBuffer(enc.encode(bodyB64));
+    return await crypto.subtle.verify("HMAC", key, sig, data);
   } catch {
     return false;
   }
