@@ -511,7 +511,7 @@ function SEOSection() {
         <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">What is PursTech?</h2>
         <p className="text-gray-400 leading-relaxed mb-6 w-full">
           PursTech is a free online tool platform offering <strong className="text-white">50 browser-based tools</strong> across
-          8 categories — no account required, no daily limits, no ads. Every tool runs entirely in your browser, meaning your
+          8 categories — no account required, no daily limits, no pop-ups, and no intrusive ads. Every tool runs entirely in your browser, meaning your
           files and data never leave your device.
         </p>
 
