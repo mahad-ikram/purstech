@@ -15,6 +15,85 @@ export const BLOG_POSTS: Record<string, {
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
+  // 15. Check Word Count in Google Docs / Word / PDF (NEW Jul 2026 — first
+  //     entry on purpose: newest post = featured card on /blog)
+  // ═════════════════════════════════════════════════════════════════════════
+  "how-to-check-word-count": {
+    title:        "How to Check Word Count in Google Docs, Word & PDF (2026)",
+    slug:         "how-to-check-word-count",
+    excerpt:      "Every way to check word count in Google Docs (desktop and mobile), Microsoft Word and PDF files — including keyboard shortcuts, the live counter, and what to do when an app has no counter at all.",
+    category:     "Writing",
+    readTime:     "6 min read",
+    publishedAt:  "July 2, 2026",
+    updatedAt:    "July 2, 2026",
+    publishedISO: "2026-07-02T09:00:00Z",
+    updatedISO:   "2026-07-02T09:00:00Z",
+    keywords:     ["how to check word count on google docs", "how to check word count on word", "check word count", "how to check word count in a pdf", "google docs word count shortcut", "check the number of words"],
+    relatedTools: [
+      { name: "Word Counter",        slug: "word-counter",  icon: "📝" },
+      { name: "PDF to Word",         slug: "pdf-to-word",   icon: "📄" },
+      { name: "Image to Text (OCR)", slug: "image-to-text", icon: "🖼️" },
+    ],
+    faqs: [
+      { q: "How do you check the word count on Google Docs?", a: "Open your document and go to Tools → Word count, or press Ctrl+Shift+C on Windows and Chromebook (⌘+Shift+C on Mac). A dialog shows pages, words, characters, and characters excluding spaces." },
+      { q: "How do I check word count on the Google Docs mobile app?", a: "Tap the three-dot menu (⋮) in the top-right corner of the document and choose Word count. This works the same way on both iPhone and Android." },
+      { q: "Can Google Docs show the word count while I type?", a: "Yes. Open Tools → Word count and tick 'Display word count while typing'. A live counter appears in the bottom-left corner of the document, and you can switch it between words and characters." },
+      { q: "How do I check the word count in a PDF?", a: "PDF readers do not have a built-in counter. The fastest method is to select all the text (Ctrl+A), copy it, and paste it into a free online word counter. For heavily formatted files, convert the PDF to Word first; for scanned PDFs, run OCR to extract the text." },
+      { q: "Does Microsoft Word count footnotes and text boxes?", a: "Only if you tell it to. Open the Word Count dialog by clicking the counter in the status bar (or Review → Word Count) and tick 'Include textboxes, footnotes and endnotes'. The status bar figure excludes them by default." },
+      { q: "What is the fastest way to check the number of words in any text?", a: "Copy the text and paste it into a browser-based word counter. It works for any source — PDFs, emails, slides, subtitles, code comments — with no software to install, and a private tool never uploads your text to a server." },
+    ],
+    content: `
+<p>You have a 500-word limit, a 2,000-word assignment, or a meta description that must stay under 160 characters — and every app hides its word counter in a different place. This guide covers exactly how to check word count in Google Docs, Microsoft Word and PDF files, on desktop and mobile, plus one universal method that works for text from anywhere.</p>
+
+<h2 id="quick-answer">The Quick Answer (Cheat Sheet)</h2>
+<p><strong>Google Docs:</strong> Tools → Word count, or press <code>Ctrl+Shift+C</code> (Windows/Chromebook) / <code>⌘+Shift+C</code> (Mac).</p>
+<p><strong>Google Docs mobile:</strong> three-dot menu (⋮) → Word count.</p>
+<p><strong>Microsoft Word:</strong> the live counter sits in the status bar at the bottom-left — click it for full statistics, or press <code>Ctrl+Shift+G</code>.</p>
+<p><strong>PDF files:</strong> no reader shows a count — select all, copy, and paste into a word counter (details below).</p>
+<p><strong>Anything else:</strong> copy the text into a free browser-based counter like the PursTech Word Counter and read every statistic at once.</p>
+
+<h2 id="google-docs">How to Check Word Count in Google Docs</h2>
+<p>Google Docs has a full word-count panel, but it stays hidden until you ask for it. Two ways to open it:</p>
+<p><strong>1. The menu:</strong> click <strong>Tools → Word count</strong>. A dialog appears showing four numbers: pages, words, characters, and characters excluding spaces.</p>
+<p><strong>2. The shortcut:</strong> press <code>Ctrl+Shift+C</code> on Windows or Chromebook, or <code>⌘+Shift+C</code> on a Mac. Same dialog, no mouse. If you check counts often, this shortcut quickly becomes muscle memory.</p>
+<p><strong>Counting a section only:</strong> highlight any passage first, then open the word count. Docs shows the selection as part of the total — for example "128 of 1,942 words" — which is exactly what you need when only one section has a limit.</p>
+
+<h2 id="live-counter">Show a Live Word Count While Typing in Docs</h2>
+<p>Writing toward a limit is easier when the number is always visible. In the word-count dialog, tick <strong>"Display word count while typing"</strong> before closing it. A small counter appears in the bottom-left corner of your document and updates as you write. Click the counter's dropdown to switch it between words and characters — useful when a form measures characters instead of words.</p>
+<p>The toggle applies per document, so you can keep it on for essays and off for notes.</p>
+
+<h2 id="docs-mobile">Check Word Count in the Google Docs App (iPhone & Android)</h2>
+<p>On mobile the menu location changes, which is why "how to check word count on Google Docs mobile" is one of the most-searched writing questions. The answer is the same on iOS and Android:</p>
+<p><strong>1.</strong> Open the document in the Google Docs app.</p>
+<p><strong>2.</strong> Tap the <strong>three-dot menu (⋮)</strong> in the top-right corner.</p>
+<p><strong>3.</strong> Tap <strong>Word count</strong>. You get words and characters for the whole document — and if you select text first, the count covers just your selection.</p>
+
+<h2 id="microsoft-word">How to Check Word Count in Microsoft Word</h2>
+<p>Word is the most generous of the three — the count is always on screen. Look at the <strong>status bar in the bottom-left corner</strong>: it shows the live word count next to the page number as you type.</p>
+<p><strong>For full statistics,</strong> click that status-bar counter (or go to <strong>Review → Word Count</strong>, or press <code>Ctrl+Shift+G</code> on Windows). The dialog lists pages, words, characters with and without spaces, paragraphs and lines.</p>
+<p><strong>Footnotes and text boxes are excluded by default.</strong> If your assignment counts them, tick <strong>"Include textboxes, footnotes and endnotes"</strong> inside that dialog — the number in the status bar does not include them until you do.</p>
+<p><strong>Selections work here too:</strong> highlight a passage and the status bar switches to "132 of 2,415 words".</p>
+<p><strong>Word for the web</strong> shows the same live counter in the bottom status bar. <strong>Word on mobile</strong> tucks it into the <strong>Review</strong> tab → <strong>Word Count</strong>.</p>
+
+<h2 id="pdf">How to Check the Word Count of a PDF</h2>
+<p>Here is the frustrating truth: <strong>PDF readers do not count words.</strong> Adobe Acrobat Reader, your browser's built-in viewer, Preview on Mac — none of them display a word count, because a PDF stores positioned characters rather than flowing text. Three reliable workarounds:</p>
+<p><strong>Method 1 — copy and paste (fastest):</strong> open the PDF, press <code>Ctrl+A</code> (⌘+A on Mac) to select everything, copy, and paste into a word counter such as the free PursTech Word Counter. You instantly get words, characters, sentences, paragraphs and reading time. This is the quickest way to check the number of words in any PDF.</p>
+<p><strong>Method 2 — convert to Word:</strong> when a PDF has complex columns or tables that copy messily, convert it with a PDF-to-Word tool first, then read Word's status-bar count. Conversion preserves the text order, so the count is accurate.</p>
+<p><strong>Method 3 — scanned PDFs need OCR:</strong> if the PDF is a scan or photo, there is no selectable text to copy. Run it through an image-to-text (OCR) tool to extract the text, then count the result. Everything runs in your browser, so the document never leaves your device.</p>
+
+<h2 id="other-apps">What About Google Slides, Presentations and Everything Else?</h2>
+<p>Plenty of apps simply have no counter. <strong>Google Slides</strong> offers no word count at all; <strong>Apple Pages</strong> hides one under View → Show Word Count; email drafts, LinkedIn posts, YouTube descriptions and subtitle files give you nothing. The pattern is the same every time an app lets you down: select the text, copy it, and paste it into a counter in a browser tab.</p>
+
+<h2 id="universal">The Universal Method: One Counter for Everything</h2>
+<p>Rather than memorising a different menu for every app, keep one browser tab that handles all of them. Paste any text into the <strong>PursTech Word Counter</strong> and it instantly checks the number of words, characters (with and without spaces), sentences and paragraphs — plus reading time, speaking time and keyword density, which no built-in counter provides.</p>
+<p>Two details matter for anything sensitive: it is free with no login, and the counting happens entirely in your browser — your text is never uploaded to a server. Paste a confidential contract or an unpublished manuscript and it stays on your device.</p>
+
+<h2 id="why-it-matters">Why the Exact Count Matters</h2>
+<p>Word limits are rarely decorative. College application essays are cut off at hard caps, journal abstracts are rejected over a 10-word overshoot, ad platforms truncate headlines mid-sentence, and search engines trim meta descriptions around 160 characters. Checking the real number takes ten seconds with the methods above — and once you know where the counter lives in each app, you will never guess again.</p>
+    `,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
   // 1. JSON Formatter (RENAMED slug: removed -2025, refreshed for 2026)
   // ═════════════════════════════════════════════════════════════════════════
   "best-free-json-formatter-tools": {
