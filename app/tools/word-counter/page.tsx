@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import WordCounterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Word Counter — Characters, Sentences & Reading Time",
-  description: "Count words, characters, sentences, paragraphs and reading time instantly as you type. Includes keyword density, platform character limits and vocabulary richness. Free, private, no login.",
+  title: "Free Word Count Checker & Word Counter — Check Words",
+  description: "Free word count checker, word counter and word checker — check words, characters, sentences, paragraphs and reading time instantly. Keyword density and platform limits included. Private, no login.",
   alternates: { canonical: "/tools/word-counter" },
-  keywords: ["word counter","character counter","word count online","count words online","reading time calculator","word counter free","character count tool","words and characters"],
+  keywords: ["word counter","word count checker","word checker","words checker","check words","check word count","checking number of words","free word counter","word check","character counter","word count online","count words online","reading time calculator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/word-counter",
     siteName: "PursTech",
-    title: "Free Word Counter — Characters, Sentences & Reading Time",
-    description: "Real-time word count, character count, reading time, keyword density and platform limits. Free, private.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Word Counter — PursTech" }],
+    title: "Free Word Count Checker & Word Counter — Check Words",
+    description: "Check word count, characters, sentences and reading time instantly. Free word count checker & word counter — private, no login.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Word Counter & Word Checker — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Word Counter — Characters, Sentences & Reading Time",
-    description: "Real-time word count, reading time, keyword density and platform character limits. Free.",
+    title: "Free Word Count Checker & Word Counter — Check Words",
+    description: "Check word count, characters, sentences and reading time instantly. Free word count checker & word counter.",
     images: ["/og-image.png"],
     creator: "@purstech",
   },
@@ -27,13 +27,14 @@ export const metadata: Metadata = {
 const APP_SCHEMA = {
   "@context": "https://schema.org", "@type": "WebApplication",
   name: "Word Counter", url: "https://www.purstech.com/tools/word-counter",
-  description: "Free real-time word counter. Counts words, characters (with and without spaces), sentences, paragraphs, reading time, speaking time, unique words and keyword density as you type.",
+  description: "Free real-time word counter and word checker. Check word count, characters (with and without spaces), sentences, paragraphs, reading time, speaking time, unique words and keyword density as you type.",
   applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
   browserRequirements: "Requires JavaScript", inLanguage: "en-US",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@id": "https://www.purstech.com/#organization" },
   featureList: [
+    "Word checker — check words, characters and sentences in real time",
     "Real-time word count as you type",
     "Characters with spaces and without spaces",
     "Sentence and paragraph count",
@@ -49,8 +50,8 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Count Words Online",
-  description: "Use PursTech's free Word Counter for instant word and character counts.",
+  name: "How to Check Word Count Online",
+  description: "Use PursTech's free word count checker and word counter for instant word and character counts.",
   totalTime: "PT10S",
   step: [
     { "@type": "HowToStep", position: 1, name: "Paste or type your text",
@@ -76,6 +77,8 @@ const FAQ_SCHEMA = {
       acceptedAnswer: { "@type": "Answer", text: "Both. We show you characters with spaces and characters without spaces so you can use whichever count your platform requires." } },
     { "@type": "Question", name: "How are reading time and speaking time calculated?",
       acceptedAnswer: { "@type": "Answer", text: "Reading time is based on the average adult reading speed of 238 words per minute. Speaking time is based on the average speaking pace of 130 words per minute." } },
+    { "@type": "Question", name: "How do I check the number of words in my text?",
+      acceptedAnswer: { "@type": "Answer", text: "Paste or type your text into the box above — the word checker instantly checks the number of words, characters, sentences and paragraphs. There is no button to press and no limit on text length." } },
     { "@type": "Question", name: "Is my text saved or stored anywhere?",
       acceptedAnswer: { "@type": "Answer", text: "No. All processing happens instantly in your browser. Your text is never sent to any server or stored anywhere." } },
   ],
@@ -103,8 +106,8 @@ export default function WordCounterPage() {
           <div className="flex items-center gap-3 mb-3 min-w-0 w-full">
             <span className="text-4xl flex-shrink-0">📝</span>
             <div className="min-w-0 w-full">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white truncate pr-2">Word Counter</h1>
-              <p className="text-gray-500 mt-1 max-w-2xl leading-relaxed text-base">Count words, characters, sentences &amp; paragraphs — instantly, free, no login.</p>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white pr-2">Word Counter &amp; Word Checker</h1>
+              <p className="text-gray-500 mt-1 max-w-2xl leading-relaxed text-base">Instantly check the number of words, characters, sentences &amp; paragraphs — free, no login.</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 mt-3 min-w-0 w-full">
