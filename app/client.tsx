@@ -85,14 +85,14 @@ const CATEGORIES = [
 ].map(c => ({ ...c, count: ALL_TOOLS.filter(t => t.category === c.slug).length }));
 
 const NAV_LINKS = [
-  { href:"/tools?cat=text",     label:"Text"      },
-  { href:"/tools?cat=image",    label:"Image"     },
-  { href:"/tools?cat=dev",      label:"Dev"       },
-  { href:"/tools?cat=seo",      label:"SEO"       },
-  { href:"/tools?cat=pdf",      label:"PDF"       },
-  { href:"/tools?cat=finance",  label:"Finance"   },
-  { href:"/tools?cat=security", label:"Security"  },
-  { href:"/tools?cat=ai",       label:"AI"        },
+  { href:"/categories/text",     label:"Text"      },
+  { href:"/categories/image",    label:"Image"     },
+  { href:"/categories/dev",      label:"Dev"       },
+  { href:"/categories/seo",      label:"SEO"       },
+  { href:"/categories/pdf",      label:"PDF"       },
+  { href:"/categories/finance",  label:"Finance"   },
+  { href:"/categories/security", label:"Security"  },
+  { href:"/categories/ai",       label:"AI"        },
   { href:"/tools",              label:"All 50 Tools", highlight: true },
   { href:"/blog",               label:"Blog"      },
   { href:"/about",              label:"About"     },
@@ -173,7 +173,7 @@ function Navbar() {
             <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">Browse by category</div>
             <div className="grid grid-cols-2 gap-2 mb-5 min-w-0 w-full">
               {CATEGORIES.map(c => (
-                <Link key={c.slug} href={`/tools?cat=${c.slug}`} onClick={() => setMobileOpen(false)}
+                <Link key={c.slug} href={`/categories/${c.slug}`} onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 transition-all group min-w-0 w-full">
                   <span className="text-lg flex-shrink-0">{c.icon}</span>
                   <div className="min-w-0 w-full">
@@ -285,7 +285,7 @@ function HeroSection() {
       {/* ✅ MOBILE-SAFE CATEGORY CHIPS */}
       <div className="mt-6 flex gap-2 w-full max-w-2xl px-4 overflow-x-auto scrollbar-hide snap-x sm:flex-wrap sm:justify-center">
         {CATEGORIES.map(c => (
-          <Link key={c.slug} href={`/tools?cat=${c.slug}`}
+          <Link key={c.slug} href={`/categories/${c.slug}`}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 text-gray-400 hover:text-white text-xs font-semibold transition-all flex-shrink-0 snap-center">
             <span className="flex-shrink-0">{c.icon}</span><span className="truncate">{c.name.split(" ")[0]}</span><span className="text-gray-700 flex-shrink-0">{c.count}</span>
           </Link>
@@ -340,7 +340,7 @@ function CategoryGrid() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 min-w-0 w-full">
         {CATEGORIES.map(c => (
-          <Link key={c.slug} href={`/tools?cat=${c.slug}`}
+          <Link key={c.slug} href={`/categories/${c.slug}`}
             className="group relative bg-[#13131F] border border-white/5 rounded-2xl p-5 hover:border-[#6C3AFF]/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden min-w-0 w-full">
             <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity bg-gradient-to-br ${c.color}`} />
             <div className="text-3xl mb-3 flex-shrink-0">{c.icon}</div>

@@ -147,7 +147,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_SCHEMAS = Object.entries(CATEGORY_TOOLS).map(([cat, tools]) => ({
   "@context": "https://schema.org", "@type": "ItemList",
   name: `Free ${CATEGORY_LABELS[cat]} Tools — PursTech`,
-  url: `https://www.purstech.com/tools?cat=${cat}`,
+  url: `https://www.purstech.com/categories/${cat}`,
   numberOfItems: tools.length,
   itemListElement: tools.map((t, i) => ({
     "@type": "ListItem", position: i + 1, name: t.name,
