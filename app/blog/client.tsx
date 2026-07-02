@@ -97,9 +97,9 @@ export default function BlogClient() {
                 </h2>
                 <p className="text-gray-400 leading-relaxed mb-6">{featured.excerpt}</p>
                 <div className="flex items-center gap-3 text-xs text-gray-500">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold">P</div>
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold">MI</div>
                   <div>
-                    <div className="text-white font-semibold text-sm">PursTech Team</div>
+                    <div className="text-white font-semibold text-sm">Mahad Ikram</div>
                     <time dateTime={featured.publishedISO}>{featured.publishedAt}</time>
                   </div>
                 </div>

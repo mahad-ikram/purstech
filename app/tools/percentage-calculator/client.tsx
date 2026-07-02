@@ -10,7 +10,7 @@ const RELATED_TOOLS = [
   { icon:"⚖️", name:"BMI Calculator",    slug:"bmi-calculator"    },
   { icon:"📏", name:"Unit Converter",    slug:"unit-converter"    },
   { icon:"🏦", name:"Loan Calculator",   slug:"loan-calculator"   },
-  { icon:"📈", name:"Compound Interest", slug:"compound-interest" },
+  { icon:"📈", name:"Compound Interest", slug:"compound-interest-calculator" },
 ];
 
 // ✅ Rule 8: FAQ now uses <details>/<summary> — openFaq useState removed

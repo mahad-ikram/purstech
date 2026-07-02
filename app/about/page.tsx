@@ -45,7 +45,7 @@ const FAQ_SCHEMA = {
     { "@type": "Question", name: "What is PursTech?",
       acceptedAnswer: { "@type": "Answer", text: "PursTech is a free online tool platform providing 50 browser-based tools across 8 categories — text, image, developer, SEO, PDF, finance, security and AI. Every tool is free, requires no login, and processes data entirely in your browser for maximum privacy." } },
     { "@type": "Question", name: "Who created PursTech?",
-      acceptedAnswer: { "@type": "Answer", text: "PursTech was built by a small team of developers and designers who were frustrated with the cluttered, ad-heavy tool websites available online. We built PursTech to create a single, clean destination for the most-used tools on the internet — designed from scratch to be fast, private and genuinely free." } },
+      acceptedAnswer: { "@type": "Answer", text: "PursTech was founded and is run by Mahad Ikram, a designer and builder who was frustrated with the cluttered, ad-heavy tool websites available online. He built PursTech as a single, clean destination for the most-used tools on the internet — designed from scratch to be fast, private and genuinely free." } },
     { "@type": "Question", name: "How does PursTech make money if tools are free?",
       acceptedAnswer: { "@type": "Answer", text: "PursTech is supported by non-intrusive display advertising through Google AdSense. We are also launching a Pro subscription for power users who need batch processing and API access. However, all 50 core tools will always remain completely free for everyone." } },
     { "@type": "Question", name: "Is PursTech safe to use with sensitive data?",
@@ -53,6 +53,28 @@ const FAQ_SCHEMA = {
     { "@type": "Question", name: "How many tools does PursTech have?",
       acceptedAnswer: { "@type": "Answer", text: "PursTech currently has 50 free tools across 8 categories: text tools (word counter, case converter, lorem ipsum), developer tools (JSON formatter, regex tester, SVG editor), image tools (compressor, background remover, OCR), SEO tools (meta tag generator, sitemap generator), PDF tools (compress, merge, split), finance tools (loan, mortgage, currency), security tools (password generator, SSL checker, IP lookup), and AI tools (grammar checker, readability checker)." } },
   ],
+};
+
+// ✅ E-E-A-T FIX: Real, named founder (replaces the inaccurate "small team" claim).
+const FOUNDER = {
+  name:  "Mahad Ikram",
+  title: "Founder, PursTech",
+  bio:   "I'm Mahad — I started PursTech to put genuinely useful tools one click away, with no logins, no limits, and nothing uploaded to a server. By background I'm a communication designer and prepress specialist, and I build PursTech hands-on: choosing, designing and testing every tool on the site. Our articles are written to be practical and checked against authoritative sources — and where a topic touches health or money, you'll find references plus a clear note that the content is informational, not professional advice.",
+  links: [
+    { label: "mahadikram.com", href: "https://mahadikram.com" },
+    { label: "Behance",        href: "https://www.behance.net/mahadikram" },
+  ],
+};
+
+const PERSON_SCHEMA = {
+  "@context": "https://schema.org", "@type": "Person",
+  "@id":      "https://www.purstech.com/about#mahad-ikram",
+  name:       FOUNDER.name,
+  url:        "https://www.purstech.com/about",
+  jobTitle:   "Founder",
+  description:"Founder of PursTech. Designs and builds free, privacy-first browser tools. Background in communication design and print/prepress.",
+  worksFor:   { "@type": "Organization", name: "PursTech", url: "https://www.purstech.com" },
+  sameAs:     FOUNDER.links.map(l => l.href),
 };
 
 // ─── Page Data ────────────────────────────────────────────────────────────────
@@ -92,7 +114,7 @@ const FAQ_ITEMS = [
   { q: "What is PursTech?",
     a: "PursTech is a free online tool platform providing 50 browser-based tools across 8 categories — text, image, developer, SEO, PDF, finance, security and AI. Every tool is free, requires no login, and processes data entirely in your browser." },
   { q: "Who created PursTech?",
-    a: "PursTech was built by a small team of developers and designers who were frustrated with the cluttered, ad-heavy tool websites available online. We built one clean, fast platform with everything in one place — designed from scratch to be free, private and genuinely useful." },
+    a: "PursTech was founded and is run by Mahad Ikram, a designer and builder who got tired of cluttered, ad-heavy tool sites. He built one clean, fast platform with everything in one place — designed from scratch to be free, private and genuinely useful." },
   { q: "How does PursTech make money if tools are free?",
     a: "PursTech is supported by non-intrusive display advertising through Google AdSense. We are also launching a Pro subscription for power users who need batch processing and API access. However, all 50 core tools will always remain completely free for everyone." },
   { q: "Is PursTech safe to use with sensitive data?",
@@ -109,6 +131,7 @@ export default function AboutPage() {
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ABOUT_SCHEMA) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
 
       <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -212,17 +235,19 @@ export default function AboutPage() {
         </div>
 
         <div className="mb-16">
-          <h2 className="text-2xl font-extrabold text-white text-center mb-8">Who We Are</h2>
+          <h2 className="text-2xl font-extrabold text-white text-center mb-8">Meet the Founder</h2>
           <div className="bg-[#13131F] border border-white/5 rounded-2xl p-6 flex items-start gap-5">
-            <div className="w-14 h-14 bg-[#6C3AFF]/20 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">👨‍💻</div>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white text-xl font-extrabold flex-shrink-0">MI</div>
             <div>
-              <div className="font-extrabold text-white text-base">The PursTech Team</div>
-              <div className="text-[#6C3AFF] text-xs font-semibold mb-2">Builders & Creators</div>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                We are a small, passionate team of developers and designers who got tired of hunting
-                across dozens of websites for basic tools. So we built one place that has everything —
-                50 free tools, no login, no clutter.
-              </p>
+              <div className="font-extrabold text-white text-base">{FOUNDER.name}</div>
+              <div className="text-[#6C3AFF] text-xs font-semibold mb-2">{FOUNDER.title}</div>
+              <p className="text-gray-500 text-sm leading-relaxed">{FOUNDER.bio}</p>
+              <div className="flex items-center gap-4 mt-3 text-xs font-semibold">
+                {FOUNDER.links.map((l) => (
+                  <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer"
+                    className="text-[#00D4FF] hover:text-white transition-colors">{l.label}</a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ const RELATED_TOOLS = [
   { icon:"🔤", name:"Case Converter",    slug:"case-converter"    },
   { icon:"📝", name:"Word Counter",      slug:"word-counter"      },
   { icon:"✍️",  name:"Grammar Checker",  slug:"grammar-checker"   },
-  { icon:"📊", name:"Readability Score", slug:"readability-score" },
+  { icon:"📊", name:"Readability Score", slug:"readability-checker" },
   { icon:"🔍", name:"Diff Checker",      slug:"diff-checker"      },
 ];
 

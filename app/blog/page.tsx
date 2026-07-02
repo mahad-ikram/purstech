@@ -79,9 +79,9 @@ const BLOG_SCHEMA = {
     dateModified:    p.updatedISO,
     url:             `https://www.purstech.com/blog/${p.slug}`, // ✅ www
     author: {
-      "@type": "Organization",
-      name:    "PursTech Team",
-      url:     "https://www.purstech.com",
+      "@type": "Person",
+      name:    "Mahad Ikram",
+      url:     "https://www.purstech.com/about",
     },
     keywords: p.keywords.join(", "),
   })),

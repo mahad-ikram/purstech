@@ -8,7 +8,7 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 const RELATED_TOOLS = [
   { icon:"📝", name:"Word Counter",    slug:"word-counter"    },
   { icon:"🔤", name:"Case Converter",  slug:"case-converter"  },
-  { icon:"📋", name:"Text Summarizer", slug:"text-summarizer" },
+  { icon:"📖", name:"Readability Checker", slug:"readability-checker" },
   { icon:"✍️", name:"Grammar Checker", slug:"grammar-checker" },
   { icon:"📄", name:"Lorem Ipsum Gen", slug:"lorem-ipsum"     },
 ];

@@ -7,9 +7,9 @@ import { useTrackTool } from "@/hooks/useTrackTool";
 const RELATED_TOOLS = [
   { icon:"✍️", name:"Grammar Checker",  slug:"grammar-checker"   },
   { icon:"🔤", name:"Case Converter",   slug:"case-converter"    },
-  { icon:"📄", name:"Summarizer (AI)",  slug:"text-summarizer"   },
+  { icon:"📖", name:"Readability Checker", slug:"readability-checker" },
   { icon:"📝", name:"Lorem Ipsum Gen",  slug:"lorem-ipsum"       },
-  { icon:"🔍", name:"Plagiarism Check", slug:"plagiarism-checker" },
+  { icon:"🔀", name:"Diff Checker",      slug:"diff-checker"        },
 ];
 
 const FAQ = [

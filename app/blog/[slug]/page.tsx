@@ -4,6 +4,11 @@ import type { Metadata } from "next";
 import { BLOG_POSTS } from "../data";
 import { ReadingProgress, TableOfContents } from "./ClientComponents";
 
+// ─── Author (single source of truth) ───────────────────────────────────────────
+// To change the bylined author later, edit these two lines only.
+const AUTHOR = { name: "Mahad Ikram", url: "https://www.purstech.com/about" };
+const AUTHOR_INITIALS = "MI";
+
 // ─── Helper Functions ─────────────────────────────────────────────────────────
 
 function extractTOC(html: string): { id: string; text: string }[] {
@@ -48,13 +53,13 @@ export async function generateMetadata(
     title:       post.title,
     description: post.excerpt,
     keywords:    post.keywords,
-    authors:     [{ name: "PursTech Team", url: "https://www.purstech.com/about" }],
+    authors:     [{ name: AUTHOR.name, url: AUTHOR.url }],
     alternates:  { canonical: postUrl },
     openGraph: {
       type: "article", title: post.title, description: post.excerpt,
       url: postUrl, siteName: "PursTech",
       publishedTime: post.publishedISO, modifiedTime: post.updatedISO,
-      authors: ["PursTech Team"], tags: post.keywords,
+      authors: [AUTHOR.name], tags: post.keywords,
       images: [{ url: "/og-image.png", width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
@@ -95,7 +100,8 @@ export default async function BlogPostPage(
     headline: post.title, description: post.excerpt,
     image: "https://www.purstech.com/og-image.png",
     datePublished: post.publishedISO, dateModified: post.updatedISO,
-    author: { "@type": "Organization", name: "PursTech Team", url: "https://www.purstech.com/about" },
+    // ✅ E-E-A-T FIX: Named Person author (was generic Organization "PursTech Team").
+    author: { "@type": "Person", name: AUTHOR.name, url: AUTHOR.url },
     publisher: { 
       "@type": "Organization", 
       name: "PursTech",
@@ -176,9 +182,11 @@ export default async function BlogPostPage(
                 {post.excerpt}
               </p>
               <div className="flex items-center gap-4 pb-6 border-b border-white/5">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold flex-shrink-0">PT</div>
-                <div>
-                  <div className="text-sm font-semibold text-white" itemProp="author">PursTech Team</div>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold flex-shrink-0">{AUTHOR_INITIALS}</div>
+                <div itemProp="author" itemScope itemType="https://schema.org/Person">
+                  <Link href="/about" className="text-sm font-semibold text-white hover:text-[#6C3AFF] transition-colors" itemProp="url">
+                    <span itemProp="name">{AUTHOR.name}</span>
+                  </Link>
                   <div className="text-xs text-gray-500 flex items-center gap-2 flex-wrap">
                     <span>Published&nbsp;<time dateTime={post.publishedISO} itemProp="datePublished">{post.publishedAt}</time></span>
                     <span>·</span>
