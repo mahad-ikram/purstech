@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import ImageResizerClient from "./client";
 
 export const metadata: Metadata = {
-  // Renders: "Free Image Resizer — Social Media Presets | PursTech" (52 chars ✅)
-  title: "Free Image Resizer — Social Media Presets",
+  title: "Free Image Resizer — Resize Photos & Pictures Online",
 
   description:
-    "Resize images online for free. Set custom dimensions, use social media presets (Instagram, Twitter, YouTube), lock aspect ratio and download in JPEG, PNG or WebP.",
+    "Free image resizer — resize photos and pictures online to exact pixels or with 20+ social media presets (Instagram, Facebook, YouTube). Lock aspect ratio and download JPEG, PNG or WebP.",
 
   alternates: { canonical: "/tools/image-resizer" },
 
   keywords: [
-    "image resizer online","resize image free","resize photo online",
-    "image resize tool","social media image resizer","instagram image size",
+    "image resizer online","free image resizer","photo resizer",
+    "picture resizer","resize photo","image size reducer",
+    "resize image for instagram","social media image resizer",
     "resize image to specific pixels","crop image online",
   ],
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url:      "https://www.purstech.com/tools/image-resizer",
     siteName: "PursTech",
     // ✅ Removed "| PursTech"
-    title:       "Free Image Resizer Online — 20+ Social Media Presets",
+    title:       "Free Image & Photo Resizer Online — 20+ Social Presets",
     description: "Resize images to any dimension with 20+ social media presets. Lock aspect ratio, choose fit mode. Free and browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Free Image Resizer — PursTech" }],
   },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     // ✅ Removed "| PursTech"
-    title:       "Free Image Resizer Online — Social Media Presets",
+    title:       "Free Image & Photo Resizer — Social Media Presets",
     description: "Resize photos to any size with social media presets. Lock aspect ratio. Free, browser-based.",
     images:      ["/og-image.png"],
     creator:     "@purstech",
@@ -68,7 +68,7 @@ const APP_SCHEMA = {
 // ✅ HowTo — 4 steps matching the tool workflow
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Resize Images Online",
+  name: "How to Resize a Photo or Image Online",
   description: "Use PursTech's free Image Resizer to resize any image to exact pixel dimensions instantly.",
   totalTime: "PT1M",
   step: [
@@ -91,6 +91,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I resize an image for Instagram?",
+      acceptedAnswer: { "@type": "Answer", text: "Pick an Instagram preset — post (1080×1080), portrait (1080×1350) or story/reel (1080×1920) — and the resizer sets the exact dimensions Instagram expects. Lock the aspect ratio or use Cover mode so nothing looks stretched." } },
+    { "@type": "Question", name: "How do I resize an image from MB to KB?",
+      acceptedAnswer: { "@type": "Answer", text: "Reducing the pixel dimensions usually shrinks the file size dramatically — resizing a 4000px photo down to 1200px can turn several MB into a few hundred KB. For maximum compression at the same dimensions, run the result through our free Image Compressor." } },
     { "@type": "Question", name: "Does resizing an image reduce its quality?",
       acceptedAnswer: { "@type": "Answer", text: "Upscaling an image (making it larger than the original) will reduce quality because the tool must create pixels that don't exist in the source image. Downscaling (making it smaller) generally maintains excellent quality using bicubic interpolation — our resizer uses the browser's high-quality Canvas API scaling. For best results, always start from the highest resolution source image available." } },
     { "@type": "Question", name: "What does Lock Aspect Ratio mean?",
@@ -138,7 +142,7 @@ export default function ImageResizerPage() {
             Image Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Free Image Resizer Online — Resize Images to Any Dimension Instantly
+            Free Image & Photo Resizer — Resize Pictures to Any Size Online
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             Resize any image to the exact pixel dimensions you need without installing software.

@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import PercentageCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Percentage Calculator — 6 Calculation Modes",
-  description: "Calculate percentages instantly with 6 modes: find a percentage of a number, what percent X is of Y, percentage change, percentage difference, and add or subtract a percentage. Free, no login.",
+  title: "Percentage Calculator — Increase, Decrease & Percent Off",
+  description: "Free percentage calculator with 6 modes — percent change (increase or decrease), percentage difference, percentage off, find a percentage of a number, and add or subtract a percent. Instant, no login.",
   alternates: { canonical: "/tools/percentage-calculator" },
-  keywords: ["percentage calculator","percent calculator online","percentage change calculator","percentage difference calculator","what percent is x of y"],
+  keywords: ["percentage calculator","percentage increase calculator","percent change calculator","percentage off calculator","percentage decrease calculator","percentage difference calculator","how to find percentage","percent of money calculator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/percentage-calculator",
     siteName: "PursTech",
-    title: "Free Percentage Calculator — 6 Modes, Instant Results",
-    description: "6 percentage modes: find %, what % is X of Y, change, difference, add/subtract. History of last 10 calculations. Free.",
+    title: "Percentage Calculator — Increase, Decrease & Percent Off",
+    description: "Percent change, increase, decrease, difference and percentage off — 6 modes with calculation history. Free.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Percentage Calculator — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Percentage Calculator — 6 Calculation Modes",
-    description: "Percentage of a number, change, difference, add/subtract. 6 modes. Free.",
+    title: "Percentage Calculator — Increase, Decrease & Percent Off",
+    description: "Percent change, increase, decrease, difference and percentage off. 6 modes. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
   },
@@ -48,7 +48,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Use the Percentage Calculator",
+  name: "How to Find a Percentage Online",
   description: "Use PursTech's free Percentage Calculator to calculate percentages in 6 different ways instantly.",
   totalTime: "PT30S",
   step: [
@@ -67,6 +67,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I calculate percentage off (a discount)?",
+      acceptedAnswer: { "@type": "Answer", text: "Multiply the price by the remaining share: final price = price × (1 − discount ÷ 100). An $80 item at 25% off is 80 × 0.75 = $60. The calculator's subtract-a-percentage mode does this instantly." } },
+    { "@type": "Question", name: "What is the percent difference formula?",
+      acceptedAnswer: { "@type": "Answer", text: "Percent difference = |A − B| ÷ ((A + B) ÷ 2) × 100. It compares two values symmetrically — unlike percent change, it does not treat either number as the starting point." } },
     { "@type": "Question", name: "How do I calculate what percentage one number is of another?",
       acceptedAnswer: { "@type": "Answer", text: "Divide the part by the whole and multiply by 100. For example, 30 out of 150 = (30 ÷ 150) × 100 = 20%." } },
     { "@type": "Question", name: "How do I find a percentage of a number?",

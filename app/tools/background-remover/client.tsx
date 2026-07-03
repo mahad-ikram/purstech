@@ -373,7 +373,7 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Image Tools</div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free AI Background Remover Online — Remove Backgrounds Automatically
+            Free AI Background Remover — Remove the Background from Any Image
           </h1>
           <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
         </div>

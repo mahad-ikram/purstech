@@ -2,18 +2,19 @@ import type { Metadata } from "next";
 import BackgroundRemoverClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free AI Background Remover Online",
+  title: "Free Background Remover — Remove Background from Image",
   description:
-    "Free AI background remover. Remove backgrounds automatically — browser-based, no upload. Manual brush refinement, before/after comparison slider and transparent PNG export.",
+    "Free AI background remover — remove the background from any image online and download a transparent PNG. Browser-based (no upload), manual brush refinement and a before/after slider.",
   keywords: [
-    "background remover online free", "remove image background",
-    "ai background remover", "transparent background maker",
+    "free background remover", "background remover free",
+    "remove background from image", "online background remover free",
+    "ai background remover", "transparent background",
     "remove background from photo", "png background remover",
     "free background removal", "no upload background remover",
   ],
   alternates: { canonical: "/tools/background-remover" },
   openGraph: {
-    title:       "Free AI Background Remover Online | PursTech",
+    title:       "Free Background Remover — Remove Background from Image",
     description: "Remove image backgrounds automatically with free AI. Browser-based — no upload needed. Comparison slider, manual brush refinement and PNG export.",
     url:         "https://www.purstech.com/tools/background-remover",
     siteName:    "PursTech",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card:        "summary_large_image",
-    title:       "Free AI Background Remover — No Upload Required",
+    title:       "Free Background Remover — Transparent PNG, No Upload",
     description: "Remove backgrounds automatically using AI in your browser. Manual refinement brushes, comparison slider and transparent PNG export.",
     images:      ["/og-image.png"],
     creator:     "@purstech",
@@ -56,7 +57,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Remove an Image Background for Free",
+  name: "How to Remove the Background from an Image for Free",
   description: "Use PursTech's free AI Background Remover to automatically remove backgrounds from any image.",
   totalTime: "PT2M",
   step: [
@@ -88,6 +89,8 @@ const BREADCRUMB_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I make an image with a transparent background?",
+      acceptedAnswer: { "@type": "Answer", text: "That is exactly what this tool does. The AI removes the background and exports a PNG with true transparency, ready to drop onto any design, product listing or slide — no checkerboard baked in." } },
     { "@type": "Question", name: "How does the automatic background removal work?",
       acceptedAnswer: { "@type": "Answer", text: "PursTech uses a neural network model (ONNX Runtime) that runs entirely inside your browser using WebAssembly. The model analyses every pixel of your image to classify it as foreground or background and produces a clean transparent result. Your image is never sent to any server. On first use the model downloads (~5MB) and is cached locally for instant future use." } },
     { "@type": "Question", name: "Is my image uploaded anywhere?",

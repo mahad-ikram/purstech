@@ -139,7 +139,7 @@ export default function PercentageCalculatorClient() {
             <span className="text-4xl">🔢</span>
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold">Percentage Calculator</h1>
-              <p className="text-gray-500 mt-1">Calculate percentages, increases, decreases, differences and more — 6 modes, instant results.</p>
+              <p className="text-gray-500 mt-1">Calculate percent change, increase, decrease, difference and percentage off — 6 modes, instant results.</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
