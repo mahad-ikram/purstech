@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import PDFToWordClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free PDF to Word Converter Online",
-  description: "Convert PDF to Word or text online for free. Extract text from any PDF, preview the content, clean up formatting and download as .doc, .txt or .html. 100% browser-based, no upload.",
+  title: "Convert PDF to Word — Free PDF to Word Converter",
+  description: "Convert PDF to Word online for free — extract text from any PDF, preview the content, clean up formatting and download as .doc, .txt or .html. 100% browser-based, no upload.",
   alternates: { canonical: "/tools/pdf-to-word" },
-  keywords: ["pdf to word","pdf to word converter free","convert pdf to word online","extract text from pdf","pdf to doc free","pdf text extractor"],
+  keywords: ["pdf to word","convert pdf to word","pdf to word converter","how to convert pdf to word","pdf to word converter free","pdf to word converter online free","pdf to word free","extract text from pdf","pdf to doc"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/pdf-to-word",
     siteName: "PursTech",
-    title: "Free PDF to Word Converter — Extract Text from PDF",
+    title: "Convert PDF to Word Free — Extract Text from PDF",
     description: "Extract text from PDFs and download as .doc, .txt or .html. Preview and edit content. Free and browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "PDF to Word Converter — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free PDF to Word Converter Online",
+    title: "Convert PDF to Word Online — Free Converter",
     description: "Extract text from PDFs. Edit, then download as .doc, .txt or .html. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -69,6 +69,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I convert a PDF to Word?",
+      acceptedAnswer: { "@type": "Answer", text: "Drop your PDF onto the converter, let it extract the text, preview and tidy the result, then download it as a .doc file that opens straight in Microsoft Word or Google Docs. The whole conversion runs in your browser — the file never uploads to a server." } },
+    { "@type": "Question", name: "Can I convert a scanned PDF to Word?",
+      acceptedAnswer: { "@type": "Answer", text: "Not directly — a scanned PDF is a photo of a page, with no real text inside. Run it through our free Image to Text (OCR) tool first to extract the words, then paste them into Word. This converter handles text-based PDFs." } },
     { "@type": "Question", name: "Which types of PDFs can be converted?",
       acceptedAnswer: { "@type": "Answer", text: "This tool extracts text from text-based PDFs — PDFs created digitally from Word documents, web pages or other software. Scanned PDFs (images of paper pages) require OCR. If you upload a scanned PDF and get empty text, try our Image to Text tool instead." } },
     { "@type": "Question", name: "Will the formatting be preserved?",

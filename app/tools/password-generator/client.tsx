@@ -158,7 +158,7 @@ export default function PasswordGeneratorClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🔐</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Password Generator</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Random Password Generator</h1>
               <p className="text-gray-500 mt-1">Generate strong, secure, random passwords instantly — free, private, no login.</p>
             </div>
           </div>

@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import PasswordGeneratorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Password Generator — Cryptographically Secure",
-  description: "Generate strong, random, cryptographically secure passwords instantly. Set length, character types and entropy. 100% private — nothing is ever stored or sent to any server.",
+  title: "Free Strong Password Generator — Random & Secure",
+  description: "Generate strong, random, cryptographically secure passwords instantly — set any length from 6 to 64 characters, choose character types and watch the entropy meter. 100% private, nothing stored.",
   alternates: { canonical: "/tools/password-generator" },
-  keywords: ["password generator","secure password generator","random password generator","strong password maker","cryptographic password free"],
+  keywords: ["password generator","strong password generator","random password generator","secure password generator","best free password generator","password generator 12 characters","password creator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/password-generator",
     siteName: "PursTech",
-    title: "Free Password Generator — Cryptographically Secure",
-    description: "Generate strong, secure passwords instantly. Entropy meter, custom length and character sets. 100% private. Free, no login.",
+    title: "Free Strong Password Generator — Random & Secure",
+    description: "Generate strong random passwords instantly. Entropy meter, any length from 6 to 64 characters. 100% private. Free, no login.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Password Generator — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Password Generator — Cryptographically Secure",
-    description: "Secure passwords with entropy meter, custom length and character sets. 100% private.",
+    title: "Free Strong Password Generator — Random & Secure",
+    description: "Strong random passwords with entropy meter and any length from 6 to 64 characters. 100% private.",
     images: ["/og-image.png"],
     creator: "@purstech",
   },
@@ -48,7 +48,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Generate a Secure Password",
+  name: "How to Generate a Strong Random Password",
   description: "Use PursTech's free Password Generator to create cryptographically secure passwords instantly.",
   totalTime: "PT30S",
   step: [
@@ -70,6 +70,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I generate a 12 or 15 character password?",
+      acceptedAnswer: { "@type": "Answer", text: "Drag the length slider to 12, 15 or anything up to 64 characters and click generate. With all character types on, a 12-character password already carries roughly 78 bits of entropy — and longer is stronger, so go 16+ for anything important." } },
     { "@type": "Question", name: "How does the password generator work?",
       acceptedAnswer: { "@type": "Answer", text: "It uses your browser's built-in cryptographically secure random number generator (crypto.getRandomValues) to pick characters from the character sets you select. This is far more secure than Math.random() and is the same API used by professional security tools." } },
     { "@type": "Question", name: "Is my generated password stored anywhere?",

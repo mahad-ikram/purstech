@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free QR Code Generator Online — URL, WiFi, Email & vCard",
   description: "Generate QR codes instantly for URLs, text, WiFi credentials, email, phone numbers and contacts. Download PNG or SVG. Custom colours, 6 QR types, no login. 100% free.",
   alternates: { canonical: "/tools/qr-code-generator" },
-  keywords: ["qr code generator","free qr code generator","qr code maker online","wifi qr code generator","qr code for website","qr code url","vcard qr code","qr code png download","qr code svg","custom qr code free"],
+  keywords: ["qr code generator","free qr code generator","qr code maker","wifi qr code generator","generate qr code for wifi","qr code generator for google forms","facebook qr code generator","qr code for website","vcard qr code","qr code png download","qr code svg","custom qr code free"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/qr-code-generator",
@@ -70,6 +70,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I make a WiFi QR code?",
+      acceptedAnswer: { "@type": "Answer", text: "Choose the WiFi type, enter your network name (SSID), password and security type, and download the code. Guests scan it with their phone camera and connect instantly — no typing the password." } },
+    { "@type": "Question", name: "Can I make a QR code for a Google Form, Facebook page or any link?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — any link works. Pick the URL type and paste the address of your Google Form, Facebook page, Instagram profile, menu or website. The QR code opens that link when scanned, and it never expires." } },
     { "@type": "Question", name: "What is a QR code?",
       acceptedAnswer: { "@type": "Answer", text: "A QR (Quick Response) code is a 2D barcode that stores information — like a URL, text, or contact details — readable instantly by a phone camera. Invented in 1994, they are now used everywhere from product packaging to payment systems." } },
     { "@type": "Question", name: "How do I scan a QR code?",
