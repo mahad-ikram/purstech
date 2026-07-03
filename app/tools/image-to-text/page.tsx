@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import ImageToTextClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Image to Text Converter — OCR Online",
+  title: "Free Image to Text Converter — Pic to Text OCR Online",
   description: "Extract text from any image instantly with AI-powered OCR. Supports 30+ languages, word-level confidence, image preprocessing and clipboard paste. 100% free, browser-based, no upload.",
   alternates: { canonical: "/tools/image-to-text" },
-  keywords: ["image to text","ocr online free","extract text from image","image text extractor","photo to text converter","jpg to text","png to text","screenshot to text","tesseract ocr online","best ocr tool 2026","free ocr no login","handwriting to text"],
+  keywords: ["image to text","pic to text","picture to text","image to text converter","extract text from image","copy text from image","photo to text converter","convert image to text","img to text","jpg to text","png to text","image to word converter","screenshot to text","handwriting to text"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/image-to-text",
@@ -50,7 +50,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Extract Text from Images Online",
+  name: "How to Extract Text from an Image Online",
   description: "Use PursTech's free OCR tool to extract text from any image instantly in your browser.",
   totalTime: "PT2M",
   step: [
@@ -72,6 +72,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I copy text from a picture or screenshot?",
+      acceptedAnswer: { "@type": "Answer", text: "Paste or upload the picture, click Extract, and the OCR engine turns it into selectable text in seconds — then hit Copy. It works on screenshots, photos of documents, signs and whiteboards, in 30+ languages." } },
+    { "@type": "Question", name: "Can I convert an image to a Word document?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — extract the text here, copy it, and paste it into Word or Google Docs with full editing. If your source is a PDF rather than an image, our free PDF to Word tool converts it directly." } },
     { "@type": "Question", name: "What is OCR and how does this image to text converter work?",
       acceptedAnswer: { "@type": "Answer", text: "OCR (Optical Character Recognition) analyses the patterns of pixels in an image to identify and extract text characters. Our tool uses Tesseract.js compiled to WebAssembly so it runs entirely inside your browser. Your image is never sent to any server." } },
     { "@type": "Question", name: "What image formats and types does this OCR tool support?",
@@ -122,7 +126,7 @@ export default function ImageToTextPage() {
             </span>
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Free Image to Text Converter — Best OCR Tool Online
+            Free Image to Text Converter — Picture to Text (OCR)
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             Extract text from any image instantly using AI-powered OCR. Supports 30+ languages,

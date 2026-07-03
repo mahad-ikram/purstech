@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import PDFCompressorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free PDF Compressor — Reduce PDF Size Online",
-  description: "Compress PDF files online for free. Reduce PDF size by up to 80% with three compression levels, metadata removal and batch processing. No upload to server — 100% browser-based.",
+  title: "Free PDF File Compressor — Compress PDF Online",
+  description: "Free online PDF file compressor — reduce PDF size by up to 80% with three compression levels, metadata removal and batch processing. No upload to a server, 100% browser-based.",
   alternates: { canonical: "/tools/pdf-compressor" },
-  keywords: ["pdf compressor","compress pdf online free","reduce pdf size","pdf file size reducer","pdf optimizer","compress pdf without losing quality"],
+  keywords: ["pdf compressor","pdf file compressor","free pdf compressor","online pdf compressor","pdf size compressor","reduce pdf size","pdf compressor to 200kb","compress pdf without losing quality"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/pdf-compressor",
     siteName: "PursTech",
-    title: "Free PDF Compressor — Reduce PDF Size by 80%",
+    title: "Free PDF File Compressor — Reduce PDF Size by 80%",
     description: "Reduce PDF file size by up to 80%. Batch compress, remove metadata, three compression levels. Free and browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "PDF Compressor — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free PDF Compressor — Reduce PDF Size Online",
-    description: "Batch compress PDFs, strip metadata, three levels. 100% browser-based. Free.",
+    title: "Free PDF File Compressor — Compress PDF Online",
+    description: "Batch compress PDF files, strip metadata, three levels. 100% browser-based. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
   },
@@ -67,6 +67,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Can I compress a PDF to 100KB or 200KB?",
+      acceptedAnswer: { "@type": "Answer", text: "Often, yes — pick the Maximum level and check the output size. How far a PDF can shrink depends on what is inside it: text-based PDFs compress dramatically, while scanned or image-heavy PDFs are limited by their images. For those, compress the images first with our free Image Compressor, or split the document into fewer pages." } },
     { "@type": "Question", name: "How does browser-based PDF compression work?",
       acceptedAnswer: { "@type": "Answer", text: "Our compressor uses pdf-lib to re-encode your PDF using efficient object streams, removes redundant data structures, and strips embedded metadata. For text-heavy PDFs, savings of 10-50% are typical. PDFs with embedded images or already heavily optimised files may see smaller savings." } },
     { "@type": "Question", name: "Will compression reduce the visual quality of my PDF?",

@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import ImageCompressorClient from "./client";
 
 export const metadata: Metadata = {
-  // Renders: "Free Image Compressor — JPEG, PNG & WebP | PursTech" (52 chars ✅)
-  title: "Free Image Compressor — JPEG, PNG & WebP",
+  title: "Free Image & Photo Compressor — JPEG, PNG & WebP",
 
   description:
-    "Compress JPEG, PNG and WebP images online for free. Reduce file size by up to 90% with a live before/after preview. No upload limit, no login, browser-based.",
+    "Free image and photo compressor — reduce JPEG, PNG and WebP file size in KB by up to 90% with a live before/after preview. No upload limit, no login, browser-based.",
 
   alternates: { canonical: "/tools/image-compressor" },
 
   keywords: [
-    "image compressor online","compress images free","reduce image file size",
-    "jpeg compressor","png compressor online","webp converter",
+    "image compressor online","photo compressor","picture compressor",
+    "compress image","compress photo","reduce image size in kb",
+    "reduce jpeg file size in kb","image compressor to 50kb","compress png",
     "batch image compressor","compress images without losing quality",
   ],
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url:      "https://www.purstech.com/tools/image-compressor",
     siteName: "PursTech",
     // ✅ Removed "| PursTech" — was double-branding
-    title:       "Free Image Compressor Online — Reduce Image Size Without Losing Quality",
+    title:       "Free Image & Photo Compressor — Reduce Image Size in KB",
     description: "Compress JPEG, PNG and WebP images by up to 90% with live before/after preview. Free, browser-based, no login.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Free Image Compressor — PursTech" }],
   },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     // ✅ Removed "| PursTech"
-    title:       "Free Image Compressor Online",
+    title:       "Free Image & Photo Compressor Online",
     description: "Compress images by up to 90% — JPEG, PNG, WebP. Free and browser-based.",
     images:      ["/og-image.png"],
     creator:     "@purstech",
@@ -67,7 +67,7 @@ const APP_SCHEMA = {
 // ✅ HowTo — 4 steps matching the tool workflow
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Compress Images Online",
+  name: "How to Compress an Image Online",
   description: "Use PursTech's free Image Compressor to reduce JPEG, PNG and WebP file sizes instantly.",
   totalTime: "PT2M",
   step: [
@@ -90,6 +90,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I compress an image to 50KB or 200KB?",
+      acceptedAnswer: { "@type": "Answer", text: "Lower the quality slider and watch the live output size until it drops under your target — the before/after preview shows exactly what you are trading. If a photo will not reach 50KB at acceptable quality, reduce its pixel dimensions first with our free Image Resizer, then compress." } },
+    { "@type": "Question", name: "How do I reduce the file size of a JPEG?",
+      acceptedAnswer: { "@type": "Answer", text: "Upload the JPEG, set quality to around 70–85%, and download — that range typically cuts 60–80% of the file size with no visible loss. Converting to WebP shaves a further 25–35% at the same visual quality." } },
     { "@type": "Question", name: "How much can I compress an image without losing visible quality?",
       acceptedAnswer: { "@type": "Answer", text: "For JPEG images, a quality setting of 70–85% typically reduces file size by 60–80% with no visible quality loss to the human eye at normal viewing distances. WebP achieves 25–35% better compression than JPEG at the same visual quality. Our quality slider lets you find the perfect balance for your specific image and use case." } },
     { "@type": "Question", name: "Is my image data safe when I use this compressor?",
@@ -137,7 +141,7 @@ export default function ImageCompressorPage() {
             Image Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Free Image Compressor Online — Reduce Image Size Without Losing Quality
+            Free Image & Photo Compressor — Reduce Image Size in KB Without Losing Quality
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             Large images are one of the biggest causes of slow websites and poor Google PageSpeed
