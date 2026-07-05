@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool";
 
 const FAQ = [
+  { q:"How do I open an .md file?",
+    a:"An .md file is just plain text — paste its contents here to see it fully rendered with headings, tables and code blocks, like a markdown viewer. Edit it, then download it back as .md or export it as a complete HTML document." },
   { q:"What is Markdown and when should I use it?",
     a:"Markdown is a plain-text formatting syntax that converts to HTML. Use it for README files on GitHub/GitLab, writing documentation, blog posts (Ghost, Jekyll, Hugo, Gatsby), notes in Obsidian or Notion, comments on Stack Overflow and Reddit, and chat formatting in Slack, Discord and Microsoft Teams. Its key advantage is that the raw text is human-readable even without rendering — unlike HTML or rich-text editors." },
   { q:"What is GitHub Flavored Markdown (GFM) and what extra features does it add?",
@@ -90,7 +92,7 @@ function countStats(md: string) {
   return { words, chars, lines, readMins };
 }
 
-const INITIAL = `# Welcome to PursTech Markdown Editor\n\nWrite **Markdown** here and see a *live preview* on the right.\n\n## Features\n\n- Real-time split-pane preview\n- GFM tables and task lists\n- Syntax-highlighted code blocks\n- Export as HTML or .md file\n- Word count and reading time\n\n## GFM Table Example\n\n| Feature | Free | Pro |\n| --- | :---: | :---: |\n| All Tools | ✓ | ✓ |\n| Ad-free | ✗ | ✓ |\n| API Access | ✗ | ✓ |\n\n## Task List\n\n- [x] Build the homepage\n- [x] Create 30 tools\n- [ ] Launch Pro subscription\n- [ ] Build AI agents\n\n## Code Block\n\n\`\`\`javascript\nconst greet = (name) => \`Hello, \${name}! Welcome to PursTech.\`;\nconsole.log(greet(\"Developer\"));\n\`\`\`\n\n> \"Stop Searching. Start Doing.\" — PursTech\n\n---\n\nVisit [purstech.com](https://www.purstech.com) to explore all tools.`;
+const INITIAL = `## Welcome to PursTech Markdown Editor\n\nWrite **Markdown** here and see a *live preview* on the right.\n\n## Features\n\n- Real-time split-pane preview\n- GFM tables and task lists\n- Syntax-highlighted code blocks\n- Export as HTML or .md file\n- Word count and reading time\n\n## GFM Table Example\n\n| Feature | Free | Pro |\n| --- | :---: | :---: |\n| All Tools | ✓ | ✓ |\n| Ad-free | ✗ | ✓ |\n| API Access | ✗ | ✓ |\n\n## Task List\n\n- [x] Build the homepage\n- [x] Create 30 tools\n- [ ] Launch Pro subscription\n- [ ] Build AI agents\n\n## Code Block\n\n\`\`\`javascript\nconst greet = (name) => \`Hello, \${name}! Welcome to PursTech.\`;\nconsole.log(greet(\"Developer\"));\n\`\`\`\n\n> \"Stop Searching. Start Doing.\" — PursTech\n\n---\n\nVisit [purstech.com](https://www.purstech.com) to explore all tools.`;
 
 export default function MarkdownEditorClient() {
   useTrackTool("markdown-editor", "dev");
@@ -217,7 +219,7 @@ ${html || ""}
             <div className="mb-8">
               <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Developer Tools</div>
               <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-                Free Online Markdown Editor — Live Preview, GFM Tables &amp; Export
+                Free Online Markdown Editor &amp; Viewer — Live Preview, GFM &amp; Export
               </h1>
               <p className="text-gray-400 max-w-2xl">Write Markdown with a live split-pane preview. Full formatting toolbar, GitHub Flavored Markdown, task lists, tables, word count and export to HTML or .md.</p>
             </div>

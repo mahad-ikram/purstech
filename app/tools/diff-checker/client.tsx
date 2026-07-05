@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Can I compare two lists?", a:"Yes — paste list A on the left and list B on the right. Every added, removed or changed line is highlighted instantly, and the ignore-whitespace toggle cuts through formatting noise. Perfect for email lists, SKUs, keywords or names." },
+  { q:"Can I compare two URLs or links?", a:"Yes — paste both URLs and the differences are highlighted down to the exact changed word or parameter. Handy for spotting tracking parameters, staging vs production links, or two near-identical addresses." },
   { q:"What does a diff checker do?",              a:"A diff checker compares two pieces of text and highlights the differences between them. Added text is shown in green, removed text in red, and unchanged text in white. This makes it easy to spot changes at a glance." },
   { q:"What can I use a diff checker for?",        a:"Diff checkers are useful for comparing code versions, reviewing document edits, checking if two files are identical, proofreading text changes, and verifying that a copy/paste was done correctly." },
   { q:"Does it compare line by line or word by word?",a:"Our diff checker compares line by line by default. Lines that changed are highlighted, and within changed lines the specific added or removed words are marked." },
@@ -126,7 +128,7 @@ export default function DiffCheckerClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🔍</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Diff Checker</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Diff Checker — Text Compare Tool</h1>
               <p className="text-gray-500 mt-1">Compare two texts and instantly highlight every difference — added, removed and changed lines.</p>
             </div>
           </div>

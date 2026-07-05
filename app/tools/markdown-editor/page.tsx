@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import MarkdownEditorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Markdown Editor — Live Preview",
+  title: "Free Markdown Editor & Viewer — Live Preview (MD)",
   description: "Write Markdown with a live split-pane preview. Full toolbar, GFM tables, task lists, code highlighting, word count, export as HTML or .md file. Free, no login.",
   alternates: { canonical: "/tools/markdown-editor" },
-  keywords: ["markdown editor online","markdown live preview","online markdown editor","gfm editor","markdown to html editor free","github flavored markdown editor"],
+  keywords: ["markdown editor","markdown viewer","md viewer","md editor","markdown live preview","how to open md file","md to html","gfm editor","online markdown editor"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/markdown-editor",
@@ -70,6 +70,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I open an .md file?",
+      acceptedAnswer: { "@type": "Answer", text: "An .md file is just plain text — paste its contents here to see it fully rendered with headings, tables and code blocks, like a markdown viewer. Edit it, then download it back as .md or export it as a complete HTML document." } },
     { "@type": "Question", name: "What is Markdown and when should I use it?",
       acceptedAnswer: { "@type": "Answer", text: "Markdown is a plain-text formatting syntax that converts to HTML. Use it for README files on GitHub/GitLab, documentation, blog posts (Ghost, Jekyll, Hugo), notes in Obsidian or Notion, comments on Stack Overflow and Reddit, and chat formatting in Slack, Discord and Teams. Its key advantage is that raw text is human-readable even without rendering." } },
     { "@type": "Question", name: "What is GitHub Flavored Markdown (GFM) and what extra features does it add?",

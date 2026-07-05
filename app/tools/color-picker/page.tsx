@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/color-picker" },
 
   keywords: [
-    "color picker online", "free color picker", "hex color picker",
-    "rgb color picker", "hsl color picker", "color codes generator",
-    "web color picker", "colour picker tool",
+    "color picker", "hex color picker", "rgb color picker",
+    "what color is opposite green", "complementary color picker",
+    "hsl color picker", "color codes generator", "free color picker",
   ],
 
   openGraph: {
@@ -81,6 +81,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What color is opposite green (or red) on the color wheel?",
+      acceptedAnswer: { "@type": "Answer", text: "On the traditional artists' (RYB) colour wheel, green's opposite is red — and red's is green. On the digital RGB/HSL wheel this tool uses, green's exact complement is magenta and red's is cyan. Pick any colour and its complement appears automatically." } },
     { "@type": "Question", name: "What is the difference between HEX, RGB, and HSL?",
       acceptedAnswer: { "@type": "Answer", text: "HEX is a 6-digit code used in web/CSS (e.g. #6C3AFF). RGB defines colour using Red, Green, Blue channels from 0–255. HSL defines colour using Hue (0–360°), Saturation (0–100%) and Lightness (0–100%) — more intuitive for designers." } },
     { "@type": "Question", name: "What is CMYK?",

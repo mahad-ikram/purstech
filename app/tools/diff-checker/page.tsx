@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import DiffCheckerClient from "./client";
 
 export const metadata: Metadata = {
-  // Renders: "Free Diff Checker — Compare Text Online | PursTech" (51 chars ✅)
-  title: "Free Diff Checker — Compare Text Online",
+  title: "Free Diff Checker — Compare Text & Lists Online",
 
   description:
     "Compare two texts online and instantly see every difference. Free diff checker — shows added, removed and unchanged lines. Works with code and plain text. No login.",
@@ -11,9 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/diff-checker" },
 
   keywords: [
-    "diff checker online", "text comparison tool", "compare two texts",
-    "find differences between texts", "online diff tool", "code diff checker",
-    "text diff free", "compare documents online",
+    "diff checker", "text compare", "compare text", "list diff",
+    "compare two lists", "compare two texts", "compare urls",
+    "string compare", "online diff tool", "code diff checker",
   ],
 
   openGraph: {
@@ -81,6 +80,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Can I compare two lists?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — paste list A on the left and list B on the right. Every added, removed or changed line is highlighted instantly, and the ignore-whitespace toggle cuts through formatting noise. Perfect for email lists, SKUs, keywords or names." } },
+    { "@type": "Question", name: "Can I compare two URLs or links?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — paste both URLs and the differences are highlighted down to the exact changed word or parameter. Handy for spotting tracking parameters, staging vs production links, or two near-identical addresses." } },
     { "@type": "Question", name: "What does a diff checker do?",
       acceptedAnswer: { "@type": "Answer", text: "A diff checker compares two pieces of text and highlights the differences between them. Added text is shown in green, removed text in red, and unchanged text in white. This makes it easy to spot changes at a glance." } },
     { "@type": "Question", name: "What can I use a diff checker for?",
