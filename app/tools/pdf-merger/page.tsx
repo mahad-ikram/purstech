@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import PDFMergerClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free PDF Merger — Combine PDFs Online",
+  title: "Merge PDF Files Free — Combine PDF Online",
   description: "Merge multiple PDF files into one online for free. Drag to reorder, select page ranges from each file, set metadata on the merged PDF. 100% browser-based, no upload, instant.",
   alternates: { canonical: "/tools/pdf-merger" },
-  keywords: ["pdf merger","merge pdf files online free","combine pdf","pdf combiner","join pdf files","pdf joiner online"],
+  keywords: ["merge pdf","combine pdf","pdf merger","pdf combiner","combine pdf files","how to combine pdf files","merge pdf online","pdf merge","file combiner"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/pdf-merger",
     siteName: "PursTech",
-    title: "Free PDF Merger Online — Combine PDFs in Any Order",
+    title: "Merge PDF Free — Combine PDF Files in Any Order",
     description: "Merge PDFs online — drag to reorder, select page ranges, set merged PDF metadata. Free and browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "PDF Merger — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free PDF Merger — Combine PDFs Online",
+    title: "Merge PDF Free — Combine PDFs Online",
     description: "Drag to reorder, pick page ranges, set metadata. 100% browser-based. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -68,6 +68,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I combine PDF files into one?",
+      acceptedAnswer: { "@type": "Answer", text: "Drop your PDFs in, drag them into the order you want, optionally pick page ranges from each file (e.g. 1-3, 5), and hit Merge — a single combined PDF downloads instantly. No Acrobat needed, and nothing is uploaded to a server." } },
     { "@type": "Question", name: "Is there a limit to how many PDFs I can merge?",
       acceptedAnswer: { "@type": "Answer", text: "There is no hard limit. You can merge as many PDFs as your device's memory allows. For very large sets (50+ files or files over 50MB each), we recommend merging in batches to avoid browser memory pressure. All processing is private — your files never touch our servers." } },
     { "@type": "Question", name: "Can I choose specific pages from each PDF to include?",
@@ -111,7 +113,7 @@ export default function PDFMergerPage() {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-full px-3 py-1 text-xs text-[#FF3A6C] font-semibold mb-3">PDF Tools</div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Free PDF Merger Online — Combine PDF Files in Any Order
+            Merge PDF Free — Combine PDF Files Into One, Any Order
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             Merge multiple PDF files into a single document in seconds. Drag to reorder files,

@@ -6,6 +6,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 // ✅ Rule 10: module scope — all .map() calls below match
 const FAQ = [
+  { q:"How do I calculate a tip?",
+    a:"Multiply the bill by the tip percentage — for example, a 20% tip on a $50 bill is $10 (50 × 0.20). Or skip the math entirely: enter the bill amount, tap a quick-tip button (10–30%) or type a custom percentage, and the tip, total and per-person split appear instantly." },
+  { q:"What is the average tip percentage?",
+    a:"In the US, 15–20% is standard at restaurants (18–20% for good service), around 10–15% for delivery and taxis, 15–20% for salons and bars, and $1–2 per drink at coffee shops. The 8 service-type presets apply these ranges for you — a built-in tip chart." },
   { q:"How much should I tip at a restaurant?",
     a:"Standard tipping etiquette in the US: 15% for adequate service, 18% for good service, 20% for excellent service, and 25%+ for exceptional service. Quick-service counters where you order at a register: 10–15% or nothing is acceptable. Fine dining: 20% minimum is expected. The tip is traditionally calculated on the pre-tax amount, though many people tip on the full total — either is acceptable." },
   { q:"Should I tip on the pre-tax or post-tax amount?",

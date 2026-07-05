@@ -9,6 +9,8 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 /* ── FAQ — Rule 10: module scope, matches FAQ.map() below ─────────────────── */
 /* ── Rule 8: already uses <details>/<summary> — no useState toggle ─────────── */
 const FAQ = [
+  { q: "How do I combine PDF files into one?",
+    a: "Drop your PDFs in, drag them into the order you want, optionally pick page ranges from each file (e.g. 1-3, 5), and hit Merge — a single combined PDF downloads instantly. No Acrobat needed, and nothing is uploaded to a server." },
   { q: "Is there a limit to how many PDFs I can merge?",
     a: "There is no hard limit. You can merge as many PDFs as your device's memory allows. For very large sets (50+ files or files over 50 MB each), we recommend merging in batches to avoid browser memory pressure. All processing is private — your files never touch our servers." },
   { q: "Can I choose specific pages from each PDF to include?",

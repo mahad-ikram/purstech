@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import TipCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Tip Calculator & Bill Splitter — Per Person",
+  title: "Free Tip Calculator — Gratuity & Bill Split Per Person",
   description: "Calculate tip and split a restaurant bill in seconds. Set custom tip %, split among any number of people, add tax, and get per-person totals with rounding options. Free, instant.",
   alternates: { canonical: "/tools/tip-calculator" },
-  keywords: ["tip calculator","split bill calculator","restaurant tip calculator","how much to tip","tip split calculator","bill splitter"],
+  keywords: ["tip calculator","how to calculate tip","gratuity calculator","how much to tip","average tip percentage","tip chart","split bill calculator","tipping calculator","tip calc"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/tip-calculator",
     siteName: "PursTech",
-    title: "Free Tip Calculator & Bill Splitter — Per Person",
+    title: "Free Tip Calculator — Gratuity & Bill Split Per Person",
     description: "Calculate tip and split bills instantly. Custom tip %, any number of people, tax, rounding. Free.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Tip Calculator — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Tip Calculator & Bill Splitter",
+    title: "Free Tip Calculator — Gratuity & Bill Split",
     description: "Custom tip %, itemized split, tax, per-person totals and rounding. Free, instant.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -70,6 +70,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I calculate a tip?",
+      acceptedAnswer: { "@type": "Answer", text: "Multiply the bill by the tip percentage — for example, a 20% tip on a $50 bill is $10 (50 × 0.20). Or skip the math entirely: enter the bill amount, tap a quick-tip button (10–30%) or type a custom percentage, and the tip, total and per-person split appear instantly." } },
+    { "@type": "Question", name: "What is the average tip percentage?",
+      acceptedAnswer: { "@type": "Answer", text: "In the US, 15–20% is standard at restaurants (18–20% for good service), around 10–15% for delivery and taxis, 15–20% for salons and bars, and $1–2 per drink at coffee shops. The 8 service-type presets apply these ranges for you — a built-in tip chart." } },
     { "@type": "Question", name: "How much should I tip at a restaurant?",
       acceptedAnswer: { "@type": "Answer", text: "Standard tipping in the US: 15% for adequate service, 18% for good service, 20% for excellent service, 25%+ for exceptional service. Fine dining: 20% minimum. Quick-service counters: 10–15% or nothing is acceptable. The tip is traditionally calculated on the pre-tax amount, though many tip on the full total for convenience." } },
     { "@type": "Question", name: "Should I tip on the pre-tax or post-tax amount?",
@@ -106,7 +110,7 @@ export default function TipCalculatorPage() {
             Finance Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Tip Calculator — Split Bill &amp; Per Person Amount
+            Free Tip Calculator — How Much to Tip &amp; Split the Bill
           </h1>
           <p className="text-gray-400 max-w-2xl leading-relaxed">
             Calculate the perfect tip and split a bill between any number of people. Supports custom tip %, tax, uneven itemized splits, and rounding — for any service type.

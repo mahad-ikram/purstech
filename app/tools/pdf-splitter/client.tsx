@@ -9,6 +9,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 /* ── FAQ — Rule 10: module scope, matches FAQ.map() below ─────────────────── */
 /* ── Rule 8: already uses <details>/<summary> ─────────────────────────────── */
 const FAQ = [
+  { q: "How do I save just one page of a PDF?",
+    a: "Switch to Extract mode, click the page you want in the visual page grid, and download — you get a new PDF containing only that page at original quality. Select multiple pages the same way to save any subset." },
+  { q: "Can I split a PDF without Adobe Acrobat?",
+    a: "Yes — this splitter runs entirely in your browser, free. Use Every Page mode to unmerge a combined PDF, Custom Ranges to break it into parts, or Extract/Remove modes for specific pages. No Acrobat, no upload — files never leave your device." },
   { q: "What is the difference between 'Extract' and 'Remove' mode?",
     a: "Extract mode creates a new PDF containing only the pages you select — the rest are discarded. Remove mode creates a new PDF containing all pages EXCEPT the ones you select. Use Extract when you want a specific subset. Use Remove when you want to delete a few unwanted pages and keep everything else." },
   { q: "How do I split a PDF into multiple separate files by range?",

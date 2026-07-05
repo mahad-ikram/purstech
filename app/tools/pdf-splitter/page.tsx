@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import PDFSplitterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free PDF Splitter — Split PDFs Online",
-  description: "Split a PDF into individual pages or custom page ranges. Extract specific pages, remove pages, or split into equal parts. Download as separate PDFs or a ZIP. 100% browser-based.",
+  title: "Split PDF Free — Extract & Separate PDF Pages",
+  description: "Split a PDF into individual pages or custom ranges. Extract specific pages, separate or remove pages, unmerge combined PDFs. Download as separate PDFs or a ZIP. 100% browser-based.",
   alternates: { canonical: "/tools/pdf-splitter" },
-  keywords: ["pdf splitter","split pdf online free","extract pages from pdf","pdf page extractor","separate pdf pages","split pdf into multiple files"],
+  keywords: ["split pdf","pdf splitter","extract pages from pdf","how to separate pages in pdf","pdf separator","save one page of pdf","unmerge pdf","pdf split","extract pdf pages"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/pdf-splitter",
     siteName: "PursTech",
-    title: "Free PDF Splitter Online — Extract & Split PDF Pages",
+    title: "Split PDF Online Free — Extract & Separate Pages",
     description: "Split PDFs by page, range or extract specific pages. ZIP download. Free and browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "PDF Splitter — PursTech" }],
   },
@@ -70,7 +70,11 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "What is the difference between Extract and Remove mode?",
+    { "@type": "Question", name: "How do I save just one page of a PDF?",
+      acceptedAnswer: { "@type": "Answer", text: "Switch to Extract mode, click the page you want in the visual page grid, and download — you get a new PDF containing only that page at original quality. Select multiple pages the same way to save any subset." } },
+    { "@type": "Question", name: "Can I split a PDF without Adobe Acrobat?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — this splitter runs entirely in your browser, free. Use Every Page mode to unmerge a combined PDF, Custom Ranges to break it into parts, or Extract/Remove modes for specific pages. No Acrobat, no upload — files never leave your device." } },
+    { "@type": "Question", name: "What is the difference between 'Extract' and 'Remove' mode?",
       acceptedAnswer: { "@type": "Answer", text: "Extract mode creates a new PDF containing only the pages you select — the rest are discarded. Remove mode creates a new PDF containing all pages EXCEPT the ones you select. Use Extract when you want a specific subset. Use Remove when you want to delete a few unwanted pages and keep everything else." } },
     { "@type": "Question", name: "How do I split a PDF into multiple separate files by range?",
       acceptedAnswer: { "@type": "Answer", text: "Select Custom Ranges mode and enter ranges separated by semicolons. For example, '1-5; 6-10; 11-15' creates three separate PDFs. You can mix single pages and ranges: '1-3; 5; 7-9' creates three files. A preview shows how many files will be created before you click Split." } },
@@ -113,7 +117,7 @@ export default function PDFSplitterPage() {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#FF3A6C]/10 border border-[#FF3A6C]/20 rounded-full px-3 py-1 text-xs text-[#FF3A6C] font-semibold mb-3">PDF Tools</div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Free PDF Splitter Online — Split by Page, Range or Extract Pages
+            Split PDF Free — Extract, Separate or Remove PDF Pages
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             Split any PDF into individual pages or custom page ranges in seconds. Use the visual
