@@ -36,6 +36,10 @@ const QUALITY_PRESETS = [
 ];
 
 const FAQ = [
+  { q:"How do I compress an image to 50KB or 200KB?",
+    a:"Lower the quality slider and watch the live output size until it drops under your target — the before/after preview shows exactly what you are trading. If a photo will not reach 50KB at acceptable quality, reduce its pixel dimensions first with our free Image Resizer, then compress." },
+  { q:"How do I reduce the file size of a JPEG?",
+    a:"Upload the JPEG, set quality to around 70–85%, and download — that range typically cuts 60–80% of the file size with no visible loss. Converting to WebP shaves a further 25–35% at the same visual quality." },
   { q:"How much can I compress an image without losing visible quality?",
     a:"For JPEG images, a quality setting of 70–85% typically reduces file size by 60–80% with no visible quality loss to the human eye at normal viewing distances. WebP achieves 25–35% better compression than JPEG at the same visual quality. Our quality slider lets you find the perfect balance for your specific image and use case." },
   { q:"Is my image data safe when I use this compressor?",

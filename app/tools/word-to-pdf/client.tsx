@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 const FAQ = [
+  { q:"How do I save a Word document as a PDF?",
+    a:"Two ways. Inside Microsoft Word: File → Save As (or Export) and choose PDF as the format. Without Word installed: upload your .doc, .docx or .txt file here — or just paste the text — pick a page size and download the PDF. Everything runs in your browser." },
   { q:"What types of files can I convert to PDF?",
     a:"You can upload plain text files (.txt) or basic Word documents (.doc / .docx). For .doc and .docx files, the tool extracts the text content and formats it as a clean PDF. Complex Word formatting like headers, footers, tables and embedded images are not supported — only the text is converted. You can also paste or type text directly into the editor without uploading any file." },
   { q:"What page sizes are available?",

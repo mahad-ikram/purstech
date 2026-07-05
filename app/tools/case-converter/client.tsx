@@ -13,6 +13,10 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Which words are not capitalized in a title?",
+    a:"In title case, short words stay lowercase: articles (a, an, the), coordinating conjunctions (and, but, or, nor) and short prepositions (at, by, in, of, on, to, up) — unless they are the first or last word, which are always capitalized. The Title Case mode applies these rules for you automatically." },
+  { q:"How do I change ALL CAPS to lowercase?",
+    a:"Paste the text and click lower case to convert every letter, or Sentence case to keep the first letter of each sentence capitalized — the instant fix for accidental caps-lock typing." },
   { q:"What is Title Case?",    a:"Title Case capitalises the first letter of every major word. It's used for headings, titles and proper nouns — for example: 'The Quick Brown Fox'." },
   { q:"What is Sentence case?", a:"Sentence case capitalises only the first letter of the first word in a sentence, just like normal writing. Example: 'The quick brown fox jumps.'" },
   { q:"What is camelCase?",     a:"camelCase starts with a lowercase letter and capitalises the first letter of each subsequent word with no spaces. Used widely in programming: 'myVariableName'." },

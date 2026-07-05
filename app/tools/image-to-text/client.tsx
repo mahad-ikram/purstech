@@ -7,6 +7,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ PATCH 2: Added Track
 // ── FAQs ────────────────────────────────────────────────────────────
 // ✅ PATCH 1: Removed faqSchema object and <script> tag (now in page.tsx)
 const OCR_FAQ = [
+  { q:"How do I copy text from a picture or screenshot?",
+    a:"Paste or upload the picture, click Extract, and the OCR engine turns it into selectable text in seconds — then hit Copy. It works on screenshots, photos of documents, signs and whiteboards, in 30+ languages." },
+  { q:"Can I convert an image to a Word document?",
+    a:"Yes — extract the text here, copy it, and paste it into Word or Google Docs with full editing. If your source is a PDF rather than an image, our free PDF to Word tool converts it directly." },
   {
     q: "What is OCR and how does this image to text converter work?",
     a: "OCR (Optical Character Recognition) is technology that analyses the patterns of pixels in an image to identify and extract text characters. Our tool uses Tesseract.js — an open-source OCR engine originally developed by HP Labs and maintained by Google — compiled to WebAssembly so it runs entirely inside your browser. The engine analyses your image locally on your device, classifies each character region, and outputs the recognised text with confidence scores for each word. Your image is never sent to any server.",

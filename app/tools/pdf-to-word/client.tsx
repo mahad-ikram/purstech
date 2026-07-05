@@ -9,6 +9,12 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 /* ── FAQ — Rule 10: module scope, matches FAQ.map() below ─────────────────── */
 /* ── Rule 8: already uses <details>/<summary> ─────────────────────────────── */
 const FAQ = [
+  { q:"How do I convert a PDF to Word?",
+    a:"Drop your PDF onto the converter, let it extract the text, preview and tidy the result, then download it as a .doc file that opens straight in Microsoft Word or Google Docs. The whole conversion runs in your browser — the file never uploads to a server." },
+  { q:"Can I convert a scanned PDF to Word?",
+    a:"Not directly — a scanned PDF is a photo of a page, with no real text inside. Run it through our free Image to Text (OCR) tool first to extract the words, then paste them into Word. This converter handles text-based PDFs." },
+  { q:"Why are some characters showing as garbled or replaced with question marks?",
+    a:"This happens when a PDF uses embedded fonts with non-standard character encodings. The PDF specification allows fonts to use custom encoding tables, which can make text extraction ambiguous. In these cases the extracted text may have placeholder characters — a specialised desktop tool may give better results." },
   { q: "Which types of PDFs can be converted?",
     a: "This tool extracts text from text-based PDFs — PDFs created digitally from Word documents, web pages or other software. Scanned PDFs (images of paper pages) require OCR. If you upload a scanned PDF and get empty text, try our Image to Text tool instead, which uses Tesseract.js to process image-based pages." },
   { q: "Will the formatting be preserved?",

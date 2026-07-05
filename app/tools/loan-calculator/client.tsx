@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
 const FAQ = [
+  { q:"Can I use this for a car, auto or personal loan?",
+    a:"Yes — this works for any fixed-rate amortizing loan: car and auto loans, personal loans, student loans, boat or RV loans. Enter the amount you are borrowing, the interest rate and the term, and you get the exact monthly payment and full schedule." },
+  { q:"How do I calculate paying off my loan early?",
+    a:"Use the extra-payment simulator: add any amount on top of your regular payment and the calculator shows an early payoff date, how many months you cut, and exactly how much interest you save — often thousands on a long loan." },
   { q:"How is my monthly loan payment calculated?",
     a:"Monthly loan payment is calculated using the standard amortization formula: M = P × [r(1+r)^n] / [(1+r)^n - 1], where P is the principal, r is the monthly interest rate (annual rate ÷ 12), and n is the number of payments. This ensures each payment covers the interest due that month plus a portion of the principal, with the split shifting toward more principal over time." },
   { q:"What is an amortization schedule?",

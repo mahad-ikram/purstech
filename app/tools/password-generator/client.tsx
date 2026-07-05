@@ -25,6 +25,8 @@ const RELATED_TOOLS = [
 // ✅ Rule 10: FAQ declared at module scope — .map() below uses same name
 // ✅ Rule 8: Rendered with <details>/<summary> — no useState toggle
 const FAQ = [
+  { q:"How do I generate a 12 or 15 character password?",
+    a:"Drag the length slider to 12, 15 or anything up to 64 characters and click generate. With all character types on, a 12-character password already carries roughly 78 bits of entropy — and longer is stronger, so go 16+ for anything important." },
   { q: "How does the password generator work?",
     a: "It uses your browser's built-in cryptographically secure random number generator (crypto.getRandomValues) to pick characters from the character sets you select. This is far more secure than Math.random() and is the same API used by professional security tools." },
   { q: "Is my generated password stored anywhere?",

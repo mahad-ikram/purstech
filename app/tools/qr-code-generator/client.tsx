@@ -22,6 +22,10 @@ const RELATED_TOOLS = [
 // ✅ Rule 8: FAQ uses <details>/<summary> — no useState toggle
 // ✅ Rule 10: FAQ.map() matches const FAQ
 const FAQ = [
+  { q:"How do I make a WiFi QR code?",
+    a:"Choose the WiFi type, enter your network name (SSID), password and security type, and download the code. Guests scan it with their phone camera and connect instantly — no typing the password." },
+  { q:"Can I make a QR code for a Google Form, Facebook page or any link?",
+    a:"Yes — any link works. Pick the URL type and paste the address of your Google Form, Facebook page, Instagram profile, menu or website. The QR code opens that link when scanned, and it never expires." },
   { q:"What is a QR code?",
     a:"A QR (Quick Response) code is a 2D barcode that stores information — like a URL, text, or contact details — readable instantly by a phone camera. Invented in 1994, they are now used everywhere from product packaging to payment systems." },
   { q:"How do I scan a QR code?",

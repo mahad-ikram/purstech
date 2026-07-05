@@ -7,6 +7,8 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 /* ── FAQ — Rule 10: module-scope, matches FAQ.map() below ─────────────────── */
 /* ── Already Rule 8 compliant: <details>/<summary> — no useState toggle ───── */
 const FAQ = [
+  { q:"Can I compress a PDF to 100KB or 200KB?",
+    a:"Often, yes — pick the Maximum level and check the output size. How far a PDF can shrink depends on what is inside it: text-based PDFs compress dramatically, while scanned or image-heavy PDFs are limited by their images. For those, compress the images first with our free Image Compressor, or split the document into fewer pages." },
   { q: "How does browser-based PDF compression work?",
     a: "Our compressor uses pdf-lib to re-encode your PDF using efficient object streams, removes redundant data structures, and strips embedded metadata. For text-heavy PDFs, savings of 10–50% are typical. For PDFs with embedded images or already heavily optimised files, savings may be smaller." },
   { q: "Will compression reduce the visual quality of my PDF?",

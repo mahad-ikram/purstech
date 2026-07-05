@@ -15,6 +15,10 @@ const RELATED_TOOLS = [
 
 // ✅ Rule 8: FAQ now uses <details>/<summary> — openFaq useState removed
 const FAQ = [
+  { q:"How do I calculate percentage off (a discount)?",
+    a:"Multiply the price by the remaining share: final price = price × (1 − discount ÷ 100). An $80 item at 25% off is 80 × 0.75 = $60. The calculator's subtract-a-percentage mode does this instantly." },
+  { q:"What is the percent difference formula?",
+    a:"Percent difference = |A − B| ÷ ((A + B) ÷ 2) × 100. It compares two values symmetrically — unlike percent change, it does not treat either number as the starting point." },
   { q:"How do I calculate what percentage one number is of another?",
     a:"Divide the part by the whole and multiply by 100. For example, 30 out of 150 = (30 ÷ 150) × 100 = 20%." },
   { q:"How do I find a percentage of a number?",

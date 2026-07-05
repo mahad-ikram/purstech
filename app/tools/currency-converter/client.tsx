@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"How do I convert euros to dollars (or yen to USD)?",
+    a:"Pick the pair — EUR to USD, JPY to USD, CAD to USD or any of the 30+ currencies — and type any amount: 10, 50, 100 or 1000. The converted value appears instantly at the reference mid-market rate, and the swap button reverses the direction in one click." },
   { q:"Are the exchange rates live?",              a:"The rates shown are indicative reference rates updated periodically. For financial transactions always verify with your bank or a regulated exchange service as rates fluctuate constantly." },
   { q:"How many currencies are supported?",        a:"We support over 30 of the world's most commonly traded currencies covering every major economy and region." },
   { q:"What is a base currency?",                  a:"The base currency is the currency you are converting from. All other currencies are expressed as how much one unit of the base currency buys." },

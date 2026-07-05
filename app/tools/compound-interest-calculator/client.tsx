@@ -16,6 +16,12 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"What is the compound interest formula?",
+    a:"A = P(1 + r/n)^(nt), where P is your starting principal, r is the annual rate as a decimal, n is how many times interest compounds per year, and t is the number of years. When you add regular contributions, each deposit grows by the same formula for its remaining time — the calculator handles all of that instantly." },
+  { q:"Is interest compounded daily better than monthly?",
+    a:"Slightly, yes — at the same rate, compound interest calculated daily grows a little faster than monthly or yearly because interest starts earning interest sooner. Switch the compounding frequency here (daily, monthly, quarterly, semi-annually or annually) to see the exact difference on your numbers." },
+  { q:"Can I use this as a savings account (HYSA) calculator?",
+    a:"Yes — enter your balance as the principal, your APY as the rate, set compounding to daily or monthly (most high-yield savings accounts compound daily), and add your monthly deposit as a contribution. The growth chart shows exactly what your savings account will be worth." },
   { q:"What is the difference between simple and compound interest?",
     a:"Simple interest is calculated only on the original principal. Compound interest is calculated on the principal plus all previously earned interest — meaning your earnings generate their own earnings. This 'interest on interest' effect is why Albert Einstein allegedly called compound interest the eighth wonder of the world. Over long periods, the difference is enormous: $10,000 at 8% simple interest for 30 years grows to $34,000; with compound interest it grows to over $100,000." },
   { q:"How does compounding frequency affect my returns?",

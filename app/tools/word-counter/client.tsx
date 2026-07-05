@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"How do I check the number of words in my text?",
+    a:"Paste or type your text into the box above — the word checker instantly checks the number of words, characters, sentences and paragraphs. There is no button to press and no limit on text length." },
   { q:"How does the word counter work?",
     a:"Simply type or paste your text into the box above. PursTech instantly counts your words, characters, sentences and paragraphs in real time — no button needed." },
   { q:"Is there a limit on how much text I can enter?",

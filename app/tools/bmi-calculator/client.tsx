@@ -13,6 +13,12 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Is the BMI calculation different for women and men?",
+    a:"No — the standard adult BMI formula (weight divided by height squared, kg/m²) and the category ranges are identical for women and men. BMI does not account for differences in body composition, such as muscle versus fat, which is why it is a screening measure rather than a diagnosis." },
+  { q:"How do I calculate BMI in kilograms?",
+    a:"Switch the calculator to metric and enter your weight in kilograms and height in centimetres. The formula is weight ÷ height² using metres: for example, 70 kg at 175 cm is 70 ÷ 1.75² = 22.9 — inside the healthy range." },
+  { q:"What is BMI Prime?",
+    a:"BMI Prime is your BMI divided by 25 (the upper limit of healthy BMI). A value below 1.0 is in the healthy range, above 1.0 is overweight. It makes it easy to see how far from healthy your BMI is." },
   { q:"What is BMI?",                a:"Body Mass Index (BMI) is a simple calculation using height and weight to estimate body fat levels. It's used as a screening tool to identify potential weight-related health issues." },
   { q:"What is a healthy BMI range?",a:"For most adults, a BMI between 18.5 and 24.9 is considered healthy. Below 18.5 is underweight, 25–29.9 is overweight, and 30 or above is considered obese." },
   { q:"Is BMI accurate?",            a:"BMI is a useful general screening tool but has limitations. It doesn't account for muscle mass, bone density, age, sex or ethnicity. Athletes with high muscle mass may have a high BMI without excess fat." },

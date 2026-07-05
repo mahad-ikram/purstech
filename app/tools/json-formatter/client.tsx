@@ -13,6 +13,10 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"How do I open a JSON file?",
+    a:"A .json file is plain text — any text editor or browser can open it, but it usually appears as one unreadable line. Paste or drop it here instead: you get it formatted with syntax highlighting, validated, and readable in one click." },
+  { q:"Why is my JSON invalid (JSON.parse error)?",
+    a:"The usual culprits: a trailing comma after the last item, single quotes instead of double quotes, unquoted property names, or a missing bracket. The validator here pinpoints the exact line and character of the first error, so the fix takes seconds." },
   { q:"What is JSON and why do I need to format it?",
     a:"JSON (JavaScript Object Notation) is a format for storing and exchanging data. Raw JSON is often minified (compressed) and very hard to read. Formatting adds indentation and line breaks so humans can read and debug it easily." },
   { q:"Does this tool validate my JSON?",

@@ -14,6 +14,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"How do I make an image with a transparent background?",
+    a:"That is exactly what this tool does. The AI removes the background and exports a PNG with true transparency, ready to drop onto any design, product listing or slide — no checkerboard baked in." },
   { q:"How does the automatic background removal work?",
     a:"PursTech uses a neural network model (ONNX Runtime) that runs entirely inside your browser using WebAssembly. The model analyses every pixel of your image to classify it as foreground or background and produces a clean transparent result. Your image is never sent to any server. On first use the model downloads (~5MB) and is cached locally for instant future use." },
   { q:"Is my image uploaded anywhere?",

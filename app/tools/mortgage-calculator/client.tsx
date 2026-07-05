@@ -5,6 +5,14 @@ import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
 const FAQ = [
+  { q:"Does this mortgage calculator include taxes and insurance?",
+    a:"Yes — it calculates your full PITI payment: principal, interest, property tax and homeowners insurance, plus HOA fees and PMI if your down payment is under 20%. That is the real monthly number, not just principal and interest." },
+  { q:"How much is PMI per month?",
+    a:"PMI typically costs about 0.3% to 1.5% of the loan amount per year, split into monthly payments — roughly $75 to $375 a month on a $300,000 loan. The calculator estimates your PMI and shows the exact month it can be removed once you reach 20% equity." },
+  { q:"Can I calculate a mortgage recast?",
+    a:"Yes, approximately: a recast re-amortizes your remaining balance after a lump-sum payment, over the remaining term at the same rate. Enter your post-lump-sum balance as the loan amount, your remaining years as the term, and your current rate — the monthly payment shown is your recast payment." },
+  { q:"Should I rent or buy?",
+    a:"Buying generally makes more financial sense if you plan to stay 5+ years, as appreciation and equity accumulation offset the higher initial costs. Renting is better for flexibility or in overpriced markets. Our rent vs buy tab provides a 5-year financial comparison." },
   { q:"What does PITI stand for and why does it matter?",
     a:"PITI stands for Principal, Interest, Taxes, and Insurance — the four components of a full monthly mortgage payment. Principal and interest repay the loan itself. Property taxes are collected monthly and held in escrow. Homeowners insurance is also escrowed and paid annually. Taxes and insurance can add $300–$1,000+ per month beyond principal and interest." },
   { q:"What is PMI and when can I remove it?",

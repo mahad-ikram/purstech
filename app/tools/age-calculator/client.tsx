@@ -13,6 +13,10 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"What is my chronological age?",
+    a:"Chronological age is simply the time that has passed since your birth — exactly what this calculator measures, in years, months and days. It is the figure used for school entry cut-offs, assessments and standardized testing paperwork." },
+  { q:"How do I calculate a child's age in years, months and days?",
+    a:"Enter the child's date of birth and you instantly get their exact age in the years-months-days format that school forms, pediatric visits and milestone trackers ask for — plus a countdown to the next birthday." },
   { q:"How is my age calculated?",              a:"Your age is calculated by finding the difference between your date of birth and today's date (or a custom target date). The result accounts for leap years and exact month/day differences."       },
   { q:"What is the next birthday countdown for?",a:"It shows exactly how many days are left until your next birthday — useful for planning parties, sending reminders or just satisfying curiosity."                                                 },
   { q:"Can I calculate age between two custom dates?", a:"Yes — change the 'Calculate Age On' date to any date you choose. The tool calculates the exact difference in years, months and days between any two dates."                             },

@@ -62,6 +62,12 @@ const PRESETS: Record<string, { label: string; sizes: { name: string; w: number;
 };
 
 const FAQ = [
+  { q:"How do I resize an image for Instagram?",
+    a:"Pick an Instagram preset — post (1080×1080), portrait (1080×1350) or story/reel (1080×1920) — and the resizer sets the exact dimensions Instagram expects. Lock the aspect ratio or use Cover mode so nothing looks stretched." },
+  { q:"How do I resize an image from MB to KB?",
+    a:"Reducing the pixel dimensions usually shrinks the file size dramatically — resizing a 4000px photo down to 1200px can turn several MB into a few hundred KB. For maximum compression at the same dimensions, run the result through our free Image Compressor." },
+  { q:"What does Lock Aspect Ratio mean?",
+    a:"Aspect ratio is the proportional relationship between an image's width and height. When aspect ratio lock is on, changing one dimension automatically adjusts the other to maintain the original proportions. For example, a 1920×1080 image has a 16:9 aspect ratio — if you set the width to 1280, the height automatically becomes 720. This prevents your image from appearing stretched or squashed." },
   { q:"Does resizing an image reduce its quality?",
     a:"Upscaling an image (making it larger than the original) will reduce quality because the tool must create pixels that don't exist in the source image. Downscaling (making it smaller) generally maintains excellent quality using bicubic interpolation — our resizer uses the browser's high-quality Canvas API scaling. For best results, always start from the highest resolution source image available." },
   { q:"What does 'Lock Aspect Ratio' mean?",

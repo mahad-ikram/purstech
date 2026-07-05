@@ -13,6 +13,14 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Where can I see a full conversion chart?",
+    a:"The all-conversions table below the result shows your value in every unit of the category at once — a live metric conversion chart that updates as you type, instead of a static printout." },
+  { q:"What is a conversion factor?",
+    a:"A conversion factor is the number you multiply by to switch units — for example, 1 inch = 2.54 cm, so the factor is 2.54. This converter displays the exact formula and factor used for every conversion, so you can verify or reuse it." },
+  { q:"Why is temperature conversion different from other units?",
+    a:"Unlike other units, temperature conversions require an offset calculation (adding or subtracting a constant), not just multiplication. Celsius, Fahrenheit and Kelvin all use different formulas." },
+  { q:"Can I convert between metric and imperial units?",
+    a:"Yes — all conversions work between metric and imperial systems. For example: kilometres to miles, kilograms to pounds, litres to gallons, centimetres to inches and more." },
   { q:"How does the unit converter work?",
     a:"Every unit is stored with its conversion factor to a base unit. When you convert, the tool first converts your input to the base unit, then from the base unit to your target unit. This allows any unit to be converted to any other with a single calculation." },
   { q:"How accurate are the conversions?",
