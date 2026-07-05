@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import LoanCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Loan Calculator — Amortization Schedule",
+  title: "Free Loan Calculator — Amortization Calculator & Schedule",
   description: "Calculate your exact monthly loan payment, total interest and full amortization schedule. See how extra payments save you thousands. Free, instant, no login.",
   alternates: { canonical: "/tools/loan-calculator" },
-  keywords: ["loan calculator","monthly payment calculator","amortization calculator","loan interest calculator","personal loan calculator free","extra payment savings"],
+  keywords: ["loan calculator","loan payment calculator","amortization calculator","car loan calculator","auto loan calculator","personal loan calculator","interest calculator","calculate early payoff loan","apr calculator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/loan-calculator",
@@ -46,7 +46,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Use the Loan Calculator",
+  name: "How to Calculate a Loan Payment",
   description: "Use PursTech\'s free Loan Calculator to calculate monthly payments, total interest and amortization schedule instantly.",
   totalTime: "PT1M",
   step: [
@@ -68,6 +68,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Can I use this for a car, auto or personal loan?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — this works for any fixed-rate amortizing loan: car and auto loans, personal loans, student loans, boat or RV loans. Enter the amount you are borrowing, the interest rate and the term, and you get the exact monthly payment and full schedule." } },
+    { "@type": "Question", name: "How do I calculate paying off my loan early?",
+      acceptedAnswer: { "@type": "Answer", text: "Use the extra-payment simulator: add any amount on top of your regular payment and the calculator shows an early payoff date, how many months you cut, and exactly how much interest you save — often thousands on a long loan." } },
     { "@type": "Question", name: "How is my monthly loan payment calculated?",
       acceptedAnswer: { "@type": "Answer", text: "Monthly loan payment uses the standard amortization formula: M = P x [r(1+r)^n] / [(1+r)^n - 1], where P is the principal, r is the monthly interest rate (annual rate divided by 12), and n is the number of payments. This ensures each payment covers the interest due that month plus a portion of the principal." } },
     { "@type": "Question", name: "What is an amortization schedule?",

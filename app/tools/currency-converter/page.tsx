@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import CurrencyConverterClient from "./client";
 
 export const metadata: Metadata = {
-  // Renders: "Free Currency Converter — 30+ World Currencies | PursTech" (58 chars ✅)
-  title: "Free Currency Converter — 30+ World Currencies",
+  title: "Free Currency Converter — USD, EUR & 30+ Currencies",
 
   description:
     "Convert between 30+ world currencies with reference exchange rates. Free currency converter — instant results, popular pairs and all-currency table. No login.",
@@ -11,16 +10,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/currency-converter" },
 
   keywords: [
-    "currency converter", "free currency converter", "exchange rate calculator",
-    "usd to eur", "currency exchange online", "foreign exchange rates",
-    "money converter", "international currency converter",
+    "currency converter", "euro to dollar", "euros to dollars",
+    "cad to usd", "eur to usd", "money converter",
+    "exchange rate calculator", "free currency converter",
   ],
 
   openGraph: {
     type:        "website",
     url:         "https://www.purstech.com/tools/currency-converter",
     siteName:    "PursTech",
-    title:       "Free Currency Converter — 30+ World Currencies",
+    title:       "Free Currency Converter — Popular Pairs & 30+ Currencies",
     description: "Convert between 30+ currencies instantly. Popular pairs, all-currency table and reference rates. Free, no login.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Currency Converter — PursTech" }],
   },
@@ -61,7 +60,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Use the Currency Converter",
+  name: "How to Convert Currency Online",
   description: "Use PursTech's free Currency Converter to convert between 30+ world currencies instantly.",
   totalTime: "PT1M",
   step: [
@@ -80,6 +79,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I convert euros to dollars (or yen to USD)?",
+      acceptedAnswer: { "@type": "Answer", text: "Pick the pair — EUR to USD, JPY to USD, CAD to USD or any of the 30+ currencies — and type any amount: 10, 50, 100 or 1000. The converted value appears instantly at the reference mid-market rate, and the swap button reverses the direction in one click." } },
     { "@type": "Question", name: "Are the exchange rates live?",
       acceptedAnswer: { "@type": "Answer", text: "The rates shown are indicative reference rates updated periodically. For financial transactions always verify with your bank or a regulated exchange service as rates fluctuate constantly." } },
     { "@type": "Question", name: "How many currencies are supported?",

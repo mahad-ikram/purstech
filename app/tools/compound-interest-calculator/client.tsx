@@ -137,7 +137,7 @@ export default function CompoundInterestClient() {
             Finance Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Compound Interest Calculator — With Contributions &amp; Growth Chart
+            Free Compound Interest Calculator — Investment &amp; Savings Growth
           </h1>
           <p className="text-gray-400 max-w-2xl">
             See how your money grows with compound interest and regular contributions. Choose compounding frequency, see year-by-year growth and inflation-adjusted real returns.

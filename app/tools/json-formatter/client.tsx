@@ -151,7 +151,7 @@ export default function JSONFormatterClient() {
             <span className="text-4xl">💻</span>
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold text-white">
-                JSON Formatter &amp; Validator
+                JSON Formatter, Beautifier &amp; Validator
               </h1>
               <p className="text-gray-500 mt-1">
                 Format, validate, minify and beautify JSON data — instantly, free, no login.

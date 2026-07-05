@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import JSONFormatterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free JSON Formatter & Validator Online",
+  title: "Free JSON Formatter — Beautifier, Validator & Viewer",
   description: "Format, validate, minify and beautify JSON online for free. Instant syntax highlighting, error detection, and size stats. No login required.",
   alternates: { canonical: "/tools/json-formatter" },
-  keywords: ["json formatter","json validator","json beautifier","json minifier","format json online","json pretty print","validate json free"],
+  keywords: ["json formatter","json validator","json beautifier","json beautify","json viewer","json pretty","json minifier","how to open json file","json parse error","format json online"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/json-formatter",
     siteName: "PursTech",
-    title: "Free JSON Formatter & Validator Online",
+    title: "Free JSON Formatter & Beautifier — Validate & View JSON",
     description: "Format, validate and minify JSON instantly. Syntax highlighting, error detection, size stats. Free, no login.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "JSON Formatter & Validator — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free JSON Formatter & Validator Online",
+    title: "Free JSON Formatter — Beautify, Validate & Minify JSON",
     description: "Format, validate and minify JSON instantly. Syntax highlighting, error detection. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -66,6 +66,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I open a JSON file?",
+      acceptedAnswer: { "@type": "Answer", text: "A .json file is plain text — any text editor or browser can open it, but it usually appears as one unreadable line. Paste or drop it here instead: you get it formatted with syntax highlighting, validated, and readable in one click." } },
+    { "@type": "Question", name: "Why is my JSON invalid (JSON.parse error)?",
+      acceptedAnswer: { "@type": "Answer", text: "The usual culprits: a trailing comma after the last item, single quotes instead of double quotes, unquoted property names, or a missing bracket. The validator here pinpoints the exact line and character of the first error, so the fix takes seconds." } },
     { "@type": "Question", name: "What is JSON and why do I need to format it?",
       acceptedAnswer: { "@type": "Answer", text: "JSON (JavaScript Object Notation) is a format for storing and exchanging data. Raw JSON is often minified (compressed) and very hard to read. Formatting adds indentation and line breaks so humans can read and debug it easily." } },
     { "@type": "Question", name: "Does this tool validate my JSON?",

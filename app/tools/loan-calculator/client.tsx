@@ -154,7 +154,7 @@ export default function LoanCalculatorClient() {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Finance Tools</div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Loan Calculator — Monthly Payment &amp; Amortization Schedule
+            Free Loan Payment Calculator — Monthly Payment &amp; Amortization Schedule
           </h1>
           <p className="text-gray-400 max-w-2xl">
             Calculate your exact monthly payment, total interest, and full amortization schedule. Simulate extra payments and compare two loan options side by side.

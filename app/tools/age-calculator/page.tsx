@@ -7,18 +7,17 @@ import AgeCalculatorClient from "./client";
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "Age Calculator — Calculate Your Exact Age",
-  // Renders: "Age Calculator — Calculate Your Exact Age | PursTech" (52 chars ✅)
+  title: "Age Calculator on a Specific Date — Chronological Age",
 
   description:
-    "Calculate your exact age in years, months and days instantly. Free age calculator — see total days, weeks, hours and next birthday countdown. No login required.",
+    "Free age calculator — find your exact chronological age in years, months and days, today or on any specific date. Works for adults and children. Total days, weeks, hours and next birthday countdown.",
 
   alternates: { canonical: "/tools/age-calculator" },
 
   keywords: [
-    "age calculator", "calculate age online", "exact age calculator",
-    "age in years months days", "birthday countdown", "how old am i",
-    "free age calculator", "date of birth calculator",
+    "age calculator", "chronological age calculator", "age calculator on specific date",
+    "age calculator of child", "how old am i", "age difference calculator",
+    "birthday calculator", "exact age calculator", "date of birth calculator",
   ],
 
   openGraph: {
@@ -65,7 +64,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Calculate Your Exact Age",
+  name: "How to Calculate Age From a Date of Birth",
   description: "Use the free PursTech Age Calculator to find your exact age in years, months and days.",
   totalTime: "PT1M",
   step: [
@@ -81,6 +80,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is my chronological age?",
+      acceptedAnswer: { "@type": "Answer", text: "Chronological age is simply the time that has passed since your birth — exactly what this calculator measures, in years, months and days. It is the figure used for school entry cut-offs, assessments and standardized testing paperwork." } },
+    { "@type": "Question", name: "How do I calculate a child's age in years, months and days?",
+      acceptedAnswer: { "@type": "Answer", text: "Enter the child's date of birth and you instantly get their exact age in the years-months-days format that school forms, pediatric visits and milestone trackers ask for — plus a countdown to the next birthday." } },
     { "@type": "Question", name: "How is my age calculated?",
       acceptedAnswer: { "@type": "Answer", text: "Your age is calculated by finding the difference between your date of birth and today's date (or a custom target date). The result accounts for leap years and exact month/day differences." } },
     { "@type": "Question", name: "What is the next birthday countdown for?",

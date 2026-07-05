@@ -2,17 +2,18 @@ import type { Metadata } from "next";
 import CaseConverterClient from "./client";
 
 export const metadata: Metadata = {
-  // Renders: "Free Case Converter — 12 Text Cases Online | PursTech" (53 chars ✅)
-  title: "Free Case Converter — 12 Text Cases Online",
+  title: "Free Case Converter — Uppercase to Lowercase & Title Case",
 
   description:
-    "Convert text to UPPER, lower, Title, camelCase, PascalCase, snake_case, kebab-case and 5 more. Free online text case converter — 12 types, instant conversion, no login.",
+    "Free case converter — change uppercase to lowercase, ALL CAPS, Title Case, Sentence case, camelCase, snake_case, kebab-case and more. 12 text cases, instant, no login.",
 
   alternates: { canonical: "/tools/case-converter" },
 
   keywords: [
-    "case converter online", "text case converter", "camelcase converter",
-    "snake case converter", "title case converter", "uppercase lowercase converter",
+    "case converter online", "text case converter", "uppercase to lowercase",
+    "upper case to lower case", "lowercase to uppercase", "all caps converter",
+    "change case", "capitalize my title", "title case converter",
+    "sentence case", "camelcase converter", "snake case converter",
     "kebab case generator", "pascal case converter free",
   ],
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     type:        "website",
     url:         "https://www.purstech.com/tools/case-converter",
     siteName:    "PursTech",
-    title:       "Free Case Converter — 12 Text Cases, Instant, No Login",
+    title:       "Free Case Converter — All Caps to Lowercase, Title Case & More",
     description: "Convert text to any case instantly — UPPER, lower, Title, camelCase, snake_case, kebab-case and 6 more. Free, browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Case Converter — PursTech" }],
   },
@@ -81,6 +82,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Which words are not capitalized in a title?",
+      acceptedAnswer: { "@type": "Answer", text: "In title case, short words stay lowercase: articles (a, an, the), coordinating conjunctions (and, but, or, nor) and short prepositions (at, by, in, of, on, to, up) — unless they are the first or last word, which are always capitalized. The Title Case mode applies these rules for you automatically." } },
+    { "@type": "Question", name: "How do I change ALL CAPS to lowercase?",
+      acceptedAnswer: { "@type": "Answer", text: "Paste the text and click lower case to convert every letter, or Sentence case to keep the first letter of each sentence capitalized — the instant fix for accidental caps-lock typing." } },
     { "@type": "Question", name: "What is Title Case?",
       acceptedAnswer: { "@type": "Answer", text: "Title Case capitalises the first letter of every major word. It is used for headings, titles and proper nouns — for example: 'The Quick Brown Fox'." } },
     { "@type": "Question", name: "What is Sentence case?",

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import WordToPDFClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Word to PDF Converter Online",
+  title: "Convert Word to PDF — Free Word to PDF Converter",
   description: "Convert Word documents and plain text to PDF online for free. Upload a .txt or .doc file, or type/paste text directly. Choose page size, margins and font. 100% browser-based.",
   alternates: { canonical: "/tools/word-to-pdf" },
-  keywords: ["word to pdf","convert word to pdf online free","text to pdf converter","txt to pdf","doc to pdf free","convert text to pdf","online pdf converter"],
+  keywords: ["word to pdf","word to pdf converter","convert word to pdf","how to save a word document as a pdf","docx to pdf","doc to pdf free","text to pdf converter","txt to pdf"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/word-to-pdf",
     siteName: "PursTech",
-    title: "Free Word to PDF Converter Online",
-    description: "Convert .txt or .doc files to PDF. Paste text, set page size and margins, download instantly. Free and browser-based.",
+    title: "Convert Word to PDF Free — .doc, .docx & Text to PDF",
+    description: "Convert .doc, .docx or .txt files to PDF. Paste text, set page size and margins, download instantly. Free and browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Word to PDF Converter — PursTech" }],
   },
   twitter: {
@@ -70,6 +70,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I save a Word document as a PDF?",
+      acceptedAnswer: { "@type": "Answer", text: "Two ways. Inside Microsoft Word: File → Save As (or Export) and choose PDF as the format. Without Word installed: upload your .doc, .docx or .txt file here — or just paste the text — pick a page size and download the PDF. Everything runs in your browser." } },
     { "@type": "Question", name: "What types of files can I convert to PDF?",
       acceptedAnswer: { "@type": "Answer", text: "You can upload plain text files (.txt) or basic Word documents (.doc / .docx). For .doc and .docx files, the tool extracts the text content and formats it as a clean PDF. Complex Word formatting like headers, footers, tables and embedded images is not supported — only the text is converted. You can also paste or type text directly into the editor without uploading any file." } },
     { "@type": "Question", name: "What page sizes are available?",

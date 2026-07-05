@@ -2,18 +2,19 @@ import type { Metadata } from "next";
 import CompoundInterestClient from "./client";
 
 export const metadata: Metadata = {
-  // Renders: "Free Compound Interest Calculator | PursTech" (45 chars ✅)
-  title: "Free Compound Interest Calculator",
+  title: "Free Compound Interest Calculator — Daily, Monthly & Yearly",
 
   description:
-    "Calculate compound interest with regular contributions, multiple compounding frequencies and a year-by-year growth breakdown. See how your money grows over time. Free, instant.",
+    "Free compound interest calculator with daily, monthly and yearly compounding, regular contributions and a year-by-year growth chart. See the future value of your savings or investment. Free, instant.",
 
   alternates: { canonical: "/tools/compound-interest-calculator" },
 
   keywords: [
     "compound interest calculator", "investment calculator",
-    "savings growth calculator", "future value calculator",
-    "compound interest with monthly contributions", "cagr calculator",
+    "compounding interest calculator", "interest calculator",
+    "future value calculator", "savings calculator",
+    "compound interest calculated daily", "compound interest formula",
+    "high yield savings account calculator", "cagr calculator",
     "inflation adjusted returns", "investment growth chart",
   ],
 
@@ -70,7 +71,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Use the Compound Interest Calculator",
+  name: "How to Calculate Compound Interest Online",
   description: "Use PursTech's free Compound Interest Calculator to see how your money grows with compound interest and regular contributions.",
   totalTime: "PT2M",
   step: [
@@ -95,6 +96,12 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is the compound interest formula?",
+      acceptedAnswer: { "@type": "Answer", text: "A = P(1 + r/n)^(nt), where P is your starting principal, r is the annual rate as a decimal, n is how many times interest compounds per year, and t is the number of years. When you add regular contributions, each deposit grows by the same formula for its remaining time — the calculator handles all of that instantly." } },
+    { "@type": "Question", name: "Is interest compounded daily better than monthly?",
+      acceptedAnswer: { "@type": "Answer", text: "Slightly, yes — at the same rate, compound interest calculated daily grows a little faster than monthly or yearly because interest starts earning interest sooner. Switch the compounding frequency here (daily, monthly, quarterly, semi-annually or annually) to see the exact difference on your numbers." } },
+    { "@type": "Question", name: "Can I use this as a savings account (HYSA) calculator?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — enter your balance as the principal, your APY as the rate, set compounding to daily or monthly (most high-yield savings accounts compound daily), and add your monthly deposit as a contribution. The growth chart shows exactly what your savings account will be worth." } },
     { "@type": "Question", name: "What is the difference between simple and compound interest?",
       acceptedAnswer: { "@type": "Answer", text: "Simple interest is calculated only on the original principal. Compound interest is calculated on the principal plus all previously earned interest — meaning your earnings generate their own earnings. Over long periods the difference is enormous: $10,000 at 8% simple interest for 30 years grows to $34,000; with compound interest it grows to over $100,000." } },
     { "@type": "Question", name: "How does compounding frequency affect my returns?",

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import TextToSpeechClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Text to Speech Online — Multiple Voices & Languages",
-  description: "Convert any text to natural-sounding speech directly in your browser. Choose from all installed voices, adjust speed, pitch and volume. Free, no login, 100% private — nothing is sent to a server.",
+  title: "Free Text to Speech — Read Aloud Text Reader (TTS)",
+  description: "Read any text aloud with natural-sounding voices, directly in your browser. Free text to speech (TTS) reader — choose from all installed voices, adjust speed, pitch and volume. No login, 100% private.",
   alternates: { canonical: "/tools/text-to-speech" },
-  keywords: ["text to speech online free","text to speech converter","tts online","browser text to speech","text to speech multiple voices","free tts tool","text to voice converter"],
+  keywords: ["text to speech","read aloud","text reader","tts reader","text to voice","text to speech online free","what does tts mean","browser text to speech"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/text-to-speech",
     siteName: "PursTech",
-    title: "Free Text to Speech Online — Multiple Voices & Languages",
-    description: "Convert text to speech in your browser. Choose voice, adjust speed, pitch and volume. Free, private, no login.",
+    title: "Free Text to Speech Online — Read Text Aloud (TTS)",
+    description: "Read any text aloud in your browser. Choose voice, adjust speed, pitch and volume. Free, private, no login.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Text to Speech — PursTech" }],
   },
   twitter: {
@@ -101,7 +101,7 @@ export default function TextToSpeechPage() {
             Text Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight flex items-center gap-3">
-            <span className="text-4xl flex-shrink-0">🔊</span> Text to Speech
+            <span className="text-4xl flex-shrink-0">🔊</span> Text to Speech — Free TTS Reader
           </h1>
           <p className="text-gray-400 max-w-2xl leading-relaxed text-base">
             Convert any text to natural-sounding speech directly in your browser. Choose from all installed voices, adjust speed, pitch and volume. Free, no login, 100% private — nothing is sent to a server.

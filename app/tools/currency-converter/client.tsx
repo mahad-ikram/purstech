@@ -125,8 +125,8 @@ export default function CurrencyConverterClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">💱</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Currency Converter</h1>
-              <p className="text-gray-500 mt-1">Convert between 30+ world currencies with reference exchange rates — free, instant, no login.</p>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Currency Converter — Euro to Dollar, CAD to USD &amp; More</h1>
+              <p className="text-gray-500 mt-1">Convert euros to dollars, CAD to USD and 30+ world currencies with reference exchange rates — free, instant.</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 mt-3">

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
   keywords: [
     "grammar checker","free grammar checker online","grammar and spell checker",
+    "sentence checker","is it grammatically correct","check my grammar",
     "grammar checker online free","english grammar checker","spell checker",
     "punctuation checker","writing checker","languagetool","grammarly alternative",
     "passive voice checker","grammar fixer online","grammar corrector",
@@ -114,6 +115,10 @@ const FAQ_SCHEMA = {
   "@context": "https://schema.org",
   "@type":    "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I find and correct the mistakes in a sentence?",
+      acceptedAnswer: { "@type": "Answer", text: "Paste the sentence — or a whole paragraph — and every grammar, spelling and punctuation mistake is highlighted in colour with a one-click correction. It works just as well for a single exercise sentence as for a full essay." } },
+    { "@type": "Question", name: "How can I check if a sentence is grammatically correct?",
+      acceptedAnswer: { "@type": "Answer", text: "Paste it in. If nothing gets highlighted, the sentence passes 6,000+ grammar, spelling and punctuation rules. You also get a tone read and a readability score, so you know it makes sense — not just that it is technically correct." } },
     { "@type": "Question",
       name:    "What grammar rules does this checker use?",
       acceptedAnswer: { "@type": "Answer", text: "The checker uses LanguageTool, an open-source grammar engine with over 6,000 linguistic rules for English alone. It catches grammar errors (subject-verb disagreement, wrong tense, incorrect pronoun case such as 'between you and I', dangling modifiers), spelling mistakes including confusable homophones ('their/there/they're', 'affect/effect', 'its/it's') that a basic spell-checker misses, punctuation errors (missing commas, incorrect apostrophes, run-on sentences, missing Oxford commas) and style suggestions (passive voice, wordy phrases, clichés, redundant intensifiers like 'very unique'). LanguageTool operates in over 30 languages and powers the browser extension used by over 10 million people worldwide." } },

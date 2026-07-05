@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import MortgageCalculatorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Mortgage Calculator — PITI & PMI",
+  title: "Free Mortgage Payment Calculator — PITI, PMI & Amortization",
   description: "Calculate your full monthly mortgage payment including principal, interest, property tax, insurance, HOA and PMI. Affordability checker, amortization schedule and rent vs buy comparison.",
   alternates: { canonical: "/tools/mortgage-calculator" },
-  keywords: ["mortgage calculator","monthly mortgage payment","piti calculator","mortgage affordability calculator","home loan calculator","rent vs buy calculator"],
+  keywords: ["mortgage calculator","mortgage payment calculator","mortgage amortization calculator","mortgage calculator with taxes and insurance","pmi calculator","home loan calculator","how much house can i afford calculator","rent vs buy calculator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/mortgage-calculator",
@@ -45,7 +45,7 @@ const APP_SCHEMA = {
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org", "@type": "HowTo",
-  name: "How to Use the Mortgage Calculator",
+  name: "How to Calculate Mortgage Payments",
   description: "Use PursTech's free Mortgage Calculator to calculate your complete monthly payment instantly.",
   totalTime: "PT2M",
   step: [
@@ -67,6 +67,12 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Does this mortgage calculator include taxes and insurance?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — it calculates your full PITI payment: principal, interest, property tax and homeowners insurance, plus HOA fees and PMI if your down payment is under 20%. That is the real monthly number, not just principal and interest." } },
+    { "@type": "Question", name: "How much is PMI per month?",
+      acceptedAnswer: { "@type": "Answer", text: "PMI typically costs about 0.3% to 1.5% of the loan amount per year, split into monthly payments — roughly $75 to $375 a month on a $300,000 loan. The calculator estimates your PMI and shows the exact month it can be removed once you reach 20% equity." } },
+    { "@type": "Question", name: "Can I calculate a mortgage recast?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes, approximately: a recast re-amortizes your remaining balance after a lump-sum payment, over the remaining term at the same rate. Enter your post-lump-sum balance as the loan amount, your remaining years as the term, and your current rate — the monthly payment shown is your recast payment." } },
     { "@type": "Question", name: "What does PITI stand for and why does it matter?",
       acceptedAnswer: { "@type": "Answer", text: "PITI stands for Principal, Interest, Taxes, and Insurance — the four components of a full monthly mortgage payment. Knowing your full PITI payment is critical for accurate budgeting, as taxes and insurance can add $300-$1,000+ per month to your payment beyond the principal and interest." } },
     { "@type": "Question", name: "What is PMI and when can I remove it?",

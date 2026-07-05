@@ -104,9 +104,9 @@ export default function AgeCalculatorClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🎂</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Age Calculator</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Chronological Age Calculator — How Old Am I?</h1>
               <p className="text-gray-500 mt-1">
-                Calculate your exact age in years, months and days — plus total days, weeks, hours and minutes.
+                Calculate your exact age — or a child's age — in years, months and days, today or on any specific date.
               </p>
             </div>
           </div>

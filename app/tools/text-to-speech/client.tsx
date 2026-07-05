@@ -19,6 +19,8 @@ const FAQ = [
     a:"It uses your browser's built-in Web Speech API to convert text into spoken audio. No audio is ever sent to a server — everything runs entirely on your device." },
   { q:"What voices are available?",
     a:"The available voices depend on your operating system and browser. Windows, macOS, iOS and Android each include different built-in voices. Most systems offer voices in multiple languages. Chrome typically has the most voices available." },
+  { q:"What does TTS mean?",
+    a:"TTS stands for text-to-speech — technology that reads written text out loud using a synthesized voice. Paste your text, pick a voice and press play; this TTS reader does the rest instantly." },
   { q:"Can I download the audio?",
     a:"Browser-based speech synthesis does not produce a downloadable audio file directly. To save audio, use your system's screen recording tool or upgrade to Pro for MP3 export." },
   { q:"What languages are supported?",

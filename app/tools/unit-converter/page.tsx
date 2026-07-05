@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import UnitConverterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Unit Converter — Length, Weight, Temperature & More",
-  description: "Convert between length, weight, temperature, volume, area, speed, time and digital storage instantly. 8 categories, 50+ units, metric and imperial. Free, no login.",
+  title: "Free Unit Converter — Metric Conversion Calculator & Chart",
+  description: "Free unit converter and metric conversion calculator — length, weight, temperature, volume, area, speed, time and digital storage. 50+ units with a live all-conversions chart. No login.",
   alternates: { canonical: "/tools/unit-converter" },
-  keywords: ["unit converter","length converter","weight converter","temperature converter","metric to imperial","unit conversion calculator","cm to inches","kg to lbs","celsius to fahrenheit"],
+  keywords: ["unit converter","conversion calculator","metric conversion","conversion chart","metric conversion chart","measurement conversion","conversion table","metric to imperial","cm to inches","kg to lbs"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/unit-converter",
     siteName: "PursTech",
     title: "Free Unit Converter — Length, Weight, Temperature & More",
-    description: "Instant unit conversion across 8 categories and 50+ units. Metric, imperial, all results at once. Free.",
+    description: "Instant unit conversion across 8 categories and 50+ units. Metric, imperial, all results in a live conversion table. Free.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Unit Converter — PursTech" }],
   },
   twitter: {
@@ -65,6 +65,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Where can I see a full conversion chart?",
+      acceptedAnswer: { "@type": "Answer", text: "The all-conversions table below the result shows your value in every unit of the category at once — a live metric conversion chart that updates as you type, instead of a static printout." } },
+    { "@type": "Question", name: "What is a conversion factor?",
+      acceptedAnswer: { "@type": "Answer", text: "A conversion factor is the number you multiply by to switch units — for example, 1 inch = 2.54 cm, so the factor is 2.54. This converter displays the exact formula and factor used for every conversion, so you can verify or reuse it." } },
     { "@type": "Question", name: "How does the unit converter work?",
       acceptedAnswer: { "@type": "Answer", text: "Every unit is stored with its conversion factor to a base unit. When you convert, the tool first converts your input to the base unit, then from the base unit to your target unit. This allows any unit to be converted to any other with a single calculation." } },
     { "@type": "Question", name: "How accurate are the conversions?",
@@ -103,7 +107,7 @@ export default function UnitConverterPage() {
               <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-2">
                 Finance Tools
               </div>
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white">Universal Unit Converter</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white">Unit &amp; Measurement Converter — Metric Conversion Chart</h1>
               <p className="text-gray-500 mt-2 max-w-2xl leading-relaxed text-base">
                 Easily convert between 50+ metric and imperial units. Whether you need to translate kilometres to miles for travel, kilograms to pounds for fitness, or Celsius to Fahrenheit for cooking, our universal converter provides instant, scientifically accurate results.
               </p>
