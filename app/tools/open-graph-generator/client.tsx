@@ -26,6 +26,8 @@ const DEFAULTS: OGFields = {
 
 // ✅ Rule 10: FAQ declared at module scope — .map() below uses same name
 const FAQ = [
+  { q: "What size should an og:image be?",
+    a: "1200 x 630 pixels (a 1.91:1 ratio) — sharp on Facebook, LinkedIn and X large cards. Keep it under 1 MB as JPG or PNG. The built-in image validator confirms your URL actually loads before you ship the tags." },
   { q: "What are Open Graph tags and why do I need them?",
     a: "Open Graph tags are HTML meta tags in your page head that control how your page appears when shared on social media. Without them, Facebook, LinkedIn, Discord and WhatsApp make their own guess — often showing the wrong title or no image. Adding OG tags takes under 5 minutes and dramatically improves click-through rates from social sharing."
   },

@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"What is the difference between minifying and gzip compression?",
+    a:"Minification permanently deletes unneeded characters from the file itself; gzip or brotli compress it during transfer and the browser unpacks it. They stack — minify first, then let your server gzip the result. The savings percentage shown here is before gzip." },
   { q:"What is CSS minification?",               a:"CSS minification removes all unnecessary characters from CSS code without changing its functionality — whitespace, comments, newlines and redundant semicolons are stripped. The result is a smaller file that loads faster." },
   { q:"How much smaller will my CSS get?",        a:"Typical CSS files see a 20–40% size reduction after minification. Files with many comments and consistent formatting see the largest improvements." },
   { q:"Does minification change how my CSS works?",a:"No. Minification is purely cosmetic — it removes whitespace and comments that browsers ignore anyway. The rendered output of your website is identical." },
@@ -152,7 +154,7 @@ export default function CSSMinifierClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🎨</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">CSS Minifier</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">CSS Minifier — Compress &amp; Optimize CSS</h1>
               <p className="text-gray-500 mt-1">
                 Minify CSS to reduce file size and improve page load speed — free, instant, no login.
               </p>

@@ -11,6 +11,8 @@ const FREQ_OPTIONS = ["always","hourly","daily","weekly","monthly","yearly","nev
 
 // ✅ QA FIX: Rule 10 — Extracted FAQ to module scope
 const FAQ = [
+  { q:"How do I submit my sitemap to Google?",
+    a:"Open Google Search Console, go to Sitemaps, enter your sitemap URL (e.g. /sitemap.xml) and press Submit — or reference it from robots.txt with a Sitemap: line. Google retired its old ping endpoint, so Search Console is the reliable route." },
   { q:"What is an XML sitemap and does my website need one?",
     a:"An XML sitemap is a file that lists all important URLs on your website, helping search engines discover and crawl your content efficiently. While crawlers can find pages by following links, a sitemap ensures new pages, recently updated content and pages with few inbound links are discovered and indexed faster. Every website benefits from having one, especially new sites, large sites and content-heavy blogs." },
   { q:"How do I submit a sitemap to Google?",

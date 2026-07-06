@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Is it safe to remove optional closing tags?",
+    a:"Yes — the HTML5 spec officially allows omitting optional closing tags like </li>, </p> and </td>, and browsers parse the result identically. If a downstream tool requires strict XHTML-style markup, just toggle that option off." },
   { q:"What is HTML minification?",             a:"HTML minification removes unnecessary whitespace, comments, and optional closing tags from HTML code. It reduces file size without changing what the browser renders, resulting in faster page loads." },
   { q:"Is it safe to remove HTML comments?",    a:"Yes — HTML comments (<!-- -->) are ignored by browsers completely. They are only for developer reference. Removing them has zero effect on the rendered page." },
   { q:"How much can HTML be compressed?",       a:"Typical HTML files see 10–30% size reduction. Pages with many comments and developer-added whitespace see more improvement. Combined with gzip/Brotli compression on the server, savings can exceed 70%." },
@@ -152,7 +154,7 @@ export default function HTMLMinifierClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🗜️</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">HTML Minifier</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">HTML Minifier — Compress HTML &amp; Whitespace</h1>
               <p className="text-gray-500 mt-1">
                 Minify HTML to reduce page size and improve load speed — free, instant, configurable options.
               </p>

@@ -16,6 +16,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"How do I convert HEX to RGB?",
+    a:"Split the hex code into pairs and convert each to decimal: #FF6600 gives FF=255, 66=102, 00=0, so rgb(255, 102, 0). Or paste any value here — all seven formats (HEX, RGB, RGBA, HSL, HSLA, HSV, CMYK) update live with copy-ready CSS." },
   { q:"What is the difference between HEX, RGB and HSL color formats?",
     a:"HEX (#RRGGBB) represents colors as hexadecimal values for red, green and blue channels. It's the most common format in web development. RGB uses decimal values from 0–255 for each channel and is more readable. HSL (Hue, Saturation, Lightness) represents color as its hue angle (0–360°), saturation (0–100%) and lightness (0–100%). HSL is the most intuitive for humans because adjusting saturation or lightness doesn't require understanding RGB arithmetic." },
   { q:"What is the difference between HSL and HSV?",

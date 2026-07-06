@@ -32,6 +32,8 @@ const CMS_PRESETS: Record<string, string> = {
 // ✅ Rule 8: FAQ uses <details>/<summary> — no useState toggle
 // ✅ Rule 10: FAQ matches const FAQ
 const FAQ = [
+  { q: "How do I block AI bots like GPTBot in robots.txt?",
+    a: "Add a User-agent block per bot with Disallow: / — for example GPTBot (OpenAI), ClaudeBot (Anthropic) and Google-Extended (Gemini training). The 1-click AI-bots preset writes all of them correctly. Note that robots.txt is a polite request, not enforcement." },
   { q: "What is a robots.txt file?", a: "A robots.txt file tells search engine crawlers which URLs the crawler can access on your site. This is used mainly to avoid overloading your site with requests, or to keep certain pages out of Google. It is not a mechanism for keeping a web page out of Google. To keep a web page out of Google, block indexing with noindex or password-protect the page." },
   { q: "Where should I put my robots.txt file?", a: "The robots.txt file must be located at the root of the website host to which it applies. For example, to control crawling on all URLs below https://www.example.com/, the robots.txt file must be located at https://www.example.com/robots.txt." },
   { q: "How do I block AI bots like GPTBot or Claude?", a: "You can block specific AI bots by targeting their User-Agent. Our generator includes a 1-click toggle to block the most common AI scrapers (GPTBot, ClaudeBot, CCBot, Google-Extended, etc.) from training their language models on your content." },

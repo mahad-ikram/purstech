@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import KeywordDensityClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Keyword Density Checker",
+  title: "Free Keyword Density Checker — Word & Phrase Frequency",
   description: "Analyse keyword density, bigrams, trigrams and readability score in any text. Live keyword highlighter, top words table, CSV export — free, no login.",
   alternates: { canonical: "/tools/keyword-density-checker" },
-  keywords: ["keyword density checker","keyword frequency analyzer","n-gram analysis tool","flesch reading ease calculator","seo content analyzer","keyword stuffing checker"],
+  keywords: ["keyword density checker", "keyword density", "word frequency counter", "phrase frequency", "keyword analyzer", "seo keyword checker", "n-gram analysis"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/keyword-density-checker",
@@ -71,6 +71,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is a good keyword density percentage?",
+      acceptedAnswer: { "@type": "Answer", text: "Around 0.5–2.5% for a primary keyword is a healthy range — present enough to be clear, low enough to avoid stuffing penalties. This checker grades every keyword against that range and flags missing, low and high automatically." } },
     { "@type": "Question", name: "What is keyword density and why does it matter for SEO?",
       acceptedAnswer: { "@type": "Answer", text: "Keyword density is the percentage of times a target keyword appears in content relative to total word count. It signals to search engines what topic a page covers. Modern SEO focuses on natural usage rather than hitting specific percentages — Google understands topical relevance without exact keyword repetitions." } },
     { "@type": "Question", name: "What is the ideal keyword density percentage?",

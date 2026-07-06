@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free XML Sitemap Generator — Smart Priority & Auto-Ping",
   description: "Generate a valid XML sitemap with smart auto-priority, bulk import, sitemap index mode and one-click Google ping. Download and submit in under 2 minutes.",
   alternates: { canonical: "/tools/sitemap-generator" },
-  keywords: ["xml sitemap generator","sitemap.xml generator","create sitemap online","google sitemap tool","sitemap index generator","smart priority sitemap"],
+  keywords: ["xml sitemap generator", "sitemap.xml", "sitemap generator", "submit sitemap to google", "sitemap index", "xml sitemap example"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/sitemap-generator",
@@ -68,6 +68,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I submit my sitemap to Google?",
+      acceptedAnswer: { "@type": "Answer", text: "Open Google Search Console, go to Sitemaps, enter your sitemap URL (e.g. /sitemap.xml) and press Submit — or reference it from robots.txt with a Sitemap: line. Google retired its old ping endpoint, so Search Console is the reliable route." } },
     { "@type": "Question", name: "What is an XML sitemap and does my website need one?",
       acceptedAnswer: { "@type": "Answer", text: "An XML sitemap is a file that lists all important URLs on your website, helping search engines discover and crawl your content efficiently. Every website benefits from having one, especially new sites, large sites and content-heavy blogs." } },
     { "@type": "Question", name: "How do I submit a sitemap to Google?",

@@ -3,18 +3,14 @@ import HTMLMinifierClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free HTML Minifier Online | PursTech" (36 chars ✅)
-  title: "Free HTML Minifier Online",
+  title: "Free HTML Minifier — Compress HTML Online",
 
   description:
     "Minify HTML online to reduce page size and improve load speed. Remove comments, collapse whitespace and optional tags. Free HTML minifier with configurable options. No login.",
 
   alternates: { canonical: "/tools/html-minifier" },
 
-  keywords: [
-    "html minifier online","minify html free","html compressor",
-    "html minification tool","reduce html file size","online html optimizer",
-    "remove html comments","html whitespace remover","html minify tool",
-  ],
+  keywords: ["html minifier", "minify html", "compress html", "html compressor", "reduce html size", "remove html comments"],
 
   openGraph: {
     type:        "website",
@@ -81,6 +77,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Is it safe to remove optional closing tags?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — the HTML5 spec officially allows omitting optional closing tags like </li>, </p> and </td>, and browsers parse the result identically. If a downstream tool requires strict XHTML-style markup, just toggle that option off." } },
     { "@type": "Question", name: "What is HTML minification?",
       acceptedAnswer: { "@type": "Answer", text: "HTML minification removes unnecessary whitespace, comments, and optional closing tags from HTML code. It reduces file size without changing what the browser renders, resulting in faster page loads and improved Core Web Vitals scores." } },
     { "@type": "Question", name: "Is it safe to remove HTML comments?",

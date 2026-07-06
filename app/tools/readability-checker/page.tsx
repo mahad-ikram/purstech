@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Readability Checker — 7 Formulas",
   description: "The most advanced free readability analyser. 7 formulas including Flesch, Gunning Fog, SMOG, ARI. Target audience matching, famous text benchmarks, sentence difficulty map, annotated text view and vocabulary richness score.",
   alternates: { canonical: "/tools/readability-checker" },
-  keywords: ["readability checker","readability test online free","flesch kincaid calculator","flesch reading ease","gunning fog index","smog index","readability score","reading level checker","text readability analyzer","coleman liau index","ari readability","reading grade level checker"],
+  keywords: ["readability checker", "flesch reading ease", "flesch kincaid grade level", "readability score", "gunning fog index", "smog readability", "readability test"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/readability-checker",
@@ -73,13 +73,15 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is the Flesch Reading Ease score?",
+      acceptedAnswer: { "@type": "Answer", text: "A 0–100 scale where higher means easier reading: 60–70 is plain English (roughly 8th–9th grade) and 30–50 is college level. It is one of the 7 formulas this checker computes, alongside Flesch-Kincaid Grade, Gunning Fog and SMOG." } },
     { "@type": "Question", name: "What is a good readability score for a website?",
       acceptedAnswer: { "@type": "Answer", text: "For most websites, a Flesch Reading Ease score of 60-70 is ideal — roughly equivalent to a US 8th-9th grade reading level, readable by the majority of adult internet users. Marketing and e-commerce content should target 65-75. News articles typically score 60-65. Technical documentation can be lower (40-55) if the audience is specialists." } },
-    { "@type": "Question", name: "What is the Flesch Reading Ease formula?",
+    { "@type": "Question", name: "What is a good Flesch Reading Ease score and what should I target?",
       acceptedAnswer: { "@type": "Answer", text: "The Flesch Reading Ease score is: 206.835 minus (1.015 times average sentence length) minus (84.6 times average syllables per word). Scores above 90 are very easy (5th grade). 70-80 is easy. 60-70 is standard. Below 30 is very difficult (academic/professional). The formula was developed by Rudolf Flesch in 1948." } },
-    { "@type": "Question", name: "What is the difference between Flesch-Kincaid, Gunning Fog, SMOG and ARI?",
+    { "@type": "Question", name: "What's the difference between all 7 readability formulas?",
       acceptedAnswer: { "@type": "Answer", text: "Each formula measures readability slightly differently. Flesch-Kincaid converts Flesch into a US school grade equivalent. Gunning Fog counts 3-syllable words as complex and is used in journalism. SMOG is the most accurate for health communications. Coleman-Liau uses character counts rather than syllables. ARI also uses characters and is the most objective." } },
-    { "@type": "Question", name: "What is vocabulary richness and what does the Type-Token Ratio measure?",
+    { "@type": "Question", name: "What is vocabulary richness and why does it matter?",
       acceptedAnswer: { "@type": "Answer", text: "Vocabulary richness, measured by Type-Token Ratio (TTR), is the percentage of unique words in your text: TTR = (unique words / total words) times 100. For blog posts (500-1000 words), a TTR of 50-70% suggests good vocabulary diversity. As text gets longer, TTR naturally drops because common words inevitably repeat." } },
     { "@type": "Question", name: "How do I improve my readability score quickly?",
       acceptedAnswer: { "@type": "Answer", text: "The two most impactful changes are: 1) Shorten your sentences — split any sentence over 25 words into two. This alone can move a score by 5-15 points. 2) Replace complex words with simpler alternatives — 'use' instead of 'utilise', 'show' instead of 'demonstrate'. Use the complex words list to find specific candidates." } },

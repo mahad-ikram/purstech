@@ -6,6 +6,8 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
 // ✅ FIX: This array is properly defined here so line 498 can map over it!
 const META_TAG_FAQ = [
+  { q: "What is the ideal meta description length?",
+    a: "Keep meta descriptions around 150–160 characters for desktop and front-load the first ~120 for mobile; keep titles around 50–60. The live SERP preview and the A–F grade flag overruns as you type." },
   {
     q: "What are meta tags and why are they important for SEO?",
     a: "Meta tags are HTML elements in the <head> section that provide information about your page to search engines and social platforms. The title tag and meta description are most critical — they appear directly in Google search results and heavily influence click-through rates. A well-optimized title and description can increase organic traffic by 20–30% without any change in ranking.",

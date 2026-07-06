@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Robots.txt Generator — Create robots.txt Instantly",
   description: "Generate a valid robots.txt file in seconds. Block AI bots, set CMS presets, test URLs against your rules and download — free, no login required.",
   alternates: { canonical: "/tools/robots-txt-generator" },
-  keywords: ["robots.txt generator","create robots.txt","robots.txt file generator","block ai bots robots.txt","seo robots.txt tool","wordpress robots.txt","nextjs robots.txt"],
+  keywords: ["robots.txt generator", "robots txt", "block gptbot", "block ai crawlers", "robots txt disallow", "robots.txt example", "user agent disallow"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/robots-txt-generator",
@@ -69,6 +69,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I block AI bots like GPTBot in robots.txt?",
+      acceptedAnswer: { "@type": "Answer", text: "Add a User-agent block per bot with Disallow: / — for example GPTBot (OpenAI), ClaudeBot (Anthropic) and Google-Extended (Gemini training). The 1-click AI-bots preset writes all of them correctly. Note that robots.txt is a polite request, not enforcement." } },
     { "@type": "Question", name: "What is a robots.txt file?",
       acceptedAnswer: { "@type": "Answer", text: "A robots.txt file tells search engine crawlers which URLs the crawler can access on your site. This is used mainly to avoid overloading your site with requests, or to keep certain pages out of Google. It is not a mechanism for keeping a web page out of Google. To keep a web page out of Google, block indexing with noindex or password-protect the page." } },
     { "@type": "Question", name: "Where should I put my robots.txt file?",

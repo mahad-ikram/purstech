@@ -3,17 +3,14 @@ import HtmlToMarkdownClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free HTML to Markdown Converter | PursTech" (42 chars ✅)
-  title: "Free HTML to Markdown Converter",
+  title: "Free HTML to Markdown Converter — HTML to MD (GFM)",
 
   description:
     "Convert HTML to Markdown instantly in your browser. Preserves headings, bold, italic, links, images, tables, code blocks and lists. GFM output, copy or download. Free, no login.",
 
   alternates: { canonical: "/tools/html-to-markdown" },
 
-  keywords: [
-    "html to markdown","html to markdown converter","convert html to markdown online",
-    "html markdown","turndown online","gfm converter","github flavored markdown",
-  ],
+  keywords: ["html to markdown", "html to md", "convert html to markdown", "markdown converter", "gfm tables", "html to markdown converter online"],
 
   openGraph: {
     type:     "website",
@@ -91,6 +88,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Will my HTML tables convert to Markdown?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes — tables become GitHub Flavored Markdown pipe tables, and code blocks convert to fenced blocks that keep their language identifiers, so the output pastes cleanly into GitHub, GitLab or any GFM renderer." } },
     { "@type": "Question", name: "What is Markdown and why convert from HTML?",
       acceptedAnswer: { "@type": "Answer", text: "Markdown is a lightweight markup language that uses plain text formatting syntax to produce HTML. It is widely used in README files, documentation, CMS platforms (Ghost, Gatsby, Jekyll), note-taking apps (Obsidian, Notion) and developer platforms (GitHub, GitLab). Converting from HTML to Markdown lets you take content from websites or HTML editors and move it into any Markdown-based platform while preserving the formatting." } },
     { "@type": "Question", name: "What HTML elements does this converter support?",

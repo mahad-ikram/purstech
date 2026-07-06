@@ -8,6 +8,8 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 // ✅ SCHEMA const + <script> tag REMOVED — now server-rendered in page.tsx
 
 const FAQ = [
+  { q:"Will my HTML tables convert to Markdown?",
+    a:"Yes — tables become GitHub Flavored Markdown pipe tables, and code blocks convert to fenced blocks that keep their language identifiers, so the output pastes cleanly into GitHub, GitLab or any GFM renderer." },
   { q:"What is Markdown and why convert from HTML?",
     a:"Markdown is a lightweight markup language that uses plain text formatting syntax to produce HTML. It's widely used in README files, documentation, CMS platforms (Ghost, Gatsby, Jekyll), note-taking apps (Obsidian, Notion) and developer platforms (GitHub, GitLab). Converting from HTML to Markdown lets you take content from websites or HTML editors and move it into any Markdown-based platform while preserving the formatting." },
   { q:"What HTML elements does this converter support?",
@@ -132,7 +134,7 @@ function htmlToMarkdown(html: string, opts: ConvertOptions): string {
   return Array.from(body.childNodes).map(c => nodeToMd(c, opts)).join("").trim().replace(/\n{3,}/g, "\n\n");
 }
 
-const SAMPLE_HTML = `<h1>Getting Started with PursTech</h1>
+const SAMPLE_HTML = `<h2>Getting Started with PursTech</h2>
 <p>PursTech is the world's most advanced <strong>free online tool ecosystem</strong>. Built for <em>developers, designers and creators</em> who want to stop searching and start doing.</p>
 
 <h2>Key Features</h2>

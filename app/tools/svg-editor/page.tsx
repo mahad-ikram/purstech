@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free SVG Editor — React Export & Optimizer",
   description: "The most advanced free SVG editor online. Live code preview, shape toolbar, React JSX export, CSS data URI, SVG optimizer, Make Responsive, undo/redo, animation snippets, element tree and PNG export. No install.",
   alternates: { canonical: "/tools/svg-editor" },
-  keywords: ["svg editor online","svg code editor","edit svg online free","svg viewer online","online svg editor","svg to png converter","svg formatter","svg optimizer","svg minifier","svg to react component","free svg editor","svg animation editor","vector editor online free"],
+  keywords: ["svg editor", "svg to react", "svg to jsx", "edit svg online", "svg optimizer", "svg viewer", "online svg editor"],
   openGraph: {
     type: "website",
     title: "Free Online SVG Editor — React Export, Optimizer & Animation",
@@ -83,6 +83,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I convert an SVG to a React (JSX) component?",
+      acceptedAnswer: { "@type": "Answer", text: "Click Copy as React — the editor converts attributes to camelCase (stroke-width becomes strokeWidth, class becomes className) and wraps the markup as a ready-to-paste JSX component. Works with any template or your own SVG." } },
     { "@type": "Question", name: "What is SVG and when should I use it instead of PNG or JPEG?",
       acceptedAnswer: { "@type": "Answer", text: "SVG (Scalable Vector Graphics) is a text-based XML format that describes images mathematically. Use SVG for logos, icons, illustrations and charts — anything that needs to look sharp at any size. Use PNG for photographs and complex images with many distinct colours. SVGs can be styled with CSS, animated, and manipulated with JavaScript, making them far more versatile for web use." } },
     { "@type": "Question", name: "How do I convert an SVG for use in a React component?",

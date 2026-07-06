@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; 
 
 const FAQ = [
+  { q:"Does minified JavaScript run faster?",
+    a:"Loading, yes — fewer bytes to download and parse means a faster start. Execution speed is unchanged: minification shortens names and removes characters, not logic. Check the gzip estimate to see the real transfer size after server compression." },
   { q:"What does minifying JavaScript actually do?",
     a:"JavaScript minification removes everything that isn't needed for the code to execute: single-line comments (//), multi-line comments (/* */), unnecessary whitespace, indentation, newlines, and redundant semicolons. Advanced minifiers also shorten variable names and optimise certain code patterns. The result is functionally identical code that is smaller in file size, downloads faster and parses faster in the browser." },
   { q:"How much file size can I save by minifying JavaScript?",

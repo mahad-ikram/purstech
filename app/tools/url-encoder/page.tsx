@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free URL Encoder & Decoder — Encode Component & Full URL",
   description: "Encode or decode URLs and query parameters instantly. Three modes: encode full URL, encode component (query param values), and decode any percent-encoded string. Free, no login.",
   alternates: { canonical: "/tools/url-encoder" },
-  keywords: ["url encoder","url decoder","percent encoding","url encode online","encodeURIComponent","url encoding tool","query string encoder","url decode online","percent encode"],
+  keywords: ["url encoder", "url decoder", "url encode", "url decode", "percent encoding", "encodeuricomponent", "encodeuri", "url escape"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/url-encoder",
@@ -66,6 +66,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is the difference between encodeURI and encodeURIComponent?",
+      acceptedAnswer: { "@type": "Answer", text: "encodeURIComponent escapes everything including : / ? = & — use it for query-parameter values. encodeURI preserves those structural characters — use it for a complete URL. Encode a full address with Component mode and you will break it; the two buttons here map exactly to these two functions." } },
     { "@type": "Question", name: "What is URL encoding?",
       acceptedAnswer: { "@type": "Answer", text: "URL encoding (percent-encoding) converts characters not allowed in URLs into a safe format. Special characters like spaces, &, = and ? are replaced with % followed by their hexadecimal code. For example, a space becomes %20 and & becomes %26." } },
     { "@type": "Question", name: "When do I need to URL encode?",

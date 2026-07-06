@@ -13,16 +13,12 @@ import ColorCodeConverterClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free Color Code Converter — HEX, RGB, HSL | PursTech" (53 chars ✅)
-  title: "Free Color Code Converter — HEX, RGB, HSL",
+  title: "Free Color Code Converter — HEX to RGB, HSL & CMYK",
 
   description:
     "Convert color codes between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK instantly. Generate tints, shades, color schemes and check WCAG contrast ratios. Free, no login.",
 
-  keywords: [
-    "color code converter", "hex to rgb", "rgb to hex", "hex to hsl",
-    "color converter online", "hsl rgb hex converter", "cmyk to rgb",
-    "wcag contrast checker", "color tints shades generator",
-  ],
+  keywords: ["hex to rgb", "rgb to hex", "color code converter", "hex to hsl", "rgb to cmyk", "color converter", "css color variables", "hsl to hex"],
 
   alternates: { canonical: "/tools/color-code-converter" },
 
@@ -106,6 +102,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I convert HEX to RGB?",
+      acceptedAnswer: { "@type": "Answer", text: "Split the hex code into pairs and convert each to decimal: #FF6600 gives FF=255, 66=102, 00=0, so rgb(255, 102, 0). Or paste any value here — all seven formats (HEX, RGB, RGBA, HSL, HSLA, HSV, CMYK) update live with copy-ready CSS." } },
     { "@type": "Question", name: "What is the difference between HEX, RGB and HSL color formats?",
       acceptedAnswer: { "@type": "Answer", text: "HEX (#RRGGBB) represents colors as hexadecimal values for red, green and blue channels. RGB uses decimal values from 0–255 for each channel and is more readable. HSL (Hue, Saturation, Lightness) represents color as its hue angle (0–360°), saturation (0–100%) and lightness (0–100%). HSL is the most intuitive for humans because adjusting saturation or lightness doesn't require understanding RGB arithmetic." } },
     { "@type": "Question", name: "What is the difference between HSL and HSV?",

@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Open Graph Generator — Live Social Previews",
   description: "Generate Open Graph and Twitter Card tags with live previews for Facebook, Twitter, LinkedIn, Discord and Slack. See exactly how your links look before sharing.",
   alternates: { canonical: "/tools/open-graph-generator" },
-  keywords: ["open graph generator","og tag generator","facebook meta tags","social media preview tool","twitter card generator"],
+  keywords: ["open graph generator", "og tags", "og image size", "social preview generator", "twitter card generator", "open graph meta tags"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/open-graph-generator",
@@ -67,6 +67,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What size should an og:image be?",
+      acceptedAnswer: { "@type": "Answer", text: "1200 x 630 pixels (a 1.91:1 ratio) — sharp on Facebook, LinkedIn and X large cards. Keep it under 1 MB as JPG or PNG. The built-in image validator confirms your URL actually loads before you ship the tags." } },
     { "@type": "Question", name: "What are Open Graph tags and why do I need them?",
       acceptedAnswer: { "@type": "Answer", text: "Open Graph tags are HTML meta tags in your page head that control how your page appears when shared on social media. Without them, Facebook, LinkedIn, Discord and WhatsApp make their own guess — often showing the wrong title or no image. Adding OG tags takes under 5 minutes and dramatically improves click-through rates from social sharing." } },
     { "@type": "Question", name: "What image size should I use for Open Graph?",

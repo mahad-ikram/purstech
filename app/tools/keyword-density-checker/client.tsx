@@ -365,6 +365,8 @@ export default function KeywordDensityClient() {
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {[
+              { q:"What is a good keyword density percentage?",
+                a:"Around 0.5–2.5% for a primary keyword is a healthy range — present enough to be clear, low enough to avoid stuffing penalties. This checker grades every keyword against that range and flags missing, low and high automatically." },
               { q:"What is keyword density and why does it matter for SEO?",
                 a:"Keyword density is the percentage of times a target keyword appears in content relative to total word count. It signals to search engines what topic a page covers. Modern SEO focuses on natural usage rather than hitting specific percentages — Google understands topical relevance without exact keyword repetitions." },
               { q:"What is the ideal keyword density percentage?",

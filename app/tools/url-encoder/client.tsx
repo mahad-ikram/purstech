@@ -14,6 +14,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"What is the difference between encodeURI and encodeURIComponent?",
+    a:"encodeURIComponent escapes everything including : / ? = & — use it for query-parameter values. encodeURI preserves those structural characters — use it for a complete URL. Encode a full address with Component mode and you will break it; the two buttons here map exactly to these two functions." },
   { q:"What is URL encoding?",
     a:"URL encoding (also called percent-encoding) converts characters that are not allowed in URLs into a format that can be safely transmitted. Special characters like spaces, &, =, and ? are replaced with a % followed by their hexadecimal code. For example, a space becomes %20 and & becomes %26." },
   { q:"When do I need to URL encode?",

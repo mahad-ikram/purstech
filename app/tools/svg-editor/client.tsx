@@ -47,6 +47,14 @@ const CellIcon = ({ v }: { v: boolean | string }) =>
 
 /* ── Rule 8: FAQ uses <details>/<summary> ─────────────────────────────────── */
 const FAQ = [
+  { q:"How do I add animation to an SVG?",
+    a:"SVG supports SMIL animations inserted directly inside SVG elements. For example, to spin an element add <animateTransform attributeName='transform' type='rotate' from='0 50 50' to='360 50 50' dur='2s' repeatCount='indefinite'/> inside it. Our animation snippets panel provides ready-to-insert SMIL code for spin, pulse, fade-in and scale animations." },
+  { q:"What does SVG optimisation do and how much can it reduce file size?",
+    a:"Our optimiser removes XML declarations, HTML comments, empty groups, Inkscape namespace attributes, Sodipodi attributes, Adobe Illustrator private data, and Figma data-name attributes. These artefacts can represent 20-40% of SVG file size exported from vector design tools, with zero visual change." },
+  { q:"What is a viewBox and why is it important for responsive SVGs?",
+    a:"The viewBox attribute defines the internal coordinate system of an SVG. When you remove fixed width and height and keep only viewBox, the SVG becomes responsive and scales to fill its container. Our Make Responsive button automatically adds viewBox from the existing dimensions if missing, then removes the fixed width and height attributes." },
+  { q:"How do I convert an SVG to a React (JSX) component?",
+    a:"Click Copy as React — the editor converts attributes to camelCase (stroke-width becomes strokeWidth, class becomes className) and wraps the markup as a ready-to-paste JSX component. Works with any template or your own SVG." },
   { q:"What is SVG and when should I use it instead of PNG or JPEG?",
     a:`SVG (Scalable Vector Graphics) is an XML-based format that describes images as mathematical shapes rather than pixels. It has four major advantages over raster formats:
 

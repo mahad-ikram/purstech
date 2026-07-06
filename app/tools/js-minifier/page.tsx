@@ -3,18 +3,14 @@ import JSMinifierClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free JavaScript Minifier Online | PursTech" (43 chars ✅)
-  title: "Free JavaScript Minifier Online",
+  title: "Free JavaScript Minifier & Beautifier — Compress JS",
 
   description:
     "Minify JavaScript code online for free. Remove comments, whitespace and dead code. See real compression stats, gzip size estimate and diff view. Also beautifies/formats JS. No login.",
 
   alternates: { canonical: "/tools/js-minifier" },
 
-  keywords: [
-    "javascript minifier","js minifier online","minify javascript free",
-    "compress javascript","js uglify online","javascript beautifier",
-    "javascript compressor","minify js","online js minifier",
-  ],
+  keywords: ["javascript minifier", "minify js", "js minifier", "compress javascript", "js beautifier", "javascript compressor", "minify javascript online"],
 
   openGraph: {
     type:     "website",
@@ -91,6 +87,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Does minified JavaScript run faster?",
+      acceptedAnswer: { "@type": "Answer", text: "Loading, yes — fewer bytes to download and parse means a faster start. Execution speed is unchanged: minification shortens names and removes characters, not logic. Check the gzip estimate to see the real transfer size after server compression." } },
     { "@type": "Question", name: "What does minifying JavaScript actually do?",
       acceptedAnswer: { "@type": "Answer", text: "JavaScript minification removes everything that isn't needed for the code to execute: single-line comments, multi-line comments, unnecessary whitespace, indentation, newlines, and redundant semicolons. Advanced minifiers also shorten variable names and optimise certain code patterns. The result is functionally identical code that is smaller in file size, downloads faster and parses faster in the browser." } },
     { "@type": "Question", name: "How much file size can I save by minifying JavaScript?",

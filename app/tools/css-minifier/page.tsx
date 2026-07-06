@@ -3,18 +3,14 @@ import CSSMinifierClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free CSS Minifier Online | PursTech" (36 chars ✅)
-  title: "Free CSS Minifier Online",
+  title: "Free CSS Minifier — Compress CSS Online",
 
   description:
     "Minify CSS online to reduce file size and speed up page loads. Free CSS minifier — removes comments, whitespace and redundant characters. Instant results, no login.",
 
   alternates: { canonical: "/tools/css-minifier" },
 
-  keywords: [
-    "css minifier online", "minify css free", "css compressor",
-    "css minification tool", "reduce css file size", "online css optimizer",
-    "remove css comments", "css whitespace remover",
-  ],
+  keywords: ["css minifier", "minify css", "compress css", "css compressor", "css optimizer", "reduce css file size"],
 
   openGraph: {
     type:        "website",
@@ -81,6 +77,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is the difference between minifying and gzip compression?",
+      acceptedAnswer: { "@type": "Answer", text: "Minification permanently deletes unneeded characters from the file itself; gzip or brotli compress it during transfer and the browser unpacks it. They stack — minify first, then let your server gzip the result. The savings percentage shown here is before gzip." } },
     { "@type": "Question", name: "What is CSS minification?",
       acceptedAnswer: { "@type": "Answer", text: "CSS minification removes all unnecessary characters from CSS code without changing its functionality — whitespace, comments, newlines and redundant semicolons are stripped. The result is a smaller file that loads faster." } },
     { "@type": "Question", name: "How much smaller will my CSS get?",

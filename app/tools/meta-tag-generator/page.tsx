@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Meta Tag Generator — Live SERP Preview",
   description: "Generate perfectly optimized HTML meta tags for SEO. Get an SEO grade, live mobile & desktop SERP preview, Open Graph, Twitter Card tags and more — free, no login.",
   alternates: { canonical: "/tools/meta-tag-generator" },
-  keywords: ["meta tag generator","seo meta tags generator","meta description generator","open graph tag generator","free meta tags tool"],
+  keywords: ["meta tag generator", "meta tags", "meta description length", "seo tags", "serp preview", "open graph tags", "title tag generator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/meta-tag-generator",
@@ -69,6 +69,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is the ideal meta description length?",
+      acceptedAnswer: { "@type": "Answer", text: "Keep meta descriptions around 150–160 characters for desktop and front-load the first ~120 for mobile; keep titles around 50–60. The live SERP preview and the A–F grade flag overruns as you type." } },
     { "@type": "Question", name: "What are meta tags and why are they important for SEO?",
       acceptedAnswer: { "@type": "Answer", text: "Meta tags are HTML elements in the head section that provide information about your page to search engines and social platforms. The title tag and meta description are most critical — they appear directly in Google search results and heavily influence click-through rates. A well-optimized title and description can increase organic traffic by 20-30% without any change in ranking." } },
     { "@type": "Question", name: "What is the ideal length for a meta title and meta description?",

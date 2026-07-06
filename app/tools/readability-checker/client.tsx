@@ -47,6 +47,12 @@ const CellIcon = ({ v }: { v: CellVal }) =>
 
 // ✅ Rule 8: FAQ uses <details>/<summary> — no useState toggle
 const FAQ = [
+  { q: "How do I improve my readability score quickly?",
+    a: "The two most impactful changes are: 1) Shorten your sentences — split any sentence over 25 words into two. This alone can move a score by 5-15 points. 2) Replace complex words with simpler alternatives — 'use' instead of 'utilise', 'show' instead of 'demonstrate'. Use the complex words list to find specific candidates." },
+  { q: "What is a good readability score for a website?",
+    a: "For most websites, a Flesch Reading Ease score of 60-70 is ideal — roughly equivalent to a US 8th-9th grade reading level, readable by the majority of adult internet users. Marketing and e-commerce content should target 65-75. News articles typically score 60-65. Technical documentation can be lower (40-55) if the audience is specialists." },
+  { q: "What is the Flesch Reading Ease score?",
+    a: "A 0–100 scale where higher means easier reading: 60–70 is plain English (roughly 8th–9th grade) and 30–50 is college level. It is one of the 7 formulas this checker computes, alongside Flesch-Kincaid Grade, Gunning Fog and SMOG." },
   {
     q: "What is a good Flesch Reading Ease score and what should I target?",
     a: `The Flesch Reading Ease score runs from 0 (unreadably complex) to 100 (extremely simple). Here's how to interpret it and what to target by content type:
