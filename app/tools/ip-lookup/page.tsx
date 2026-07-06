@@ -5,18 +5,14 @@ import IPLookupClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free IP Address Lookup — Location, ISP & Risk | PursTech" (56 chars ✅)
-  title: "Free IP Address Lookup — Location, ISP & Risk",
+  title: "Free IP Address Lookup — What Is My IP, Location & ISP",
 
   description:
     "Free advanced IP lookup. Get country, ISP classification, VPN/proxy risk score, reverse DNS hostname, live timezone clock and side-by-side comparison.",
 
   alternates: { canonical: "/tools/ip-lookup" },
 
-  keywords: [
-    "ip lookup","advanced ip lookup","ip address risk score","reverse dns lookup",
-    "isp classification","vpn detection","ip address location","batch ip lookup",
-    "proxy detection","ip geolocation","asn lookup",
-  ],
+  keywords: ["ip address lookup","ip lookup","what is my ip","what is an ip address","ip address search","ip location","how to find my ip address","reverse dns lookup","ip checker"],
 
   openGraph: {
     type:     "website",
@@ -102,6 +98,12 @@ const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
     { "@type": "Question",
+      name: "What is an IP address?",
+      acceptedAnswer: { "@type": "Answer", text: "An IP (Internet Protocol) address is the unique numeric label that identifies a device on a network — like a mailing address for internet traffic. IPv4 addresses look like 203.0.113.42; IPv6 addresses are longer, like 2001:db8::8a2e:370:7334. Every website you visit can see your public IP." } },
+    { "@type": "Question",
+      name: "How do I find my IP address?",
+      acceptedAnswer: { "@type": "Answer", text: "It is automatic here — this tool detects and displays your public IP address the moment the page loads, along with location, ISP, timezone and risk details. To check a different address, type any IPv4 or IPv6 into the lookup box, or use compare mode for two at once." } },
+    { "@type": "Question",
       name: "What can an IP address reveal — and what can't it reveal?",
       acceptedAnswer: { "@type": "Answer", text: "An IP lookup reveals geographic location (country near 100% accurate, city ~60-70%), the ISP and organisation name, ASN and CIDR range, connection context (residential/business/mobile/datacenter/VPN), and reverse DNS hostname. It cannot reveal your real name, home address, email, or phone number. Precise street-level location is impossible. Only your ISP can link an IP to a specific subscriber, and they only do so under a court order." } },
     { "@type": "Question",
@@ -157,7 +159,7 @@ export default function IPLookupPage() {
             Security Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Advanced IP Address Lookup — Risk Score, Reverse DNS &amp; ISP Class
+            IP Address Lookup — What Is My IP? Location, ISP &amp; Risk
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             Go beyond basic location data. Look up the geographic location, internet provider,

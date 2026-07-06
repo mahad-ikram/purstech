@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"What does lorem ipsum dolor sit amet mean?",
+    a:"It is the famous opening of the scrambled Latin passage used as placeholder text, taken from Cicero's De Finibus (45 BC) — the original words 'dolorem ipsum' mean 'pain itself'. The scrambled version is deliberately meaningless, so viewers focus on your design instead of reading." },
   { q:"What is Lorem Ipsum?",
     a:"Lorem Ipsum is dummy placeholder text used in graphic design, publishing and web development. It has been the standard filler text since the 1500s, derived from a Latin work by Cicero." },
   { q:"Why do designers use Lorem Ipsum?",
@@ -133,7 +135,7 @@ export default function LoremIpsumClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">📄</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Lorem Ipsum Generator</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Lorem Ipsum Generator — Dolor Sit Amet Text</h1>
               <p className="text-gray-500 mt-1">
                 Generate placeholder lorem ipsum text by paragraphs, sentences or word count — free, instant.
               </p>

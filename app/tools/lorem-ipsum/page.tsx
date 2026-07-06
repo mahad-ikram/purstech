@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import LoremIpsumClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Lorem Ipsum Generator Online",
+  title: "Lorem Ipsum Generator — Dolor Sit Amet Placeholder Text",
   description: "Generate placeholder lorem ipsum text by paragraphs, sentences or word count. Choose how many, toggle the classic opening phrase. Free, instant, no login.",
   alternates: { canonical: "/tools/lorem-ipsum" },
-  keywords: ["lorem ipsum generator","placeholder text generator","lorem ipsum online","dummy text generator","lorem ipsum paragraphs","free lorem ipsum"],
+  keywords: ["lorem ipsum generator","lorem ipsum dolor sit amet","placeholder text","dummy text","lorem ipsum meaning","random text","lorem ipsum paragraphs","free lorem ipsum"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/lorem-ipsum",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Lorem Ipsum Generator Online",
+    title: "Lorem Ipsum Generator — Placeholder Text",
     description: "Generate placeholder text by paragraphs, sentences or words. Free, instant.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -64,6 +64,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What does lorem ipsum dolor sit amet mean?",
+      acceptedAnswer: { "@type": "Answer", text: "It is the famous opening of the scrambled Latin passage used as placeholder text, taken from Cicero's De Finibus (45 BC) — the original words 'dolorem ipsum' mean 'pain itself'. The scrambled version is deliberately meaningless, so viewers focus on your design instead of reading." } },
     { "@type": "Question", name: "What is Lorem Ipsum?",
       acceptedAnswer: { "@type": "Answer", text: "Lorem Ipsum is dummy placeholder text used in graphic design, publishing and web development. It has been the standard filler text since the 1500s, derived from a Latin work by Cicero." } },
     { "@type": "Question", name: "Why do designers use Lorem Ipsum?",

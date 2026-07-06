@@ -7,6 +7,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Patch 2
 // ── FAQs ───────────────────────────────────────────────────────────────────────
 
 const FAVICON_FAQ = [
+  { q:"What size should a favicon be?",
+    a:"The classic favicon.ico contains 16x16, 32x32 and 48x48 pixels; modern sites also need 180x180 (Apple Touch Icon), 192x192 (Android Chrome) and 512x512 (PWA). This generator exports all 18 standard sizes in one ZIP, with the exact HTML head snippet to paste in." },
+  { q:"How do I make a favicon?",
+    a:"Upload any image, type text or an emoji, or draw one pixel-by-pixel in the built-in ICO editor — then hit Generate and download a ZIP containing every standard size plus the ready-made HTML code. No design software needed." },
   { q:"What is a favicon and why does my website need one?",
     a:"A favicon (short for 'favorites icon') is the small icon that appears in browser tabs, bookmarks, home screen shortcuts and search results. Without a favicon, browsers display a generic page icon — making your site look unfinished and less trustworthy. Google also displays favicons next to results in mobile search, making them a subtle but impactful SEO element." },
   { q:"What favicon sizes do I actually need in 2025?",

@@ -13,6 +13,8 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Can I concatenate two Base64 strings?",
+    a:"Not directly — Base64 output is padded with = characters, so joining two encoded strings usually produces an invalid result. Decode each string first, join the raw text, then re-encode the combined value. The Swap button makes that round-trip quick." },
   { q:"What is Base64 encoding?",        a:"Base64 is an encoding scheme that converts binary data into a text format using 64 printable ASCII characters. It is commonly used to transmit data over systems that only support text, such as email attachments and data URLs." },
   { q:"Is Base64 encryption?",           a:"No. Base64 is encoding, not encryption. It is completely reversible and provides no security. Anyone who has the Base64 string can decode it instantly. Never use Base64 to protect sensitive data." },
   { q:"What is Base64 used for?",        a:"Common uses include embedding images in HTML/CSS as data URIs, encoding email attachments (MIME), passing data in URLs, storing binary data in JSON, and API authentication tokens like Basic Auth headers." },
@@ -108,7 +110,7 @@ export default function Base64Client() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🔐</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Base64 Encoder / Decoder</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Base64 Decoder / Encoder — Decode &amp; Encode Free</h1>
               <p className="text-gray-500 mt-1">Encode text to Base64 or decode Base64 back to text — instantly, free, no login.</p>
             </div>
           </div>

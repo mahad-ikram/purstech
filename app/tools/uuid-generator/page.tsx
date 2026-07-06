@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import UUIDGeneratorClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free UUID Generator — Bulk v4, 4 Formats",
+  title: "Free UUID Generator — GUID & Random UUID v4 (Bulk)",
   description: "Generate cryptographically secure UUID v4 identifiers instantly. Bulk generate up to 50 at once in standard, uppercase, no-hyphens or braces format. Free, no login.",
   alternates: { canonical: "/tools/uuid-generator" },
-  keywords: ["uuid generator","uuid v4 generator","generate uuid online","bulk uuid generator","unique id generator","guid generator","random uuid","uuid online free"],
+  keywords: ["uuid generator", "guid generator", "universal unique id", "random uuid", "generate guid", "globally unique id", "uuid v4 generator", "bulk uuid generator", "guid maker"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/uuid-generator",
     siteName: "PursTech",
-    title: "Free UUID Generator — Bulk v4, 4 Formats",
+    title: "UUID / GUID Generator — Bulk v4, 4 Formats",
     description: "Generate cryptographically secure UUID v4 identifiers. Bulk generate up to 50, 4 formats, copy all. Free.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "UUID Generator — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free UUID Generator — Bulk v4, 4 Formats",
+    title: "Free UUID & GUID Generator — Bulk v4",
     description: "Bulk generate up to 50 UUID v4 identifiers. Standard, uppercase, no hyphens, braces. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -64,6 +64,10 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is the difference between a UUID and a GUID?",
+      acceptedAnswer: { "@type": "Answer", text: "None in practice — GUID (Globally Unique Identifier) is Microsoft's name for the same 128-bit standard; UUID (Universally Unique Identifier) is the RFC 4122 term. Every UUID this tool generates is a valid GUID — use the braces output format for Microsoft-style {xxxxxxxx-...} values." } },
+    { "@type": "Question", name: "How many bytes is a UUID (and how long is it)?",
+      acceptedAnswer: { "@type": "Answer", text: "A UUID is 128 bits = 16 bytes of data, written as a 36-character string: 32 hexadecimal characters plus 4 hyphens. Version 4 contains 122 random bits, which allows about 5.3 x 10^36 possible values — enough that collisions are effectively impossible." } },
     { "@type": "Question", name: "What is a UUID?",
       acceptedAnswer: { "@type": "Answer", text: "A UUID (Universally Unique Identifier) is a 128-bit identifier formatted as 32 hexadecimal characters separated by hyphens: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. It is designed to be unique across all space and time without a central authority." } },
     { "@type": "Question", name: "What is the difference between UUID v1 and v4?",
@@ -99,8 +103,8 @@ export default function UUIDGeneratorPage() {
           <div className="flex items-center gap-3 mb-3 min-w-0 w-full">
             <span className="text-4xl flex-shrink-0">🎲</span>
             <div className="min-w-0 w-full">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white truncate pr-2">UUID Generator</h1>
-              <p className="text-gray-500 mt-1 max-w-2xl leading-relaxed text-base">Generate cryptographically secure UUIDs (v4) instantly — bulk generate, multiple formats, free.</p>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white truncate pr-2">UUID / GUID Generator — Universal Unique ID</h1>
+              <p className="text-gray-500 mt-1 max-w-2xl leading-relaxed text-base">Generate cryptographically secure UUIDs / GUIDs (v4) instantly — universally unique identifiers in bulk, 4 formats, free.</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 mt-3 min-w-0 w-full">

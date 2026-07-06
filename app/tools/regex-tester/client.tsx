@@ -9,6 +9,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 /* ── FAQ — Rule 8: already uses <details>/<summary> ─────────────────────── */
 /* ── Rule 10: const FAQ at module scope — FAQ.map() below matches ─────────── */
 const FAQ = [
+  { q:"How do I match NOT something in regex?",
+    a:"Use a negated character class like [^abc] to match any character except a, b or c — or a negative lookahead (?!pattern) to assert that something does NOT follow. Try either in the tester: matches highlight live, and the token explainer describes each part of your pattern in plain English." },
+  { q:"What regex flavor does this tester use?",
+    a:"JavaScript (ECMAScript) — the same engine used by browsers and Node.js, with named groups, lookbehind and the g, i, m, s flags. Most everyday patterns behave identically in Python, Java and PCRE; differences only appear in advanced constructs like recursion or possessive quantifiers." },
   { q:"What is a regular expression (regex)?",
     a:"A regular expression is a sequence of characters that defines a search pattern. Used in programming for string searching, validation and manipulation, regex is supported natively in JavaScript, Python, Java, PHP and most modern languages. For example, the pattern /^[\\w.]+@[\\w]+\\.[a-z]{2,}$/i matches most email addresses. Mastering regex allows you to solve complex text-processing tasks in a single line of code." },
   { q:"What do the regex flags g, i, m, s mean?",
@@ -196,7 +200,7 @@ export default function RegexTesterClient() {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/10 border border-[#6C3AFF]/20 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-semibold mb-3">Developer Tools</div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Regex Tester Online — Real-Time Matching, Groups &amp; Explainer
+Regex Tester — Build, Match &amp; Test Regular Expressions
           </h1>
           <p className="text-gray-400 max-w-2xl">Test, debug and understand regular expressions instantly. Real-time match highlighting, named group extraction, replace mode, 21-pattern library and a plain-English regex explainer.</p>
         </div>

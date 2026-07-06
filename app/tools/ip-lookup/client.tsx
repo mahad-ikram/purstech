@@ -8,6 +8,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ ADDED
 
 /* ── Rich FAQ ────────────────────────────────────────────────────────────── */
 const FAQ = [
+  { q: "What is an IP address?",
+    a: "An IP (Internet Protocol) address is the unique numeric label that identifies a device on a network — like a mailing address for internet traffic. IPv4 addresses look like 203.0.113.42; IPv6 addresses are longer, like 2001:db8::8a2e:370:7334. Every website you visit can see your public IP." },
+  { q: "How do I find my IP address?",
+    a: "It is automatic here — this tool detects and displays your public IP address the moment the page loads, along with location, ISP, timezone and risk details. To check a different address, type any IPv4 or IPv6 into the lookup box, or use compare mode for two at once." },
   {
     q: "What can an IP address reveal — and what can't it reveal?",
     a: `An IP lookup tells you:

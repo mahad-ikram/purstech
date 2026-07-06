@@ -6,6 +6,10 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 // ✅ Rule 10: module scope — FAQ.map() and CITIES.map() below match
 const FAQ = [
+  { q:"How do I convert Eastern to Central or Pacific time?",
+    a:"Central Time is always exactly 1 hour behind Eastern Time — so 9am ET is 8am CT, and 5pm ET is 4pm CT. Pacific is 3 hours behind Eastern. Pick the two zones in the converter and it handles the math for any date, including Daylight Saving switches, automatically." },
+  { q:"What is Zulu time?",
+    a:"Zulu time is the military and aviation name for UTC (Coordinated Universal Time) — Z stands for zero offset. It never observes Daylight Saving. Add UTC to the world clock or pick it in the converter to see the current Zulu time and convert it to any local zone." },
   { q:"What is UTC and why is it used as a reference for time zones?",
     a:"UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks. It replaced GMT in 1972. All time zones are expressed as positive or negative offsets from UTC — New York is UTC-5 (UTC-4 during DST), Tokyo is UTC+9. UTC never changes for Daylight Saving Time, making it a stable reference point for global coordination." },
   { q:"What is Daylight Saving Time (DST) and which countries observe it?",

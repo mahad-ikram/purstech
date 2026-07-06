@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import SSLCheckerClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free SSL Certificate Checker — Grade A+ to F",
+  title: "Free SSL Checker & Certificate Decoder — Expiry & Grade",
   description: "Check any website's SSL certificate instantly. See security grade A–F, days until expiry, TLS version, cipher suite, certificate issuer, key strength and all SANs. Free, no login required.",
   alternates: { canonical: "/tools/ssl-checker" },
-  keywords: ["ssl checker","ssl certificate checker","check ssl certificate online","ssl expiry checker","website ssl check","https certificate checker","tls version checker","ssl certificate validator","free ssl checker","ssl certificate details"],
+  keywords: ["ssl checker", "certificate decoder", "ssl certificate checker", "cert decoder", "ssl decoder", "what is an ssl certificate", "how to check ssl certificate", "certificate reader", "ssl expiry checker", "secure socket layer"],
   openGraph: {
     type: "website",
     title: "Free SSL Certificate Checker — Grade, Expiry & TLS Details",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free SSL Certificate Checker — Grade A+ to F",
+    title: "SSL Checker — Certificate Decoder, Grade A+ to F",
     description: "Security grade, expiry countdown, TLS version, cipher suite. Check any domain instantly. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -72,13 +72,17 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "What does the SSL security grade mean?",
+    { "@type": "Question", name: "What is an SSL certificate?",
+      acceptedAnswer: { "@type": "Answer", text: "An SSL/TLS certificate (secure socket layer certificate) is a small digital file that proves a website's identity and enables the encrypted https:// padlock. It binds a domain name to a public key, is signed by a trusted Certificate Authority, and expires on a set date. This checker decodes and grades all of it for any domain." } },
+    { "@type": "Question", name: "How do I decode an SSL certificate's details?",
+      acceptedAnswer: { "@type": "Answer", text: "Enter the domain — the checker performs a live TLS handshake and decodes the certificate for you: issuer chain, validity dates and days remaining, Subject Alternative Names, key strength, TLS protocol version and the SHA-256 fingerprint. No OpenSSL commands needed." } },
+    { "@type": "Question", name: "What does each security grade (A+, A, B, C, D, F) mean?",
       acceptedAnswer: { "@type": "Answer", text: "The security grade summarises TLS configuration quality on a scale of A+ to F. A+ means TLS 1.3, a 2048-bit+ key, and more than 30 days remaining. A uses TLS 1.3 with a strong key. B uses TLS 1.2 with a strong key. C indicates weaker configuration. D means the certificate expires in under 7 days. F means the certificate is already expired or no certificate was found." } },
-    { "@type": "Question", name: "What is the difference between SSL and TLS?",
+    { "@type": "Question", name: "What is the difference between SSL and TLS, and which version should my site use?",
       acceptedAnswer: { "@type": "Answer", text: "SSL (Secure Sockets Layer) is the older, now-deprecated predecessor to TLS (Transport Layer Security). SSL 2.0 and 3.0 are considered insecure. TLS 1.0 and 1.1 were deprecated in 2020. Modern websites should use TLS 1.2 at minimum or TLS 1.3 for the best security and performance. Despite the distinction, the industry still refers to certificates as SSL certificates." } },
-    { "@type": "Question", name: "How do I fix an expired SSL certificate?",
+    { "@type": "Question", name: "My SSL certificate is expiring — what exact steps do I take to renew it?",
       acceptedAnswer: { "@type": "Answer", text: "To fix an expired SSL certificate: 1) Log in to your hosting control panel or certificate provider. 2) Renew — Let's Encrypt offers free 90-day certificates. 3) Install the new certificate. 4) Restart your web server. 5) Use Re-check to confirm the new certificate is live and the grade has improved." } },
-    { "@type": "Question", name: "What are Subject Alternative Names (SANs)?",
+    { "@type": "Question", name: "What are Subject Alternative Names (SANs) and what is a wildcard certificate?",
       acceptedAnswer: { "@type": "Answer", text: "Subject Alternative Names (SANs) are the list of domain names that a single SSL certificate covers. A certificate might include example.com, www.example.com, mail.example.com and api.example.com. Wildcard certificates use *.example.com to cover all subdomains. Our checker shows all SANs so you can verify exactly which hostnames the certificate protects." } },
     { "@type": "Question", name: "How often should I check my SSL certificate?",
       acceptedAnswer: { "@type": "Answer", text: "Check your SSL certificate at least 30 and 90 days before expiry. Certificates are issued for a maximum of 398 days. Set calendar reminders at 90 days and 30 days before the expiry date shown. An expired certificate causes all browsers to block visitors with a security warning, costing significant traffic and revenue." } },
@@ -109,7 +113,7 @@ export default function SSLCheckerPage() {
             Security Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
-            Free SSL Certificate Checker — Security Grade, Expiry &amp; TLS Details
+            SSL Certificate Checker &amp; Decoder — Grade, Expiry &amp; Chain
           </h1>
           <p className="text-gray-400 max-w-2xl leading-relaxed text-base">
             Instantly inspect any website's SSL/TLS certificate. Our checker connects directly

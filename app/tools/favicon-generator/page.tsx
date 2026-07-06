@@ -10,16 +10,12 @@ import FaviconGeneratorClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free Favicon Generator — All 18 Sizes | PursTech" (49 chars ✅)
-  title: "Free Favicon Generator — All 18 Sizes",
+  title: "Free Favicon Generator & ICO Editor — All 18 Sizes",
 
   description:
     "The most advanced free favicon generator online. Create favicons from image, text, emoji or pixel art. All 18 sizes, browser & device mockups, PWA manifest, ZIP download. No login.",
 
-  keywords: [
-    "favicon generator","free favicon generator","create favicon online",
-    "favicon.ico generator","apple touch icon generator","pwa favicon generator",
-    "favicon from image","emoji favicon","favicon all sizes","favicon generator no login",
-  ],
+  keywords: ["favicon generator","ico editor","favicon size","make favicon","icon generator","png to ico","emoji favicon","how to make a favicon","favicon checker","apple touch icon"],
 
   alternates: { canonical: "/tools/favicon-generator" },
 
@@ -116,6 +112,12 @@ const FAQ_SCHEMA = {
   "@type":    "FAQPage",
   mainEntity: [
     { "@type": "Question",
+      name: "What size should a favicon be?",
+      acceptedAnswer: { "@type": "Answer", text: "The classic favicon.ico contains 16x16, 32x32 and 48x48 pixels; modern sites also need 180x180 (Apple Touch Icon), 192x192 (Android Chrome) and 512x512 (PWA). This generator exports all 18 standard sizes in one ZIP, with the exact HTML head snippet to paste in." } },
+    { "@type": "Question",
+      name: "How do I make a favicon?",
+      acceptedAnswer: { "@type": "Answer", text: "Upload any image, type text or an emoji, or draw one pixel-by-pixel in the built-in ICO editor — then hit Generate and download a ZIP containing every standard size plus the ready-made HTML code. No design software needed." } },
+    { "@type": "Question",
       name:    "What is a favicon and why does my website need one?",
       acceptedAnswer: { "@type": "Answer", text: "A favicon (short for 'favorites icon') is the small icon that appears in browser tabs, bookmarks, home screen shortcuts and search results. Without a favicon, browsers display a generic page icon — making your site look unfinished and less trustworthy. Google also displays favicons next to results in mobile search, making them a subtle but impactful SEO element." } },
     { "@type": "Question",
@@ -177,7 +179,7 @@ export default function FaviconGeneratorPage() {
             </span>
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
-            Free Favicon Generator — Create favicon.ico &amp; All Sizes Online
+Favicon Generator — ICO Editor, Emoji &amp; All 18 Sizes
           </h1>
           <p className="text-gray-400 max-w-2xl mb-5 leading-relaxed">
             The most advanced favicon generator online. Create from an image, text, emoji or pixel

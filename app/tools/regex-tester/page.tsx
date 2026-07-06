@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import RegexTesterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Regex Tester — Live Match Highlighting",
+  title: "Free Regex Tester — Regex Builder & Match Highlighter",
   description: "Test and debug regular expressions instantly with real-time match highlighting, named group extraction, replace mode, 21-pattern library and a plain-English regex explainer. Free, no login.",
   alternates: { canonical: "/tools/regex-tester" },
-  keywords: ["regex tester","regular expression tester online","regex checker","javascript regex tester","regex debugger online free","regex named groups","lookahead lookbehind regex"],
+  keywords: ["regex tester","regex builder","regular expression builder","regex generator","regex match","regex not","javascript regex tester","regex checker","lookahead lookbehind regex"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/regex-tester",
@@ -70,7 +70,11 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "What is a regular expression?",
+    { "@type": "Question", name: "How do I match NOT something in regex?",
+      acceptedAnswer: { "@type": "Answer", text: "Use a negated character class like [^abc] to match any character except a, b or c — or a negative lookahead (?!pattern) to assert that something does NOT follow. Try either in the tester: matches highlight live, and the token explainer describes each part of your pattern in plain English." } },
+    { "@type": "Question", name: "What regex flavor does this tester use?",
+      acceptedAnswer: { "@type": "Answer", text: "JavaScript (ECMAScript) — the same engine used by browsers and Node.js, with named groups, lookbehind and the g, i, m, s flags. Most everyday patterns behave identically in Python, Java and PCRE; differences only appear in advanced constructs like recursion or possessive quantifiers." } },
+    { "@type": "Question", name: "What is a regular expression (regex)?",
       acceptedAnswer: { "@type": "Answer", text: "A regular expression is a sequence of characters that defines a search pattern. Used for string searching, validation and manipulation, regex is supported natively in JavaScript, Python, Java, PHP and most modern languages. Mastering regex allows you to solve complex text-processing tasks in a single line of code." } },
     { "@type": "Question", name: "What do the regex flags g, i, m, s mean?",
       acceptedAnswer: { "@type": "Answer", text: "The g (global) flag finds all matches instead of stopping at the first. The i (case-insensitive) flag ignores letter case. The m (multiline) flag makes ^ and $ match the start and end of each line. The s (dotAll) flag makes . match newline characters as well. You can combine flags: /pattern/gim applies all three simultaneously." } },

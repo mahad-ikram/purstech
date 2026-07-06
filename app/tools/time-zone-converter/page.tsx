@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import TimeZoneClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Time Zone Converter — 65+ World Cities",
+  title: "Free Time Zone Converter — EST, PST, GMT & World Clock",
   description: "Convert time between any two time zones instantly. Live world clock for 65+ cities, DST-aware, best meeting time finder for remote teams. Free, no login.",
   alternates: { canonical: "/tools/time-zone-converter" },
-  keywords: ["time zone converter","world clock","time zone calculator","meeting time zones","convert time zones online","dst time zone","utc time converter"],
+  keywords: ["time zone converter","est to pst","eastern time to central time","world clock","zulu time","gmt to est","time converter","utc time","time zone calculator","dst time zone"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/time-zone-converter",
     siteName: "PursTech",
-    title: "Free Time Zone Converter — World Clock & Meeting Planner",
+    title: "Time Zone Converter — EST to PST, GMT & World Clock",
     description: "Convert times between any time zones. Live world clock, DST-aware, best meeting time finder. Free.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Time Zone Converter — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Time Zone Converter — World Clock & Meeting Planner",
+    title: "Time Zone Converter — World Clock & Meeting Planner",
     description: "Live world clock, DST-aware time converter, meeting overlap finder. 65+ cities. Free.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -70,15 +70,19 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "How do I convert Eastern to Central or Pacific time?",
+      acceptedAnswer: { "@type": "Answer", text: "Central Time is always exactly 1 hour behind Eastern Time — so 9am ET is 8am CT, and 5pm ET is 4pm CT. Pacific is 3 hours behind Eastern. Pick the two zones in the converter and it handles the math for any date, including Daylight Saving switches, automatically." } },
+    { "@type": "Question", name: "What is Zulu time?",
+      acceptedAnswer: { "@type": "Answer", text: "Zulu time is the military and aviation name for UTC (Coordinated Universal Time) — Z stands for zero offset. It never observes Daylight Saving. Add UTC to the world clock or pick it in the converter to see the current Zulu time and convert it to any local zone." } },
     { "@type": "Question", name: "What is UTC and why is it used as a reference for time zones?",
       acceptedAnswer: { "@type": "Answer", text: "UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks. All time zones are expressed as positive or negative offsets from UTC — for example, New York is UTC-5 (or UTC-4 during DST). UTC never changes for Daylight Saving Time, making it a stable reference point for global coordination." } },
-    { "@type": "Question", name: "What is Daylight Saving Time and which countries observe it?",
+    { "@type": "Question", name: "What is Daylight Saving Time (DST) and which countries observe it?",
       acceptedAnswer: { "@type": "Answer", text: "Daylight Saving Time advances clocks by one hour during warmer months to extend evening daylight. The US observes DST from the second Sunday in March to the first Sunday in November. Many countries do not observe DST, including China, Japan, India, most of Africa and parts of South America. Our converter is DST-aware and automatically applies the correct offset for any selected date." } },
     { "@type": "Question", name: "How do I find the best meeting time for a global team?",
       acceptedAnswer: { "@type": "Answer", text: "Use the Meeting Planner feature. Add your team's cities and the tool highlights hours that fall within business hours (9am–6pm) for the most cities simultaneously. The most common overlap for US + Europe is 9am–12pm ET. For US + Asia there is rarely any daytime overlap." } },
     { "@type": "Question", name: "What is the difference between a time zone and a UTC offset?",
       acceptedAnswer: { "@type": "Answer", text: "A UTC offset is a simple number (like +5:30 or -8) indicating hours ahead or behind UTC. A time zone is a named region (like America/New_York) that defines not just the standard offset but also DST rules. Two locations can share the same UTC offset but be in different time zones with different DST rules." } },
-    { "@type": "Question", name: "Why are some time zones not whole hours (e.g. India UTC+5:30)?",
+    { "@type": "Question", name: "Why are some time zones not whole hours? (e.g. India UTC+5:30, Nepal UTC+5:45)",
       acceptedAnswer: { "@type": "Answer", text: "India (UTC+5:30) standardised on a half-hour offset to be a single time zone for the entire country. Nepal (UTC+5:45) is the only country with a 15-minute offset — set at 15 minutes ahead of India to differentiate from its neighbour. There are about 40 such non-integer offsets worldwide." } },
   ],
 };
@@ -106,7 +110,7 @@ export default function TimeZoneConverterPage() {
             Finance Tools
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
-            Free Time Zone Converter — World Clock &amp; Meeting Planner
+            Time Zone Converter — EST to PST, GMT &amp; World Clock
           </h1>
           <p className="text-gray-400 max-w-2xl">
             Convert time between any two time zones instantly. Live world clock with DST awareness, 65+ cities, and a meeting overlap finder for remote teams.

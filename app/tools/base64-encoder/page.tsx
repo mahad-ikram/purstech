@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Base64Client from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Base64 Encoder & Decoder Online",
+  title: "Base64 Decode & Encode — Free Base64 Decoder",
   // Renders: "Free Base64 Encoder & Decoder Online | PursTech" (48 chars ✅)
 
   description:
@@ -10,24 +10,20 @@ export const metadata: Metadata = {
 
   alternates: { canonical: "/tools/base64-encoder" },
 
-  keywords: [
-    "base64 encoder", "base64 decoder", "base64 encode online",
-    "base64 decode online", "url safe base64", "base64 converter free",
-    "encode text base64", "decode base64 string",
-  ],
+  keywords: ["base64 decode","base64 encode","base64 decoder","decode base64","b64 decode","base64 encoder","base64 converter","url safe base64","what is base64"],
 
   openGraph: {
     type:        "website",
     url:         "https://www.purstech.com/tools/base64-encoder",
     siteName:    "PursTech",
-    title:       "Free Base64 Encoder & Decoder — URL-safe, Instant, No Login",
+    title:       "Base64 Decode & Encode — URL-safe, Instant, No Login",
     description: "Encode text to Base64 or decode Base64 strings in one click. URL-safe mode, swap & reverse, copy to clipboard. Free, browser-based.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Base64 Encoder Decoder — PursTech" }],
   },
 
   twitter: {
     card:        "summary_large_image",
-    title:       "Free Base64 Encoder & Decoder Online",
+    title:       "Base64 Decode & Encode Online — Free & Instant",
     description: "Encode and decode Base64 instantly. URL-safe mode, swap & reverse. Free, no login.",
     images:      ["/og-image.png"],
     creator:     "@purstech",
@@ -80,6 +76,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "Can I concatenate two Base64 strings?",
+      acceptedAnswer: { "@type": "Answer", text: "Not directly — Base64 output is padded with = characters, so joining two encoded strings usually produces an invalid result. Decode each string first, join the raw text, then re-encode the combined value. The Swap button makes that round-trip quick." } },
     { "@type": "Question", name: "What is Base64 encoding?",
       acceptedAnswer: { "@type": "Answer", text: "Base64 is an encoding scheme that converts binary data into a text format using 64 printable ASCII characters. It is commonly used to transmit data over systems that only support text, such as email attachments and data URLs." } },
     { "@type": "Question", name: "Is Base64 encryption?",

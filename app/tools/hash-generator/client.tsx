@@ -13,6 +13,10 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"Can you decrypt or dehash an MD5 hash?",
+    a:"No — MD5, like every hash function, is one-way by design. Sites offering 'MD5 decrypt' or 'dehash' simply look the value up in giant precomputed tables of common inputs; a unique or salted input cannot be recovered. That is also why passwords should be stored with slow, salted algorithms like bcrypt or Argon2, never plain MD5. To check whether a value matches a hash, use this tool's verification mode instead." },
+  { q:"How do I identify a hash type?",
+    a:"Usually by length: 32 hex characters = MD5, 40 = SHA-1, 64 = SHA-256, 96 = SHA-384, 128 = SHA-512. Paste your text here and all five hashes are computed side by side, so you can compare against the one you have." },
   { q:"What is a hash?",              a:"A hash (or digest) is a fixed-length string produced by a hash function from any input. The same input always produces the same hash, but it is computationally infeasible to reverse a hash back to its original input. Even a tiny change in input produces a completely different hash — the avalanche effect." },
   { q:"What is MD5 used for?",        a:"MD5 produces a 32-character hash. It is no longer considered secure for cryptographic purposes (collisions have been found), but it is still widely used for checksums, file integrity verification and non-security data fingerprinting." },
   { q:"What is SHA-256?",             a:"SHA-256 is part of the SHA-2 family and produces a 64-character hash. It is the industry standard for security applications including SSL certificates, Bitcoin and digital signatures. No practical collision attacks have been found against SHA-256." },
@@ -172,7 +176,7 @@ export default function HashGeneratorClient() {
           <div className="flex items-center gap-3 mb-3">
             <span className="text-4xl">🔑</span>
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold">Hash Generator</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold">Hash Generator — MD5, SHA256 &amp; SHA-512</h1>
               <p className="text-gray-500 mt-1">
                 Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes from any text — free, instant, private.
               </p>

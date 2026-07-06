@@ -9,6 +9,12 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 /* ── Rich FAQ — Rule 10: module scope, FAQ.map() below matches ────────────── */
 /* ── Rule 8: <details>/<summary> — no useState toggle ────────────────────── */
 const FAQ = [
+  { q: "What is an SSL certificate?",
+    a: "An SSL/TLS certificate (secure socket layer certificate) is a small digital file that proves a website's identity and enables the encrypted https:// padlock. It binds a domain name to a public key, is signed by a trusted Certificate Authority, and expires on a set date. This checker decodes and grades all of it for any domain." },
+  { q: "How do I decode an SSL certificate's details?",
+    a: "Enter the domain — the checker performs a live TLS handshake and decodes the certificate for you: issuer chain, validity dates and days remaining, Subject Alternative Names, key strength, TLS protocol version and the SHA-256 fingerprint. No OpenSSL commands needed." },
+  { q: "How often should I check my SSL certificate?",
+    a: "Check your SSL certificate at least 30 and 90 days before expiry. Certificates are issued for a maximum of 398 days. Set calendar reminders at 90 days and 30 days before the expiry date shown. An expired certificate causes all browsers to block visitors with a security warning, costing significant traffic and revenue." },
   {
     q: "What does each security grade (A+, A, B, C, D, F) mean?",
     a: `The grade is calculated from three factors: TLS protocol version, key strength and days remaining.

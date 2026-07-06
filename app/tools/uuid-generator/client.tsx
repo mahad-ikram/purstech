@@ -13,6 +13,10 @@ const RELATED_TOOLS = [
 ];
 
 const FAQ = [
+  { q:"What is the difference between a UUID and a GUID?",
+    a:"None in practice — GUID (Globally Unique Identifier) is Microsoft's name for the same 128-bit standard; UUID (Universally Unique Identifier) is the RFC 4122 term. Every UUID this tool generates is a valid GUID — use the braces output format for Microsoft-style {xxxxxxxx-...} values." },
+  { q:"How many bytes is a UUID (and how long is it)?",
+    a:"A UUID is 128 bits = 16 bytes of data, written as a 36-character string: 32 hexadecimal characters plus 4 hyphens. Version 4 contains 122 random bits, which allows about 5.3 x 10^36 possible values — enough that collisions are effectively impossible." },
   { q:"What is a UUID?",
     a:"A UUID (Universally Unique Identifier) is a 128-bit identifier formatted as 32 hexadecimal characters separated by hyphens: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. It is designed to be unique across all space and time without a central authority." },
   { q:"What is the difference between UUID v1 and v4?",
