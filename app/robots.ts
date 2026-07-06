@@ -11,7 +11,9 @@ export default function robots(): MetadataRoute.Robots {
           "/admin",   // Never index admin panel
           "/admin/",
           "/api/",    // Never index API routes
-          "/_next/",  // Never index Next.js internals
+          // "/_next/" removed 6 Jul 2026 — Google must fetch CSS/JS in
+          // /_next/static/ to render pages properly; blocking it risks
+          // rendering issues and caused a "Blocked by robots.txt" GSC entry.
         ],
       },
 
