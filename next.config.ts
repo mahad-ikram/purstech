@@ -33,6 +33,16 @@ const nextConfig: NextConfig = {
         destination: "/blog/free-seo-tools-that-work",
         permanent:   true,
       },
+
+      // ── Old category URL pattern → unified /categories/ (added 6 Jul 2026) ──
+      // The June URL unification changed all internal links to /categories/,
+      // but Google still remembers old /category/* URLs — they were 404ing
+      // (visible in GSC coverage). This preserves them permanently.
+      {
+        source:      "/category/:slug",
+        destination: "/categories/:slug",
+        permanent:   true,  // 308
+      },
     ];
   },
 
