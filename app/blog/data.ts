@@ -15,6 +15,93 @@ export const BLOG_POSTS: Record<string, {
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
+  // 16. Remove Background in GIMP & Canva (NEW Jul 2026 — first entry on
+  //     purpose: newest post = featured card on /blog)
+  // ═════════════════════════════════════════════════════════════════════════
+  "how-to-remove-background-gimp-canva": {
+    title:        "How to Remove a Background in GIMP & Canva (2026)",
+    slug:         "how-to-remove-background-gimp-canva",
+    excerpt:      "Step-by-step background removal in GIMP — Fuzzy Select, Color to Alpha, Paths and Foreground Select — plus how Canva's one-click remover works, why it sits behind Canva Pro, and the free browser AI that does it in seconds.",
+    category:     "Image Tools",
+    readTime:     "8 min read",
+    publishedAt:  "July 6, 2026",
+    updatedAt:    "July 6, 2026",
+    publishedISO: "2026-07-06T09:00:00Z",
+    updatedISO:   "2026-07-06T09:00:00Z",
+    keywords:     ["how to remove background in gimp", "gimp remove background", "canva background remover", "remove background in canva", "gimp transparent background", "remove background free"],
+    relatedTools: [
+      { name: "Background Remover", slug: "background-remover", icon: "🪄" },
+      { name: "Image Compressor",   slug: "image-compressor",   icon: "🗜️" },
+      { name: "Image Resizer",      slug: "image-resizer",      icon: "📐" },
+    ],
+    faqs: [
+      { q: "Is removing a background in GIMP free?", a: "Yes — GIMP is completely free, open-source software with no watermarks and no locked features. Every method in this guide (Fuzzy Select, Select by Color, Color to Alpha, Paths and Foreground Select) works in the free download on Windows, macOS and Linux." },
+      { q: "Why is my deleted background white or black instead of transparent in GIMP?", a: "The layer has no alpha channel, so GIMP fills the deleted area with the background color instead of transparency. Before deleting anything, go to Layer → Transparency → Add Alpha Channel (if it is greyed out, the layer already has one). Then delete again and you will see the grey checkerboard that means transparent." },
+      { q: "Is Canva's background remover free?", a: "No. Background Remover is a Canva Pro feature (also included in Teams and Education plans). On a free account the button appears with a lock or crown icon. Canva offers a 30-day Pro trial, but after that it is paid — a free browser-based AI remover is the no-cost alternative." },
+      { q: "How do I keep the background transparent when I save from GIMP?", a: "Export with File → Export As and give the file a .png (or .webp) extension. Do not use JPEG — the JPEG format has no transparency support, so GIMP flattens your transparent area onto a solid white background." },
+      { q: "What is the fastest way to remove a background for free?", a: "A browser-based AI background remover — you drop the image in and download a transparent PNG a few seconds later, with no software, no signup and no manual selecting. GIMP is the better choice only when you need pixel-level manual control over the cut-out." },
+      { q: "Can GIMP remove backgrounds as well as Photoshop?", a: "For product shots and solid backgrounds, yes — GIMP's Paths tool and Color to Alpha produce clean, professional cut-outs. Photoshop's AI subject selection is still ahead on very complex edges like flyaway hair, but free browser AI removers now handle those cases well, so the gap rarely matters in practice." },
+    ],
+    content: `
+<p>You need a photo with the background gone — for a product listing, a thumbnail, a profile picture, a design. The two apps everyone reaches for are GIMP (free, powerful, manual) and Canva (easy, one click, paywalled). This guide walks through every reliable background-removal method in both, honestly flags where each one costs you time or money, and finishes with the one-click route that costs neither.</p>
+
+<h2 id="quick-answer">The Quick Answer (Cheat Sheet)</h2>
+<p><strong>GIMP, plain background:</strong> Layer → Transparency → Add Alpha Channel, press <code>U</code> (Fuzzy Select), click the background, press <code>Delete</code>, export as PNG.</p>
+<p><strong>GIMP, white logo background:</strong> Colors → Color to Alpha → pick white. Done in one dialog.</p>
+<p><strong>Canva:</strong> select the photo → Edit photo → BG Remover — one click, but it requires a paid Canva Pro plan.</p>
+<p><strong>Free and instant:</strong> the <a href="/tools/background-remover">PursTech Background Remover</a> — AI removal that runs in your browser in seconds, no signup, and your photo never leaves your device.</p>
+
+<h2 id="gimp">How to Remove a Background in GIMP</h2>
+<p>GIMP gives you five real methods. Which one to use depends entirely on what is behind your subject — pick from the table of situations below and jump in. One rule applies to all of them: <strong>add an alpha channel first.</strong> Go to <strong>Layer → Transparency → Add Alpha Channel</strong>. If you skip this, GIMP fills every "deleted" area with a solid color instead of transparency — the single most common reason background removal fails in GIMP.</p>
+
+<h3>Method 1 — Fuzzy Select: plain or solid backgrounds</h3>
+<p>This is GIMP's magic wand, and it is the right tool when the background is one roughly even color.</p>
+<p><strong>1.</strong> Press <code>U</code> to activate Fuzzy Select (or pick it in the toolbox).</p>
+<p><strong>2.</strong> Click anywhere on the background. Marching ants surround the selected region.</p>
+<p><strong>3.</strong> Too little selected? Raise the <strong>Threshold</strong> slider in Tool Options (15–50 covers most photos) and click again. Grabbed part of your subject? Lower it. Hold <code>Shift</code> and click to add extra background patches to the selection.</p>
+<p><strong>4.</strong> Soften the edge so the cut-out does not look pasted on: <strong>Select → Feather</strong>, 1–2 pixels.</p>
+<p><strong>5.</strong> Press <code>Delete</code>. The checkerboard pattern that appears is transparency.</p>
+
+<h3>Method 2 — Select by Color: same color in many places</h3>
+<p>If the background color also shows through gaps — between an arm and a body, inside a mug handle — Fuzzy Select would need a dozen clicks. <strong>Select → By Color</strong> (<code>Shift+O</code>) selects every pixel of that color across the whole image at once. Click the background color, then feather and delete exactly as above.</p>
+
+<h3>Method 3 — Color to Alpha: logos and white backgrounds</h3>
+<p>The fastest GIMP method of all, ideal for logos, signatures and scans on white. Go to <strong>Colors → Color to Alpha</strong>, make sure the color box is set to white (or click it and pick the exact background shade), and press OK. GIMP converts that color to transparency everywhere in one pass. One caveat: it also turns that color transparent <em>inside</em> your subject — a white shirt will go see-through — so keep it for graphics rather than photos of people.</p>
+
+<h3>Method 4 — Paths: product shots that need clean edges</h3>
+<p>When the background is busy and the subject has defined edges — a shoe, a bottle, a chair — nothing beats tracing it. Press <code>B</code> for the Paths tool and click anchor points around the subject; click your first point again to close the loop. Convert the path to a selection with <strong>Select → From Path</strong>, then flip it so the background is selected instead: <strong>Select → Invert</strong> (<code>Ctrl+I</code>). Feather 1–2 px and press <code>Delete</code>. Slow, but this is how crisp e-commerce cut-outs are made by hand.</p>
+
+<h3>Method 5 — Foreground Select: hair and fur</h3>
+<p>For people and pets, use the Foreground Select tool. Trace a rough outline around the subject, then paint a few strokes over the areas that are definitely subject — GIMP analyses the colors and finds the real edge, including strands of hair. Toggle the preview to check it, confirm the selection, then <strong>Select → Invert</strong> and <code>Delete</code>. Results vary with contrast: great on a blonde head against a dark wall, frustrating on brown hair against brown wood. When it fights you, this is exactly the job AI removers were built for.</p>
+
+<h3>Saving it: export as PNG, never JPEG</h3>
+<p>GIMP's own format is .xcf, so use <strong>File → Export As</strong> and type a filename ending in <strong>.png</strong>. JPEG cannot store transparency — export one and your careful cut-out comes back on a flat white background. If the file needs to be small too, run the PNG through an <a href="/tools/image-compressor">image compressor</a> afterwards.</p>
+
+<h2 id="canva">How to Remove a Background in Canva</h2>
+<p>Canva's version is genuinely one click — with one catch.</p>
+<p><strong>1.</strong> Upload your photo and add it to the canvas.</p>
+<p><strong>2.</strong> Click the photo, then click <strong>Edit photo</strong> in the toolbar.</p>
+<p><strong>3.</strong> Choose <strong>BG Remover</strong>. Canva's AI erases the background in a few seconds, and you can brush areas back in with Restore or wipe more with Erase.</p>
+<p><strong>The catch: it is a Canva Pro feature.</strong> On a free account the BG Remover button carries a lock or crown icon and tapping it opens an upgrade prompt. It is included in Pro, Teams and Education plans, and Canva runs a 30-day Pro trial — but on the permanent free tier there is no built-in way to remove a background. If Canva is where you design but you do not want to pay, the practical workflow is: remove the background with a free tool first, then upload the transparent PNG into Canva.</p>
+
+<h2 id="one-click-free">The 1-Click Way That Stays Free</h2>
+<p>The <a href="/tools/background-remover">PursTech Background Remover</a> gives you the Canva-style experience without the subscription: drop an image in, the AI finds the subject, and you download a transparent PNG seconds later. Three things make it different from most "free" removers:</p>
+<p><strong>It runs in your browser.</strong> The AI model executes on your own device — the photo is never uploaded to a server, which matters for client work, ID photos and anything private.</p>
+<p><strong>It is actually free.</strong> No signup, no watermark, no daily limit, no resolution paywall.</p>
+<p><strong>It handles the hard cases.</strong> Hair, fur and soft edges — the ones that make GIMP's manual tools tedious — are exactly what the model was trained on.</p>
+<p>A sensible split: use the AI remover for photos of people, pets and anything organic; use GIMP's Paths tool when you want obsessive manual control over a product edge; use Color to Alpha for logos. After removing, you can <a href="/tools/image-resizer">resize the PNG</a> to exact dimensions for wherever it is headed.</p>
+
+<h2 id="other-apps">What About Photoroom, Pixlr and Picsart?</h2>
+<p>All three can remove backgrounds and all three follow the same freemium pattern: the remover works, but free exports come with limits — watermarks, reduced resolution, daily caps or a required account — and the full feature sits in the paid tier. They are solid apps if you already subscribe. If you only need the background gone, a genuinely free browser tool does the same job without the meter running.</p>
+
+<h2 id="verdict">Which Should You Use?</h2>
+<p><strong>Choose GIMP</strong> when you want full manual control, you are comfortable with a learning curve, and the job involves precise product edges or logo cleanup. Cost: free forever. Time: 2–15 minutes per image.</p>
+<p><strong>Choose Canva</strong> when you already pay for Pro and the photo is going straight into a Canva design anyway. Cost: Pro subscription. Time: seconds.</p>
+<p><strong>Choose a free browser AI remover</strong> for everything else — which, honestly, is most background-removal jobs. Cost: nothing. Time: seconds. Privacy: the image stays on your device.</p>
+`,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
   // 15. Check Word Count in Google Docs / Word / PDF (NEW Jul 2026 — first
   //     entry on purpose: newest post = featured card on /blog)
   // ═════════════════════════════════════════════════════════════════════════

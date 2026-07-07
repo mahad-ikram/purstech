@@ -50,7 +50,7 @@ const CATEGORY_SLUGS = [
   "text", "image", "dev", "seo", "ai", "finance", "security", "pdf",
 ];
 
-// ── Blog posts (14 — 10 existing + 4 new) ────────────────────────────────────
+// ── Blog posts (16 — 10 original + 6 added June–July 2026) ───────────────────
 // ✅ Updated: removed -2025 from 3 slugs (matches data.ts rename + 301 redirects)
 // ✅ Updated: added 4 new June 2026 articles
 const BLOG_SLUGS = [
@@ -71,12 +71,14 @@ const BLOG_SLUGS = [
   "loan-calculator-with-extra-payments",
   "webp-vs-jpeg-vs-png-2026",
   "how-to-check-word-count",
+  "how-to-remove-background-gimp-canva",       // ✅ New — July 2026
 ];
 
 // ── Recently published blog slugs — get higher priority + weekly frequency ────
 // These are the 5 newest (June–July 2026) articles. Search engines weight fresh
 // content + weekly changeFrequency higher for new pages still gaining authority.
 const NEW_BLOG_SLUGS = new Set([
+  "how-to-remove-background-gimp-canva",
   "how-to-check-word-count",
   "compress-pdf-without-losing-quality",
   "merge-pdf-files-without-uploading",
@@ -145,7 +147,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  // Grand total: 8 core + 10 new tools + 40 established tools + 8 categories + 15 blog = 81 URLs
+  // Grand total: 8 core + 10 new tools + 40 established tools + 8 categories + 16 blog = 82 URLs
   return [
     ...corePages,
     ...newToolPages,
