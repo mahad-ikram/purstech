@@ -43,6 +43,25 @@ const nextConfig: NextConfig = {
         destination: "/categories/:slug",
         permanent:   true,  // 308
       },
+
+      // ── Ghost tool URLs from GSC 404 report (added 6 Jul 2026) ──────────
+      // Old/variant slugs Google crawled in May that never matched real
+      // routes. Redirect each to its closest live tool.
+      {
+        source:      "/tools/compound-interest",
+        destination: "/tools/compound-interest-calculator",
+        permanent:   true,
+      },
+      {
+        source:      "/tools/readability-score",
+        destination: "/tools/readability-checker",
+        permanent:   true,
+      },
+      {
+        source:      "/tools/plagiarism-checker",
+        destination: "/tools/grammar-checker",  // closest live cousin
+        permanent:   true,
+      },
     ];
   },
 
