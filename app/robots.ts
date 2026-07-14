@@ -8,12 +8,20 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         disallow: [
-          "/admin",   // Never index admin panel
+          "/admin",       // Never index admin panel
           "/admin/",
-          "/api/",    // Never index API routes
-          // "/_next/" removed 6 Jul 2026 — Google must fetch CSS/JS in
-          // /_next/static/ to render pages properly; blocking it risks
-          // rendering issues and caused a "Blocked by robots.txt" GSC entry.
+          "/api/",        // Never index API routes
+          // NOTE: "/_next/" intentionally NOT blocked — Google must fetch
+          // CSS/JS in /_next/static/ to render pages. Blocking it caused a
+          // "Blocked by robots.txt" entry in GSC (fixed 6 Jul 2026).
+
+          // ── Tracking-param URLs → block duplicates, but NOT all query
+          // strings. A blanket "/*?*" would also block the sitelinks
+          // searchbox target /tools?search=… (a SearchAction rich result),
+          // so we target only known tracking params:
+          "/*?ref=",      // Product Hunt etc. referral tags (seen in GSC)
+          "/*?utm_",      // UTM campaign tags → duplicate content
+          "/*?fbclid=",   // Facebook click IDs
         ],
       },
 
