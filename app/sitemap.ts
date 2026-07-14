@@ -88,17 +88,24 @@ const NEW_BLOG_SLUGS = new Set([
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  // Stable per-content dates so lastModified stops changing every request
+  // (dynamic dates train Googlebot to ignore lastModified & waste crawl budget).
+  // Bump these ONLY when the underlying pages actually change.
+  const TOOLS_REV      = new Date("2026-07-06");  // last tool-content revision (SEO batches)
+  const CATEGORIES_REV = new Date("2026-06-15");  // category pages last touched
+  const STATIC_REV     = new Date("2026-06-15");  // about/privacy/terms rarely change
+  const BLOG_REV       = new Date("2026-07-06");  // newest blog batch (GIMP/Canva, TinyPNG)
 
   // ── Core pages (8) ──────────────────────────────────────────────────────────
   const corePages: MetadataRoute.Sitemap = [
     { url: BASE_URL,               lastModified: now, changeFrequency: "daily",   priority: 1.0 },
     { url: `${BASE_URL}/tools`,    lastModified: now, changeFrequency: "daily",   priority: 0.9 },
     { url: `${BASE_URL}/blog`,     lastModified: now, changeFrequency: "daily",   priority: 0.7 },
-    { url: `${BASE_URL}/about`,    lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${BASE_URL}/contact`,  lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${BASE_URL}/about`,    lastModified: STATIC_REV, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE_URL}/contact`,  lastModified: STATIC_REV, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE_URL}/pro`,      lastModified: now, changeFrequency: "weekly",  priority: 0.6 },
-    { url: `${BASE_URL}/privacy`,  lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
-    { url: `${BASE_URL}/terms`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
+    { url: `${BASE_URL}/privacy`,  lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
+    { url: `${BASE_URL}/terms`,    lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
   ];
 
   // ── Newest tools — Batches 8 & 9 (10 tools, priority 0.9) ──────────────────
@@ -107,7 +114,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...BATCH9_SLUGS,
   ].map(slug => ({
     url:             `${BASE_URL}/tools/${slug}`,
-    lastModified:    now,
+    lastModified:    TOOLS_REV,
     changeFrequency: "weekly" as const,
     priority:        0.9,
   }));
@@ -121,7 +128,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...BATCH7_SLUGS,
   ].map(slug => ({
     url:             `${BASE_URL}/tools/${slug}`,
-    lastModified:    now,
+    lastModified:    TOOLS_REV,
     changeFrequency: "weekly" as const,
     priority:        0.8,
   }));
@@ -129,7 +136,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ── Category pages (8) ───────────────────────────────────────────────────────
   const categoryPages: MetadataRoute.Sitemap = CATEGORY_SLUGS.map(slug => ({
     url:             `${BASE_URL}/categories/${slug}`,
-    lastModified:    now,
+    lastModified:    CATEGORIES_REV,
     changeFrequency: "weekly" as const,
     priority:        0.7,
   }));
@@ -141,7 +148,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const isNew = NEW_BLOG_SLUGS.has(slug);
     return {
       url:             `${BASE_URL}/blog/${slug}`,
-      lastModified:    now,
+      lastModified:    isNew ? BLOG_REV : STATIC_REV,
       changeFrequency: isNew ? ("weekly" as const) : ("monthly" as const),
       priority:        isNew ? 0.7 : 0.6,
     };
