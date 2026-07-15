@@ -343,26 +343,35 @@ function TrendingBar() {
               "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%)",
           }}
         >
-          {/* Each tool name is now a real <Link> (was an unclickable span).
-              This gives all 50 tools a homepage internal link — the strongest
-              crawl-priority signal we can send, and the documented fix for
-              "Discovered – currently not indexed". Marquee pauses on hover so
-              the links are actually clickable. (6 Jul 2026) */}
-          <div className="flex gap-6 sm:gap-8 animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] whitespace-nowrap">
-            {ALL_TOOLS.map(t => (
-              <Link key={t.slug} href={`/tools/${t.slug}`}
-                className="text-[11px] sm:text-xs text-gray-500 hover:text-[#00D4FF] transition-colors flex-shrink-0">
-                {t.icon} {t.name}
-              </Link>
-            ))}
-            {/* Visual loop copy for the seamless marquee — aria-hidden and not
-                links, so we don't emit 50 duplicate hrefs. */}
-            {ALL_TOOLS.map(t => (
-              <span key={`loop-${t.slug}`} aria-hidden="true"
-                className="text-[11px] sm:text-xs text-gray-500 cursor-default flex-shrink-0">
-                {t.icon} {t.name}
-              </span>
-            ))}
+          {/* Each tool name is a real <Link> (was an unclickable span) — this
+              gives all 50 tools a homepage internal link, the documented fix for
+              "Discovered – currently not indexed". (6 Jul 2026)
+
+              Two equal-width groups. Each carries its own internal gap AND a
+              trailing pad, so each group is exactly half the track — which makes
+              translateX(-50%) land perfectly and the loop seamless. (Putting a
+              gap between the groups instead would leave a half-gap jump.)
+              Animation comes from .purs-marquee in globals.css, not from a
+              Tailwind arbitrary class, so it cannot silently break again. */}
+          <div className="purs-marquee flex whitespace-nowrap">
+            <div className="flex gap-6 sm:gap-8 pr-6 sm:pr-8 flex-shrink-0">
+              {ALL_TOOLS.map(t => (
+                <Link key={t.slug} href={`/tools/${t.slug}`}
+                  className="text-[11px] sm:text-xs text-gray-500 hover:text-[#00D4FF] transition-colors flex-shrink-0">
+                  {t.icon} {t.name}
+                </Link>
+              ))}
+            </div>
+            {/* Visual loop copy — aria-hidden and not links, so we don't emit
+                50 duplicate hrefs for Google. */}
+            <div className="flex gap-6 sm:gap-8 pr-6 sm:pr-8 flex-shrink-0" aria-hidden="true">
+              {ALL_TOOLS.map(t => (
+                <span key={`loop-${t.slug}`}
+                  className="text-[11px] sm:text-xs text-gray-500 cursor-default flex-shrink-0">
+                  {t.icon} {t.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
