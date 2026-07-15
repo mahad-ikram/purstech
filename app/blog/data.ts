@@ -15,6 +15,86 @@ export const BLOG_POSTS: Record<string, {
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
+  // 17. TinyPNG Alternatives (NEW Jul 2026 — first entry on purpose:
+  //     newest post = featured card on /blog)
+  // ═════════════════════════════════════════════════════════════════════════
+  "tinypng-alternatives": {
+    title:        "7 Best TinyPNG Alternatives in 2026 (Free & Private)",
+    slug:         "tinypng-alternatives",
+    excerpt:      "TinyPNG is great — until you hit the 5 MB cap, the 20-file batch limit, or realise every image uploads to a server. Here are 7 free alternatives compared honestly, including two that never upload your images at all.",
+    category:     "Image Tools",
+    readTime:     "7 min read",
+    publishedAt:  "July 6, 2026",
+    updatedAt:    "July 6, 2026",
+    publishedISO: "2026-07-06T15:00:00Z",
+    updatedISO:   "2026-07-06T15:00:00Z",
+    keywords:     ["tinypng", "tiny png", "tinypng alternative", "tinyjpg", "optimizilla", "compress png free"],
+    relatedTools: [
+      { name: "Image Compressor",   slug: "image-compressor",   icon: "🗜️" },
+      { name: "Image Resizer",      slug: "image-resizer",      icon: "📐" },
+      { name: "Background Remover", slug: "background-remover", icon: "🪄" },
+    ],
+    faqs: [
+      { q: "Is TinyPNG free?", a: "The TinyPNG web tool is free for up to 20 images per batch with a 5 MB size limit per image. Going past those limits — bigger files, bulk work, or automation — requires the paid Pro plan or API credits (the API includes 500 free compressions per month). The free tier is genuinely useful; the limits are simply where most people start looking for alternatives." },
+      { q: "Does TinyPNG reduce image quality?", a: "Technically yes — it uses smart lossy compression that selectively reduces the number of colors in a PNG — but it is tuned so the difference is usually invisible to the eye. Typical savings run 50–80% on PNGs. If you need pixel-perfect, mathematically identical output, you want lossless compression instead, which saves far less (often 10–30%)." },
+      { q: "What is the difference between TinyPNG and TinyJPG?", a: "Nothing meaningful anymore — they are two domain names for the same service and the same compression engine. Both sites now accept PNG, JPEG and WebP files, so whichever one you open, you are using the identical tool." },
+      { q: "What is the best free TinyPNG alternative?", a: "It depends on the constraint you are escaping. For privacy, use a compressor that runs in your browser so images never upload — PursTech Image Compressor or Squoosh. For deep per-image control and AVIF output, Squoosh. For batch work on a Mac, ImageOptim. For a straight like-for-like web tool, Optimizilla." },
+      { q: "Is it safe to upload images to TinyPNG?", a: "TinyPNG is a reputable service, but the honest answer is that any upload-based tool means your image leaves your device and is processed on someone else's server. For screenshots with personal data, client work under NDA, or ID documents, prefer a browser-local compressor — the file never leaves your computer, so there is nothing to trust." },
+      { q: "How much can I compress a PNG without losing quality?", a: "Lossless optimization typically shaves 10–30% by removing metadata and re-encoding more efficiently — zero visual change, guaranteed. Smart lossy compression reaches 50–80% and is usually indistinguishable, but it is technically discarding color information. The practical approach: compress with a tool that shows a before/after preview and judge with your own eyes." },
+    ],
+    content: `
+<p>TinyPNG earned its reputation — drop a PNG on the panda, get back a file half the size that looks identical. But sooner or later you hit one of its walls: the 5 MB per-file cap, the 20-image batch ceiling, or the quiet fact that every single image you compress is uploaded to their servers first. This guide compares seven free alternatives honestly — what each one does better than TinyPNG, and what it does worse.</p>
+
+<h2 id="quick-answer">The Quick Answer</h2>
+<p><strong>Escaping the upload (privacy):</strong> use a compressor that runs entirely in your browser — the <a href="/tools/image-compressor">PursTech Image Compressor</a> or Google's Squoosh. Your images never leave your device.</p>
+<p><strong>Escaping the limits:</strong> Optimizilla and iLoveIMG offer similar batch web workflows with different caps.</p>
+<p><strong>Maximum control:</strong> Squoosh, with per-image codec settings and AVIF output.</p>
+<p><strong>Mac power user:</strong> ImageOptim, a free local app with no limits at all.</p>
+
+<h2 id="tinypng-honest">What TinyPNG Gets Right (Credit Where Due)</h2>
+<p>TinyPNG's smart lossy engine is excellent. It selectively reduces the color palette of a PNG in a way human eyes rarely notice, routinely cutting 50–80% of the file size. It now handles JPEG and WebP too, and TinyJPG is literally the same service under a second name. If you compress a handful of small, non-sensitive images a week, you may not need an alternative at all.</p>
+
+<h2 id="why-switch">The Three Real Reasons People Switch</h2>
+<p><strong>1. The limits.</strong> Free use stops at 20 images per batch and 5 MB per file. Modern phone photos and full-page screenshots blow past 5 MB constantly, and the fix is a paid plan.</p>
+<p><strong>2. The upload.</strong> Every image travels to TinyPNG's servers for processing. For holiday photos, fine. For client work, unreleased product shots, or screenshots containing personal data, that is a real consideration.</p>
+<p><strong>3. No control.</strong> One button, one result. There is no quality slider, no target file size, no format conversion choices. Great for simplicity — limiting when a form says "maximum 200 KB" and you need to hit it exactly.</p>
+
+<h2 id="alternatives">The 7 Alternatives, Compared Honestly</h2>
+
+<h3>1. PursTech Image Compressor — private, batch, free</h3>
+<p>The <a href="/tools/image-compressor">PursTech Image Compressor</a> compresses up to 20 images at once with a quality slider, live before/after comparison and file-size readout, plus one-click WebP conversion. The structural difference from TinyPNG: compression runs <strong>in your browser</strong> — images are processed on your own device and never uploaded anywhere, so there is no file-size paywall and nothing to trust. Honest caveat: for PNGs with heavy transparency, TinyPNG's specialised palette engine can still edge out browser-based compression — for JPEGs, WebP and general use, you will not miss it.</p>
+
+<h3>2. Squoosh — the control freak's choice</h3>
+<p>Google's Squoosh also runs locally in the browser and gives you everything TinyPNG hides: codec choice (MozJPEG, OxiPNG, WebP, AVIF), quality sliders, resize on export, and a split-screen zoomable before/after. The trade-off: it processes <strong>one image at a time</strong> — superb for perfecting a hero image, tedious for thirty product shots.</p>
+
+<h3>3. Optimizilla — the closest like-for-like</h3>
+<p>Optimizilla feels like TinyPNG with a quality slider: upload up to 20 PNG or JPEG files, tweak the compression level per image with a live preview, download the batch. It uploads to a server like TinyPNG does, so it solves the control problem but not the privacy one.</p>
+
+<h3>4. iLoveIMG — batch workhorse in a suite</h3>
+<p>Part of the iLovePDF family, iLoveIMG compresses batches quickly and pairs it with resize, crop and convert tools in one place. Free tier limits apply and files are uploaded for processing, with paid plans lifting the caps.</p>
+
+<h3>5. ImageOptim — the Mac local app</h3>
+<p>Free, open-source, and entirely offline: drag a folder of images onto ImageOptim and it strips metadata and recompresses with no file count or size limits, ever. Lossless by default (smaller savings, zero quality change) with optional lossy mode. Mac only — Windows users can look at FileOptimizer for a similar local approach.</p>
+
+<h3>6. ShortPixel — strongest for WordPress</h3>
+<p>ShortPixel's web compressor is solid, but its real strength is the WordPress plugin that compresses your whole media library automatically. The free tier is credit-based (around 100 images a month), then paid. If your images live in WordPress, this is the workflow answer rather than a tool-by-tool one.</p>
+
+<h3>7. Compressor.io — polished for single images</h3>
+<p>A clean interface with lossy and lossless modes across JPEG, PNG, GIF and WebP. The free tier caps file size (10 MB) and works one image at a time, with Pro unlocking batch and bigger files. Good occasional-use tool; the limits arrive quickly under real workloads.</p>
+
+<h2 id="privacy">The Privacy Angle, Plainly</h2>
+<p>Every tool above falls into one of two architectures. <strong>Upload-based</strong> (TinyPNG, Optimizilla, iLoveIMG, ShortPixel, Compressor.io): your image travels to a server, gets processed, and comes back — you are trusting their handling and deletion policies. <strong>Browser-local</strong> (PursTech, Squoosh) and <strong>desktop-local</strong> (ImageOptim): the work happens on your own machine, full stop. Neither architecture is "wrong" — but for anything sensitive, local processing removes the question entirely. After compressing, if you also need exact dimensions, the <a href="/tools/image-resizer">Image Resizer</a> runs the same browser-local way — and if you are preparing product shots, our guide to <a href="/blog/how-to-remove-background-gimp-canva">removing backgrounds free</a> pairs naturally with this workflow.</p>
+
+<h2 id="verdict">Verdict</h2>
+<p><strong>Most people, most images:</strong> a browser-local batch compressor — free, private, no caps to remember.</p>
+<p><strong>One perfect hero image:</strong> Squoosh, with AVIF output and surgical control.</p>
+<p><strong>WordPress site:</strong> ShortPixel's plugin and forget about it.</p>
+<p><strong>Mac folder-at-a-time habits:</strong> ImageOptim.</p>
+<p>TinyPNG remains a fine tool inside its free-tier fence — the alternatives above are for the day you notice the fence.</p>
+`,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
   // 16. Remove Background in GIMP & Canva (NEW Jul 2026 — first entry on
   //     purpose: newest post = featured card on /blog)
   // ═════════════════════════════════════════════════════════════════════════
