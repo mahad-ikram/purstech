@@ -69,9 +69,13 @@ const FEATURED = [
   "word-counter", "json-formatter", "image-compressor", "meta-tag-generator",
   "pdf-compressor", "grammar-checker", "image-to-text", "qr-code-generator",
   "ssl-checker", "password-generator", "regex-tester", "readability-checker",
+  // Added 6 Jul 2026 — highest-demand tools that had no homepage link at all.
+  "tip-calculator", "compound-interest-calculator",
 ].map(slug => ALL_TOOLS.find(t => t.slug === slug)!).filter(Boolean);
 
-const NEW_TOOLS = ALL_TOOLS.filter(t => t.badge === "🆕 New").slice(0, 8);
+// No .slice() cap — every newly launched tool gets a homepage link.
+// The old slice(0,8) silently hid grammar-checker + readability-checker.
+const NEW_TOOLS = ALL_TOOLS.filter(t => t.badge === "🆕 New");
 
 const CATEGORIES = [
   { icon:"📝", name:"Text Tools",     slug:"text",     color:"from-violet-600 to-violet-400",  desc:"Write, format and analyse text" },
@@ -312,15 +316,30 @@ function HeroSection() {
 // ─── Trending bar ─────────────────────────────────────────────────────────────
 
 function TrendingBar() {
-  const items = ALL_TOOLS.map(t => `${t.icon} ${t.name}`);
   return (
     <div className="border-y border-white/5 bg-[#0D0D1A] py-3 overflow-hidden min-w-0 w-full">
       <div className="flex items-center gap-3 w-full">
         <span className="flex-shrink-0 text-xs font-bold text-[#FF3A6C] px-4 uppercase tracking-widest">🔥 Browse</span>
         <div className="overflow-hidden flex-1 w-full">
-          <div className="flex gap-8 animate-[scroll_40s_linear_infinite] whitespace-nowrap">
-            {[...items, ...items].map((item, i) => (
-              <span key={i} className="text-xs text-gray-500 hover:text-gray-300 transition-colors cursor-default flex-shrink-0">{item}</span>
+          {/* Each tool name is now a real <Link> (was an unclickable span).
+              This gives all 50 tools a homepage internal link — the strongest
+              crawl-priority signal we can send, and the documented fix for
+              "Discovered – currently not indexed". Marquee pauses on hover so
+              the links are actually clickable. (6 Jul 2026) */}
+          <div className="flex gap-8 animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] whitespace-nowrap">
+            {ALL_TOOLS.map(t => (
+              <Link key={t.slug} href={`/tools/${t.slug}`}
+                className="text-xs text-gray-500 hover:text-[#00D4FF] transition-colors flex-shrink-0">
+                {t.icon} {t.name}
+              </Link>
+            ))}
+            {/* Visual loop copy for the seamless marquee — aria-hidden and not
+                links, so we don't emit 50 duplicate hrefs. */}
+            {ALL_TOOLS.map(t => (
+              <span key={`loop-${t.slug}`} aria-hidden="true"
+                className="text-xs text-gray-500 cursor-default flex-shrink-0">
+                {t.icon} {t.name}
+              </span>
             ))}
           </div>
         </div>
