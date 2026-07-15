@@ -239,11 +239,20 @@ function HeroSection() {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10   rounded-full blur-3xl pointer-events-none" />
 
-      <div className="mb-6 flex items-center gap-2 bg-[#13131F] border border-[#6C3AFF]/30 rounded-full px-5 py-2 text-sm min-w-0">
-        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
-        <span className="text-gray-400 truncate pr-1">
-          <span className="text-white font-bold">50 free tools</span> · 8 categories · 100% browser-based
+      {/* Mobile fix (15 Jul 2026): the pill used to size to its content with no
+          max-width, so on narrow screens its rounded ends ran off both edges and
+          `truncate` chopped the text mid-word. Now it is capped to the viewport,
+          scales its type down, and wraps to two lines gracefully on tiny screens
+          (rounded-2xl reads as intentional there; rounded-full returns at sm+). */}
+      <div className="mb-6 mx-auto max-w-[calc(100vw-2rem)] flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#13131F] border border-[#6C3AFF]/30 rounded-2xl sm:rounded-full px-4 sm:px-5 py-2 text-[11px] sm:text-sm">
+        <span className="flex items-center gap-2 flex-shrink-0">
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
+          <span className="text-white font-bold">50 free tools</span>
         </span>
+        <span className="text-gray-600" aria-hidden="true">·</span>
+        <span className="text-gray-400">8 categories</span>
+        <span className="text-gray-600" aria-hidden="true">·</span>
+        <span className="text-gray-400">100% browser-based</span>
       </div>
 
       <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white text-center max-w-5xl leading-tight w-full px-2">
@@ -318,18 +327,31 @@ function HeroSection() {
 function TrendingBar() {
   return (
     <div className="border-y border-white/5 bg-[#0D0D1A] py-3 overflow-hidden min-w-0 w-full">
-      <div className="flex items-center gap-3 w-full">
-        <span className="flex-shrink-0 text-xs font-bold text-[#FF3A6C] px-4 uppercase tracking-widest">🔥 Browse</span>
-        <div className="overflow-hidden flex-1 w-full">
+      <div className="flex items-center w-full">
+        {/* Label sits above the marquee on its own solid background so names
+            slide underneath it cleanly instead of colliding. */}
+        <span className="relative z-10 flex-shrink-0 bg-[#0D0D1A] text-[10px] sm:text-xs font-bold text-[#FF3A6C] pl-4 pr-2 sm:px-4 uppercase tracking-widest">🔥 Browse</span>
+        {/* Mobile fix (15 Jul 2026): the strip ran edge-to-edge and names were
+            sliced mid-word at both ends — it read as broken rather than moving.
+            A mask fades items in/out at the edges at every screen size. */}
+        <div
+          className="overflow-hidden flex-1 min-w-0"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%)",
+          }}
+        >
           {/* Each tool name is now a real <Link> (was an unclickable span).
               This gives all 50 tools a homepage internal link — the strongest
               crawl-priority signal we can send, and the documented fix for
               "Discovered – currently not indexed". Marquee pauses on hover so
               the links are actually clickable. (6 Jul 2026) */}
-          <div className="flex gap-8 animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] whitespace-nowrap">
+          <div className="flex gap-6 sm:gap-8 animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] whitespace-nowrap">
             {ALL_TOOLS.map(t => (
               <Link key={t.slug} href={`/tools/${t.slug}`}
-                className="text-xs text-gray-500 hover:text-[#00D4FF] transition-colors flex-shrink-0">
+                className="text-[11px] sm:text-xs text-gray-500 hover:text-[#00D4FF] transition-colors flex-shrink-0">
                 {t.icon} {t.name}
               </Link>
             ))}
@@ -337,7 +359,7 @@ function TrendingBar() {
                 links, so we don't emit 50 duplicate hrefs. */}
             {ALL_TOOLS.map(t => (
               <span key={`loop-${t.slug}`} aria-hidden="true"
-                className="text-xs text-gray-500 cursor-default flex-shrink-0">
+                className="text-[11px] sm:text-xs text-gray-500 cursor-default flex-shrink-0">
                 {t.icon} {t.name}
               </span>
             ))}
