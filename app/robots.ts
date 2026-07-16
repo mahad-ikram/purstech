@@ -111,6 +111,5 @@ export default function robots(): MetadataRoute.Robots {
     ],
 
     sitemap: "https://www.purstech.com/sitemap.xml",
-    host:    "https://www.purstech.com",
   };
 }
