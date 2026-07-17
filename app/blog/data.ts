@@ -12,6 +12,8 @@ export const BLOG_POSTS: Record<string, {
   faqs:         { q: string; a: string }[];
   keywords:     string[];
   relatedTools: { name: string; slug: string; icon: string }[];
+  relatedPosts?: string[];
+  heroImage?:   string;
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
@@ -21,6 +23,8 @@ export const BLOG_POSTS: Record<string, {
   "tinypng-alternatives": {
     title:        "7 Best TinyPNG Alternatives in 2026 (Free & Private)",
     slug:         "tinypng-alternatives",
+    relatedPosts: ["how-to-compress-images-without-losing-quality", "webp-vs-jpeg-vs-png-2026", "how-to-remove-background-gimp-canva"],
+    heroImage:    "/blog-images/tinypng-alternatives.png",
     excerpt:      "TinyPNG is great — until you hit the 5 MB cap, the 20-file batch limit, or realise every image uploads to a server. Here are 7 free alternatives compared honestly, including two that never upload your images at all.",
     category:     "Image Tools",
     readTime:     "7 min read",
@@ -101,6 +105,8 @@ export const BLOG_POSTS: Record<string, {
   "how-to-remove-background-gimp-canva": {
     title:        "How to Remove a Background in GIMP & Canva (2026)",
     slug:         "how-to-remove-background-gimp-canva",
+    relatedPosts: ["tinypng-alternatives", "how-to-compress-images-without-losing-quality"],
+    heroImage:    "/blog-images/how-to-remove-background-gimp-canva.png",
     excerpt:      "Step-by-step background removal in GIMP — Fuzzy Select, Color to Alpha, Paths and Foreground Select — plus how Canva's one-click remover works, why it sits behind Canva Pro, and the free browser AI that does it in seconds.",
     category:     "Image Tools",
     readTime:     "8 min read",
@@ -188,6 +194,7 @@ export const BLOG_POSTS: Record<string, {
   "how-to-check-word-count": {
     title:        "How to Check Word Count in Google Docs, Word & PDF (2026)",
     slug:         "how-to-check-word-count",
+    relatedPosts: ["word-count-guide-every-platform", "free-seo-tools-that-work"],
     excerpt:      "Every way to check word count in Google Docs (desktop and mobile), Microsoft Word and PDF files — including keyboard shortcuts, the live counter, and what to do when an app has no counter at all.",
     category:     "Writing",
     readTime:     "6 min read",
@@ -266,6 +273,7 @@ export const BLOG_POSTS: Record<string, {
   "best-free-json-formatter-tools": {
     title:        "Best Free JSON Formatter Tools Online (2026 Update)",
     slug:         "best-free-json-formatter-tools",
+    relatedPosts: ["base64-encoding-explained", "url-encoding-developer-guide"],
     excerpt:      "Discover the top free JSON formatter and validator tools available online. We compare speed, features and ease of use so you can pick the right one.",
     category:     "Developer Tools",
     readTime:     "6 min read",
@@ -325,6 +333,8 @@ export const BLOG_POSTS: Record<string, {
   "how-to-compress-images-without-losing-quality": {
     title:        "How to Compress Images Without Losing Quality",
     slug:         "how-to-compress-images-without-losing-quality",
+    relatedPosts: ["tinypng-alternatives", "webp-vs-jpeg-vs-png-2026"],
+    heroImage:    "/blog-images/how-to-compress-images-without-losing-quality.png",
     excerpt:      "A practical guide to reducing image file sizes for the web — which formats to use, how much compression is safe, and the free tools that do it best.",
     category:     "Image Tools",
     readTime:     "7 min read",
@@ -347,6 +357,7 @@ export const BLOG_POSTS: Record<string, {
     ],
     content: `
 <p>Images are the single biggest contributor to slow websites. A webpage with unoptimized images can be 5 to 10 times larger than it needs to be, causing longer load times, higher bounce rates and lower search rankings. Modern compression algorithms can reduce a JPEG by 60 to 80 percent with no visible quality loss.</p>
+<p><em>Update July 2026:</em> we hand-tested <a href="/blog/tinypng-alternatives">7 free TinyPNG alternatives</a> — including two that compress entirely in your browser without uploading anything.</p>
 
 <h2 id="lossy-vs-lossless">Lossy vs Lossless Compression</h2>
 <p><strong>Lossy compression</strong> permanently removes subtle image data to achieve smaller files. JPEG uses lossy compression — ideal for photographs where minor quality loss is acceptable.</p>
@@ -378,6 +389,7 @@ export const BLOG_POSTS: Record<string, {
   "strong-password-guide": {
     title:        "What Makes a Password Strong? The Complete 2026 Guide",
     slug:         "strong-password-guide",
+    relatedPosts: ["merge-pdf-files-without-uploading", "base64-encoding-explained"],
     excerpt:      "Everything you need to know about creating and managing strong passwords — length, complexity, common mistakes and how to stay secure in 2026.",
     category:     "Security",
     readTime:     "8 min read",
@@ -429,6 +441,7 @@ export const BLOG_POSTS: Record<string, {
   "hex-vs-rgb-vs-hsl-color-formats": {
     title:        "HEX vs RGB vs HSL: Which Color Format Should You Use?",
     slug:         "hex-vs-rgb-vs-hsl-color-formats",
+    relatedPosts: ["webp-vs-jpeg-vs-png-2026", "how-to-remove-background-gimp-canva"],
     excerpt:      "A complete guide to web color formats for developers and designers — when to use HEX, RGB, HSL and how to convert between them instantly.",
     category:     "Design",
     readTime:     "6 min read",
@@ -474,6 +487,7 @@ export const BLOG_POSTS: Record<string, {
   "qr-codes-for-business-complete-guide": {
     title:        "QR Codes for Business: The Complete 2026 Guide",
     slug:         "qr-codes-for-business-complete-guide",
+    relatedPosts: ["free-seo-tools-that-work", "url-encoding-developer-guide"],
     excerpt:      "Everything businesses need to know about QR codes in 2026 — how they work, the best use cases, design tips and how to generate them for free.",
     category:     "Developer Tools",
     readTime:     "7 min read",
@@ -523,6 +537,7 @@ export const BLOG_POSTS: Record<string, {
   "base64-encoding-explained": {
     title:        "Base64 Encoding Explained: A Developer's Guide",
     slug:         "base64-encoding-explained",
+    relatedPosts: ["url-encoding-developer-guide", "best-free-json-formatter-tools"],
     excerpt:      "What is Base64 encoding, how does it work and when should you use it? A practical guide for developers with real-world examples.",
     category:     "Developer Tools",
     readTime:     "6 min read",
@@ -575,6 +590,7 @@ export const BLOG_POSTS: Record<string, {
   "bmi-calculator-guide-what-your-score-means": {
     title:        "BMI Calculator: What Your Score Actually Means",
     slug:         "bmi-calculator-guide-what-your-score-means",
+    relatedPosts: ["loan-calculator-with-extra-payments", "strong-password-guide"],
     excerpt:      "A complete guide to BMI — how it is calculated, what the categories mean, its limitations and how to use it alongside other health metrics.",
     category:     "Health",
     readTime:     "7 min read",
@@ -624,6 +640,7 @@ export const BLOG_POSTS: Record<string, {
   "url-encoding-developer-guide": {
     title:        "URL Encoding Explained: A Developer's Complete Guide",
     slug:         "url-encoding-developer-guide",
+    relatedPosts: ["base64-encoding-explained", "best-free-json-formatter-tools"],
     excerpt:      "What is URL encoding, why it matters and how to use it correctly in web applications. Everything developers need to know about percent-encoding.",
     category:     "Developer Tools",
     readTime:     "6 min read",
@@ -674,6 +691,7 @@ export const BLOG_POSTS: Record<string, {
   "free-seo-tools-that-work": {
     title:        "Free SEO Tools That Actually Work in 2026",
     slug:         "free-seo-tools-that-work",
+    relatedPosts: ["tinypng-alternatives", "word-count-guide-every-platform", "qr-codes-for-business-complete-guide"],
     excerpt:      "The definitive list of the best free SEO tools for keyword research, technical audits, rank tracking and content optimization in 2026.",
     category:     "SEO",
     readTime:     "8 min read",
@@ -725,6 +743,7 @@ export const BLOG_POSTS: Record<string, {
   "word-count-guide-every-platform": {
     title:        "Word Count Guide: The Right Length for Every Platform",
     slug:         "word-count-guide-every-platform",
+    relatedPosts: ["how-to-check-word-count", "free-seo-tools-that-work"],
     excerpt:      "How many words should your content be? The definitive word count guide for blog posts, social media, emails, SEO meta tags and every other platform.",
     category:     "Writing",
     readTime:     "7 min read",
@@ -774,6 +793,7 @@ export const BLOG_POSTS: Record<string, {
   "compress-pdf-without-losing-quality": {
     title:        "How to Compress a PDF Without Losing Quality (2026 Guide)",
     slug:         "compress-pdf-without-losing-quality",
+    relatedPosts: ["merge-pdf-files-without-uploading", "how-to-compress-images-without-losing-quality"],
     excerpt:      "Reduce PDF file size by 50-90% without visible quality loss. Complete 2026 guide covering compression levels, when to use each, and free browser-based tools that never upload your file.",
     category:     "PDF Tools",
     readTime:     "7 min read",
@@ -865,6 +885,7 @@ export const BLOG_POSTS: Record<string, {
   "merge-pdf-files-without-uploading": {
     title:        "Merge PDF Files Without Uploading Them: The Privacy-First Way",
     slug:         "merge-pdf-files-without-uploading",
+    relatedPosts: ["compress-pdf-without-losing-quality", "strong-password-guide"],
     excerpt:      "Combine multiple PDFs into one file directly in your browser — no servers, no uploads, no privacy risks. Step-by-step guide plus comparison of online vs browser-based PDF merge methods.",
     category:     "PDF Tools",
     readTime:     "6 min read",
@@ -947,6 +968,7 @@ export const BLOG_POSTS: Record<string, {
   "loan-calculator-with-extra-payments": {
     title:        "Loan Calculator with Extra Payments: How They Actually Save You Money",
     slug:         "loan-calculator-with-extra-payments",
+    relatedPosts: ["bmi-calculator-guide-what-your-score-means", "compress-pdf-without-losing-quality"],
     excerpt:      "Adding even small extra payments to your loan can cut years off the term and save thousands in interest. See exactly how much you would save with real examples and a free calculator.",
     category:     "Finance",
     readTime:     "8 min read",
@@ -1036,6 +1058,8 @@ export const BLOG_POSTS: Record<string, {
   "webp-vs-jpeg-vs-png-2026": {
     title:        "WebP vs JPEG vs PNG: Which Image Format to Use in 2026",
     slug:         "webp-vs-jpeg-vs-png-2026",
+    relatedPosts: ["how-to-compress-images-without-losing-quality", "tinypng-alternatives", "hex-vs-rgb-vs-hsl-color-formats"],
+    heroImage:    "/blog-images/webp-vs-jpeg-vs-png-2026.png",
     excerpt:      "WebP produces files 25-35% smaller than JPEG at the same quality and is now supported by every browser. Here is exactly when to use each format, with real file-size comparisons and a free conversion tool.",
     category:     "Image Tools",
     readTime:     "7 min read",
@@ -1060,6 +1084,7 @@ export const BLOG_POSTS: Record<string, {
     ],
     content: `
 <p>WebP is the right default for almost all web images in 2026. It produces files <strong>25-35% smaller than JPEG</strong> at the same visual quality, supports both transparency and animation, and is supported by every modern browser including Safari. JPEG and PNG still have specific use cases — but WebP should be your starting point unless you have a reason to use something else.</p>
+<p><em>Related:</em> once you have picked a format, see our tested list of <a href="/blog/tinypng-alternatives">free TinyPNG alternatives</a> for compressing it without size caps.</p>
 
 <h2 id="quick-comparison">Quick Comparison Table</h2>
 <table>

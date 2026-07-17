@@ -60,11 +60,11 @@ export async function generateMetadata(
       url: postUrl, siteName: "PursTech",
       publishedTime: post.publishedISO, modifiedTime: post.updatedISO,
       authors: [AUTHOR.name], tags: post.keywords,
-      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: post.title }],
+      images: [{ url: post.heroImage ?? "/og-image.png", width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image", title: post.title,
-      description: post.excerpt, images: ["/og-image.png"], creator: "@purstech",
+      description: post.excerpt, images: [post.heroImage ?? "/og-image.png"], creator: "@purstech",
     },
     // ✅ CLAUDE'S FIX: Added explicit robots directives
     robots: {
@@ -98,7 +98,7 @@ export default async function BlogPostPage(
   const articleSchema = {
     "@context": "https://schema.org", "@type": "BlogPosting",
     headline: post.title, description: post.excerpt,
-    image: "https://www.purstech.com/og-image.png",
+    image: post.heroImage ? `https://www.purstech.com${post.heroImage}` : "https://www.purstech.com/og-image.png",
     datePublished: post.publishedISO, dateModified: post.updatedISO,
     // ✅ E-E-A-T FIX: Named Person author (was generic Organization "PursTech Team").
     author: { "@type": "Person", name: AUTHOR.name, url: AUTHOR.url },
@@ -200,6 +200,12 @@ export default async function BlogPostPage(
               {toc.length > 2 && <TableOfContents items={toc} />}
             </div>
 
+            {/* 📷 Hero infographic — per-post image, doubles as OG image */}
+            {post.heroImage && (
+              <img src={post.heroImage} alt={post.title} width={1200} height={630}
+                className="w-full h-auto rounded-2xl border border-white/5 mb-8" />
+            )}
+
             <div
               itemProp="articleBody"
               className="prose prose-invert max-w-none prose-p:text-gray-400 prose-p:leading-relaxed prose-p:mb-4 prose-h2:text-white prose-h2:font-extrabold prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:scroll-mt-24 prose-strong:text-white prose-code:text-cyan-400 prose-code:bg-[#13131F] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm"
@@ -218,6 +224,26 @@ export default async function BlogPostPage(
                       <span className="text-gray-700 group-hover:text-[#6C3AFF] transition-colors text-sm">→</span>
                     </Link>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {/* 📚 Related Reading — internal links between sibling posts (Google guide: links = discovery) */}
+            {post.relatedPosts && post.relatedPosts.length > 0 && (
+              <div className="mt-8 bg-[#13131F] border border-white/5 rounded-2xl p-6">
+                <h2 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">📚 Related Reading</h2>
+                <div className="flex flex-col gap-2">
+                  {post.relatedPosts.map(rSlug => {
+                    const rPost = BLOG_POSTS[rSlug];
+                    if (!rPost) return null;
+                    return (
+                      <Link key={rSlug} href={`/blog/${rSlug}`}
+                        className="flex items-center justify-between gap-3 bg-[#0A0A14] hover:bg-[#6C3AFF]/10 border border-white/5 hover:border-[#6C3AFF]/30 rounded-xl px-4 py-3 transition-all group">
+                        <span className="text-sm text-gray-400 group-hover:text-white transition-colors font-medium">{rPost.title}</span>
+                        <span className="text-gray-700 group-hover:text-[#6C3AFF] transition-colors text-sm shrink-0">→</span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             )}
