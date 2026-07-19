@@ -34,7 +34,7 @@ const APP_SCHEMA = {
   browserRequirements: "Requires JavaScript", inLanguage: "en-US",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-  publisher: { "@type": "Organization", name: "PursTech", url: "https://www.purstech.com" },
+  publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "7 readability formulas: Flesch, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau, ARI, Dale-Chall",
     "Target audience mode with match score",

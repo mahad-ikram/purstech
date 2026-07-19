@@ -32,7 +32,7 @@ const APP_SCHEMA = {
   browserRequirements: "Requires JavaScript", inLanguage: "en-US",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-  publisher: { "@id": "https://www.purstech.com/#organization" },
+  publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "8 unit categories: length, weight, temperature, volume, area, speed, time, digital storage",
     "50+ units including metric and imperial",

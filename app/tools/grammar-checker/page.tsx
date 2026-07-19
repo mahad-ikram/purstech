@@ -77,7 +77,7 @@ const APP_SCHEMA = {
     "Multi-language support (EN-US, EN-GB, DE, FR, ES, PT)",
   ],
   offers:   { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-  publisher: { "@id": "https://www.purstech.com/#organization" },
+  publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
 };
 
 // ── HowTo schema ───────────────────────────────────────────────────────────

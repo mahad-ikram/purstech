@@ -55,7 +55,7 @@ const APP_SCHEMA = {
     "Export as PNG at 1x, 2x, 3x or 4x resolution",
   ],
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-  publisher: { "@id": "https://www.purstech.com/#organization" },
+  publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
 };
 
 // ✅ HowTo schema ADDED

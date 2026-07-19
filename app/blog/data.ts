@@ -1082,7 +1082,7 @@ export const BLOG_POSTS: Record<string, {
   // 13. NEW: Loan Calculator with Extra Payments
   // ═════════════════════════════════════════════════════════════════════════
   "loan-calculator-with-extra-payments": {
-    title:        "Loan Calculator with Extra Payments: How They Actually Save You Money",
+    title:        "Loan Calculator with Extra Payments: Real Savings Math",
     slug:         "loan-calculator-with-extra-payments",
     relatedPosts: ["bmi-calculator-guide-what-your-score-means", "compress-pdf-without-losing-quality"],
     heroImage:    "/blog-images/loan-calculator-with-extra-payments.png",
