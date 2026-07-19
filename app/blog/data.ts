@@ -18,6 +18,94 @@ export const BLOG_POSTS: Record<string, {
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
+  // 18. Word Counter Tools listicle (NEW Jul 2026 — first entry on purpose:
+  //     newest post = featured card on /blog)
+  // ═════════════════════════════════════════════════════════════════════════
+  "best-free-word-counter-tools": {
+    title:        "7 Best Free Word Counter Tools in 2026 (Honestly Compared)",
+    slug:         "best-free-word-counter-tools",
+    relatedPosts: ["how-to-check-word-count", "word-count-guide-every-platform", "free-seo-tools-that-work"],
+    heroImage:    "/blog-images/best-free-word-counter-tools.png",
+    heroAlt:      "Comparison card: seven free word counters tested against full statistics, keyword density, signup walls and privacy — only two offer keyword density and only one runs entirely in the browser",
+    excerpt:      "We ran the same draft through 7 popular free word counters and compared the statistics, signup walls, ads and privacy of each — including an honest look at the one we built ourselves.",
+    category:     "Writing",
+    readTime:     "8 min read",
+    publishedAt:  "July 17, 2026",
+    updatedAt:    "July 17, 2026",
+    publishedISO: "2026-07-17T09:00:00Z",
+    updatedISO:   "2026-07-17T09:00:00Z",
+    keywords:     ["word counter", "free word counter", "word count tool", "wordcounter", "character counter", "keyword density checker"],
+    relatedTools: [
+      { name: "Word Counter",        slug: "word-counter",  icon: "📝" },
+      { name: "Diff Checker",   slug: "diff-checker",   icon: "🔍" },
+      { name: "Case Converter", slug: "case-converter", icon: "🔤" },
+    ],
+    faqs: [
+      { q: "What is the best free word counter?", a: "For full statistics with keyword density and no signup, the strongest free options are the PursTech Word Counter and WordCounter.net. PursTech runs entirely in your browser so text never uploads; WordCounter.net is the long-standing hosted favourite with a busier, ad-supported page." },
+      { q: "How do I check word count without copying into a website?", a: "Use the counter built into your editor: Ctrl+Shift+C in Google Docs (Cmd+Shift+C on Mac) or the status bar and Ctrl+Shift+G in Microsoft Word. For any other text, a browser-local counter processes everything on your device, which is functionally the same privacy as not leaving your editor." },
+      { q: "Is it safe to paste confidential text into a word counter?", a: "Only if the counter processes text locally in your browser. A hosted tool receives whatever you paste, so NDA material, legal drafts or unpublished work should go through a browser-local counter or your editor's built-in count instead." },
+      { q: "Which word counters show keyword density?", a: "Of the seven tools compared here, two do: the PursTech Word Counter and WordCounter.net. Keyword density matters mainly for SEO writing, where repeating a phrase too often reads as spam and too rarely misses the topic." },
+      { q: "Does Google Docs have a live word count?", a: "Yes. Press Ctrl+Shift+C to open the count, and tick 'Display word count while typing' to pin a live counter to the bottom-left corner of the document. It counts the current document only." },
+      { q: "Do word counters count characters with spaces?", a: "Good ones show both figures. Characters with spaces is the number that matters for platform limits — social posts, meta descriptions, ad headlines — while characters without spaces is occasionally used in translation and typesetting work." },
+    ],
+    content: `
+<p>Every writer eventually plays the same game: paste a draft into the first word counter Google offers, dodge three ad blocks, and squint for the number. If the draft is a client piece under NDA — or just something you have not published yet — there is a second, quieter question: <strong>where did that text just go?</strong></p>
+<p>We ran the same draft through seven popular free counters and compared what each one actually tells you, what sits behind a login, where the ads are, and whether your text stays on your device. Full disclosure: <strong>we built one of these tools</strong> — that is exactly why we know what to look for, and we have kept the comparison honest enough that the other six get real credit where they earn it.</p>
+
+<h2 id="how-we-chose">What We Checked</h2>
+<p>A useful counter in 2026 has to clear five bars: <strong>full statistics</strong> (characters, sentences, paragraphs and reading time — not just a word total), <strong>keyword density</strong> for anyone writing for search, <strong>no signup wall</strong>, a tolerable <strong>ad situation</strong>, and ideally <strong>browser-local processing</strong> so unpublished text never touches a server.</p>
+
+<h2 id="quick-comparison">Quick Comparison</h2>
+<table>
+<thead><tr><th>Tool</th><th>Full stats</th><th>Keyword density</th><th>No signup</th><th>Type</th></tr></thead>
+<tbody>
+<tr><td><strong>PursTech Word Counter</strong></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Browser tool</td></tr>
+<tr><td>WordCounter.net</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Web tool</td></tr>
+<tr><td>QuillBot Word Counter</td><td>Basic</td><td>No</td><td>Yes</td><td>Web tool</td></tr>
+<tr><td>Google Docs (built-in)</td><td>Basic</td><td>No</td><td>Account needed</td><td>Editor feature</td></tr>
+<tr><td>Microsoft Word (built-in)</td><td>Yes</td><td>No</td><td>Paid app</td><td>Editor feature</td></tr>
+<tr><td>Grammarly Editor</td><td>Basic</td><td>No</td><td>Account needed</td><td>Editor feature</td></tr>
+<tr><td>Character Count Online</td><td>Basic</td><td>No</td><td>Yes</td><td>Web tool</td></tr>
+</tbody>
+</table>
+
+<h2 id="purstech">1. PursTech Word Counter — Full Stats, Zero Uploads</h2>
+<p>Yes, this is ours — judge it against the table above. Paste or type and the <a href="/tools/word-counter">PursTech Word Counter</a> live-updates <strong>words, characters, sentences, paragraphs and estimated reading time</strong>, plus a <strong>keyword density</strong> panel and character-limit checks for the major platforms. Everything runs in your browser: there is no login, and your text is never sent anywhere, which makes it the safe choice for NDA drafts, unpublished chapters and anything personal.</p>
+<p><strong>Best for:</strong> writers and SEO work that needs every statistic, privately.<br><strong>Watch for:</strong> it is a counter, not an editor — pair it with wherever you actually write.</p>
+
+<h2 id="wordcounter-net">2. WordCounter.net — The Long-Standing Favourite</h2>
+<p>The tool most people mean when they say "word counter". It counts live, tracks keyword density, estimates reading level and speaking time, and keeps a session history. It has earned its popularity — the trade-off is a busy, ad-supported page around the counter itself.</p>
+<p><strong>Best for:</strong> a proven, feature-rich counter you already know.<br><strong>Watch for:</strong> the ad layout, and the fact that it is a hosted web page rather than a local tool.</p>
+
+<h2 id="quillbot">3. QuillBot Word Counter — Cleanest Interface</h2>
+<p>QuillBot's free counter gives words, characters and sentences in a genuinely tidy interface. It exists to introduce you to the wider QuillBot writing suite, so expect gentle nudges toward the paraphraser and AI tools, and fewer standalone statistics than the two tools above.</p>
+<p><strong>Best for:</strong> quick counts in a modern UI.<br><strong>Watch for:</strong> lighter statistics; the counter is a doorway to a paid product family.</p>
+
+<h2 id="google-docs">4. Google Docs — The Shortcut You Already Have</h2>
+<p>If the draft already lives in Docs, <strong>Ctrl+Shift+C</strong> (⌘+Shift+C on Mac) opens the count instantly, with a checkbox to display it live while typing. It only counts the document you are in — it is not a paste-anything utility — and it requires a Google account by definition. Our <a href="/blog/how-to-check-word-count">platform-by-platform guide</a> covers every shortcut.</p>
+<p><strong>Best for:</strong> counting inside Docs itself.<br><strong>Watch for:</strong> no keyword density, no reading time, nothing outside Docs.</p>
+
+<h2 id="ms-word">5. Microsoft Word — Excellent, If You Already Pay</h2>
+<p>Word's status-bar counter is always on, and <strong>Ctrl+Shift+G</strong> opens full statistics including characters with and without spaces. It is arguably the most polished built-in counter anywhere — the only catch is that it lives inside a paid application.</p>
+<p><strong>Best for:</strong> Microsoft 365 users who never leave Word.<br><strong>Watch for:</strong> the licence cost if counting is all you need.</p>
+
+<h2 id="grammarly">6. Grammarly Editor — Counting as a Side Effect</h2>
+<p>Grammarly shows word count and readability inside its editor while it checks your writing. If you already draft in Grammarly, the number is right there; if you do not, creating an account just to count words is overkill.</p>
+<p><strong>Best for:</strong> existing Grammarly users.<br><strong>Watch for:</strong> account requirement; counting is a side feature, not the product.</p>
+
+<h2 id="char-count-online">7. Character Count Online — Bare-Bones and Fast</h2>
+<p>A minimal page that returns words, characters and lines the moment you paste. The interface has not changed much in years, which is both its charm and its limitation — there is no density analysis, no reading time, no platform limits.</p>
+<p><strong>Best for:</strong> a fast character total and nothing else.<br><strong>Watch for:</strong> the dated layout and thin statistics.</p>
+
+<h2 id="which-one">Which One Should You Use?</h2>
+<p><strong>Writing for search?</strong> You need keyword density — that narrows it to PursTech or WordCounter.net. <strong>Working with confidential text?</strong> Choose the browser-local option so nothing uploads. <strong>Already inside Docs, Word or Grammarly?</strong> Use the built-in shortcut for that document and keep a standalone counter bookmarked for everything else. For target lengths once you are counting, our guide to <a href="/blog/word-count-guide-every-platform">ideal word counts for every platform</a> has the numbers.</p>
+
+<h2 id="privacy-note">A Note on Privacy</h2>
+<p>A word counter feels trivial until you remember what people paste into one: unreleased announcements, legal drafts, medical notes, unpublished manuscripts. Any hosted tool means that text travels to someone else's server, however briefly and however good their intentions. A counter that runs entirely in your browser removes the question — there is nothing to trust, because nothing leaves your machine.</p>
+    `,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
   // 17. TinyPNG Alternatives (NEW Jul 2026 — first entry on purpose:
   //     newest post = featured card on /blog)
   // ═════════════════════════════════════════════════════════════════════════
@@ -197,7 +285,7 @@ export const BLOG_POSTS: Record<string, {
   "how-to-check-word-count": {
     title:        "How to Check Word Count in Google Docs, Word & PDF (2026)",
     slug:         "how-to-check-word-count",
-    relatedPosts: ["word-count-guide-every-platform", "free-seo-tools-that-work"],
+    relatedPosts: ["best-free-word-counter-tools", "word-count-guide-every-platform", "free-seo-tools-that-work"],
     heroImage:    "/blog-images/how-to-check-word-count.png",
     heroAlt:      "Cheat sheet: word count via Ctrl+Shift+C in Google Docs, Ctrl+Shift+G in Microsoft Word, copy-paste for PDFs, and a browser counter for everything else",
     excerpt:      "Every way to check word count in Google Docs (desktop and mobile), Microsoft Word and PDF files — including keyboard shortcuts, the live counter, and what to do when an app has no counter at all.",
@@ -765,7 +853,7 @@ export const BLOG_POSTS: Record<string, {
   "word-count-guide-every-platform": {
     title:        "Word Count Guide: The Right Length for Every Platform",
     slug:         "word-count-guide-every-platform",
-    relatedPosts: ["how-to-check-word-count", "free-seo-tools-that-work"],
+    relatedPosts: ["best-free-word-counter-tools", "how-to-check-word-count", "free-seo-tools-that-work"],
     heroImage:    "/blog-images/word-count-guide-every-platform.png",
     heroAlt:      "Range chart of ideal word counts: news 500-800, product reviews 1,000-1,500, in-depth guides 1,500-2,500 words, plus the 100-200 character sweet spot on X",
     excerpt:      "How many words should your content be? The definitive word count guide for blog posts, social media, emails, SEO meta tags and every other platform.",
