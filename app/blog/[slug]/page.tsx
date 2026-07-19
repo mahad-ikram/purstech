@@ -208,7 +208,7 @@ export default async function BlogPostPage(
 
             <div
               itemProp="articleBody"
-              className="prose prose-invert max-w-none prose-p:text-gray-400 prose-p:leading-relaxed prose-p:mb-4 prose-h2:text-white prose-h2:font-extrabold prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:scroll-mt-24 prose-strong:text-white prose-code:text-cyan-400 prose-code:bg-[#13131F] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm"
+              className="blog-content"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 

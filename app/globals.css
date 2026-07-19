@@ -54,3 +54,33 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .purs-marquee { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BLOG ARTICLE BODY — .blog-content
+   Why this exists: the article body previously used Tailwind `prose` +
+   `prose-*:` modifier classes, which require @tailwindcss/typography. That
+   plugin was never installed, and this project runs Tailwind v4 CSS-first
+   (`@import "tailwindcss"`, no @config) — so every prose class compiled to
+   NOTHING and articles rendered as unstyled text. Same failure class as the
+   marquee keyframes. Rule: article styling lives here as plain CSS.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.blog-content { color: #9CA3AF; font-size: 1.0625rem; line-height: 1.75; max-width: none; }
+.blog-content p { margin: 0 0 1rem; }
+.blog-content h2 { color: #fff; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; margin: 2.5rem 0 1rem; scroll-margin-top: 6rem; }
+.blog-content h2:first-child { margin-top: 0; }
+.blog-content h3 { color: #fff; font-size: 1.125rem; font-weight: 700; margin: 2rem 0 0.75rem; scroll-margin-top: 6rem; }
+.blog-content strong { color: #fff; font-weight: 700; }
+.blog-content em { color: #D1D5DB; }
+.blog-content a { color: #A78BFA; text-decoration: underline; text-underline-offset: 3px; transition: color .15s; }
+.blog-content a:hover { color: #22D3EE; }
+.blog-content ul, .blog-content ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+.blog-content li { margin: 0.4rem 0; }
+.blog-content li::marker { color: #6C3AFF; }
+.blog-content code { color: #22D3EE; background: #13131F; border: 1px solid rgba(255,255,255,.06); padding: 0.15em 0.4em; border-radius: 6px; font-size: 0.875em; }
+.blog-content blockquote { border-left: 3px solid #6C3AFF; margin: 1.5rem 0; padding: 0.25rem 0 0.25rem 1rem; color: #B3B8C4; }
+.blog-content hr { border: 0; border-top: 1px solid rgba(255,255,255,.08); margin: 2.5rem 0; }
+.blog-content img { border-radius: 1rem; border: 1px solid rgba(255,255,255,.06); margin: 1.5rem 0; }
+.blog-content table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+.blog-content th { text-align: left; color: #fff; font-weight: 700; background: #13131F; padding: 0.65rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,.12); white-space: nowrap; }
+.blog-content td { color: #9CA3AF; padding: 0.6rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,.05); }
+.blog-content tr:hover td { background: rgba(108,58,255,.04); }
