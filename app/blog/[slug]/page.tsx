@@ -202,7 +202,7 @@ export default async function BlogPostPage(
 
             {/* 📷 Hero infographic — per-post image, doubles as OG image */}
             {post.heroImage && (
-              <img src={post.heroImage} alt={post.title} width={1200} height={630}
+              <img src={post.heroImage} alt={post.heroAlt ?? post.title} width={1200} height={630}
                 className="w-full h-auto rounded-2xl border border-white/5 mb-8" />
             )}
 
