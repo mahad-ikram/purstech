@@ -3,7 +3,7 @@ import UUIDGeneratorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free UUID Generator — GUID & Random UUID v4 (Bulk)",
-  description: "Generate cryptographically secure UUID v4 identifiers instantly. Bulk generate up to 50 at once in standard, uppercase, no-hyphens or braces format.",
+  description: "Free UUID generator — create cryptographically secure UUID v4 identifiers instantly. Bulk-generate up to 50 at once, uppercase toggle, one-tap copy.",
   alternates: { canonical: "/tools/uuid-generator" },
   keywords: ["uuid generator", "guid generator", "universal unique id", "random uuid", "generate guid", "globally unique id", "uuid v4 generator", "bulk uuid generator", "guid maker"],
   openGraph: {

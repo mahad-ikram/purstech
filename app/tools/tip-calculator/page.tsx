@@ -3,7 +3,7 @@ import TipCalculatorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Tip Calculator — Gratuity & Bill Split Per Person",
-  description: "Calculate tip and split a restaurant bill in seconds. Set custom tip %, split among any number of people, add tax.",
+  description: "Free tip calculator — work out the tip and split a restaurant bill in seconds. Set any tip %, split between any number of people, rounding included.",
   alternates: { canonical: "/tools/tip-calculator" },
   keywords: ["tip calculator","how to calculate tip","gratuity calculator","how much to tip","average tip percentage","tip chart","split bill calculator","tipping calculator","tip calc"],
   openGraph: {

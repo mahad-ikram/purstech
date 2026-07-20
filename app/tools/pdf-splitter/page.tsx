@@ -3,7 +3,7 @@ import PDFSplitterClient from "./client";
 
 export const metadata: Metadata = {
   title: "Split PDF Free — Extract & Separate PDF Pages",
-  description: "Split a PDF into individual pages or custom ranges. Extract specific pages, separate or remove pages, unmerge combined PDFs.",
+  description: "Free PDF splitter — split a PDF into individual pages or custom ranges. Extract, separate or remove pages, then download. No upload, no signup.",
   alternates: { canonical: "/tools/pdf-splitter" },
   keywords: ["split pdf","pdf splitter","extract pages from pdf","how to separate pages in pdf","pdf separator","save one page of pdf","unmerge pdf","pdf split","extract pdf pages"],
   openGraph: {

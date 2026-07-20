@@ -3,7 +3,7 @@ import ImageToTextClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Image to Text Converter — Pic to Text OCR Online",
-  description: "Extract text from any image instantly with AI-powered OCR. Supports 30+ languages, word-level confidence, image preprocessing and clipboard paste.",
+  description: "Free image to text converter — extract text from any image instantly with AI-powered OCR. 30+ languages, word-level accuracy, copy or download.",
   alternates: { canonical: "/tools/image-to-text" },
   keywords: ["image to text","pic to text","picture to text","image to text converter","extract text from image","copy text from image","photo to text converter","convert image to text","img to text","jpg to text","png to text","image to word converter","screenshot to text","handwriting to text"],
   openGraph: {

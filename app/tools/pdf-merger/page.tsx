@@ -3,7 +3,7 @@ import PDFMergerClient from "./client";
 
 export const metadata: Metadata = {
   title: "Merge PDF Files Free — Combine PDF Online",
-  description: "Merge multiple PDF files into one online for free. Drag to reorder, select page ranges from each file, set metadata on the merged PDF.",
+  description: "Free PDF merger — merge multiple PDF files into one online. Drag to reorder, pick page ranges, with no upload and no signup required.",
   alternates: { canonical: "/tools/pdf-merger" },
   keywords: ["merge pdf","combine pdf","pdf merger","pdf combiner","combine pdf files","how to combine pdf files","merge pdf online","pdf merge","file combiner"],
   openGraph: {
