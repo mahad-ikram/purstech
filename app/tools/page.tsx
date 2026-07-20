@@ -185,32 +185,7 @@ const CATEGORY_HIGHLIGHTS = [
   { emoji:"📝", cat:"Text Tools",      tools:"Word counter, case converter, diff checker, lorem ipsum" },
 ];
 
-export default function AllToolsPage() {
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(COLLECTION_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA)    }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA)        }} />
-      {CATEGORY_SCHEMAS.map((s, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
-      ))}
-
-      {/* Suspense required — AllToolsClient uses useSearchParams() */}
-      <Suspense fallback={
-        <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
-          <nav className="border-b border-white/5 px-4 py-4">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-              <span className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></span>
-            </div>
-          </nav>
-          <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
-            <div className="text-center py-20 text-gray-600">Loading tools…</div>
-          </main>
-        </div>
-      }>
-        <AllToolsClient>
-          {/* ✅ Rule 12: Hero server-rendered, passed as {children} */}
+const HERO = (
           <div className="mb-10 text-center">
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
               All{" "}
@@ -233,6 +208,35 @@ export default function AllToolsPage() {
               ))}
             </div>
           </div>
+);
+
+export default function AllToolsPage() {
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(COLLECTION_SCHEMA) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_SCHEMA) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA)    }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA)        }} />
+      {CATEGORY_SCHEMAS.map((s, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+      ))}
+
+      {/* Suspense required — AllToolsClient uses useSearchParams() */}
+      <Suspense fallback={
+        <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+          <nav className="border-b border-white/5 px-4 py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <span className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></span>
+            </div>
+          </nav>
+          <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+            {HERO}
+            <div className="text-center py-16 text-gray-600">Loading tools…</div>
+          </main>
+        </div>
+      }>
+        <AllToolsClient>
+          {HERO}
         </AllToolsClient>
       </Suspense>
     </>
