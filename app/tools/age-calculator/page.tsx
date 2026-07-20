@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Age Calculator on a Specific Date — Chronological Age",
 
   description:
-    "Free age calculator — find your exact chronological age in years, months and days, today or on any specific date. Works for adults and children. Total days, weeks, hours and next birthday countdown.",
+    "Free age calculator — find your exact chronological age in years, months and days, today or on any specific date. Works for adults and children.",
 
   alternates: { canonical: "/tools/age-calculator" },
 

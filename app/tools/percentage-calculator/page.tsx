@@ -3,7 +3,7 @@ import PercentageCalculatorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Percentage Calculator — Increase, Decrease & Percent Off",
-  description: "Free percentage calculator with 6 modes — percent change (increase or decrease), percentage difference, percentage off, find a percentage of a number, and add or subtract a percent. Instant, no login.",
+  description: "Free percentage calculator with 6 modes — percent change (increase or decrease), percentage difference, percentage off, find a percentage of a number.",
   alternates: { canonical: "/tools/percentage-calculator" },
   keywords: ["percentage calculator","percentage increase calculator","percent change calculator","percentage off calculator","percentage decrease calculator","percentage difference calculator","how to find percentage","percent of money calculator"],
   openGraph: {

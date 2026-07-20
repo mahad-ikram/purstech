@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Compound Interest Calculator — Daily, Monthly & Yearly",
 
   description:
-    "Free compound interest calculator with daily, monthly and yearly compounding, regular contributions and a year-by-year growth chart. See the future value of your savings or investment. Free, instant.",
+    "Free compound interest calculator with daily, monthly and yearly compounding, regular contributions and a year-by-year growth chart.",
 
   alternates: { canonical: "/tools/compound-interest-calculator" },
 

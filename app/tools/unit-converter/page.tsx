@@ -3,7 +3,7 @@ import UnitConverterClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Unit Converter — Metric Conversion Calculator & Chart",
-  description: "Free unit converter and metric conversion calculator — length, weight, temperature, volume, area, speed, time and digital storage. 50+ units with a live all-conversions chart. No login.",
+  description: "Free unit converter and metric conversion calculator — length, weight, temperature, volume, area, speed, time and digital storage.",
   alternates: { canonical: "/tools/unit-converter" },
   keywords: ["unit converter","conversion calculator","metric conversion","conversion chart","metric conversion chart","measurement conversion","conversion table","metric to imperial","cm to inches","kg to lbs"],
   openGraph: {

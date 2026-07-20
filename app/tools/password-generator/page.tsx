@@ -3,7 +3,7 @@ import PasswordGeneratorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Strong Password Generator — Random & Secure",
-  description: "Generate strong, random, cryptographically secure passwords instantly — set any length from 6 to 64 characters, choose character types and watch the entropy meter. 100% private, nothing stored.",
+  description: "Free password generator — create strong, random, cryptographically secure passwords instantly. Any length up to 64 with symbols, numbers and one-tap copy.",
   alternates: { canonical: "/tools/password-generator" },
   keywords: ["password generator","strong password generator","random password generator","secure password generator","best free password generator","password generator 12 characters","password creator"],
   openGraph: {

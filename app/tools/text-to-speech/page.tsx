@@ -3,7 +3,7 @@ import TextToSpeechClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Text to Speech — Read Aloud Text Reader (TTS)",
-  description: "Read any text aloud with natural-sounding voices, directly in your browser. Free text to speech (TTS) reader — choose from all installed voices, adjust speed, pitch and volume. No login, 100% private.",
+  description: "Free text to speech — read any text aloud with natural-sounding AI voices in your browser. Adjust speed and pitch, then download the audio.",
   alternates: { canonical: "/tools/text-to-speech" },
   keywords: ["text to speech","read aloud","text reader","tts reader","text to voice","text to speech online free","what does tts mean","browser text to speech"],
   openGraph: {

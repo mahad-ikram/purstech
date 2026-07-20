@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free Hash Generator — MD5, SHA256 & SHA-512 Hashes",
 
   description:
-    "Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes instantly. Free online hash generator — 5 algorithms at once, hash verification, UPPERCASE toggle, Ctrl+Enter. No login.",
+    "Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes instantly. Free online hash generator.",
 
   alternates: { canonical: "/tools/hash-generator" },
 

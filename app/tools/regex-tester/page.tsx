@@ -3,7 +3,7 @@ import RegexTesterClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Regex Tester — Regex Builder & Match Highlighter",
-  description: "Test and debug regular expressions instantly with real-time match highlighting, named group extraction, replace mode, 21-pattern library and a plain-English regex explainer. Free, no login.",
+  description: "Free regex tester — build and debug regular expressions (regex) with real-time match highlighting, capture groups and a handy cheat sheet.",
   alternates: { canonical: "/tools/regex-tester" },
   keywords: ["regex tester","regex builder","regular expression builder","regex generator","regex match","regex not","javascript regex tester","regex checker","lookahead lookbehind regex"],
   openGraph: {

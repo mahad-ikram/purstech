@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free Color Picker — HEX, RGB, HSL Online",
 
   description:
-    "Pick any color and instantly get HEX, RGB, HSL, HSV and CMYK codes. Free online color picker with shade generator, contrast checker and complementary colors. No login.",
+    "Pick any color and instantly get HEX, RGB, HSL, HSV and CMYK codes. Free online color picker with shade generator, contrast checker and complementary colors.",
 
   alternates: { canonical: "/tools/color-picker" },
 

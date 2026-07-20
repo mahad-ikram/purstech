@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free BMI Calculator (kg & lbs) — Healthy Weight Range",
 
   description:
-    "Calculate your Body Mass Index instantly. Free BMI calculator with healthy weight range, BMI Prime and category gauge. Supports metric (kg/cm) and imperial (lb/ft). No login required.",
+    "Calculate your Body Mass Index instantly. Free BMI calculator with healthy weight range, BMI Prime and category gauge.",
 
   alternates: { canonical: "/tools/bmi-calculator" },
 

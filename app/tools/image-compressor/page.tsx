@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Image & Photo Compressor — JPEG, PNG & WebP",
 
   description:
-    "Free image and photo compressor — reduce JPEG, PNG and WebP file size in KB by up to 90% with a live before/after preview. No upload limit, no login, browser-based.",
+    "Free image and photo compressor — reduce JPEG, PNG and WebP file size in KB by up to 90% with a live before/after preview.",
 
   alternates: { canonical: "/tools/image-compressor" },
 

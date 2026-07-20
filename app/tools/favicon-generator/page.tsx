@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Free Favicon Generator & ICO Editor — All 18 Sizes",
 
   description:
-    "The most advanced free favicon generator online. Create favicons from image, text, emoji or pixel art. All 18 sizes, browser & device mockups, PWA manifest, ZIP download. No login.",
+    "The most advanced free favicon generator online. Create favicons from image, text, emoji or pixel art.",
 
   keywords: ["favicon generator","ico editor","favicon size","make favicon","icon generator","png to ico","emoji favicon","how to make a favicon","favicon checker","apple touch icon"],
 

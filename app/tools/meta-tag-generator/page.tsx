@@ -3,7 +3,7 @@ import MetaTagGeneratorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Meta Tag Generator — Live SERP Preview",
-  description: "Generate perfectly optimized HTML meta tags for SEO. Get an SEO grade, live mobile & desktop SERP preview, Open Graph, Twitter Card tags and more — free, no login.",
+  description: "Generate perfectly optimized HTML meta tags for SEO. Get an SEO grade, live mobile & desktop SERP preview, Open Graph, Twitter Card tags and more.",
   alternates: { canonical: "/tools/meta-tag-generator" },
   keywords: ["meta tag generator", "meta tags", "meta description length", "seo tags", "serp preview", "open graph tags", "title tag generator"],
   openGraph: {

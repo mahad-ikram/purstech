@@ -4,7 +4,7 @@ import BackgroundRemoverClient from "./client";
 export const metadata: Metadata = {
   title: "Free Background Remover — Remove Background from Image",
   description:
-    "Free AI background remover — remove the background from any image online and download a transparent PNG. Browser-based (no upload), manual brush refinement and a before/after slider.",
+    "Free AI background remover — remove the background from any image online and download a transparent PNG.",
   keywords: [
     "free background remover", "background remover free",
     "remove background from image", "online background remover free",

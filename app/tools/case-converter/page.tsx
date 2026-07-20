@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Case Converter — Uppercase to Lowercase & Title Case",
 
   description:
-    "Free case converter — change uppercase to lowercase, ALL CAPS, Title Case, Sentence case, camelCase, snake_case, kebab-case and more. 12 text cases, instant, no login.",
+    "Free case converter — capitalize text or switch to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case and kebab-case.",
 
   alternates: { canonical: "/tools/case-converter" },
 

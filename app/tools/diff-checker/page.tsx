@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Diff Checker — Compare Text & Lists Online",
 
   description:
-    "Compare two texts online and instantly see every difference. Free diff checker — shows added, removed and unchanged lines. Works with code and plain text. No login.",
+    "Compare two texts online and instantly see every difference. Free diff checker — shows added, removed and unchanged lines. Works with code and plain text.",
 
   alternates: { canonical: "/tools/diff-checker" },
 

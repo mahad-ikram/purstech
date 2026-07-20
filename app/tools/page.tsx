@@ -6,7 +6,7 @@ import AllToolsClient from "./client";
 
 export const metadata: Metadata = {
   title: "All 50 Free Online Tools — Browse by Category",
-  description: "Browse all 50 free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator, SSL checker, regex tester, readability checker and more across 8 categories.",
+  description: "Browse all 50 free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator.",
   alternates: { canonical: "/tools" },
   keywords: [
     "free online tools","all free tools","pdf tools free","image tools online",
@@ -185,6 +185,17 @@ const CATEGORY_HIGHLIGHTS = [
   { emoji:"📝", cat:"Text Tools",      tools:"Word counter, case converter, diff checker, lorem ipsum" },
 ];
 
+const TOOL_INDEX: { label: string; items: { name: string; slug: string }[] }[] = [
+  { label: "PDF", items: [{ name: "PDF Compressor", slug: "pdf-compressor" }, { name: "PDF Merger", slug: "pdf-merger" }, { name: "PDF Splitter", slug: "pdf-splitter" }, { name: "PDF to Word", slug: "pdf-to-word" }, { name: "Word to PDF", slug: "word-to-pdf" }] },
+  { label: "Image", items: [{ name: "Color Picker", slug: "color-picker" }, { name: "Image Compressor", slug: "image-compressor" }, { name: "Image Resizer", slug: "image-resizer" }, { name: "Background Remover", slug: "background-remover" }, { name: "Favicon Generator", slug: "favicon-generator" }, { name: "Image to Text (OCR)", slug: "image-to-text" }] },
+  { label: "Developer", items: [{ name: "JSON Formatter", slug: "json-formatter" }, { name: "Base64 Encoder", slug: "base64-encoder" }, { name: "URL Encoder", slug: "url-encoder" }, { name: "UUID Generator", slug: "uuid-generator" }, { name: "QR Code Generator", slug: "qr-code-generator" }, { name: "Hash Generator", slug: "hash-generator" }, { name: "CSS Minifier", slug: "css-minifier" }, { name: "HTML Minifier", slug: "html-minifier" }, { name: "Regex Tester", slug: "regex-tester" }, { name: "JS Minifier", slug: "js-minifier" }, { name: "HTML to Markdown", slug: "html-to-markdown" }, { name: "Markdown Editor", slug: "markdown-editor" }, { name: "Color Code Converter", slug: "color-code-converter" }, { name: "SVG Editor", slug: "svg-editor" }] },
+  { label: "SEO", items: [{ name: "Meta Tag Generator", slug: "meta-tag-generator" }, { name: "Robots.txt Generator", slug: "robots-txt-generator" }, { name: "Keyword Density Checker", slug: "keyword-density-checker" }, { name: "Open Graph Generator", slug: "open-graph-generator" }, { name: "Sitemap Generator", slug: "sitemap-generator" }] },
+  { label: "AI", items: [{ name: "Grammar Checker", slug: "grammar-checker" }, { name: "Readability Checker", slug: "readability-checker" }] },
+  { label: "Finance", items: [{ name: "Age Calculator", slug: "age-calculator" }, { name: "BMI Calculator", slug: "bmi-calculator" }, { name: "Percentage Calculator", slug: "percentage-calculator" }, { name: "Unit Converter", slug: "unit-converter" }, { name: "Currency Converter", slug: "currency-converter" }, { name: "Loan Calculator", slug: "loan-calculator" }, { name: "Compound Interest Calc", slug: "compound-interest-calculator" }, { name: "Tip Calculator", slug: "tip-calculator" }, { name: "Time Zone Converter", slug: "time-zone-converter" }, { name: "Mortgage Calculator", slug: "mortgage-calculator" }] },
+  { label: "Security", items: [{ name: "Password Generator", slug: "password-generator" }, { name: "SSL Certificate Checker", slug: "ssl-checker" }, { name: "IP Address Lookup", slug: "ip-lookup" }] },
+  { label: "Text", items: [{ name: "Word Counter", slug: "word-counter" }, { name: "Case Converter", slug: "case-converter" }, { name: "Lorem Ipsum Generator", slug: "lorem-ipsum" }, { name: "Diff Checker", slug: "diff-checker" }, { name: "Text to Speech", slug: "text-to-speech" }] },
+];
+
 const HERO = (
           <div className="mb-10 text-center">
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
@@ -231,7 +242,21 @@ export default function AllToolsPage() {
           </nav>
           <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
             {HERO}
-            <div className="text-center py-16 text-gray-600">Loading tools…</div>
+            {/* ✅ SSR crawlable tool links — fallback only; client grid replaces on hydration */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8">
+              {TOOL_INDEX.map((g) => (
+                <div key={g.label}>
+                  <h2 className="text-sm font-bold text-white mb-2">{g.label}</h2>
+                  <ul className="space-y-1.5">
+                    {g.items.map((it) => (
+                      <li key={it.slug}>
+                        <a href={`/tools/${it.slug}`} className="text-sm text-gray-400 hover:text-[#A78BFA]">{it.name}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </main>
         </div>
       }>

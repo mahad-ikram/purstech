@@ -3,7 +3,7 @@ import MortgageCalculatorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Mortgage Payment Calculator — PITI, PMI & Amortization",
-  description: "Calculate your full monthly mortgage payment including principal, interest, property tax, insurance, HOA and PMI. Affordability checker, amortization schedule and rent vs buy comparison.",
+  description: "Calculate your full monthly mortgage payment including principal, interest, property tax, insurance, HOA and PMI.",
   alternates: { canonical: "/tools/mortgage-calculator" },
   keywords: ["mortgage calculator","mortgage payment calculator","mortgage amortization calculator","mortgage calculator with taxes and insurance","pmi calculator","home loan calculator","how much house can i afford calculator","rent vs buy calculator"],
   openGraph: {

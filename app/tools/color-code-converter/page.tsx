@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Free Color Code Converter — HEX to RGB, HSL & CMYK",
 
   description:
-    "Convert color codes between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK instantly. Generate tints, shades, color schemes and check WCAG contrast ratios. Free, no login.",
+    "Convert color codes between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK instantly. Generate tints, shades, color schemes and check WCAG contrast ratios.",
 
   keywords: ["hex to rgb", "rgb to hex", "color code converter", "hex to hsl", "rgb to cmyk", "color converter", "css color variables", "hsl to hex"],
 

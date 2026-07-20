@@ -3,7 +3,7 @@ import QRCodeGeneratorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free QR Code Generator Online — URL, WiFi, Email & vCard",
-  description: "Generate QR codes instantly for URLs, text, WiFi credentials, email, phone numbers and contacts. Download PNG or SVG. Custom colours, 6 QR types, no login. 100% free.",
+  description: "Free QR code generator — create QR codes instantly for URLs, text, WiFi, email, phone and contacts. Custom colours and high-resolution PNG download.",
   alternates: { canonical: "/tools/qr-code-generator" },
   keywords: ["qr code generator","free qr code generator","qr code maker","wifi qr code generator","generate qr code for wifi","qr code generator for google forms","facebook qr code generator","qr code for website","vcard qr code","qr code png download","qr code svg","custom qr code free"],
   openGraph: {

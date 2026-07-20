@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free HTML to Markdown Converter — HTML to MD (GFM)",
 
   description:
-    "Convert HTML to Markdown instantly in your browser. Preserves headings, bold, italic, links, images, tables, code blocks and lists. GFM output, copy or download. Free, no login.",
+    "Convert HTML to Markdown instantly in your browser. Preserves headings, bold, italic, links, images, tables, code blocks and lists.",
 
   alternates: { canonical: "/tools/html-to-markdown" },
 

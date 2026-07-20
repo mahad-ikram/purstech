@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "50 Free Online Tools — No Login, No Limits",
 
   description:
-    "PursTech gives you 50 completely free online tools — PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator, SSL checker, word counter and more. No login, no limits, 100% browser-based.",
+    "PursTech gives you 50 completely free online tools — PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator, SSL checker.",
 
   alternates: { canonical: "/" },
 

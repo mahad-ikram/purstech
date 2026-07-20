@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free HTML Minifier — Compress HTML Online",
 
   description:
-    "Minify HTML online to reduce page size and improve load speed. Remove comments, collapse whitespace and optional tags. Free HTML minifier with configurable options. No login.",
+    "Minify HTML online to reduce page size and improve load speed. Remove comments, collapse whitespace and optional tags.",
 
   alternates: { canonical: "/tools/html-minifier" },
 

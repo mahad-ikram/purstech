@@ -3,7 +3,7 @@ import PDFCompressorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free PDF File Compressor — Compress PDF Online",
-  description: "Free online PDF file compressor — reduce PDF size by up to 80% with three compression levels, metadata removal and batch processing. No upload to a server, 100% browser-based.",
+  description: "Free online PDF file compressor — reduce PDF size by up to 80% with three compression levels, metadata removal and batch processing.",
   alternates: { canonical: "/tools/pdf-compressor" },
   keywords: ["pdf compressor","pdf file compressor","free pdf compressor","online pdf compressor","pdf size compressor","reduce pdf size","pdf compressor to 200kb","compress pdf without losing quality"],
   openGraph: {

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free Grammar Checker — Style & Passive Voice",
 
   description:
-    "Free grammar checker powered by LanguageTool's 6,000+ rules. Checks grammar, spelling, punctuation and style with colour-coded highlights, passive voice detection, adverb scanner, overused word finder and tone analysis. 6 writing goals, error breakdown chart. No login.",
+    "Free grammar checker powered by LanguageTool's 6,000+ rules. Checks grammar, spelling, punctuation and style with colour-coded highlights.",
 
   keywords: [
     "grammar checker","free grammar checker online","grammar and spell checker",

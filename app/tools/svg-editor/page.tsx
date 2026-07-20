@@ -4,7 +4,7 @@ import SVGEditorClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free SVG Editor — React Export & Optimizer",
-  description: "The most advanced free SVG editor online. Live code preview, shape toolbar, React JSX export, CSS data URI, SVG optimizer, Make Responsive, undo/redo, animation snippets, element tree and PNG export. No install.",
+  description: "The most advanced free SVG editor online. Live code preview, shape toolbar, React JSX export, CSS data URI, SVG optimizer, Make Responsive, undo/redo.",
   alternates: { canonical: "/tools/svg-editor" },
   keywords: ["svg editor", "svg to react", "svg to jsx", "edit svg online", "svg optimizer", "svg viewer", "online svg editor"],
   openGraph: {

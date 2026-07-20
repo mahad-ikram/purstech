@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Free JavaScript Minifier & Beautifier — Compress JS",
 
   description:
-    "Minify JavaScript code online for free. Remove comments, whitespace and dead code. See real compression stats, gzip size estimate and diff view. Also beautifies/formats JS. No login.",
+    "Minify JavaScript code online for free. Remove comments, whitespace and dead code. See real compression stats, gzip size estimate and diff view.",
 
   alternates: { canonical: "/tools/js-minifier" },
 

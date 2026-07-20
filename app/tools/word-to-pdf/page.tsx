@@ -3,7 +3,7 @@ import WordToPDFClient from "./client";
 
 export const metadata: Metadata = {
   title: "Convert Word to PDF — Free Word to PDF Converter",
-  description: "Convert Word documents and plain text to PDF online for free. Upload a .txt or .doc file, or type/paste text directly. Choose page size, margins and font. 100% browser-based.",
+  description: "Free Word to PDF converter — turn Word documents or plain text into a polished PDF online. Upload a .doc or .txt file, or type directly. No signup.",
   alternates: { canonical: "/tools/word-to-pdf" },
   keywords: ["word to pdf","word to pdf converter","convert word to pdf","how to save a word document as a pdf","docx to pdf","doc to pdf free","text to pdf converter","txt to pdf"],
   openGraph: {

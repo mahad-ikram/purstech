@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Image Resizer — Resize Photos & Pictures Online",
 
   description:
-    "Free image resizer — resize photos and pictures online to exact pixels or with 20+ social media presets (Instagram, Facebook, YouTube). Lock aspect ratio and download JPEG, PNG or WebP.",
+    "Free image resizer — resize photos and pictures online to exact pixels or with 20+ social media presets (Instagram, Facebook, YouTube).",
 
   alternates: { canonical: "/tools/image-resizer" },
 

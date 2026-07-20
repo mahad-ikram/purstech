@@ -3,7 +3,7 @@ import PDFToWordClient from "./client";
 
 export const metadata: Metadata = {
   title: "Convert PDF to Word — Free PDF to Word Converter",
-  description: "Convert PDF to Word online for free — extract text from any PDF, preview the content, clean up formatting and download as .doc, .txt or .html. 100% browser-based, no upload.",
+  description: "Convert PDF to Word online for free — extract text from any PDF, preview the content, clean up formatting and download as .doc, .txt or .html.",
   alternates: { canonical: "/tools/pdf-to-word" },
   keywords: ["pdf to word","convert pdf to word","pdf to word converter","how to convert pdf to word","pdf to word converter free","pdf to word converter online free","pdf to word free","extract text from pdf","pdf to doc"],
   openGraph: {

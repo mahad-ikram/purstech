@@ -3,7 +3,7 @@ import SSLCheckerClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free SSL Checker & Certificate Decoder — Expiry & Grade",
-  description: "Check any website's SSL certificate instantly. See security grade A–F, days until expiry, TLS version, cipher suite, certificate issuer, key strength and all SANs. Free, no login required.",
+  description: "Check any website's SSL certificate instantly. See security grade A–F, days until expiry, TLS version, cipher suite, certificate issuer.",
   alternates: { canonical: "/tools/ssl-checker" },
   keywords: ["ssl checker", "certificate decoder", "ssl certificate checker", "cert decoder", "ssl decoder", "what is an ssl certificate", "how to check ssl certificate", "certificate reader", "ssl expiry checker", "secure socket layer"],
   openGraph: {

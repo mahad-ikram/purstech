@@ -3,7 +3,7 @@ import WordCounterClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Word Count Checker & Word Counter — Check Words",
-  description: "Free word count checker, word counter and word checker — check words, characters, sentences, paragraphs and reading time instantly. Keyword density and platform limits included. Private, no login.",
+  description: "Free word count checker, word counter and word checker — check words, characters, sentences, paragraphs and reading time instantly.",
   alternates: { canonical: "/tools/word-counter" },
   keywords: ["word counter","word count checker","word checker","words checker","check words","check word count","checking number of words","free word counter","word check","character counter","word count online","count words online","reading time calculator"],
   openGraph: {

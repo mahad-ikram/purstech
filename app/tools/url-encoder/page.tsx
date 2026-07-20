@@ -3,7 +3,7 @@ import URLEncoderClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free URL Encoder & Decoder — Encode Component & Full URL",
-  description: "Encode or decode URLs and query parameters instantly. Three modes: encode full URL, encode component (query param values), and decode any percent-encoded string. Free, no login.",
+  description: "Encode or decode URLs and query parameters instantly. Three modes: encode full URL, encode component (query param values).",
   alternates: { canonical: "/tools/url-encoder" },
   keywords: ["url encoder", "url decoder", "url encode", "url decode", "percent encoding", "encodeuricomponent", "encodeuri", "url escape"],
   openGraph: {

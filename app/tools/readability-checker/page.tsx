@@ -3,7 +3,7 @@ import ReadabilityCheckerClient from "./client";
 
 export const metadata: Metadata = {
   title: "Free Readability Checker — 7 Formulas",
-  description: "The most advanced free readability analyser. 7 formulas including Flesch, Gunning Fog, SMOG, ARI. Target audience matching, famous text benchmarks, sentence difficulty map, annotated text view and vocabulary richness score.",
+  description: "The most advanced free readability analyser. 7 formulas including Flesch, Gunning Fog, SMOG, ARI.",
   alternates: { canonical: "/tools/readability-checker" },
   keywords: ["readability checker", "flesch reading ease", "flesch kincaid grade level", "readability score", "gunning fog index", "smog readability", "readability test"],
   openGraph: {
