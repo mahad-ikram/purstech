@@ -40,13 +40,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Diff Checker", url: "https://www.purstech.com/tools/diff-checker",
   description: "Free online diff checker. Compare two texts and instantly highlight added, removed and unchanged lines. Works with code, documents and any plain text.",
-  applicationCategory: "UtilityApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Line-by-line text comparison",

@@ -42,13 +42,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Case Converter", url: "https://www.purstech.com/tools/case-converter",
   description: "Free online text case converter supporting 12 case types including camelCase, snake_case, kebab-case, Title Case, UPPER and more. Instant, no login.",
-  applicationCategory: "UtilityApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "UPPER CASE, lower case, Title Case, Sentence case",

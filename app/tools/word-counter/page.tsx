@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Word Counter", url: "https://www.purstech.com/tools/word-counter",
   description: "Free real-time word counter and word checker. Check word count, characters (with and without spaces), sentences, paragraphs, reading time, speaking time, unique words and keyword density as you type.",
-  applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Word checker — check words, characters and sentences in real time",

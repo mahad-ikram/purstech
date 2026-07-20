@@ -25,12 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "SSL Certificate Checker",
   description: "Free online SSL certificate checker. Inspect security grade A–F, expiry countdown, TLS version, cipher suite, certificate issuer, key strength and Subject Alternative Names for any domain.",
   url: "https://www.purstech.com/tools/ssl-checker",
-  applicationCategory: "SecurityApplication", operatingSystem: "Any",
-  browserRequirements: "Any modern browser", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
   featureList: [
     "Security grade A+ to F",
@@ -44,7 +43,6 @@ const APP_SCHEMA = {
     "Certificate lifetime progress bar",
     "Re-check button for instant post-renewal verification",
   ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
 };
 

@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Markdown Editor", url: "https://www.purstech.com/tools/markdown-editor",
   description: "Free online Markdown editor with live split-pane preview, 15-button formatting toolbar, GitHub Flavored Markdown (GFM), task lists, tables, word count, Copy HTML and export to .md or .html.",
-  applicationCategory: "DeveloperApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Live split-pane Markdown preview",

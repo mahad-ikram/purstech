@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Regex Tester", url: "https://www.purstech.com/tools/regex-tester",
   description: "Free online regex tester with real-time match highlighting, named group extraction, replace mode, plain-English explainer and 21-pattern library covering validation, dates, text, code and numbers.",
-  applicationCategory: "DeveloperApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Real-time match highlighting as you type",

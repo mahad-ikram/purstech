@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "PDF Splitter", url: "https://www.purstech.com/tools/pdf-splitter",
   description: "Free browser-based PDF splitter with 4 modes: split every page, custom ranges, extract specific pages, or remove pages. Visual page grid selector, range preview and ZIP download of all parts.",
-  applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Every Page mode: one PDF per page",

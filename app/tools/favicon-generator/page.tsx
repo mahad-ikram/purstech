@@ -54,16 +54,12 @@ export const metadata: Metadata = {
 
 const APP_SCHEMA = {
   "@context":          "https://schema.org",
-  "@type":             "WebApplication",        // ✅ was SoftwareApplication
+  "@type": "WebPage",
   name:                "Free Favicon Generator",
   description:         "The most advanced free favicon generator online. Create favicons from image, text, emoji or pixel art with device previews and PWA manifest generation.",
   url:                 "https://www.purstech.com/tools/favicon-generator",
-  applicationCategory: "DesignApplication",
-  operatingSystem:     "Any",
-  browserRequirements: "HTML5 Canvas required",
   inLanguage:          "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Generate favicons from image upload",

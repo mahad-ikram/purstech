@@ -45,13 +45,11 @@ export const metadata: Metadata = {
 // ✅ Moved from client.tsx + SoftwareApplication → WebApplication
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "IP Address Lookup", url: "https://www.purstech.com/tools/ip-lookup",
   description: "Advanced free IP lookup with risk score, ISP classification (Residential/Business/Cloud/VPN), reverse DNS via Google DNS, live timezone clock, side-by-side comparison mode and batch lookup for up to 10 IPs.",
-  applicationCategory: "SecurityApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Risk score and VPN/Proxy/Tor detection",

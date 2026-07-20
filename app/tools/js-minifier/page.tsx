@@ -41,13 +41,11 @@ export const metadata: Metadata = {
 
 // ✅ WebApplication — was SoftwareApplication in client (wrong type, wrong location)
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "JavaScript Minifier", url: "https://www.purstech.com/tools/js-minifier",
   description: "Free online JavaScript minifier with multi-pass compression (8 passes, 3 levels), JavaScript beautifier with indent selector, gzip size estimate and pass-by-pass analysis. 100% browser-based.",
-  applicationCategory: "DeveloperApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Multi-pass JS minifier with 3 levels: Basic, Standard, Aggressive",

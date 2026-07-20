@@ -37,14 +37,12 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Base64 Encoder / Decoder",
   url:  "https://www.purstech.com/tools/base64-encoder",
   description: "Free online Base64 encoder and decoder. URL-safe mode, swap & reverse, one-click copy. Runs entirely in the browser — no upload.",
-  applicationCategory: "UtilityApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Encode text to Base64", "Decode Base64 to text",

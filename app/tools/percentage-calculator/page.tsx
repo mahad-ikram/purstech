@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Percentage Calculator", url: "https://www.purstech.com/tools/percentage-calculator",
   description: "Free percentage calculator with 6 modes: percentage of a number, what percent X is of Y, percentage change (increase/decrease), percentage difference, add a percentage, subtract a percentage. Color-coded results and calculation history.",
-  applicationCategory: "FinanceApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "% of a Number: what is X% of Y",

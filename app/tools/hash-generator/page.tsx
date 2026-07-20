@@ -37,13 +37,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Hash Generator", url: "https://www.purstech.com/tools/hash-generator",
   description: "Free online hash generator. Computes MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes simultaneously. Includes hash verification mode, UPPERCASE toggle and Ctrl+Enter shortcut. 100% browser-based.",
-  applicationCategory: "DeveloperApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and Web Crypto API", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "MD5 (pure JavaScript — Web Crypto does not support MD5)",

@@ -51,13 +51,10 @@ export const metadata: Metadata = {
 
 const APP_SCHEMA = {
   "@context": "https://schema.org",
-  "@type":    "WebApplication",             // ✅ was SoftwareApplication
+  "@type": "WebPage",
   name:       "Grammar Checker",
   description:"Free online grammar checker powered by LanguageTool with 6,000+ rules. Colour-coded highlights, error breakdown chart, passive voice detection, adverb scanner, tone analysis and overused word finder.",
   url:        "https://www.purstech.com/tools/grammar-checker",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem:     "Any",
-  browserRequirements: "Requires JavaScript",
   inLanguage:          "en-US",
   isAccessibleForFree: true,
   featureList: [
@@ -76,7 +73,6 @@ const APP_SCHEMA = {
     "Download error report",
     "Multi-language support (EN-US, EN-GB, DE, FR, ES, PT)",
   ],
-  offers:   { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
 };
 

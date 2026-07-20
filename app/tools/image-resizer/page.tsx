@@ -45,13 +45,11 @@ export const metadata: Metadata = {
 
 // ✅ WebApplication — was SoftwareApplication
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Image Resizer", url: "https://www.purstech.com/tools/image-resizer",
   description: "Free online image resizer with 20+ social media presets for Instagram, Twitter/X, Facebook, LinkedIn and YouTube. Aspect ratio lock, Cover/Contain/Stretch fit modes. 100% browser-based.",
-  applicationCategory: "MultimediaApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and HTML5 Canvas API", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "20+ social media presets — Instagram, Twitter/X, Facebook, LinkedIn, YouTube",

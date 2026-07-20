@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Mortgage Calculator", url: "https://www.purstech.com/tools/mortgage-calculator",
   description: "Free mortgage calculator with full PITI breakdown, PMI calculation and removal tracking, affordability checker (28/36 rule), annual amortization schedule and 5-year rent vs buy comparison.",
-  applicationCategory: "FinanceApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Full PITI payment: Principal, Interest, Property Tax, Insurance, HOA and PMI",

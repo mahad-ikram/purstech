@@ -25,11 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Image to Text Converter (OCR)", url: "https://www.purstech.com/tools/image-to-text",
   description: "Free online OCR tool. Extract text from images with 30+ language support, word-level confidence scoring and image preprocessing. Runs entirely in the browser using Tesseract.js WebAssembly.",
-  applicationCategory: "UtilitiesApplication", operatingSystem: "Any",
-  browserRequirements: "WebAssembly required", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
   featureList: [
     "Extract text from JPEG, PNG, WebP, GIF images",
@@ -44,7 +43,6 @@ const APP_SCHEMA = {
     "Download as TXT file",
     "100% browser-based — no server upload required",
   ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
 };
 

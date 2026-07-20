@@ -25,13 +25,11 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebApplication",
+  "@context": "https://schema.org", "@type": "WebPage",
   name: "Lorem Ipsum Generator", url: "https://www.purstech.com/tools/lorem-ipsum",
   description: "Free online lorem ipsum generator. Generate placeholder text by paragraphs, sentences or word count. Toggle the classic opening phrase, copy to clipboard or download as .txt.",
-  applicationCategory: "WebApplication", operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript", inLanguage: "en-US",
+  inLanguage: "en-US",
   isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", "@id": "https://www.purstech.com/#organization", name: "PursTech", logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 } },
   featureList: [
     "Generate by paragraphs (1–10), sentences (1–20) or words (1–500)",
