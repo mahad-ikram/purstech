@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
-// ─── All 50 live tools ────────────────────────────────────────────────────────
+// ─── All 51 live tools ────────────────────────────────────────────────────────
 // batch field drives "Newest" sort: higher = more recent
 const ALL_TOOLS = [
   // Text Tools (5)
@@ -42,6 +42,7 @@ const ALL_TOOLS = [
   { name:"Keyword Density Checker",   slug:"keyword-density-checker",    category:"seo",      icon:"🔢", desc:"Analyse keyword density and frequency in any text or webpage for SEO optimisation.",                                     badge:"",        batch:4 },
   { name:"Open Graph Generator",      slug:"open-graph-generator",       category:"seo",      icon:"📊", desc:"Generate Open Graph and Twitter Card tags with live previews for Facebook, LinkedIn, Discord and Slack.",               badge:"",        batch:4 },
   { name:"Sitemap Generator",         slug:"sitemap-generator",          category:"seo",      icon:"🗺", desc:"Generate a valid XML sitemap with smart auto-priority, bulk import and one-click Google Ping.",                          badge:"",        batch:4 },
+  { name:"llms.txt Generator",         slug:"llms-txt-generator",         category:"seo",      icon:"🧠", desc:"Generate a spec-compliant llms.txt file so AI assistants like ChatGPT, Claude and Perplexity can read and cite your site.",  badge:"🆕 New",  batch:10 },
   // Finance Tools (10)
   { name:"Age Calculator",            slug:"age-calculator",             category:"finance",  icon:"🎂", desc:"Calculate exact age in years, months and days from any date.",                                                           badge:"",        batch:1 },
   { name:"BMI Calculator",            slug:"bmi-calculator",             category:"finance",  icon:"⚖️", desc:"Calculate Body Mass Index and healthy weight range with metric and imperial support.",                                   badge:"",        batch:1 },

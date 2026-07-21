@@ -5,8 +5,8 @@ import AllToolsClient from "./client";
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "All 50 Free Online Tools — Browse by Category",
-  description: "Browse all 50 free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator.",
+  title: "All 51 Free Online Tools — Browse by Category",
+  description: "Browse all 51 free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator.",
   alternates: { canonical: "/tools" },
   keywords: [
     "free online tools","all free tools","pdf tools free","image tools online",
@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://www.purstech.com/tools",
     siteName: "PursTech",
-    title: "All 50 Free Online Tools — Browse by Category",
-    description: "50 free browser-based tools — PDF, image, SEO, developer, AI, finance and security. No login, no limits, no ads.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "All 50 Free Online Tools — PursTech" }],
+    title: "All 51 Free Online Tools — Browse by Category",
+    description: "51 free browser-based tools — PDF, image, SEO, developer, AI, finance and security. No login, no limits, no ads.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "All 51 Free Online Tools — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "All 50 Free Online Tools — PursTech",
+    title: "All 51 Free Online Tools — PursTech",
     description: "PDF, image, SEO, dev, AI tools — all free, no login.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -39,9 +39,9 @@ const COLLECTION_SCHEMA = {
   "@context": "https://schema.org", "@type": "CollectionPage",
   "@id": "https://www.purstech.com/tools/#collectionpage",
   name: "All Free Online Tools — PursTech",
-  description: "50 free online tools across 8 categories — PDF, image, developer, SEO, AI, finance, security and text. No login required.",
+  description: "51 free online tools across 8 categories — PDF, image, developer, SEO, AI, finance, security and text. No login required.",
   url: "https://www.purstech.com/tools",
-  numberOfItems: 50,
+  numberOfItems: 51,
   inLanguage: "en-US",
   isAccessibleForFree: true,
   publisher: { "@id": "https://www.purstech.com/#organization" },
@@ -60,7 +60,7 @@ const WEBSITE_SCHEMA = {
   "@context": "https://schema.org", "@type": "WebSite",
   "@id": "https://www.purstech.com/#website",
   url: "https://www.purstech.com", name: "PursTech",
-  description: "50 free browser-based tools — PDF, image, SEO, developer, AI, finance and security.",
+  description: "51 free browser-based tools — PDF, image, SEO, developer, AI, finance and security.",
   publisher: { "@id": "https://www.purstech.com/#organization" },
   potentialAction: {
     "@type": "SearchAction",
@@ -205,7 +205,7 @@ const HERO = (
               </span>
             </h1>
             <p className="text-gray-500 text-lg max-w-2xl mx-auto mb-5">
-              <strong className="text-white">50 tools</strong> across 8 categories —
+              <strong className="text-white">51 tools</strong> across 8 categories —
               PDF, image, developer, SEO, AI, finance, security and text.
               No login. No limits. All free.
             </p>

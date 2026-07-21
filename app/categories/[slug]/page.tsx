@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-// ─── All 50 live tools ────────────────────────────────────────────────────────
+// ─── All 51 live tools ────────────────────────────────────────────────────────
 // QA fix: was only 20 tools → SEO/AI/PDF/image categories showed "Coming Soon"
 // Fake "uses" field removed — replaced with "Free" badge on cards
 
@@ -41,6 +41,7 @@ const ALL_TOOLS = [
   { icon:"🔢", name:"Keyword Density Checker",    slug:"keyword-density-checker",    category:"seo",      badge:"",        desc:"Analyse keyword frequency and density in any text or webpage."                  },
   { icon:"📊", name:"Open Graph Generator",       slug:"open-graph-generator",       category:"seo",      badge:"",        desc:"Generate Open Graph tags with live Facebook and LinkedIn previews."              },
   { icon:"🗺",  name:"Sitemap Generator",           slug:"sitemap-generator",          category:"seo",      badge:"",        desc:"Generate XML sitemaps with smart priority and Google Ping."                    },
+  { icon:"🧠", name:"llms.txt Generator",          slug:"llms-txt-generator",         category:"seo",      badge:"🆕 New",  desc:"Generate a spec-compliant llms.txt so AI assistants can read and cite your site."           },
   // ── Finance (10) ──────────────────────────────────────────────────────────
   { icon:"🎂", name:"Age Calculator",             slug:"age-calculator",             category:"finance",  badge:"",        desc:"Calculate exact age in years, months and days from any date."                   },
   { icon:"⚖️",  name:"BMI Calculator",             slug:"bmi-calculator",             category:"finance",  badge:"",        desc:"Calculate BMI and healthy weight range in metric or imperial."                  },

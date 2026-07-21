@@ -45,6 +45,10 @@ const BATCH9_SLUGS = [
   "ssl-checker", "ip-lookup", "grammar-checker", "readability-checker", "svg-editor",
 ];
 
+const BATCH10_SLUGS = [
+  "llms-txt-generator",
+];
+
 // ── Category pages (exist at /categories/[slug]) ──────────────────────────────
 const CATEGORY_SLUGS = [
   "text", "image", "dev", "seo", "ai", "finance", "security", "pdf",
@@ -97,7 +101,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Stable per-content dates so lastModified stops changing every request
   // (dynamic dates train Googlebot to ignore lastModified & waste crawl budget).
   // Bump these ONLY when the underlying pages actually change.
-  const TOOLS_REV      = new Date("2026-07-06");  // last tool-content revision (SEO batches)
+  const TOOLS_REV      = new Date("2026-07-21");  // last tool-content revision (SEO batches)
   const CATEGORIES_REV = new Date("2026-06-15");  // category pages last touched
   const STATIC_REV     = new Date("2026-06-15");  // about/privacy/terms rarely change
   const BLOG_REV       = new Date("2026-07-06");  // newest blog batch (GIMP/Canva, TinyPNG)
@@ -114,10 +118,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/terms`,    lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
   ];
 
-  // ── Newest tools — Batches 8 & 9 (10 tools, priority 0.9) ──────────────────
+  // ── Newest tools — Batches 8-10 (11 tools, priority 0.9) ──────────────────
   const newToolPages: MetadataRoute.Sitemap = [
     ...BATCH8_SLUGS,
     ...BATCH9_SLUGS,
+    ...BATCH10_SLUGS,
   ].map(slug => ({
     url:             `${BASE_URL}/tools/${slug}`,
     lastModified:    TOOLS_REV,
