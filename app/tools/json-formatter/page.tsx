@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "JSON Formatter & Validator", url: "https://www.purstech.com/tools/json-formatter",
   description: "Free online JSON formatter, validator and minifier. Syntax highlighting, error detection with helpful messages, indent selector, download as .json file. 100% browser-based.",
   inLanguage: "en-US",

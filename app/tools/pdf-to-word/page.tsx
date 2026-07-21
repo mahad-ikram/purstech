@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "PDF to Word Converter", url: "https://www.purstech.com/tools/pdf-to-word",
   description: "Free browser-based PDF to Word converter. Extracts text from text-based PDFs using PDF.js. Edit extracted text, then download as .doc, .txt or .html. Files never leave your device.",
   inLanguage: "en-US",

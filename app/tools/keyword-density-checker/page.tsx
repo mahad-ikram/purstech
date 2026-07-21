@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Keyword Density Checker", url: "https://www.purstech.com/tools/keyword-density-checker",
   description: "Free online keyword density checker with n-gram analysis (1/2/3-word phrases), Flesch readability score, target keyword tracking, live highlight and CSV export. 100% browser-based.",
   inLanguage: "en-US",

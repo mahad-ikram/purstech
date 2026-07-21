@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Meta Tag Generator", url: "https://www.purstech.com/tools/meta-tag-generator",
   description: "Free online tool to generate SEO meta tags, Open Graph and Twitter Card tags with live SERP preview, SEO grade A-F, 6 page-type templates and one-click copy.",
   inLanguage: "en-US",

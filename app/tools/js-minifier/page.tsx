@@ -41,7 +41,10 @@ export const metadata: Metadata = {
 
 // ✅ WebApplication — was SoftwareApplication in client (wrong type, wrong location)
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "JavaScript Minifier", url: "https://www.purstech.com/tools/js-minifier",
   description: "Free online JavaScript minifier with multi-pass compression (8 passes, 3 levels), JavaScript beautifier with indent selector, gzip size estimate and pass-by-pass analysis. 100% browser-based.",
   inLanguage: "en-US",

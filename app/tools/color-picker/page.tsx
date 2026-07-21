@@ -41,7 +41,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Color Picker", url: "https://www.purstech.com/tools/color-picker",
   description: "Free online color picker. Pick any color with a visual picker, RGB sliders or hex input. Instantly get HEX, RGB, HSL, HSV and CMYK codes with one-click copy.",
   inLanguage: "en-US",

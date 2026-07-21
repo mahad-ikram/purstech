@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Word to PDF Converter", url: "https://www.purstech.com/tools/word-to-pdf",
   description: "Free browser-based Word to PDF converter. Convert text, .txt or .doc files to PDF with adjustable page size (A4/Letter/Legal), margins, font size and automatic page numbering. Nothing leaves your device.",
   inLanguage: "en-US",

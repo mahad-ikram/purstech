@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "PDF Splitter", url: "https://www.purstech.com/tools/pdf-splitter",
   description: "Free browser-based PDF splitter with 4 modes: split every page, custom ranges, extract specific pages, or remove pages. Visual page grid selector, range preview and ZIP download of all parts.",
   inLanguage: "en-US",

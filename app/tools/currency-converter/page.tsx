@@ -40,7 +40,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Currency Converter", url: "https://www.purstech.com/tools/currency-converter",
   description: "Free online currency converter supporting 30+ world currencies. Instant conversion with reference rates, popular currency pairs and a full all-currencies table.",
   inLanguage: "en-US",

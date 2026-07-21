@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Lorem Ipsum Generator", url: "https://www.purstech.com/tools/lorem-ipsum",
   description: "Free online lorem ipsum generator. Generate placeholder text by paragraphs, sentences or word count. Toggle the classic opening phrase, copy to clipboard or download as .txt.",
   inLanguage: "en-US",

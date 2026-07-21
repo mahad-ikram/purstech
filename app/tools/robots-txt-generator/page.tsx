@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Robots.txt Generator",
   description: "Free online tool to generate a valid robots.txt file with CMS presets, AI bot blocking, and URL testing.",
   url: "https://www.purstech.com/tools/robots-txt-generator",

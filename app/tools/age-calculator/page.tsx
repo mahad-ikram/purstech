@@ -45,7 +45,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Age Calculator", url: "https://www.purstech.com/tools/age-calculator",
   description: "Calculate exact age in years, months and days. Shows total days, weeks, hours, minutes and next birthday countdown. Free, no login.",
   inLanguage: "en-US",

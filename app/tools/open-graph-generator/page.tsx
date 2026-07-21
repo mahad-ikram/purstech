@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Open Graph Tag Generator", url: "https://www.purstech.com/tools/open-graph-generator",
   description: "Free online tool to generate Open Graph and Twitter Card tags with live 5-platform preview (Facebook, LinkedIn, Twitter/X, Discord, Slack), one-click copy and .html download.",
   inLanguage: "en-US",

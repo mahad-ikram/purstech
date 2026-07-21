@@ -40,7 +40,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "HealthApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "BMI Calculator", url: "https://www.purstech.com/tools/bmi-calculator",
   description: "Free online BMI calculator with healthy weight range, BMI Prime and colour-coded category gauge. Supports metric and imperial units.",
   inLanguage: "en-US",

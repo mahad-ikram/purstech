@@ -42,7 +42,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Case Converter", url: "https://www.purstech.com/tools/case-converter",
   description: "Free online text case converter supporting 12 case types including camelCase, snake_case, kebab-case, Title Case, UPPER and more. Instant, no login.",
   inLanguage: "en-US",

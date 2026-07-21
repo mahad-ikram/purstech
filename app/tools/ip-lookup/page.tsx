@@ -45,7 +45,10 @@ export const metadata: Metadata = {
 // ✅ Moved from client.tsx + SoftwareApplication → WebApplication
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "SecurityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "IP Address Lookup", url: "https://www.purstech.com/tools/ip-lookup",
   description: "Advanced free IP lookup with risk score, ISP classification (Residential/Business/Cloud/VPN), reverse DNS via Google DNS, live timezone clock, side-by-side comparison mode and batch lookup for up to 10 IPs.",
   inLanguage: "en-US",

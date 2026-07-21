@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Image to Text Converter (OCR)", url: "https://www.purstech.com/tools/image-to-text",
   description: "Free online OCR tool. Extract text from images with 30+ language support, word-level confidence scoring and image preprocessing. Runs entirely in the browser using Tesseract.js WebAssembly.",
   inLanguage: "en-US",

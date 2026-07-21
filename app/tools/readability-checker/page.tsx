@@ -26,7 +26,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Readability Checker",
   description: "The most advanced free readability analyser with 7 formulas, target audience mode, famous text benchmarks, sentence difficulty map, annotated text view, vocabulary richness and download report.",
   url: "https://www.purstech.com/tools/readability-checker",

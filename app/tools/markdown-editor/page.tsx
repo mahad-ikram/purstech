@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Markdown Editor", url: "https://www.purstech.com/tools/markdown-editor",
   description: "Free online Markdown editor with live split-pane preview, 15-button formatting toolbar, GitHub Flavored Markdown (GFM), task lists, tables, word count, Copy HTML and export to .md or .html.",
   inLanguage: "en-US",

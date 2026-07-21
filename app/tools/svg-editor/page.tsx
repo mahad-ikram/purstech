@@ -28,7 +28,10 @@ export const metadata: Metadata = {
 
 // ✅ WebApplication (was SoftwareApplication)
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "SVG Editor", url: "https://www.purstech.com/tools/svg-editor",
   description: "Free online SVG editor with live code preview, shape toolbar, React JSX export, CSS data URI, SVG optimizer, Make Responsive, undo/redo, animation snippets, element tree and multi-scale PNG export.",
   inLanguage: "en-US",

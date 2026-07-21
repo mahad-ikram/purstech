@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Loan Calculator", url: "https://www.purstech.com/tools/loan-calculator",
   description: "Free loan calculator with amortization schedule, extra payment simulator, loan comparison and CSV export. Uses the standard amortization formula for precise monthly payment calculation.",
   inLanguage: "en-US",

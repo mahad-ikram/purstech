@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "URL Encoder / Decoder", url: "https://www.purstech.com/tools/url-encoder",
   description: "Free URL encoder and decoder with three modes: encode a full URL while preserving its structure, encode individual URL components (query parameter values), and decode any percent-encoded string.",
   inLanguage: "en-US",

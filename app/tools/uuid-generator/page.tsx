@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "UUID Generator", url: "https://www.purstech.com/tools/uuid-generator",
   description: "Free UUID v4 generator. Generate cryptographically secure universally unique identifiers in bulk (up to 50 at once) in four formats: standard, UPPERCASE, no hyphens, and with braces.",
   inLanguage: "en-US",

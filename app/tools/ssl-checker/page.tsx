@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "SecurityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "SSL Certificate Checker",
   description: "Free online SSL certificate checker. Inspect security grade A–F, expiry countdown, TLS version, cipher suite, certificate issuer, key strength and Subject Alternative Names for any domain.",
   url: "https://www.purstech.com/tools/ssl-checker",

@@ -37,7 +37,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Hash Generator", url: "https://www.purstech.com/tools/hash-generator",
   description: "Free online hash generator. Computes MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes simultaneously. Includes hash verification mode, UPPERCASE toggle and Ctrl+Enter shortcut. 100% browser-based.",
   inLanguage: "en-US",

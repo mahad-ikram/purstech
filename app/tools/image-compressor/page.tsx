@@ -45,7 +45,10 @@ export const metadata: Metadata = {
 
 // ✅ WebApplication — was SoftwareApplication
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Image Compressor", url: "https://www.purstech.com/tools/image-compressor",
   description: "Free online image compressor. Reduce JPEG, PNG and WebP file sizes by up to 90%. Batch compress up to 20 images with quality slider, format converter and live before/after comparison. 100% browser-based.",
   inLanguage: "en-US",

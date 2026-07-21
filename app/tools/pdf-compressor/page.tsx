@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "PDF Compressor", url: "https://www.purstech.com/tools/pdf-compressor",
   description: "Free browser-based PDF compressor. Reduce PDF size by up to 80% with three compression levels (Light, Medium, Maximum), metadata removal, batch processing and ZIP download.",
   inLanguage: "en-US",

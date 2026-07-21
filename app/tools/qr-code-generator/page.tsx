@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "QR Code Generator", url: "https://www.purstech.com/tools/qr-code-generator",
   description: "Free online QR code generator for URLs, text, WiFi, email, phone numbers and vCard contacts. Supports PNG and SVG download with custom colours and error correction levels.",
   inLanguage: "en-US",

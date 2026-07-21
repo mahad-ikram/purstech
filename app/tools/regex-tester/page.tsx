@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Regex Tester", url: "https://www.purstech.com/tools/regex-tester",
   description: "Free online regex tester with real-time match highlighting, named group extraction, replace mode, plain-English explainer and 21-pattern library covering validation, dates, text, code and numbers.",
   inLanguage: "en-US",

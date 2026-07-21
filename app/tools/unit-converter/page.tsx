@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Unit Converter", url: "https://www.purstech.com/tools/unit-converter",
   description: "Free unit converter with 8 categories and 50+ units. Converts length, weight/mass, temperature, volume, area, speed, time and digital storage instantly.",
   inLanguage: "en-US",

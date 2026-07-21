@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "XML Sitemap Generator",
   description: "Free online sitemap generator with smart priority, bulk import, sitemap index support and Google ping.",
   url: "https://www.purstech.com/tools/sitemap-generator",

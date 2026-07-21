@@ -37,7 +37,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "CSS Minifier", url: "https://www.purstech.com/tools/css-minifier",
   description: "Free online CSS minifier. Removes comments, whitespace, newlines and redundant characters from CSS. Shows original size, minified size and savings percentage.",
   inLanguage: "en-US",

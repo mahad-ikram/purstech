@@ -51,7 +51,10 @@ export const metadata: Metadata = {
 // ✅ URL changed to www
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Color Code Converter",
   url:  "https://www.purstech.com/tools/color-code-converter",
   description: "Free color code converter supporting HEX, RGB, RGBA, HSL, HSLA, HSV, CMYK. Generates tints, shades, color schemes and WCAG contrast ratios.",

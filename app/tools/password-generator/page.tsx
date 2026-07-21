@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "SecurityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Password Generator", url: "https://www.purstech.com/tools/password-generator",
   description: "Free cryptographically secure password generator. Custom length (6–64), character type selection, ambiguous character exclusion, entropy meter, batch generation and .txt export.",
   inLanguage: "en-US",

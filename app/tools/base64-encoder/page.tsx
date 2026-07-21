@@ -37,7 +37,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Base64 Encoder / Decoder",
   url:  "https://www.purstech.com/tools/base64-encoder",
   description: "Free online Base64 encoder and decoder. URL-safe mode, swap & reverse, one-click copy. Runs entirely in the browser — no upload.",

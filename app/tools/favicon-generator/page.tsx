@@ -54,7 +54,10 @@ export const metadata: Metadata = {
 
 const APP_SCHEMA = {
   "@context":          "https://schema.org",
-  "@type": "WebPage",
+  "@type": "SoftwareApplication",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name:                "Free Favicon Generator",
   description:         "The most advanced free favicon generator online. Create favicons from image, text, emoji or pixel art with device previews and PWA manifest generation.",
   url:                 "https://www.purstech.com/tools/favicon-generator",

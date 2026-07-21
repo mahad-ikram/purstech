@@ -37,7 +37,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "HTML Minifier", url: "https://www.purstech.com/tools/html-minifier",
   description: "Free online HTML minifier. Remove comments, collapse whitespace and optional closing tags. Shows original size, minified size and savings percentage.",
   inLanguage: "en-US",

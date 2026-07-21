@@ -51,7 +51,10 @@ export const metadata: Metadata = {
 
 const APP_SCHEMA = {
   "@context": "https://schema.org",
-  "@type": "WebPage",
+  "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name:       "Grammar Checker",
   description:"Free online grammar checker powered by LanguageTool with 6,000+ rules. Colour-coded highlights, error breakdown chart, passive voice detection, adverb scanner, tone analysis and overused word finder.",
   url:        "https://www.purstech.com/tools/grammar-checker",

@@ -35,7 +35,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "AI Background Remover",
   url:  "https://www.purstech.com/tools/background-remover",
   description: "Free AI-powered background removal running entirely in your browser via WebAssembly. No upload, no account required.",

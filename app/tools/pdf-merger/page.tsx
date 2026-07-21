@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "PDF Merger", url: "https://www.purstech.com/tools/pdf-merger",
   description: "Free browser-based PDF merger. Combine multiple PDFs with drag-to-reorder, per-file page ranges, custom metadata on merged output and instant download. Files never leave your device.",
   inLanguage: "en-US",

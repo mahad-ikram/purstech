@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Time Zone Converter", url: "https://www.purstech.com/tools/time-zone-converter",
   description: "Free time zone converter with live world clock, DST awareness, meeting planner and 65+ cities. Convert any time between any two time zones instantly.",
   inLanguage: "en-US",

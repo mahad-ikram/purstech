@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Text to Speech", url: "https://www.purstech.com/tools/text-to-speech",
   description: "Free browser-based text to speech converter. Uses the Web Speech API to read any text aloud using all voices installed on your device. Adjustable speed, pitch and volume. Nothing sent to a server.",
   inLanguage: "en-US", isAccessibleForFree: true,

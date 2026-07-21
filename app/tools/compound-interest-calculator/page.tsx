@@ -46,7 +46,10 @@ export const metadata: Metadata = {
 // ✅ Moved from client.tsx + SoftwareApplication → WebApplication + www URL
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Compound Interest Calculator",
   url:  "https://www.purstech.com/tools/compound-interest-calculator",
   description: "Free compound interest calculator with regular contributions, multiple compounding frequencies and year-by-year growth breakdown. Includes inflation-adjusted real returns and CAGR.",

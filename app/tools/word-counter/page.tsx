@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Word Counter", url: "https://www.purstech.com/tools/word-counter",
   description: "Free real-time word counter and word checker. Check word count, characters (with and without spaces), sentences, paragraphs, reading time, speaking time, unique words and keyword density as you type.",
   inLanguage: "en-US",

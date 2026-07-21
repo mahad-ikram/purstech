@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Mortgage Calculator", url: "https://www.purstech.com/tools/mortgage-calculator",
   description: "Free mortgage calculator with full PITI breakdown, PMI calculation and removal tracking, affordability checker (28/36 rule), annual amortization schedule and 5-year rent vs buy comparison.",
   inLanguage: "en-US",

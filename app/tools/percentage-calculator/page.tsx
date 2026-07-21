@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Percentage Calculator", url: "https://www.purstech.com/tools/percentage-calculator",
   description: "Free percentage calculator with 6 modes: percentage of a number, what percent X is of Y, percentage change (increase/decrease), percentage difference, add a percentage, subtract a percentage. Color-coded results and calculation history.",
   inLanguage: "en-US",

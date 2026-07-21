@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 const APP_SCHEMA = {
-  "@context": "https://schema.org", "@type": "WebPage",
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   name: "Tip Calculator", url: "https://www.purstech.com/tools/tip-calculator",
   description: "Free tip calculator with bill splitting, custom tip percentage, tax, service presets, itemized per-person splits, round-up and copy summary.",
   inLanguage: "en-US",
