@@ -277,11 +277,13 @@ export default function ColorPickerClient() {
               {/* Picker + hex input */}
               <div className="flex items-center gap-4">
                 <input type="color" value={color} onChange={e => updateColor(e.target.value)}
+                  aria-label="Pick a colour"
                   className="w-16 h-16 rounded-2xl cursor-pointer border-0 bg-transparent p-0"
                   title="Click to open colour picker" />
                 <div className="flex-1">
                   <label className="text-xs text-gray-500 font-medium block mb-1.5">HEX Code</label>
                   <input type="text" value={hexInput} onChange={e => handleHexInput(e.target.value)}
+                    aria-label="HEX colour code"
                     placeholder="#6C3AFF" maxLength={7}
                     className="w-full px-4 py-3 rounded-xl bg-[#0A0A14] border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-sm font-mono uppercase" />
                 </div>
@@ -312,6 +314,7 @@ export default function ColorPickerClient() {
                   <div key={slider.label} className="flex items-center gap-3">
                     <span className="text-xs font-bold w-4" style={{ color: slider.color }}>{slider.label}</span>
                     <input type="range" min={0} max={255} value={slider.value}
+                      aria-label={(slider.label === "R" ? "Red" : slider.label === "G" ? "Green" : "Blue") + " channel, 0 to 255"}
                       onChange={e => slider.onChange(Number(e.target.value))}
                       className="flex-1 h-2 rounded-full appearance-none cursor-pointer"
                       style={{ background: `linear-gradient(to right, ${slider.color} ${(slider.value/255)*100}%, #1a1a2e ${(slider.value/255)*100}%)` }}

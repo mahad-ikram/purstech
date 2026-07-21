@@ -8,235 +8,173 @@ No account or login required for any tool. All file processing (PDF, image, OCR)
 
 ## Site
 
-- Homepage:  https://www.purstech.com
-- All Tools: https://www.purstech.com/tools
-- Blog:      https://www.purstech.com/blog
-- About:     https://www.purstech.com/about
-- Contact:   https://www.purstech.com/contact
-- Pro Plan:  https://www.purstech.com/pro
+- [Homepage](https://www.purstech.com)
+- [All Tools](https://www.purstech.com/tools)
+- [Blog](https://www.purstech.com/blog)
+- [About](https://www.purstech.com/about)
+- [Contact](https://www.purstech.com/contact)
+- [Pro Plan](https://www.purstech.com/pro)
 
 ## Categories (8)
 
-- Text Tools:      https://www.purstech.com/categories/text — 5 tools
-- Image Tools:     https://www.purstech.com/categories/image — 6 tools
-- Developer Tools: https://www.purstech.com/categories/dev — 14 tools
-- SEO Tools:       https://www.purstech.com/categories/seo — 5 tools
-- AI Tools:        https://www.purstech.com/categories/ai — 2 tools
-- Finance Tools:   https://www.purstech.com/categories/finance — 10 tools
-- Security Tools:  https://www.purstech.com/categories/security — 3 tools
-- PDF Tools:       https://www.purstech.com/categories/pdf — 5 tools
+- [Text Tools](https://www.purstech.com/categories/text): 5 tools
+- [Image Tools](https://www.purstech.com/categories/image): 6 tools
+- [Developer Tools](https://www.purstech.com/categories/dev): 14 tools
+- [SEO Tools](https://www.purstech.com/categories/seo): 5 tools
+- [AI Tools](https://www.purstech.com/categories/ai): 2 tools
+- [Finance Tools](https://www.purstech.com/categories/finance): 10 tools
+- [Security Tools](https://www.purstech.com/categories/security): 3 tools
+- [PDF Tools](https://www.purstech.com/categories/pdf): 5 tools
 
 ## All 50 Live Tools
 
 ### Text Tools (5)
-- Word Counter:           https://www.purstech.com/tools/word-counter
-  Count words, characters, sentences, paragraphs, reading time and keyword frequency.
+- [Word Counter](https://www.purstech.com/tools/word-counter): Count words, characters, sentences, paragraphs, reading time and keyword frequency.
 
-- Case Converter:         https://www.purstech.com/tools/case-converter
-  Convert text to UPPER, lower, Title, Sentence or camelCase in one click.
+- [Case Converter](https://www.purstech.com/tools/case-converter): Convert text to UPPER, lower, Title, Sentence or camelCase in one click.
 
-- Lorem Ipsum Generator:  https://www.purstech.com/tools/lorem-ipsum
-  Generate placeholder lorem ipsum text — words, sentences or paragraphs.
+- [Lorem Ipsum Generator](https://www.purstech.com/tools/lorem-ipsum): Generate placeholder lorem ipsum text — words, sentences or paragraphs.
 
-- Diff Checker:           https://www.purstech.com/tools/diff-checker
-  Compare two texts side by side and highlight every addition, deletion and change.
+- [Diff Checker](https://www.purstech.com/tools/diff-checker): Compare two texts side by side and highlight every addition, deletion and change.
 
-- Text to Speech:         https://www.purstech.com/tools/text-to-speech
-  Convert any text to natural-sounding audio. Multiple voices and languages.
+- [Text to Speech](https://www.purstech.com/tools/text-to-speech): Convert any text to natural-sounding audio. Multiple voices and languages.
 
 ### Developer Tools (14)
-- JSON Formatter:         https://www.purstech.com/tools/json-formatter
-  Format, validate, minify and explore JSON with syntax highlighting and error detection.
+- [JSON Formatter](https://www.purstech.com/tools/json-formatter): Format, validate, minify and explore JSON with syntax highlighting and error detection.
 
-- Base64 Encoder:         https://www.purstech.com/tools/base64-encoder
-  Encode and decode Base64 strings and files entirely in the browser.
+- [Base64 Encoder](https://www.purstech.com/tools/base64-encoder): Encode and decode Base64 strings and files entirely in the browser.
 
-- URL Encoder:            https://www.purstech.com/tools/url-encoder
-  Encode and decode URLs and query strings for use in web applications.
+- [URL Encoder](https://www.purstech.com/tools/url-encoder): Encode and decode URLs and query strings for use in web applications.
 
-- UUID Generator:         https://www.purstech.com/tools/uuid-generator
-  Generate cryptographically random UUID v4 values — single or bulk.
+- [UUID Generator](https://www.purstech.com/tools/uuid-generator): Generate cryptographically random UUID v4 values — single or bulk.
 
-- QR Code Generator:      https://www.purstech.com/tools/qr-code-generator
-  Generate QR codes for URLs, WiFi, vCard, email or plain text. PNG and SVG download.
+- [QR Code Generator](https://www.purstech.com/tools/qr-code-generator): Generate QR codes for URLs, WiFi, vCard, email or plain text. PNG and SVG download.
 
-- Hash Generator:         https://www.purstech.com/tools/hash-generator
-  Generate MD5, SHA-1, SHA-256 and SHA-512 hashes from any text.
+- [Hash Generator](https://www.purstech.com/tools/hash-generator): Generate MD5, SHA-1, SHA-256 and SHA-512 hashes from any text.
 
-- CSS Minifier:           https://www.purstech.com/tools/css-minifier
-  Minify CSS — removes whitespace, comments and redundant rules.
+- [CSS Minifier](https://www.purstech.com/tools/css-minifier): Minify CSS — removes whitespace, comments and redundant rules.
 
-- HTML Minifier:          https://www.purstech.com/tools/html-minifier
-  Minify HTML to reduce file size and improve page load speed.
+- [HTML Minifier](https://www.purstech.com/tools/html-minifier): Minify HTML to reduce file size and improve page load speed.
 
-- Regex Tester:           https://www.purstech.com/tools/regex-tester
-  Test and debug regular expressions with live match highlighting and 20 pattern examples.
+- [Regex Tester](https://www.purstech.com/tools/regex-tester): Test and debug regular expressions with live match highlighting and 20 pattern examples.
 
-- JS Minifier:            https://www.purstech.com/tools/js-minifier
-  Minify JavaScript with multi-pass compression and gzip size estimation.
+- [JS Minifier](https://www.purstech.com/tools/js-minifier): Minify JavaScript with multi-pass compression and gzip size estimation.
 
-- HTML to Markdown:       https://www.purstech.com/tools/html-to-markdown
-  Convert HTML code to clean Markdown format with GFM table support.
+- [HTML to Markdown](https://www.purstech.com/tools/html-to-markdown): Convert HTML code to clean Markdown format with GFM table support.
 
-- Markdown Editor:        https://www.purstech.com/tools/markdown-editor
-  Write Markdown with a live split-pane preview and 15-button toolbar.
+- [Markdown Editor](https://www.purstech.com/tools/markdown-editor): Write Markdown with a live split-pane preview and 15-button toolbar.
 
-- Color Code Converter:   https://www.purstech.com/tools/color-code-converter
-  Convert between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK. WCAG contrast checker included.
+- [Color Code Converter](https://www.purstech.com/tools/color-code-converter): Convert between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK. WCAG contrast checker included.
 
-- SVG Editor:             https://www.purstech.com/tools/svg-editor
-  Edit SVG with live preview, React JSX export, SVG optimizer, animation snippets and PNG export.
+- [SVG Editor](https://www.purstech.com/tools/svg-editor): Edit SVG with live preview, React JSX export, SVG optimizer, animation snippets and PNG export.
 
 ### Image Tools (6)
-- Color Picker:           https://www.purstech.com/tools/color-picker
-  Pick colors and get HEX, RGB, HSL, CMYK and CSS variable codes instantly.
+- [Color Picker](https://www.purstech.com/tools/color-picker): Pick colors and get HEX, RGB, HSL, CMYK and CSS variable codes instantly.
 
-- Image Compressor:       https://www.purstech.com/tools/image-compressor
-  Compress JPEG, PNG and WebP images by up to 90%. Batch processing. Browser-based.
+- [Image Compressor](https://www.purstech.com/tools/image-compressor): Compress JPEG, PNG and WebP images by up to 90%. Batch processing. Browser-based.
 
-- Image Resizer:          https://www.purstech.com/tools/image-resizer
-  Resize images to any dimension with 20+ social media presets and aspect ratio lock.
+- [Image Resizer](https://www.purstech.com/tools/image-resizer): Resize images to any dimension with 20+ social media presets and aspect ratio lock.
 
-- Background Remover:     https://www.purstech.com/tools/background-remover
-  Remove image backgrounds automatically using AI. Runs entirely in the browser.
+- [Background Remover](https://www.purstech.com/tools/background-remover): Remove image backgrounds automatically using AI. Runs entirely in the browser.
 
-- Favicon Generator:      https://www.purstech.com/tools/favicon-generator
-  Create favicons from image, text or emoji. All 18 standard sizes. PWA manifest included.
+- [Favicon Generator](https://www.purstech.com/tools/favicon-generator): Create favicons from image, text or emoji. All 18 standard sizes. PWA manifest included.
 
-- Image to Text (OCR):    https://www.purstech.com/tools/image-to-text
-  Extract text from images using Tesseract OCR. 30+ languages. Camera capture supported.
+- [Image to Text (OCR)](https://www.purstech.com/tools/image-to-text): Extract text from images using Tesseract OCR. 30+ languages. Camera capture supported.
 
 ### SEO Tools (5)
-- Meta Tag Generator:     https://www.purstech.com/tools/meta-tag-generator
-  Generate SEO meta tags with live SERP preview, SEO grade A-F, Open Graph and Twitter Card.
+- [Meta Tag Generator](https://www.purstech.com/tools/meta-tag-generator): Generate SEO meta tags with live SERP preview, SEO grade A-F, Open Graph and Twitter Card.
 
-- Robots.txt Generator:   https://www.purstech.com/tools/robots-txt-generator
-  Generate robots.txt with directives for all major crawlers including GPTBot and ClaudeBot.
+- [Robots.txt Generator](https://www.purstech.com/tools/robots-txt-generator): Generate robots.txt with directives for all major crawlers including GPTBot and ClaudeBot.
 
-- Keyword Density Checker: https://www.purstech.com/tools/keyword-density-checker
-  Analyse keyword frequency and density in any text or webpage content.
+- [Keyword Density Checker](https://www.purstech.com/tools/keyword-density-checker): Analyse keyword frequency and density in any text or webpage content.
 
-- Open Graph Generator:   https://www.purstech.com/tools/open-graph-generator
-  Generate Open Graph and Twitter Card tags with live previews for all major platforms.
+- [Open Graph Generator](https://www.purstech.com/tools/open-graph-generator): Generate Open Graph and Twitter Card tags with live previews for all major platforms.
 
-- Sitemap Generator:      https://www.purstech.com/tools/sitemap-generator
-  Generate XML sitemaps with smart auto-priority, bulk URL import and Google Ping.
+- [Sitemap Generator](https://www.purstech.com/tools/sitemap-generator): Generate XML sitemaps with smart auto-priority, bulk URL import and Google Ping.
 
 ### Finance Tools (10)
-- Age Calculator:         https://www.purstech.com/tools/age-calculator
-  Calculate exact age in years, months and days from any date.
+- [Age Calculator](https://www.purstech.com/tools/age-calculator): Calculate exact age in years, months and days from any date.
 
-- BMI Calculator:         https://www.purstech.com/tools/bmi-calculator
-  Calculate Body Mass Index and healthy weight range. Metric and imperial.
+- [BMI Calculator](https://www.purstech.com/tools/bmi-calculator): Calculate Body Mass Index and healthy weight range. Metric and imperial.
 
-- Percentage Calculator:  https://www.purstech.com/tools/percentage-calculator
-  Calculate percentages, increases, decreases and differences between values.
+- [Percentage Calculator](https://www.purstech.com/tools/percentage-calculator): Calculate percentages, increases, decreases and differences between values.
 
-- Unit Converter:         https://www.purstech.com/tools/unit-converter
-  Convert length, weight, temperature, volume and speed units.
+- [Unit Converter](https://www.purstech.com/tools/unit-converter): Convert length, weight, temperature, volume and speed units.
 
-- Currency Converter:     https://www.purstech.com/tools/currency-converter
-  Convert currencies with live exchange rates. 170+ currencies supported.
+- [Currency Converter](https://www.purstech.com/tools/currency-converter): Convert currencies with live exchange rates. 170+ currencies supported.
 
-- Loan Calculator:        https://www.purstech.com/tools/loan-calculator
-  Calculate monthly payments, total interest and full amortization schedule.
+- [Loan Calculator](https://www.purstech.com/tools/loan-calculator): Calculate monthly payments, total interest and full amortization schedule.
 
-- Compound Interest Calc: https://www.purstech.com/tools/compound-interest-calculator
-  Calculate compound interest and investment growth with 6 compounding frequencies.
+- [Compound Interest Calc](https://www.purstech.com/tools/compound-interest-calculator): Calculate compound interest and investment growth with 6 compounding frequencies.
 
-- Tip Calculator:         https://www.purstech.com/tools/tip-calculator
-  Calculate tips and split bills. 8 service presets, itemized splitting, round-up mode.
+- [Tip Calculator](https://www.purstech.com/tools/tip-calculator): Calculate tips and split bills. 8 service presets, itemized splitting, round-up mode.
 
-- Time Zone Converter:    https://www.purstech.com/tools/time-zone-converter
-  Convert times between 65+ world cities with DST awareness and meeting overlap finder.
+- [Time Zone Converter](https://www.purstech.com/tools/time-zone-converter): Convert times between 65+ world cities with DST awareness and meeting overlap finder.
 
-- Mortgage Calculator:    https://www.purstech.com/tools/mortgage-calculator
-  Full PITI with PMI, 28/36 affordability rule, amortization and rent vs buy comparison.
+- [Mortgage Calculator](https://www.purstech.com/tools/mortgage-calculator): Full PITI with PMI, 28/36 affordability rule, amortization and rent vs buy comparison.
 
 ### Security Tools (3)
-- Password Generator:     https://www.purstech.com/tools/password-generator
-  Generate cryptographically secure passwords with strength meter and bulk generation.
+- [Password Generator](https://www.purstech.com/tools/password-generator): Generate cryptographically secure passwords with strength meter and bulk generation.
 
-- SSL Certificate Checker: https://www.purstech.com/tools/ssl-checker
-  Check any website's SSL certificate — grade A+ to F, expiry countdown, TLS version, SANs.
+- [SSL Certificate Checker](https://www.purstech.com/tools/ssl-checker): Check any website's SSL certificate — grade A+ to F, expiry countdown, TLS version, SANs.
 
-- IP Address Lookup:      https://www.purstech.com/tools/ip-lookup
-  Look up any IP — location, ISP, ASN, risk score 0-100, reverse DNS, live timezone clock.
+- [IP Address Lookup](https://www.purstech.com/tools/ip-lookup): Look up any IP — location, ISP, ASN, risk score 0-100, reverse DNS, live timezone clock.
 
 ### PDF Tools (5)
-- PDF Compressor:         https://www.purstech.com/tools/pdf-compressor
-  Compress PDFs by up to 80% with 3 quality levels. Metadata strip. Batch ZIP download.
+- [PDF Compressor](https://www.purstech.com/tools/pdf-compressor): Compress PDFs by up to 80% with 3 quality levels. Metadata strip. Batch ZIP download.
 
-- PDF Merger:             https://www.purstech.com/tools/pdf-merger
-  Merge multiple PDFs with drag-to-reorder, per-file page ranges and custom metadata.
+- [PDF Merger](https://www.purstech.com/tools/pdf-merger): Merge multiple PDFs with drag-to-reorder, per-file page ranges and custom metadata.
 
-- PDF Splitter:           https://www.purstech.com/tools/pdf-splitter
-  Split PDFs every page, by range, or extract/remove specific pages. ZIP download.
+- [PDF Splitter](https://www.purstech.com/tools/pdf-splitter): Split PDFs every page, by range, or extract/remove specific pages. ZIP download.
 
-- PDF to Word:            https://www.purstech.com/tools/pdf-to-word
-  Extract text from PDFs with page preview. Export as .doc, .txt or .html.
+- [PDF to Word](https://www.purstech.com/tools/pdf-to-word): Extract text from PDFs with page preview. Export as .doc, .txt or .html.
 
-- Word to PDF:            https://www.purstech.com/tools/word-to-pdf
-  Convert text or .txt files to PDF. A4/Letter/Legal sizes, custom margins, page numbers.
+- [Word to PDF](https://www.purstech.com/tools/word-to-pdf): Convert text or .txt files to PDF. A4/Letter/Legal sizes, custom margins, page numbers.
 
 ### AI Writing Tools (2)
-- Grammar Checker:        https://www.purstech.com/tools/grammar-checker
-  Powered by LanguageTool's 6,000+ rules. Features: error breakdown chart, passive voice
-  detector, adverb scanner, overused word finder, tone detector, writing goals selector
-  (email / essay / blog / business / creative), one-click Fix All, download error report.
+- [Grammar Checker](https://www.purstech.com/tools/grammar-checker): Powered by LanguageTool's 6,000+ rules. Features: error breakdown chart, passive voice detector, adverb scanner, overused word finder, tone detector, writing goals selector (email / essay / blog / business / creative), one-click Fix All, download error report.
 
-- Readability Checker:    https://www.purstech.com/tools/readability-checker
-  Seven formulas: Flesch Reading Ease, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau,
-  ARI and Dale-Chall. Features: target audience mode with match score, sentence difficulty
-  map, famous text benchmarks (Harry Potter / NYT / HBR / legal docs), annotated text view
-  (long sentences + complex words highlighted), vocabulary richness (Type-Token Ratio).
+- [Readability Checker](https://www.purstech.com/tools/readability-checker): Seven formulas: Flesch Reading Ease, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau, ARI and Dale-Chall. Features: target audience mode with match score, sentence difficulty map, famous text benchmarks (Harry Potter / NYT / HBR / legal docs), annotated text view (long sentences + complex words highlighted), vocabulary richness (Type-Token Ratio).
 
-## Blog Posts (15)
+## Blog Posts (19)
 
-- How to Check Word Count in Google Docs, Word & PDF (2026)
-  https://www.purstech.com/blog/how-to-check-word-count
+- [7 Best Free PDF Mergers in 2026 (No Signup, Compared Honestly)](https://www.purstech.com/blog/best-free-pdf-mergers)
 
-- Best Free JSON Formatter Tools Online (2026 Update)
-  https://www.purstech.com/blog/best-free-json-formatter-tools
+- [7 Best Free Word Counter Tools in 2026 (Honestly Compared)](https://www.purstech.com/blog/best-free-word-counter-tools)
 
-- How to Compress Images Without Losing Quality
-  https://www.purstech.com/blog/how-to-compress-images-without-losing-quality
+- [7 Best TinyPNG Alternatives in 2026 (Free & Private)](https://www.purstech.com/blog/tinypng-alternatives)
 
-- What Makes a Password Strong? The Complete 2026 Guide
-  https://www.purstech.com/blog/strong-password-guide
+- [How to Remove a Background in GIMP & Canva (2026)](https://www.purstech.com/blog/how-to-remove-background-gimp-canva)
 
-- HEX vs RGB vs HSL: Which Color Format Should You Use?
-  https://www.purstech.com/blog/hex-vs-rgb-vs-hsl-color-formats
+- [How to Check Word Count in Google Docs, Word & PDF (2026)](https://www.purstech.com/blog/how-to-check-word-count)
 
-- QR Codes for Business: The Complete 2026 Guide
-  https://www.purstech.com/blog/qr-codes-for-business-complete-guide
+- [Best Free JSON Formatter Tools Online (2026 Update)](https://www.purstech.com/blog/best-free-json-formatter-tools)
 
-- Base64 Encoding Explained: A Developer's Guide
-  https://www.purstech.com/blog/base64-encoding-explained
+- [How to Compress Images Without Losing Quality](https://www.purstech.com/blog/how-to-compress-images-without-losing-quality)
 
-- BMI Calculator: What Your Score Actually Means
-  https://www.purstech.com/blog/bmi-calculator-guide-what-your-score-means
+- [What Makes a Password Strong? The Complete 2026 Guide](https://www.purstech.com/blog/strong-password-guide)
 
-- URL Encoding Explained: A Developer's Complete Guide
-  https://www.purstech.com/blog/url-encoding-developer-guide
+- [HEX vs RGB vs HSL: Which Color Format Should You Use?](https://www.purstech.com/blog/hex-vs-rgb-vs-hsl-color-formats)
 
-- Free SEO Tools That Actually Work in 2026
-  https://www.purstech.com/blog/free-seo-tools-that-work
+- [QR Codes for Business: The Complete 2026 Guide](https://www.purstech.com/blog/qr-codes-for-business-complete-guide)
 
-- Word Count Guide: The Right Length for Every Platform
-  https://www.purstech.com/blog/word-count-guide-every-platform
+- [Base64 Encoding Explained: A Developer's Guide](https://www.purstech.com/blog/base64-encoding-explained)
 
-- How to Compress a PDF Without Losing Quality (2026 Guide)
-  https://www.purstech.com/blog/compress-pdf-without-losing-quality
+- [BMI Calculator: What Your Score Actually Means](https://www.purstech.com/blog/bmi-calculator-guide-what-your-score-means)
 
-- Merge PDF Files Without Uploading Them: The Privacy-First Way
-  https://www.purstech.com/blog/merge-pdf-files-without-uploading
+- [URL Encoding Explained: A Developer's Complete Guide](https://www.purstech.com/blog/url-encoding-developer-guide)
 
-- Loan Calculator with Extra Payments: How They Actually Save You Money
-  https://www.purstech.com/blog/loan-calculator-with-extra-payments
+- [Free SEO Tools That Actually Work in 2026](https://www.purstech.com/blog/free-seo-tools-that-work)
 
-- WebP vs JPEG vs PNG: Which Image Format to Use in 2026
-  https://www.purstech.com/blog/webp-vs-jpeg-vs-png-2026
+- [Word Count Guide: The Right Length for Every Platform](https://www.purstech.com/blog/word-count-guide-every-platform)
+
+- [How to Compress a PDF Without Losing Quality (2026 Guide)](https://www.purstech.com/blog/compress-pdf-without-losing-quality)
+
+- [Merge PDF Files Without Uploading Them: The Privacy-First Way](https://www.purstech.com/blog/merge-pdf-files-without-uploading)
+
+- [Loan Calculator with Extra Payments: How They Actually Save You Money](https://www.purstech.com/blog/loan-calculator-with-extra-payments)
+
+- [WebP vs JPEG vs PNG: Which Image Format to Use in 2026](https://www.purstech.com/blog/webp-vs-jpeg-vs-png-2026)
 
 ## Permissions for AI Assistants
 
