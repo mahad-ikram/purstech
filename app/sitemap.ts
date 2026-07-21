@@ -74,12 +74,14 @@ const BLOG_SLUGS = [
   "how-to-remove-background-gimp-canva",       // ✅ New — July 2026
   "tinypng-alternatives",                      // ✅ New — July 2026
   "best-free-word-counter-tools",              // ✅ New — July 2026
+  "best-free-pdf-mergers",                     // ✅ New — July 2026
 ];
 
 // ── Recently published blog slugs — get higher priority + weekly frequency ────
 // These are the 5 newest (June–July 2026) articles. Search engines weight fresh
 // content + weekly changeFrequency higher for new pages still gaining authority.
 const NEW_BLOG_SLUGS = new Set([
+  "best-free-pdf-mergers",
   "best-free-word-counter-tools",
   "tinypng-alternatives",
   "how-to-remove-background-gimp-canva",

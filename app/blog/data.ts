@@ -18,6 +18,92 @@ export const BLOG_POSTS: Record<string, {
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
+  // 19. Free PDF Mergers listicle (NEW Jul 2026 — first entry on purpose:
+  //     newest post = featured card on /blog)
+  // ═════════════════════════════════════════════════════════════════════════
+  "best-free-pdf-mergers": {
+    title:        "7 Best Free PDF Mergers in 2026 (No Signup, Compared Honestly)",
+    slug:         "best-free-pdf-mergers",
+    relatedPosts: ["merge-pdf-files-without-uploading", "compress-pdf-without-losing-quality", "tinypng-alternatives"],
+    heroImage:    "/blog-images/best-free-pdf-mergers.png",
+    heroAlt:      "Comparison card: seven free PDF mergers tested on watermarks, forced signup, free-tier limits and where files are processed — only PursTech merges entirely in the browser with no upload, no signup and no task limit",
+    excerpt:      "Most free PDF mergers watermark the result, force a signup, cap you at two tasks a day, or upload your file to a server. We compared 7 honestly — including which ones never upload at all.",
+    category:     "PDF Tools",
+    readTime:     "8 min read",
+    publishedAt:  "July 20, 2026",
+    updatedAt:    "July 20, 2026",
+    publishedISO: "2026-07-20T09:00:00Z",
+    updatedISO:   "2026-07-20T09:00:00Z",
+    keywords:     ["merge pdf", "pdf merger", "combine pdf", "merge pdf free", "pdf merger no signup", "merge pdf without uploading"],
+    relatedTools: [
+      { name: "PDF Merger",     slug: "pdf-merger",     icon: "📑" },
+      { name: "PDF Splitter",   slug: "pdf-splitter",   icon: "✂️" },
+      { name: "PDF Compressor", slug: "pdf-compressor", icon: "🗜️" },
+    ],
+    faqs: [
+      { q: "What is the best free PDF merger?", a: "It depends on the constraint you care about. For privacy, use a merger that runs in your browser so files never upload — the PursTech PDF Merger. For genuinely unlimited free use on a server tool, PDF24. For huge 50+ file batches, iLovePDF. For confidential or offline work, the open-source desktop app PDFsam Basic." },
+      { q: "How do I merge PDFs without uploading them to a server?", a: "Use a browser-local merger. Tools like the PursTech PDF Merger combine your files on your own device using in-browser PDF processing, so nothing is ever sent to a server. The alternative is a desktop app such as PDFsam Basic, which is also fully offline. Both mean your documents never leave your computer." },
+      { q: "Can I merge PDFs for free without signing up?", a: "Yes. Several tools merge without an account — PursTech (browser-local, no signup, no limit), PDF24 (no signup, no daily cap) and Sejda (limited free tasks). Adobe and Smallpdf will let you start but push account creation, and some tools cap free use to as little as two tasks per day, so check the limit before you rely on one." },
+      { q: "Is it safe to merge confidential PDFs online?", a: "Only if the tool processes files locally in your browser or is a desktop app. Any upload-based merger receives your file on its server, so contracts, medical records, ID scans or salary documents should go through a browser-local tool like PursTech or an offline app like PDFsam Basic — the file never leaves your device, so there is nothing to trust." },
+      { q: "Which free PDF merger has no limits?", a: "Two routes avoid limits. Browser-local tools like the PursTech PDF Merger have no task-per-hour or per-day cap because processing runs on your device. Among server tools, PDF24 is the most generous — no daily limits, no file-count cap and no signup — with the trade-off of ads and a server upload." },
+      { q: "Can I choose specific pages from each PDF when merging?", a: "Some mergers let you, most do not. The PursTech PDF Merger accepts a page range for each file (for example 1-3, 5, 7-10), so you can pull only the pages you want from every document and drop the rest before combining — useful for assembling a report from selected pages of several files." },
+    ],
+    content: `
+<p>Merging PDFs is the most ordinary document task there is — bolt a cover letter onto a CV, staple twelve monthly invoices into one file, combine a contract with its exhibits. And yet the free tools that do it are a minefield: one stamps a watermark across every page, the next asks you to make an account, a third says you have used your two free tasks for the day, and nearly all of them quietly upload your file to a server first. This guide compares seven free PDF mergers honestly. Full disclosure: <strong>we built one of them</strong> — which is exactly why we know which corners the others cut, and we have kept the comparison fair enough that the other six get real credit where they earn it.</p>
+
+<h2 id="quick-answer">The Quick Answer</h2>
+<p><strong>Privacy (no upload):</strong> merge in a tool that runs entirely in your browser — the <a href="/tools/pdf-merger">PursTech PDF Merger</a> — so your files never leave your device.</p>
+<p><strong>No limits, no signup on a server tool:</strong> PDF24 Tools — genuinely unlimited free use, at the cost of ads and a server upload.</p>
+<p><strong>Huge batches (50+ files, 100 MB+):</strong> iLovePDF's queue handles heavy sets well, if you can live with one task per hour.</p>
+<p><strong>Perfect formatting fidelity:</strong> Adobe Acrobat online, where every form field, bookmark and hyperlink survives.</p>
+<p><strong>Confidential or offline work:</strong> PDFsam Basic, a free open-source desktop app that never touches the internet.</p>
+
+<h2 id="what-we-checked">What We Checked</h2>
+<p>A free merger in 2026 has to clear five bars: <strong>no watermark</strong> on the output, <strong>no forced signup</strong>, a workable <strong>free-tier limit</strong> (not two tasks a day), a sane <strong>file-size cap</strong>, and — the one most comparisons skip — a clear answer to <strong>where your file is processed</strong>: on your own machine, or uploaded to someone else's server.</p>
+
+<h2 id="privacy-matters">Why "Where It's Processed" Matters</h2>
+<p>PDFs are the format people use for exactly the documents they should be most careful with: contracts with financial terms, medical records, ID scans, tax returns, salary letters. With an upload-based tool, that file travels to a server, gets merged, and comes back — and you are trusting the provider's handling and deletion policy, however good it is. With a browser-local tool, the merge happens on your device and the file never leaves it, so there is simply nothing to trust. Neither model is wrong for a holiday itinerary; for anything sensitive, local processing removes the question entirely.</p>
+
+<h2 id="mergers">The 7 Free PDF Mergers, Compared Honestly</h2>
+
+<h3>1. PursTech PDF Merger — private, no upload, no signup</h3>
+<p>The <a href="/tools/pdf-merger">PursTech PDF Merger</a> combines any number of PDFs into one, entirely <strong>in your browser</strong> — files are never uploaded to a server. It goes past a plain combine, too: drag files into the exact order you want, pick a <strong>page range from each file</strong> (e.g. 1-3, 5, 7-10) so you only pull the pages you need, see each file's page count and size before merging, and set <strong>title and author metadata</strong> on the merged output for archiving. There is no watermark, no account, and no task-per-hour throttle, and the merged file downloads instantly with no upload wait. Honest caveat: because everything runs on your device, very large sets — think 50+ files or individual files over 50 MB — lean on your browser's memory, so for those extreme batches a server tool below will be steadier. For everyday merging, it is the private, no-strings option.</p>
+
+<h3>2. PDF24 Tools — the most generous free server tool</h3>
+<p>PDF24, from the German company Geek Software, is the quiet favourite for a reason: it is genuinely free with <strong>no daily limits, no file-count caps, no signup and no watermarks</strong> — a rarity among server-based tools. The trade-offs are honest ones: your files upload to PDF24's servers (deleted after processing), and the free web tools are ad-supported, with banners between operations. Being a German product it is built around GDPR, and there is a Windows desktop app that processes locally if you want to skip the upload. The interface feels a little dated; the freedom from limits more than makes up for it.</p>
+
+<h3>3. iLovePDF — the batch workhorse</h3>
+<p>iLovePDF is fast, polished, and part of a full PDF suite, and its queue is strong for merging large sets of 50+ files in one go. The catch is the free tier: <strong>one task per hour</strong>, which turns "merge three different document sets" into an afternoon of waiting or a nudge toward the paid plan. Files upload to iLovePDF's servers in Barcelona and are deleted after two hours, and some operations apply a watermark on free. If your merges are occasional and large, it is a solid pick; if they are frequent, the hourly limit bites quickly.</p>
+
+<h3>4. Smallpdf — the cleanest interface, the tightest leash</h3>
+<p>Smallpdf has arguably the best-looking UI of the bunch and a deep toolkit around merging. But its free plan is the most restrictive here: roughly <strong>two tasks per day</strong> before it asks you to upgrade. Files upload to its servers, larger files are accepted (up to about 100 MB), and editing existing text needs a subscription. Wonderful for a one-off merge with a premium feel; frustrating the moment you have several files to combine in a sitting.</p>
+
+<h3>5. Sejda — merge and actually edit</h3>
+<p>Sejda stands out because it pairs merging with a genuine in-browser PDF editor — add text, images and annotations directly, which most free tools lock behind a paywall. The free tier runs to about <strong>three tasks per hour with files up to 50 MB</strong>, and there is a daily ceiling on top. It is the right choice when merging is only half the job and you also need to tweak the content before or after combining.</p>
+
+<h3>6. Adobe Acrobat online — best formatting fidelity</h3>
+<p>Adobe's own online merge produces the most faithful output on this list: because it uses Adobe's PDF engine, form fields, bookmarks and hyperlinks reliably survive the merge, where lighter tools can flatten them. Files upload to Adobe's servers, and while Adobe markets the online tools as usable without signing in, in practice it pushes account creation and a Pro subscription hard, especially for repeat use. If you are merging interactive or heavily formatted PDFs where preservation is critical — and enterprise compliance like SOC 2 or HIPAA matters — it is the safe pick despite the account friction.</p>
+
+<h3>7. PDFsam Basic — free, open-source, fully offline</h3>
+<p>If the documents are truly confidential, the most reassuring option is not a website at all. PDFsam Basic is a free, open-source desktop app for Windows, Mac and Linux that merges, splits and rotates PDFs <strong>entirely offline</strong> with no limits — nothing is ever uploaded because there is no server involved. It asks for a one-time install and the interface is utilitarian, but for legal, medical or bulk work where the file must never leave the building, open-source and local is hard to beat.</p>
+
+<h2 id="privacy-table">Upload-Based vs Local, at a Glance</h2>
+<p>Every tool here sits in one of two camps. <strong>Upload-based</strong> — PDF24, iLovePDF, Smallpdf, Sejda, Adobe — send your file to a server to be merged and returned; you rely on their deletion policies. <strong>Browser-local</strong> (PursTech) and <strong>desktop-local</strong> (PDFsam, and PDF24's Windows app) do the work on your own machine, so the file never travels. For a resume or an itinerary, either is fine. For an NDA, a contract, or a scan of your passport, local processing is the honest default. Once files are merged, if the result is too big to email, our <a href="/tools/pdf-compressor">PDF Compressor</a> shrinks it the same browser-local way — and if you need the opposite job, splitting one PDF back into parts, the <a href="/tools/pdf-splitter">PDF Splitter</a> runs locally too.</p>
+
+<h2 id="how-to">How to Merge PDFs Without Uploading Them</h2>
+<p>The browser-local flow takes about fifteen seconds: open the <a href="/tools/pdf-merger">PDF Merger</a>, drop your files into the upload zone, drag them into the order you want, optionally type a page range for any file to pull only certain pages, and click Merge — the combined PDF is built on your device and downloads immediately, with nothing sent anywhere. For the full privacy-first walkthrough, including why "in the browser" is different from "quickly deleted from a server", see our guide to <a href="/blog/merge-pdf-files-without-uploading">merging PDFs without uploading them</a>.</p>
+
+<h2 id="verdict">Verdict</h2>
+<p><strong>Most people, most merges:</strong> a browser-local merger — private, no signup, no limit to remember, no upload wait.</p>
+<p><strong>Genuinely unlimited free, privacy not critical:</strong> PDF24 Tools (or its local Windows app).</p>
+<p><strong>Occasional huge batches:</strong> iLovePDF, if the one-per-hour limit fits your rhythm.</p>
+<p><strong>Interactive or heavily formatted PDFs:</strong> Adobe Acrobat online, for element preservation.</p>
+<p><strong>Confidential or offline-only:</strong> PDFsam Basic, open-source and local.</p>
+<p>Every tool on this list can combine two PDFs. The differences that matter are the ones you notice on the third merge of the day, or the first time you pause and wonder where the file just went.</p>
+`,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
   // 18. Word Counter Tools listicle (NEW Jul 2026 — first entry on purpose:
   //     newest post = featured card on /blog)
   // ═════════════════════════════════════════════════════════════════════════
@@ -990,6 +1076,7 @@ export const BLOG_POSTS: Record<string, {
 
 <h2 id="bottom-line">The Bottom Line</h2>
 <p>If your PDF is over 5MB and you're sharing it digitally, compressing it is almost always worth it. Medium compression saves more than half the file size with no visible quality loss. Use a browser-based tool to keep your document private, and reserve maximum compression for cases where every byte counts.</p>
+<p>Need to combine files as well as shrink them? See our honest breakdown of the <a href="/blog/best-free-pdf-mergers">7 best free PDF mergers</a>, from browser-local to server-based.</p>
     `,
   },
 
@@ -1075,6 +1162,7 @@ export const BLOG_POSTS: Record<string, {
 
 <h2 id="bottom-line">The Bottom Line</h2>
 <p>If you regularly merge PDFs containing personal, financial, or legal information, browser-based merging is the only sensible choice. The convenience cost is zero — it's just as fast as server-based alternatives, and the privacy improvement is total. For any document you wouldn't want a stranger to read, never upload it to a third-party PDF tool.</p>
+<p>Weighing your options? We compared the <a href="/blog/best-free-pdf-mergers">7 best free PDF mergers</a> side by side — including exactly which ones upload your files to a server and which never do.</p>
     `,
   },
 
