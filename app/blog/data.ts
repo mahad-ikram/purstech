@@ -18,6 +18,85 @@ export const BLOG_POSTS: Record<string, {
 }> = {
 
   // ═════════════════════════════════════════════════════════════════════════
+  // 20. Free Background Removers listicle (NEW Jul 2026 — newest = featured card)
+  // ═════════════════════════════════════════════════════════════════════════
+  "best-free-background-removers": {
+    title:        "7 Best Free Background Removers in 2026 (remove.bg Alternatives, Compared Honestly)",
+    slug:         "best-free-background-removers",
+    relatedPosts: ["how-to-remove-background-gimp-canva", "tinypng-alternatives", "webp-vs-jpeg-vs-png-2026"],
+    excerpt:      "remove.bg's free tier quietly hands back a low-resolution image, Canva locks its remover behind Pro, and PhotoRoom stamps a watermark. We compared 7 free background removers honestly — including which ones never upload your photo at all.",
+    category:     "Image Tools",
+    readTime:     "9 min read",
+    publishedAt:  "July 21, 2026",
+    updatedAt:    "July 21, 2026",
+    publishedISO: "2026-07-21T09:00:00Z",
+    updatedISO:   "2026-07-21T09:00:00Z",
+    keywords:     ["background remover", "free background remover", "remove background from image", "remove.bg alternative", "background remover no watermark", "remove background free", "background remover online"],
+    relatedTools: [
+      { name: "Background Remover", slug: "background-remover", icon: "✂️" },
+      { name: "Image Compressor",   slug: "image-compressor",   icon: "🗜️" },
+      { name: "Image Resizer",      slug: "image-resizer",      icon: "📐" },
+    ],
+    faqs: [
+      { q: "What is the best free background remover?", a: "It depends on the constraint you care about. For privacy and unlimited use, remove the background in your browser so the image never uploads — the PursTech Background Remover, which is free, full-resolution and watermark-free. For the sharpest edges on the hardest hair, remove.bg is still the benchmark, though its free download is low-resolution. If you already have an Adobe account, Adobe Express offers a generous full-resolution free tier." },
+      { q: "How do I remove a background without uploading my image?", a: "Use a browser-local tool. The PursTech Background Remover runs an AI matting model on your own device, so the photo is processed in the browser and never sent to a server. This is the safe route for headshots, client work, product shots and anything personal, because the file never leaves your computer." },
+      { q: "Why does remove.bg give a low-resolution image on the free plan?", a: "remove.bg's free download is effectively a preview — a fraction of a megapixel — and full-resolution output is reserved for its paid credits and subscriptions. If you need a full-size cutout for free, a browser-local tool like PursTech or a free editor like Photopea will hand back the full resolution without a paywall." },
+      { q: "Is it safe to remove backgrounds from personal photos online?", a: "Only if the tool processes the image locally in your browser, or is an offline desktop app. Any upload-based remover receives your photo on its server, so faces, ID photos, children's images and unreleased products are safest through a browser-local tool such as PursTech — the image never leaves your device, so there is nothing to trust." },
+      { q: "Which free background remover has no watermark?", a: "Several. The PursTech Background Remover, Adobe Express (with an account), Photopea, Pixlr and Erase.bg all export without a watermark. PhotoRoom is the notable exception — its free tier adds a small watermark that only a paid plan removes — and Canva's remover is not free at all." },
+      { q: "Can I remove backgrounds from lots of images for free?", a: "Browser-local tools have no per-day or per-hour cap because the processing runs on your device, so they suit bulk work — though very large batches lean on your browser's memory. Many free web tools, by contrast, limit batch size or reserve bulk processing for a paid plan, so check the limit before committing to one for a big job." },
+    ],
+    content: `
+<p>Removing a background is one of those tasks that went from "open Photoshop and spend twenty minutes with the pen tool" to "drop an image and wait three seconds" — and in 2026 there are dozens of free AI tools that do it. The catch is what happens around that three seconds. One tool hands back a postage-stamp-sized image and asks for a subscription to unlock the full resolution. Another stamps a watermark across the corner. A third locks the whole feature behind a paid plan and calls the trial "free". And almost all of them upload your photo — your face, your product, your client's headshot — to a server first. This guide compares seven free background removers honestly. Full disclosure: <strong>we built one of them</strong>, which is exactly why we know where the others quietly cut corners — and we have kept the comparison fair enough that the other six get real credit where they earn it.</p>
+
+<h2 id="quick-answer">The Quick Answer</h2>
+<p><strong>Privacy, unlimited, no upload:</strong> remove the background in a tool that runs entirely in your browser — the <a href="/tools/background-remover">PursTech Background Remover</a> — so your photo never leaves your device, at full resolution, with no watermark and no signup.</p>
+<p><strong>The sharpest edges on the hardest hair:</strong> remove.bg is still the accuracy benchmark, if you can accept a low-resolution free download or pay for full-size output.</p>
+<p><strong>A generous free tier from a big name:</strong> Adobe Express gives full-resolution, watermark-free cutouts free — the price is an Adobe account and a nudge toward Creative Cloud.</p>
+<p><strong>Product shots with staging and shadows:</strong> PhotoRoom, built for e-commerce — just mind the watermark on its free tier.</p>
+<p><strong>Cut out and then actually retouch:</strong> Photopea or Pixlr wrap the cutout in a real layer-based editor, both free in the browser.</p>
+
+<h2 id="what-we-checked">What We Checked</h2>
+<p>A free background remover in 2026 has to clear five bars, and the fifth is the one most comparisons skip: <strong>no watermark</strong> on the cutout, <strong>no forced signup</strong>, a workable <strong>free-tier limit</strong> (not one image a day), the <strong>resolution you actually get to download</strong> — many free tiers silently return a downscaled preview — and <strong>where your image is processed</strong>: on your own device, or uploaded to someone else's server.</p>
+
+<h2 id="privacy-matters">Why "Where It's Processed" Matters</h2>
+<p>Background removal is almost always applied to the images you should be most careful with: your own face for a profile photo or CV, a client's headshot, an unreleased product, a child's photo for a birthday invite. With an upload-based tool, that image travels to a server, gets processed, and comes back — and you are trusting the provider's handling and deletion policy, however good it is. With a browser-local tool, the AI model runs on your own device and the file never leaves it, so there is simply nothing to trust. For a meme it makes no difference; for anything personal or commercial, local processing removes the question entirely.</p>
+
+<h2 id="removers">The 7 Free Background Removers, Compared Honestly</h2>
+
+<h3>1. PursTech Background Remover — private, full-resolution, no upload</h3>
+<p>The <a href="/tools/background-remover">PursTech Background Remover</a> isolates your subject and strips the background using an AI matting model that runs <strong>entirely in your browser</strong> — the image is never uploaded to a server. The cutout downloads at <strong>full resolution</strong> as a transparent PNG, with no watermark, no account and no per-day limit, and because it sits inside a wider free toolkit you can send the result straight into the <a href="/tools/image-compressor">Image Compressor</a>, <a href="/tools/image-resizer">Image Resizer</a> or a WebP conversion without leaving the tab or uploading anything. The honest caveat: browser-local models — ours and every peer that runs on-device — are a half-step behind remove.bg on the very hardest shots, the ones with wispy flyaway hair against a busy background. For the everyday reality of product cut-outs, portraits and social graphics, it is the private, full-quality, no-strings option.</p>
+
+<h3>2. remove.bg — the accuracy benchmark, with a resolution catch</h3>
+<p>remove.bg invented the one-click background-removal category back in 2018 and, honestly, still sets the quality bar in 2026 — its model handles individual hair strands and semi-transparent edges better than anything else on this list. The catch is the free tier: your free download comes back at <strong>preview resolution</strong> (a fraction of a megapixel), and full-size output requires credits, with subscriptions starting around nine dollars a month. It also has the most mature <strong>API</strong> if you are automating removals at scale. Reach for remove.bg when the edge quality on one difficult image matters more than getting it free and full-size.</p>
+
+<h3>3. Adobe Express — the most generous free tier from a major name</h3>
+<p>Adobe Express puts Adobe's Firefly-grade background removal in a free consumer tool, and its free tier is genuinely generous: <strong>full-resolution downloads with no watermark</strong>. The strings are an Adobe account, a daily cap on AI actions, and a steady funnel toward a Creative Cloud subscription. Quality is on par with remove.bg for portraits and only a touch behind on the finest hair. If you already live in the Adobe ecosystem it is an easy pick — a cutout made in Express drops straight into Photoshop, Illustrator or InDesign through your Creative Cloud library.</p>
+
+<h3>4. PhotoRoom — built for product photos, minus the watermark</h3>
+<p>PhotoRoom is less a background remover than an e-commerce product-photo studio: it removes the background well, then lets you drop the subject onto mockup backgrounds, add realistic shadows and stage the shot for a storefront. Its accuracy on products is excellent and the <strong>mobile app</strong> is genuinely strong — a lot of Etsy and Depop sellers run it from their phones. The trade-off on the free tier is a <strong>small watermark</strong> that only a paid plan removes. Best when you want a finished, staged product image rather than a bare transparent PNG.</p>
+
+<h3>5. Canva — excellent, if you already pay for it</h3>
+<p>If your team already lives in Canva Pro, its background remover is a one-click button sitting right next to your brand kit, fonts and templates, which means you never bounce between apps to get a finished asset out. The honest problem is the word "free": Canva's remover is <strong>locked behind Canva Pro</strong> (around fifteen dollars a month), and the trial that unlocks it asks for a card up front. The quality is good, but this is only a free option in the sense that a feature you are already paying for is "free".</p>
+
+<h3>6. Photopea — a free Photoshop clone with AI removal</h3>
+<p>Photopea is a free, browser-based Photoshop clone, and among its full pixel-editing toolset is an AI <strong>Remove Background</strong> command that runs in the browser. It is truly <strong>unlimited, no signup and no watermark</strong>, and the reason to choose it over a single-purpose tool is the editor wrapped around the cutout: when the automatic mask leaves a rough edge or eats a strand of hair, you have real selection, masking and refine-edge tools right there to fix it. Best when the cut-out is the start of the job, not the end of it.</p>
+
+<h3>7. Pixlr — free, no watermark, with a real editor attached</h3>
+<p>Pixlr offers a genuinely free background remover with <strong>no watermark</strong> on the output. The cutout quality is a step below the top tier — expect some roughness on fine hair and complicated shapes — but, like Photopea, it drops the result into a proper layer-based editor, so you can immediately retouch, colour-grade or composite the subject into a new scene without exporting to another app. Best if you want to cut out and then edit, and your images are not all wispy-hair portraits.</p>
+
+<h2 id="also">Three More Worth Knowing</h2>
+<p><strong>Erase.bg</strong> gives unlimited standard-resolution removals with no watermark and no account — a clean no-signup option. <strong>Pixian.ai</strong> takes a pay-per-image approach — full-resolution output at roughly five cents an image with no subscription, which is why it went down well on Hacker News as a no-lock-in alternative. And <strong>Fotor</strong> allows one free removal a day, which is fine for the occasional cutout and impractical for anything more.</p>
+
+<h2 id="how-to">How to Remove a Background in the Browser</h2>
+<p>Removing a background this way takes about ten seconds and no upload: open the <a href="/tools/background-remover">Background Remover</a>, drop or paste your image, let the on-device AI isolate the subject, then download the transparent PNG — or drop the subject onto a solid colour first. From there you can compress it, resize it for a marketplace, or convert it to WebP, all in the same tab. If you would rather do it by hand, or want the free desktop route, our guide to <a href="/blog/how-to-remove-background-gimp-canva">removing a background in GIMP and Canva</a> walks through the manual methods.</p>
+
+<h2 id="bottom-line">The Honest Bottom Line</h2>
+<p>For the background removal most people actually do — products, portraits, social graphics — browser-local free tools now rival the paid cloud services on quality and comfortably beat them on privacy and cost. Pay for remove.bg when a single image's hair edges have to be flawless; use Adobe Express or Canva if you already live in that ecosystem; reach for Photopea or Pixlr when the cutout needs hand-finishing. For everything else, removing the background <strong>on your own device</strong>, at full resolution, with no watermark and no signup, is hard to argue with — <a href="/tools/background-remover">try it here</a>.</p>
+`,
+  },
+
+
+  // ═════════════════════════════════════════════════════════════════════════
   // 19. Free PDF Mergers listicle (NEW Jul 2026 — first entry on purpose:
   //     newest post = featured card on /blog)
   // ═════════════════════════════════════════════════════════════════════════
