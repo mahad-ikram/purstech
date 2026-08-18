@@ -1,0 +1,46 @@
+name: IndexNow Submit
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Notifies Bing / Yandex / IndexNow partners that PursTech pages changed.
+#
+#  • Manual  → GitHub → Actions tab → "IndexNow Submit" → "Run workflow"
+#  • Automatic → runs after every push to main (i.e. every deploy)
+#
+# The script reads the LIVE sitemap.xml, so it always submits the current
+# set of pages — nothing to update here when you add a tool or post.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:        # the "Run workflow" button
+  push:
+    branches: [main]
+    paths:                  # only when real site content changes
+      - "app/**"
+      - "public/**"
+      - "components/**"
+
+# If several commits land quickly, only the newest run matters.
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"   # Node 18+ has built-in fetch
+
+      # Vercel needs a moment to finish building, otherwise we'd read the
+      # previous sitemap and miss whatever was just added.
+      - name: Wait for Vercel deploy
+        if: github.event_name == 'push'
+        run: sleep 150
+
+      - name: Submit URLs to IndexNow
+        run: node scripts/indexnow-submit.mjs
