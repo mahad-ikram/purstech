@@ -253,9 +253,10 @@ export default function TermsPage() {
       {/* ── Footer ── */}
       <footer className="border-t border-white/5 mt-20 py-8 text-center bg-[#0A0A14]">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
+        <div className="flex flex-wrap justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/disclaimer" className="hover:text-gray-400 transition-colors">Disclaimer</Link>
           <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>

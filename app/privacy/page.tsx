@@ -220,9 +220,10 @@ export default function PrivacyPage() {
 
       <footer className="border-t border-white/5 mt-20 py-8 text-center">
         <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
+        <div className="flex flex-wrap justify-center gap-6 mt-3 text-xs text-gray-600">
           <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+          <Link href="/disclaimer" className="hover:text-gray-400 transition-colors">Disclaimer</Link>
           <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
         </div>
         <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>

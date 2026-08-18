@@ -118,6 +118,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/pro`,      lastModified: now, changeFrequency: "weekly",  priority: 0.6 },
     { url: `${BASE_URL}/privacy`,  lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
     { url: `${BASE_URL}/terms`,    lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
+    { url: `${BASE_URL}/disclaimer`, lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
   ];
 
   // ── Newest tools — Batches 8-10 (11 tools, priority 0.9) ──────────────────
