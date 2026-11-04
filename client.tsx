@@ -1,810 +1,432 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useTrackTool } from "@/hooks/useTrackTool"; 
+import { useSearchParams } from "next/navigation";
+import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
+// ─── All 51 live tools ────────────────────────────────────────────────────────
+// batch field drives "Newest" sort: higher = more recent
 const ALL_TOOLS = [
-  // Text (5)
-  { icon:"📝", name:"Word Counter",              slug:"word-counter",              category:"text",     badge:"⭐ Top"  },
-  { icon:"🔤", name:"Case Converter",             slug:"case-converter",            category:"text",     badge:""        },
-  { icon:"📄", name:"Lorem Ipsum Generator",      slug:"lorem-ipsum",               category:"text",     badge:""        },
-  { icon:"🔍", name:"Diff Checker",               slug:"diff-checker",              category:"text",     badge:""        },
-  { icon:"🔊", name:"Text to Speech",             slug:"text-to-speech",            category:"text",     badge:""        },
-  // Dev (14)
-  { icon:"💻", name:"JSON Formatter",             slug:"json-formatter",            category:"dev",      badge:"⭐ Top"  },
-  { icon:"🔐", name:"Base64 Encoder",             slug:"base64-encoder",            category:"dev",      badge:""        },
-  { icon:"🔗", name:"URL Encoder",                slug:"url-encoder",               category:"dev",      badge:""        },
-  { icon:"🎲", name:"UUID Generator",             slug:"uuid-generator",            category:"dev",      badge:""        },
-  { icon:"🔲", name:"QR Code Generator",          slug:"qr-code-generator",         category:"dev",      badge:""        },
-  { icon:"🔑", name:"Hash Generator",             slug:"hash-generator",            category:"dev",      badge:""        },
-  { icon:"🎨", name:"CSS Minifier",               slug:"css-minifier",              category:"dev",      badge:""        },
-  { icon:"🗜️", name:"HTML Minifier",              slug:"html-minifier",             category:"dev",      badge:""        },
-  { icon:"🧪", name:"Regex Tester",               slug:"regex-tester",              category:"dev",      badge:""        },
-  { icon:"⚡", name:"JS Minifier",                slug:"js-minifier",               category:"dev",      badge:""        },
-  { icon:"📝", name:"HTML to Markdown",           slug:"html-to-markdown",          category:"dev",      badge:""        },
-  { icon:"✍️", name:"Markdown Editor",            slug:"markdown-editor",           category:"dev",      badge:""        },
-  { icon:"🎨", name:"Color Code Converter",       slug:"color-code-converter",      category:"dev",      badge:""        },
-  { icon:"✦",  name:"SVG Editor",                 slug:"svg-editor",                category:"dev",      badge:"🆕 New"  },
-  // Image (6)
-  { icon:"🎨", name:"Color Picker",               slug:"color-picker",              category:"image",    badge:""        },
-  { icon:"🗜️", name:"Image Compressor",           slug:"image-compressor",          category:"image",    badge:""        },
-  { icon:"📐", name:"Image Resizer",              slug:"image-resizer",             category:"image",    badge:""        },
-  { icon:"✂️", name:"Background Remover",         slug:"background-remover",        category:"image",    badge:""        },
-  { icon:"🏷",  name:"Favicon Generator",          slug:"favicon-generator",         category:"image",    badge:""        },
-  { icon:"📷", name:"Image to Text (OCR)",        slug:"image-to-text",             category:"image",    badge:"🔥 Hot"  },
-  // SEO (6)
-  { icon:"🏷",  name:"Meta Tag Generator",         slug:"meta-tag-generator",        category:"seo",      badge:"🔥 Hot"  },
-  { icon:"🤖", name:"Robots.txt Generator",        slug:"robots-txt-generator",      category:"seo",      badge:""        },
-  { icon:"🔍", name:"Keyword Density Checker",    slug:"keyword-density-checker",   category:"seo",      badge:""        },
-  { icon:"📊", name:"Open Graph Generator",       slug:"open-graph-generator",      category:"seo",      badge:""        },
-  { icon:"🗺",  name:"Sitemap Generator",           slug:"sitemap-generator",         category:"seo",      badge:""        },
-  { icon:"🧠", name:"llms.txt Generator",         slug:"llms-txt-generator",        category:"seo",      badge:"🆕 New"  },
-  // Finance (10)
-  { icon:"🎂", name:"Age Calculator",             slug:"age-calculator",            category:"finance",  badge:""        },
-  { icon:"⚖️", name:"BMI Calculator",              slug:"bmi-calculator",            category:"finance",  badge:""        },
-  { icon:"🔢", name:"Percentage Calculator",       slug:"percentage-calculator",     category:"finance",  badge:""        },
-  { icon:"📏", name:"Unit Converter",              slug:"unit-converter",            category:"finance",  badge:""        },
-  { icon:"💱", name:"Currency Converter",          slug:"currency-converter",        category:"finance",  badge:""        },
-  { icon:"🏦", name:"Loan Calculator",             slug:"loan-calculator",           category:"finance",  badge:""        },
-  { icon:"📈", name:"Compound Interest Calc",     slug:"compound-interest-calculator",category:"finance", badge:""       },
-  { icon:"🍽",  name:"Tip Calculator",              slug:"tip-calculator",            category:"finance",  badge:""        },
-  { icon:"🕐", name:"Time Zone Converter",        slug:"time-zone-converter",       category:"finance",  badge:""        },
-  { icon:"🏠", name:"Mortgage Calculator",        slug:"mortgage-calculator",       category:"finance",  badge:""        },
-  // Security (3)
-  { icon:"🔐", name:"Password Generator",         slug:"password-generator",        category:"security", badge:""        },
-  { icon:"🔒", name:"SSL Certificate Checker",    slug:"ssl-checker",               category:"security", badge:"🆕 New"  },
-  { icon:"🌐", name:"IP Address Lookup",          slug:"ip-lookup",                 category:"security", badge:"🆕 New"  },
-  // PDF (5)
-  { icon:"🗜️", name:"PDF Compressor",             slug:"pdf-compressor",            category:"pdf",      badge:"🆕 New"  },
-  { icon:"📑", name:"PDF Merger",                 slug:"pdf-merger",                category:"pdf",      badge:"🆕 New"  },
-  { icon:"✂️", name:"PDF Splitter",               slug:"pdf-splitter",              category:"pdf",      badge:"🆕 New"  },
-  { icon:"📝", name:"PDF to Word",                slug:"pdf-to-word",               category:"pdf",      badge:"🆕 New"  },
-  { icon:"📄", name:"Word to PDF",                slug:"word-to-pdf",               category:"pdf",      badge:"🆕 New"  },
-  // AI (2)
-  { icon:"✓",  name:"Grammar Checker",            slug:"grammar-checker",           category:"ai",       badge:"🆕 New"  },
-  { icon:"📊", name:"Readability Checker",        slug:"readability-checker",       category:"ai",       badge:"🆕 New"  },
+  // Text Tools (5)
+  { name:"Word Counter",              slug:"word-counter",               category:"text",     icon:"📝", desc:"Count words, characters, sentences and paragraphs instantly. Shows reading time, speaking time and keyword frequency.",    badge:"⭐ Top",  batch:1 },
+  { name:"Case Converter",            slug:"case-converter",             category:"text",     icon:"🔤", desc:"Convert text to UPPER, lower, Title, Sentence or camelCase in one click.",                                               badge:"",        batch:1 },
+  { name:"Lorem Ipsum Generator",     slug:"lorem-ipsum",                category:"text",     icon:"📄", desc:"Generate placeholder lorem ipsum text — words, sentences or paragraphs — for mockups and designs.",                       badge:"",        batch:1 },
+  { name:"Diff Checker",              slug:"diff-checker",               category:"text",     icon:"🔍", desc:"Compare two texts side by side and highlight every addition, deletion and change.",                                       badge:"",        batch:1 },
+  { name:"Text to Speech",            slug:"text-to-speech",             category:"text",     icon:"🔊", desc:"Convert any text to natural-sounding audio in multiple voices and languages.",                                            badge:"",        batch:1 },
+  // Developer Tools (14)
+  { name:"JSON Formatter",            slug:"json-formatter",             category:"dev",      icon:"💻", desc:"Format, validate, minify and explore JSON data with syntax highlighting and error detection.",                             badge:"⭐ Top",  batch:1 },
+  { name:"Base64 Encoder",            slug:"base64-encoder",             category:"dev",      icon:"🔐", desc:"Encode and decode Base64 strings and files instantly in the browser.",                                                    badge:"",        batch:1 },
+  { name:"URL Encoder",               slug:"url-encoder",                category:"dev",      icon:"🔗", desc:"Encode and decode URLs and query strings for use in web applications.",                                                   badge:"",        batch:1 },
+  { name:"UUID Generator",            slug:"uuid-generator",             category:"dev",      icon:"🎲", desc:"Generate cryptographically random UUIDs (v4) — single or in bulk.",                                                      badge:"",        batch:1 },
+  { name:"QR Code Generator",         slug:"qr-code-generator",          category:"dev",      icon:"🔲", desc:"Generate QR codes for URLs, WiFi, email, phone, vCard and plain text. PNG + SVG download.",                              badge:"",        batch:1 },
+  { name:"Hash Generator",            slug:"hash-generator",             category:"dev",      icon:"🔑", desc:"Generate MD5, SHA-1, SHA-256 and SHA-512 hashes from any text input.",                                                   badge:"",        batch:1 },
+  { name:"CSS Minifier",              slug:"css-minifier",               category:"dev",      icon:"🎨", desc:"Minify CSS files to reduce load time — removes whitespace, comments and redundant rules.",                               badge:"",        batch:1 },
+  { name:"HTML Minifier",             slug:"html-minifier",              category:"dev",      icon:"🗜", desc:"Minify HTML to reduce file size and improve page load speed.",                                                            badge:"",        batch:1 },
+  { name:"Regex Tester",              slug:"regex-tester",               category:"dev",      icon:"🧪", desc:"Test and debug regular expressions with real-time match highlighting, named groups and 20 pattern examples.",             badge:"🔥 Hot",  batch:7 },
+  { name:"JS Minifier",               slug:"js-minifier",                category:"dev",      icon:"⚡", desc:"Minify JavaScript with multi-pass compression, a beautifier and gzip size estimation.",                                  badge:"",        batch:7 },
+  { name:"HTML to Markdown",          slug:"html-to-markdown",           category:"dev",      icon:"📝", desc:"Convert HTML code to clean Markdown format with GFM table support.",                                                     badge:"",        batch:7 },
+  { name:"Markdown Editor",           slug:"markdown-editor",            category:"dev",      icon:"✍️", desc:"Write Markdown with a live split-pane preview, 15-button toolbar, fullscreen and HTML export.",                          badge:"",        batch:7 },
+  { name:"Color Code Converter",      slug:"color-code-converter",       category:"dev",      icon:"🖌", desc:"Convert between HEX, RGB, RGBA, HSL, HSLA, HSV and CMYK with WCAG contrast checker.",                                   badge:"",        batch:7 },
+  { name:"SVG Editor",                slug:"svg-editor",                 category:"dev",      icon:"✦",  desc:"Edit SVG code with live preview, shape toolbar, React JSX export, optimizer, animation snippets and PNG export.",        badge:"🆕 New",  batch:9 },
+  // Image Tools (6)
+  { name:"Color Picker",              slug:"color-picker",               category:"image",    icon:"🎨", desc:"Pick colors from images and get HEX, RGB, HSL, CMYK and CSS variable codes instantly.",                                  badge:"",        batch:1 },
+  { name:"Image Compressor",          slug:"image-compressor",           category:"image",    icon:"🗜", desc:"Compress JPEG, PNG and WebP images by up to 90%. Batch process, before/after preview, browser-based.",                   badge:"🔥 Hot",  batch:5 },
+  { name:"Image Resizer",             slug:"image-resizer",              category:"image",    icon:"📐", desc:"Resize images to any dimension with 20+ social media presets. Aspect ratio lock. JPEG, PNG or WebP output.",              badge:"",        batch:5 },
+  { name:"Background Remover",        slug:"background-remover",         category:"image",    icon:"✂️", desc:"Remove image backgrounds automatically in the browser. No upload to server — 100% private.",                             badge:"🤖 AI",   batch:5 },
+  { name:"Favicon Generator",         slug:"favicon-generator",          category:"image",    icon:"🏷", desc:"Create favicons from image, text, emoji or pixel art. All 18 sizes, device previews, PWA manifest.",                    badge:"",        batch:5 },
+  { name:"Image to Text (OCR)",       slug:"image-to-text",              category:"image",    icon:"📷", desc:"Extract text from any image using Tesseract OCR. 30+ languages, word confidence heatmap, camera capture.",               badge:"🔥 Hot",  batch:5 },
+  // SEO Tools (5)
+  { name:"Meta Tag Generator",        slug:"meta-tag-generator",         category:"seo",      icon:"🏷", desc:"Generate SEO meta tags with live SERP preview, SEO grade A–F, Open Graph and Twitter Card support.",                    badge:"🔥 Hot",  batch:4 },
+  { name:"Robots.txt Generator",      slug:"robots-txt-generator",       category:"seo",      icon:"🤖", desc:"Generate a robots.txt file with directives for all major crawlers and Google's AI bots.",                               badge:"",        batch:4 },
+  { name:"Keyword Density Checker",   slug:"keyword-density-checker",    category:"seo",      icon:"🔢", desc:"Analyse keyword density and frequency in any text or webpage for SEO optimisation.",                                     badge:"",        batch:4 },
+  { name:"Open Graph Generator",      slug:"open-graph-generator",       category:"seo",      icon:"📊", desc:"Generate Open Graph and Twitter Card tags with live previews for Facebook, LinkedIn, Discord and Slack.",               badge:"",        batch:4 },
+  { name:"Sitemap Generator",         slug:"sitemap-generator",          category:"seo",      icon:"🗺", desc:"Generate a valid XML sitemap with smart auto-priority, bulk import and one-click Google Ping.",                          badge:"",        batch:4 },
+  { name:"llms.txt Generator",         slug:"llms-txt-generator",         category:"seo",      icon:"🧠", desc:"Generate a spec-compliant llms.txt file so AI assistants like ChatGPT, Claude and Perplexity can read and cite your site.",  badge:"🆕 New",  batch:10 },
+  // Finance Tools (10)
+  { name:"Age Calculator",            slug:"age-calculator",             category:"finance",  icon:"🎂", desc:"Calculate exact age in years, months and days from any date.",                                                           badge:"",        batch:1 },
+  { name:"BMI Calculator",            slug:"bmi-calculator",             category:"finance",  icon:"⚖️", desc:"Calculate Body Mass Index and healthy weight range with metric and imperial support.",                                   badge:"",        batch:1 },
+  { name:"Percentage Calculator",     slug:"percentage-calculator",      category:"finance",  icon:"🔢", desc:"Calculate percentages, increases, decreases and differences between values.",                                            badge:"",        batch:1 },
+  { name:"Unit Converter",            slug:"unit-converter",             category:"finance",  icon:"📏", desc:"Convert between length, weight, temperature, volume, speed and area units.",                                             badge:"",        batch:1 },
+  { name:"Currency Converter",        slug:"currency-converter",         category:"finance",  icon:"💱", desc:"Convert currencies with live exchange rates across 170+ currencies.",                                                    badge:"",        batch:1 },
+  { name:"Loan Calculator",           slug:"loan-calculator",            category:"finance",  icon:"🏦", desc:"Calculate monthly payments, total interest and amortization schedule with extra payment simulator.",                     badge:"🔥 Hot",  batch:6 },
+  { name:"Compound Interest Calc",    slug:"compound-interest-calculator",category:"finance", icon:"📈", desc:"Calculate compound interest, investment growth and CAGR with 6 compounding frequencies and inflation adjustment.",       badge:"",        batch:6 },
+  { name:"Tip Calculator",            slug:"tip-calculator",             category:"finance",  icon:"🍽", desc:"Calculate tips and split bills with 8 service presets, itemized splitting and round-up mode.",                          badge:"",        batch:6 },
+  { name:"Time Zone Converter",       slug:"time-zone-converter",        category:"finance",  icon:"🕐", desc:"Convert times between 65+ cities worldwide with live clocks, DST awareness and meeting overlap finder.",                badge:"",        batch:6 },
+  { name:"Mortgage Calculator",       slug:"mortgage-calculator",        category:"finance",  icon:"🏠", desc:"Calculate full PITI with PMI, 28/36 affordability rule checker, amortization and rent vs buy comparison.",               badge:"⭐ Top",  batch:6 },
+  // Security Tools (3)
+  { name:"Password Generator",        slug:"password-generator",         category:"security", icon:"🔐", desc:"Generate cryptographically secure passwords with strength analysis, rules and bulk generation.",                         badge:"",        batch:1 },
+  { name:"SSL Certificate Checker",   slug:"ssl-checker",                category:"security", icon:"🔒", desc:"Check any website's SSL certificate — security grade A–F, expiry countdown, TLS version, SANs and cipher suite.",     badge:"🆕 New",  batch:9 },
+  { name:"IP Address Lookup",         slug:"ip-lookup",                  category:"security", icon:"🌐", desc:"Look up any IP — country, ISP, ASN, risk score, reverse DNS, live timezone clock and comparison mode.",                badge:"🆕 New",  batch:9 },
+  // PDF Tools (5)
+  { name:"PDF Compressor",            slug:"pdf-compressor",             category:"pdf",      icon:"🗜", desc:"Compress PDFs by up to 80% with 3 compression levels, metadata strip and batch ZIP download.",                          badge:"🆕 New",  batch:8 },
+  { name:"PDF Merger",                slug:"pdf-merger",                 category:"pdf",      icon:"📑", desc:"Merge PDFs with drag-to-reorder, per-file page ranges and custom metadata on merged output.",                           badge:"🆕 New",  batch:8 },
+  { name:"PDF Splitter",              slug:"pdf-splitter",               category:"pdf",      icon:"✂️", desc:"Split PDFs by page, range or extract/remove specific pages. Visual page grid, ZIP download.",                          badge:"🆕 New",  batch:8 },
+  { name:"PDF to Word",               slug:"pdf-to-word",                category:"pdf",      icon:"📝", desc:"Extract text from PDFs with page-by-page preview, text cleanup and download as .doc, .txt or .html.",                  badge:"🆕 New",  batch:8 },
+  { name:"Word to PDF",               slug:"word-to-pdf",                category:"pdf",      icon:"📄", desc:"Convert text or .txt files to PDF with A4/Letter/Legal page sizes, margins and auto page numbers.",                     badge:"🆕 New",  batch:8 },
+  // AI Tools (2)
+  { name:"Grammar Checker",           slug:"grammar-checker",            category:"ai",       icon:"✓",  desc:"Check grammar, spelling and style with LanguageTool's 6,000+ rules, error breakdown chart and passive voice detector.", badge:"🆕 New",  batch:9 },
+  { name:"Readability Checker",       slug:"readability-checker",        category:"ai",       icon:"📊", desc:"Analyse readability with 7 formulas, target audience mode, sentence difficulty map and famous text benchmarks.",        badge:"🆕 New",  batch:9 },
 ];
 
-const FEATURED = [
-  "word-counter", "json-formatter", "image-compressor", "meta-tag-generator",
-  "pdf-compressor", "grammar-checker", "image-to-text", "qr-code-generator",
-  "ssl-checker", "password-generator", "regex-tester", "readability-checker",
-  // Added 6 Jul 2026 — highest-demand tools that had no homepage link at all.
-  "tip-calculator", "compound-interest-calculator",
-].map(slug => ALL_TOOLS.find(t => t.slug === slug)!).filter(Boolean);
-
-// No .slice() cap — every newly launched tool gets a homepage link.
-// The old slice(0,8) silently hid grammar-checker + readability-checker.
-const NEW_TOOLS = ALL_TOOLS.filter(t => t.badge === "🆕 New");
-
+// ✅ Categories now include desc for SEO and rich content per section
 const CATEGORIES = [
-  { icon:"📝", name:"Text Tools",     slug:"text",     color:"from-violet-600 to-violet-400",  desc:"Write, format and analyse text" },
-  { icon:"🖼️", name:"Image Tools",    slug:"image",    color:"from-cyan-600 to-cyan-400",      desc:"Compress, resize and convert images" },
-  { icon:"💻", name:"Dev Tools",      slug:"dev",      color:"from-blue-600 to-blue-400",      desc:"JSON, regex, SVG, markdown and more" },
-  { icon:"📊", name:"SEO Tools",      slug:"seo",      color:"from-green-600 to-green-400",    desc:"Meta tags, sitemaps and robots" },
-  { icon:"🤖", name:"AI Tools",       slug:"ai",       color:"from-pink-600 to-pink-400",      desc:"Grammar check and readability" },
-  { icon:"💰", name:"Finance Tools",  slug:"finance",  color:"from-yellow-600 to-yellow-400",  desc:"Calculators and converters" },
-  { icon:"🔒", name:"Security",       slug:"security", color:"from-red-600 to-red-400",        desc:"Passwords, SSL and IP lookup" },
-  { icon:"📄", name:"PDF Tools",      slug:"pdf",      color:"from-orange-600 to-orange-400",  desc:"Compress, merge, split and convert PDFs" },
-].map(c => ({ ...c, count: ALL_TOOLS.filter(t => t.category === c.slug).length }));
+  { id:"all",      label:"All Tools",   icon:"⚡", desc:"" },
+  { id:"pdf",      label:"PDF",         icon:"📄", desc:"Compress, merge, split and convert PDF documents directly in your browser — no upload required."           },
+  { id:"image",    label:"Image",       icon:"🖼️", desc:"Compress, resize, remove backgrounds and extract text from images — all without leaving your device."        },
+  { id:"dev",      label:"Developer",   icon:"💻", desc:"JSON, regex, hashing, encoding, minification and code editors for every web developer's daily workflow."     },
+  { id:"seo",      label:"SEO",         icon:"📊", desc:"Meta tags, sitemaps, Open Graph, robots.txt and keyword analysis tools for technical SEO and on-page work." },
+  { id:"ai",       label:"AI",          icon:"🤖", desc:"AI-powered grammar checking and readability analysis backed by LanguageTool and proven readability formulas." },
+  { id:"finance",  label:"Finance",     icon:"💰", desc:"Loan, mortgage, compound interest, currency, tip, BMI, unit, age and time-zone calculators."                 },
+  { id:"security", label:"Security",    icon:"🔒", desc:"Password generation, SSL certificate checking and IP address lookup for security-conscious professionals."   },
+  { id:"text",     label:"Text",        icon:"📝", desc:"Word counting, case conversion, diff checking, Lorem Ipsum generation and text-to-speech for writers."       },
+].map(c => ({
+  ...c,
+  count: c.id === "all" ? ALL_TOOLS.length : ALL_TOOLS.filter(t => t.category === c.id).length,
+}));
 
-const NAV_LINKS = [
-  { href:"/categories/text",     label:"Text"      },
-  { href:"/categories/image",    label:"Image"     },
-  { href:"/categories/dev",      label:"Dev"       },
-  { href:"/categories/seo",      label:"SEO"       },
-  { href:"/categories/pdf",      label:"PDF"       },
-  { href:"/categories/finance",  label:"Finance"   },
-  { href:"/categories/security", label:"Security"  },
-  { href:"/categories/ai",       label:"AI"        },
-  { href:"/tools",              label:"All 51 Tools", highlight: true },
-  { href:"/blog",               label:"Blog"      },
-  { href:"/about",              label:"About"     },
-  { href:"/contact",            label:"Contact"   },
+const SORT_OPTIONS = [
+  { value:"newest",  label:"🆕 Newest First" },
+  { value:"popular", label:"🔥 Most Popular"  },
+  { value:"name",    label:"A → Z"            },
 ];
 
-// ─── Social Icons ─────────────────────────────────────────────────────────────
+const BADGE_STYLES: Record<string, string> = {
+  "⭐ Top":  "bg-violet-500/20 text-violet-300 border-violet-500/20",
+  "🔥 Hot":  "bg-orange-500/20 text-orange-300 border-orange-500/20",
+  "🆕 New":  "bg-cyan-500/20   text-cyan-300   border-cyan-500/20",
+  "🤖 AI":   "bg-pink-500/20   text-pink-300   border-pink-500/20",
+};
 
-function LinkedInIcon()  { return <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg>; }
-function InstagramIcon() { return <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>; }
-function YouTubeIcon()   { return <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>; }
-function FacebookIcon()  { return <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>; }
-
-const SOCIAL_LINKS = [
-  { name:"LinkedIn",  href:"https://www.linkedin.com/company/purstech",   Icon: LinkedInIcon,  brand:"hover:text-[#0A66C2]" },
-  { name:"Instagram", href:"https://www.instagram.com/purstech",          Icon: InstagramIcon, brand:"hover:text-[#E4405F]" },
-  { name:"YouTube",   href:"https://www.youtube.com/@PursTech",           Icon: YouTubeIcon,   brand:"hover:text-[#FF0000]" },
-  { name:"Facebook",  href:"https://www.facebook.com/share/1R3Q9JZ7ks/",  Icon: FacebookIcon,  brand:"hover:text-[#1877F2]" },
+// ✅ Site-level FAQ (Rule 8 — <details>/<summary>)
+const FAQ = [
+  { q:"Are all PursTech tools really free?",
+    a:"Yes. Every tool is completely free with no daily usage limits, no watermarks and no premium tiers blocking core features. PursTech Pro adds optional extras like batch processing and API access, but the standard tools remain free forever." },
+  { q:"Do I need to create an account?",
+    a:"No account is required to use any tool. There is no sign-up wall, no email collection and no usage tracking tied to identity. Open any tool and start using it immediately." },
+  { q:"Are my files uploaded to your servers?",
+    a:"All image, PDF, OCR and file-processing tools run entirely in your browser using WebAssembly and native JavaScript APIs. Your files are never uploaded to any server. The only tools that make network requests are those that need them by design — SSL Checker, IP Lookup and Currency Converter." },
+  { q:"Can I use these tools commercially?",
+    a:"Yes. You may use the output of any PursTech tool in commercial, client and internal projects. The tools themselves are owned by PursTech, but the content you produce with them is yours." },
+  { q:"How are the tools funded if they are free?",
+    a:"PursTech is funded through non-intrusive advertising and an optional Pro subscription for power users who want batch processing, API access and zero ads. The free tools remain fully functional and free forever." },
 ];
 
-const AUDIENCES = [
-  { icon:"💻", title:"Developers",   desc:"JSON formatting, regex testing, hashing, code minification, SVG editing, QR codes, base64 and markdown editing." },
-  { icon:"✍️", title:"Writers",      desc:"Grammar checking, readability scoring, word counting, lorem ipsum and side-by-side diff comparison." },
-  { icon:"📈", title:"SEO Pros",     desc:"Meta tag generation, XML sitemaps, robots.txt, Open Graph previews and keyword density analysis." },
-  { icon:"🎓", title:"Students",     desc:"PDF compress/merge/split, age and percentage calculators, OCR text extraction and text-to-speech." },
+// ✅ Why PursTech feature grid (rich content for AdSense)
+const WHY_PURSTECH = [
+  { icon:"🆓", title:"100% Free Forever",     desc:"Every tool free, with no daily limits, no watermarks and no paywalled features. Pro is optional for power users." },
+  { icon:"🔒", title:"Your Files Stay Private", desc:"PDF, image and OCR tools process entirely in your browser. Your files never leave your device — nothing uploaded." },
+  { icon:"🚪", title:"No Login Required",     desc:"No accounts, no email collection, no sign-up walls. Open any tool and start using it within one second." },
+  { icon:"⚡", title:"Fast & Browser-based",  desc:"Built on WebAssembly and modern web APIs. Tools work offline once loaded and use zero bandwidth after the first visit." },
 ];
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
+// ─── Tool Card ────────────────────────────────────────────────────────────────
+function ToolCard({ tool }: { tool: typeof ALL_TOOLS[0] }) {
+  return (
+    <Link href={`/tools/${tool.slug}`}
+      className="group bg-[#13131F] border border-white/5 rounded-2xl p-5 flex flex-col gap-3 min-w-0 w-full
+        hover:border-[#6C3AFF]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-900/20
+        transition-all duration-300 relative overflow-hidden">
+      <div className="flex items-start justify-between gap-2 min-w-0 w-full">
+        <span className="text-3xl flex-shrink-0">{tool.icon}</span>
+        {tool.badge && (
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border flex-shrink-0 ${BADGE_STYLES[tool.badge] ?? "bg-gray-500/20 text-gray-400"}`}>
+            {tool.badge}
+          </span>
+        )}
+      </div>
+      <div className="flex-1 min-w-0 w-full">
+        <h3 className="font-bold text-white text-sm group-hover:text-[#00D4FF] transition-colors leading-snug mb-1 truncate pr-1">{tool.name}</h3>
+        <p className="text-gray-600 text-xs leading-relaxed line-clamp-2 w-full">{tool.desc}</p>
+      </div>
+      <div className="flex items-center justify-between mt-auto pt-2.5 border-t border-white/5 min-w-0 w-full">
+        <span className="text-xs text-gray-700 capitalize truncate">{tool.category}</span>
+        <span className="text-gray-700 group-hover:text-[#6C3AFF] transition-colors text-sm flex-shrink-0">→</span>
+      </div>
+    </Link>
+  );
+}
 
-function Navbar() {
-  const [scrolled,   setScrolled]   = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+// ─── Main Component ───────────────────────────────────────────────────────────
+export default function AllToolsClient({ children }: { children?: React.ReactNode }) {
+  useTrackTool("all-tools", "listing"); // ✅ Rule 3
+
+  const searchParams = useSearchParams();
+
+  const [category, setCategory] = useState(() => searchParams.get("cat") ?? "all");
+  const [search,   setSearch]   = useState(() => searchParams.get("search") ?? "");
+  const [sort,     setSort]     = useState("newest");
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
+    const cat = searchParams.get("cat");
+    if (cat) setCategory(cat);
+  }, [searchParams]);
 
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [mobileOpen]);
+  // ✅ Section refs for smooth-scroll-to-category UX
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  // Filter + sort logic
+  const filtered = useMemo(() => {
+    let tools = [...ALL_TOOLS];
+    if (category !== "all") tools = tools.filter(t => t.category === category);
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      tools = tools.filter(t =>
+        t.name.toLowerCase().includes(q) ||
+        t.desc.toLowerCase().includes(q) ||
+        t.category.toLowerCase().includes(q)
+      );
+    }
+    switch (sort) {
+      case "newest": tools.sort((a, b) => b.batch - a.batch || a.name.localeCompare(b.name)); break;
+      case "name":   tools.sort((a, b) => a.name.localeCompare(b.name)); break;
+    }
+    return tools;
+  }, [search, category, sort]);
+
+  // Group filtered+sorted tools by category for sectioned rendering
+  const groupedByCategory = useMemo(() => {
+    const grouped: Record<string, typeof ALL_TOOLS> = {};
+    CATEGORIES.filter(c => c.id !== "all").forEach(c => { grouped[c.id] = []; });
+    filtered.forEach(t => { if (grouped[t.category]) grouped[t.category].push(t); });
+    return grouped;
+  }, [filtered]);
+
+  // Decide which sections to render
+  const sectionsToShow = useMemo(() => {
+    const candidate = category === "all"
+      ? CATEGORIES.filter(c => c.id !== "all")
+      : CATEGORIES.filter(c => c.id === category);
+    return candidate.filter(c => (groupedByCategory[c.id]?.length ?? 0) > 0);
+  }, [category, groupedByCategory]);
+
+  // ✅ Click handler: filter + smooth scroll to that section
+  const handleCategoryClick = (catId: string) => {
+    setCategory(catId);
+    if (catId === "all") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    // Small delay so the section ref exists if it was hidden by previous filter
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        sectionRefs.current[catId]?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  };
+
+  const totalLive = ALL_TOOLS.length;
 
   return (
-    <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || mobileOpen ? "bg-[#0A0A14]/98 backdrop-blur-md shadow-lg shadow-violet-900/20" : "bg-transparent"
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-            <span className="text-2xl font-black text-white tracking-tight">Purs<span className="text-[#6C3AFF]">Tech</span></span>
-            <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30 flex-shrink-0">51 Tools</span>
-          </Link>
+    // ✅ Rule 6: flex flex-col overflow-x-hidden
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
 
-          <div className="hidden md:flex items-center gap-5 text-sm text-gray-400 font-medium">
-            {NAV_LINKS.filter(l => !l.highlight).map(l => (
-              <Link key={l.href} href={l.href} className="hover:text-white transition-colors">{l.label}</Link>
-            ))}
-            <Link href="/tools" className="text-[#6C3AFF] hover:text-white transition-colors font-bold flex-shrink-0">All 51 Tools</Link>
-          </div>
-
+      {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur + Go Pro Link ── */}
+      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
           <div className="flex items-center gap-3">
-            <Link href="/pro" className="hidden md:block px-4 py-2 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-violet-900/30 flex-shrink-0">Go Pro ⚡</Link>
-
-            <button onClick={() => setMobileOpen(p => !p)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}
-              className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-xl bg-[#13131F] border border-white/10 gap-1.5 transition-all hover:border-[#6C3AFF]/40 flex-shrink-0">
-              <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
-              <span className={`block w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-            </button>
-          </div>
-        </div>
-
-        <div className={`md:hidden transition-all duration-300 overflow-hidden ${mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}`}>
-          <div className="bg-[#0A0A14]/98 border-t border-white/5 px-4 pt-4 pb-6 min-w-0 w-full">
-            <div className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">Browse by category</div>
-            <div className="grid grid-cols-2 gap-2 mb-5 min-w-0 w-full">
-              {CATEGORIES.map(c => (
-                <Link key={c.slug} href={`/categories/${c.slug}`} onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 transition-all group min-w-0 w-full">
-                  <span className="text-lg flex-shrink-0">{c.icon}</span>
-                  <div className="min-w-0 w-full">
-                    <div className="text-white text-xs font-bold group-hover:text-[#00D4FF] transition-colors truncate">{c.name}</div>
-                    <div className="text-gray-600 text-xs truncate">{c.count} tools</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            <div className="space-y-1 mb-5 min-w-0 w-full">
-              {[
-                { href:"/tools",   label:"🔧  Browse All 51 Tools",  special: true  },
-                { href:"/blog",    label:"📖  Blog"                                  },
-                { href:"/about",   label:"ℹ️   About PursTech"                       },
-                { href:"/contact", label:"✉️   Contact"                              },
-              ].map(l => (
-                <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
-                  className={`flex items-center w-full px-4 py-3 rounded-xl text-sm font-semibold transition-all min-w-0 ${
-                    l.special ? "bg-[#6C3AFF]/10 border border-[#6C3AFF]/30 text-[#6C3AFF] hover:bg-[#6C3AFF]/20" : "text-gray-400 hover:text-white hover:bg-white/5"
-                  }`}><span className="truncate">{l.label}</span></Link>
-              ))}
-            </div>
-
-            <Link href="/pro" className="flex items-center justify-center w-full py-3.5 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-extrabold text-sm transition-all duration-300 shadow-lg shadow-violet-900/30 truncate px-2">
-              ⚡ Go Pro — $7/month · Cancel anytime
-            </Link>
+            <Link href="/" className="text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
+            <Link href="/pro" className="px-4 py-2 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all">Go Pro ⚡</Link>
           </div>
         </div>
       </nav>
 
-      {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={() => setMobileOpen(false)} />
-      )}
-    </>
-  );
-}
+      {/* ✅ Rule 7: flex-grow w-full */}
+      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+        {/* ✅ Rule 11: aria-label + aria-hidden separator */}
+        <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
+          <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
+          <span aria-hidden="true">›</span>
+          <span className="text-gray-400">All Tools</span>
+        </nav>
 
-function HeroSection() {
-  const [query,       setQuery]       = useState("");
-  const [results,     setResults]     = useState<typeof ALL_TOOLS>([]);
-  const [showResults, setShowResults] = useState(false);
+        {/* ✅ Rule 12: Hero from page.tsx */}
+        {children}
 
-  const handleSearch = (q: string) => {
-    setQuery(q);
-    if (q.trim().length > 1) {
-      setResults(ALL_TOOLS.filter(t =>
-        t.name.toLowerCase().includes(q.toLowerCase()) ||
-        t.category.toLowerCase().includes(q.toLowerCase())
-      ).slice(0, 6));
-      setShowResults(true);
-    } else { setShowResults(false); }
-  };
-
-  return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-16 overflow-hidden w-full">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10   rounded-full blur-3xl pointer-events-none" />
-
-      {/* Mobile fix (15 Jul 2026): the pill used to size to its content with no
-          max-width, so on narrow screens its rounded ends ran off both edges and
-          `truncate` chopped the text mid-word. Now it is capped to the viewport,
-          scales its type down, and wraps to two lines gracefully on tiny screens
-          (rounded-2xl reads as intentional there; rounded-full returns at sm+). */}
-      <div className="mb-6 mx-auto max-w-[calc(100vw-2rem)] flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#13131F] border border-[#6C3AFF]/30 rounded-2xl sm:rounded-full px-4 sm:px-5 py-2 text-[11px] sm:text-sm">
-        <span className="flex items-center gap-2 flex-shrink-0">
+        {/* Live status indicator */}
+        <div className="flex items-center justify-center gap-2 mb-8 -mt-4 min-w-0 w-full">
           <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
-          <span className="text-white font-bold">51 free tools</span>
-        </span>
-        <span className="text-gray-600" aria-hidden="true">·</span>
-        <span className="text-gray-400">8 categories</span>
-        <span className="text-gray-600" aria-hidden="true">·</span>
-        <span className="text-gray-400">100% browser-based</span>
-      </div>
-
-      <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white text-center max-w-5xl leading-tight w-full px-2">
-        Stop Searching.{" "}<br className="hidden md:block" />
-        <span className="bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] bg-clip-text text-transparent">Start Doing.</span>
-      </h1>
-
-      <p className="mt-6 text-lg md:text-xl text-gray-400 text-center max-w-2xl leading-relaxed px-4 w-full">
-        <span className="text-white font-semibold">51 free tools</span> across 8 categories —
-        text, image, dev, SEO, PDF, finance, security and AI. No login. No limits.
-      </p>
-
-      <div className="mt-10 w-full max-w-xl relative px-4 sm:px-0 min-w-0">
-        <div className="flex items-center gap-3 bg-[#13131F] border border-[#6C3AFF]/30 rounded-2xl px-5 py-4 focus-within:border-[#00D4FF]/60 transition-all min-w-0 w-full">
-          <svg className="w-5 h-5 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input value={query} onChange={e => handleSearch(e.target.value)}
-            onBlur={() => setTimeout(() => setShowResults(false), 150)}
-            placeholder="Search 51 tools — grammar checker, pdf compressor…"
-            className="flex-1 min-w-0 bg-transparent text-white placeholder-gray-600 focus:outline-none text-sm truncate" />
-          {query && (
-            <button onClick={() => { setQuery(""); setShowResults(false); }} className="text-gray-600 hover:text-white flex-shrink-0">✕</button>
-          )}
+          <span className="text-sm text-gray-500 truncate">
+            <span className="text-green-400 font-bold">{totalLive} tools</span> live · free forever · no login
+          </span>
         </div>
-        {showResults && results.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-[#13131F] border border-white/10 rounded-2xl overflow-hidden z-30 shadow-2xl min-w-0 w-full">
-            {results.map(t => (
-              <Link key={t.slug} href={`/tools/${t.slug}`}
-                className="flex items-center gap-3 px-5 py-3 hover:bg-[#6C3AFF]/10 transition-colors border-b border-white/5 last:border-0 min-w-0 w-full">
-                <span className="text-xl flex-shrink-0">{t.icon}</span>
-                <div className="min-w-0 w-full">
-                  <div className="text-white text-sm font-semibold truncate pr-2">{t.name}</div>
-                  <div className="text-gray-500 text-xs capitalize truncate">{t.category} tools</div>
-                </div>
-                {t.badge && <span className="ml-auto text-xs text-[#6C3AFF] font-bold flex-shrink-0">{t.badge}</span>}
-              </Link>
+
+        {/* Search bar */}
+        <div className="max-w-2xl mx-auto mb-7 min-w-0 w-full">
+          <div className="relative min-w-0 w-full">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+            <input type="text" value={search} onChange={e => setSearch(e.target.value)}
+              placeholder={`Search ${totalLive} tools — grammar checker, pdf compressor, regex tester…`}
+              className="w-full pl-12 pr-10 py-4 rounded-2xl bg-[#13131F] border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/50 transition-all text-sm truncate" />
+            {search && (
+              <button onClick={() => setSearch("")}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-white transition-colors">✕</button>
+            )}
+          </div>
+        </div>
+
+        {/* ✅ Category chips — sticky just under navbar, scroll target navigation */}
+        <div className="sticky top-[73px] z-30 -mx-4 px-4 py-2 bg-[#0A0A14]/95 backdrop-blur-md mb-5 min-w-0 w-full">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide min-w-0 w-full">
+            {CATEGORIES.map(cat => (
+              <button key={cat.id} onClick={() => handleCategoryClick(cat.id)}
+                className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition-all flex-shrink-0 ${
+                  category === cat.id
+                    ? "bg-[#6C3AFF] text-white shadow-lg shadow-violet-900/30"
+                    : "bg-[#13131F] text-gray-400 hover:text-white border border-white/5 hover:border-[#6C3AFF]/30"
+                }`}>
+                <span>{cat.icon}</span>
+                <span>{cat.label}</span>
+                <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+                  category === cat.id ? "bg-white/20 text-white" : "bg-white/5 text-gray-600"
+                }`}>{cat.count}</span>
+              </button>
             ))}
+          </div>
+        </div>
+
+        {/* Sort + result count */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 min-w-0 w-full">
+          <span className="text-sm text-gray-500 min-w-0">
+            Showing <span className="text-white font-bold">{filtered.length}</span> tool{filtered.length !== 1 ? "s" : ""}
+            {search && <span className="text-[#6C3AFF]"> for &quot;{search}&quot;</span>}
+            {category !== "all" && !search && (
+              <span className="text-gray-600 ml-1">in {CATEGORIES.find(c => c.id === category)?.label}</span>
+            )}
+          </span>
+          <select value={sort} onChange={e => setSort(e.target.value)}
+            className="bg-[#13131F] border border-white/5 text-gray-400 text-sm px-4 py-2 rounded-xl focus:outline-none focus:border-[#6C3AFF]/50 transition-all cursor-pointer flex-shrink-0">
+            {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
+
+        {/* ✅ Sectioned tools by category — each is a scroll target */}
+        {sectionsToShow.length > 0 ? (
+          <div className="space-y-12 min-w-0 w-full">
+            {sectionsToShow.map(cat => {
+              const tools = groupedByCategory[cat.id] || [];
+              return (
+                <section key={cat.id}
+                  id={`category-${cat.id}`}
+                  ref={el => { sectionRefs.current[cat.id] = el; }}
+                  className="scroll-mt-32 min-w-0 w-full">
+                  <div className="flex items-end justify-between mb-2 gap-2 min-w-0 w-full">
+                    <h2 className="text-2xl font-extrabold text-white flex items-center gap-2 min-w-0">
+                      <span className="flex-shrink-0">{cat.icon}</span>
+                      <span className="truncate">{cat.label} Tools</span>
+                    </h2>
+                    <span className="text-sm text-gray-500 flex-shrink-0">{tools.length} tool{tools.length !== 1 ? "s" : ""}</span>
+                  </div>
+                  {cat.desc && <p className="text-sm text-gray-500 mb-5 max-w-3xl leading-relaxed min-w-0 w-full truncate whitespace-normal break-words">{cat.desc}</p>}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-w-0 w-full">
+                    {tools.map(tool => <ToolCard key={tool.slug} tool={tool} />)}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        ) : (
+          // Empty state
+          <div className="text-center py-24 min-w-0 w-full">
+            <div className="text-6xl mb-4">🔍</div>
+            <h3 className="text-xl font-bold text-white mb-2">No tools found</h3>
+            <p className="text-gray-500 mb-6 truncate whitespace-normal break-words min-w-0 w-full">
+              No results for &ldquo;{search}&rdquo; — try a different search term.
+            </p>
+            <button onClick={() => { setSearch(""); setCategory("all"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="px-6 py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-bold transition-all">
+              Clear filters
+            </button>
           </div>
         )}
-      </div>
 
-      {/* ✅ MOBILE-SAFE CATEGORY CHIPS */}
-      <div className="mt-6 flex gap-2 w-full max-w-2xl px-4 overflow-x-auto scrollbar-hide snap-x sm:flex-wrap sm:justify-center">
-        {CATEGORIES.map(c => (
-          <Link key={c.slug} href={`/categories/${c.slug}`}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 text-gray-400 hover:text-white text-xs font-semibold transition-all flex-shrink-0 snap-center">
-            <span className="flex-shrink-0">{c.icon}</span><span className="truncate">{c.name.split(" ")[0]}</span><span className="text-gray-700 flex-shrink-0">{c.count}</span>
-          </Link>
-        ))}
-      </div>
-
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center min-w-0 w-full px-4">
-        {[
-          { value:"51",   label:"Free Tools",   sub:"across 8 categories" },
-          { value:"100%", label:"Free Forever", sub:"no sign-up required" },
-          { value:"∞",    label:"No Limits",    sub:"unlimited daily use"  },
-        ].map(s => (
-          <div key={s.label} className="min-w-0">
-            <div className="text-3xl md:text-4xl font-black text-white truncate">{s.value}</div>
-            <div className="text-sm font-bold text-[#6C3AFF] mt-1 truncate">{s.label}</div>
-            <div className="text-xs text-gray-600 mt-0.5 truncate">{s.sub}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Trending bar ─────────────────────────────────────────────────────────────
-
-function TrendingBar() {
-  return (
-    <div className="border-y border-white/5 bg-[#0D0D1A] py-3 overflow-hidden min-w-0 w-full">
-      <div className="flex items-center w-full">
-        {/* Label sits above the marquee on its own solid background so names
-            slide underneath it cleanly instead of colliding. */}
-        <span className="relative z-10 flex-shrink-0 bg-[#0D0D1A] text-[10px] sm:text-xs font-bold text-[#FF3A6C] pl-4 pr-2 sm:px-4 uppercase tracking-widest">🔥 Browse</span>
-        {/* Mobile fix (15 Jul 2026): the strip ran edge-to-edge and names were
-            sliced mid-word at both ends — it read as broken rather than moving.
-            A mask fades items in/out at the edges at every screen size. */}
-        <div
-          className="overflow-hidden flex-1 min-w-0"
-          style={{
-            maskImage:
-              "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 48px), transparent 100%)",
-          }}
-        >
-          {/* Each tool name is a real <Link> (was an unclickable span) — this
-              gives all 51 tools a homepage internal link, the documented fix for
-              "Discovered – currently not indexed". (6 Jul 2026)
-
-              Two equal-width groups. Each carries its own internal gap AND a
-              trailing pad, so each group is exactly half the track — which makes
-              translateX(-50%) land perfectly and the loop seamless. (Putting a
-              gap between the groups instead would leave a half-gap jump.)
-              Animation comes from .purs-marquee in globals.css, not from a
-              Tailwind arbitrary class, so it cannot silently break again. */}
-          <div className="purs-marquee flex whitespace-nowrap">
-            <div className="flex gap-6 sm:gap-8 pr-6 sm:pr-8 flex-shrink-0">
-              {ALL_TOOLS.map(t => (
-                <Link key={t.slug} href={`/tools/${t.slug}`}
-                  className="text-[11px] sm:text-xs text-gray-500 hover:text-[#00D4FF] transition-colors flex-shrink-0">
-                  {t.icon} {t.name}
-                </Link>
-              ))}
-            </div>
-            {/* Visual loop copy — aria-hidden and not links, so we don't emit
-                50 duplicate hrefs for Google. */}
-            <div className="flex gap-6 sm:gap-8 pr-6 sm:pr-8 flex-shrink-0" aria-hidden="true">
-              {ALL_TOOLS.map(t => (
-                <span key={`loop-${t.slug}`}
-                  className="text-[11px] sm:text-xs text-gray-500 cursor-default flex-shrink-0">
-                  {t.icon} {t.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Category grid ────────────────────────────────────────────────────────────
-
-function CategoryGrid() {
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-16 min-w-0 w-full">
-      <div className="text-center mb-10 min-w-0 w-full">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">8 Categories. 51 Tools. All Free.</h2>
-        <p className="text-gray-500 max-w-xl mx-auto leading-relaxed px-4">Every tool is completely free — no account, no daily limits, no watermarks.</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 min-w-0 w-full">
-        {CATEGORIES.map(c => (
-          <Link key={c.slug} href={`/categories/${c.slug}`}
-            className="group relative bg-[#13131F] border border-white/5 rounded-2xl p-5 hover:border-[#6C3AFF]/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden min-w-0 w-full">
-            <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity bg-gradient-to-br ${c.color}`} />
-            <div className="text-3xl mb-3 flex-shrink-0">{c.icon}</div>
-            <div className="font-extrabold text-white text-sm mb-1 truncate pr-1">{c.name}</div>
-            <div className="text-xs text-gray-500 mb-3 leading-relaxed w-full whitespace-normal">{c.desc}</div>
-            <div className={`inline-flex items-center gap-1 text-xs font-bold bg-gradient-to-r ${c.color} bg-clip-text text-transparent flex-shrink-0`}>{c.count} tools →</div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Featured tools ───────────────────────────────────────────────────────────
-
-function FeaturedTools() {
-  const [filter, setFilter] = useState("all");
-  const filtered = filter === "all" ? FEATURED : FEATURED.filter(t => t.category === filter);
-  const cats = ["all", ...new Set(FEATURED.map(t => t.category))];
-
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-10 min-w-0 w-full">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 min-w-0 w-full">
-        <div className="min-w-0">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white truncate">Most Used Tools</h2>
-          <p className="text-gray-500 text-sm mt-1 truncate">Handpicked from 51 tools across all categories</p>
-        </div>
-        <div className="flex overflow-x-auto sm:flex-wrap gap-2 pb-2 sm:pb-0 scrollbar-hide min-w-0 w-full sm:w-auto">
-          {cats.map(c => (
-            <button key={c} onClick={() => setFilter(c)}
-              className={`px-4 py-1.5 rounded-xl text-xs font-bold capitalize transition-all border flex-shrink-0 ${filter === c ? "bg-[#6C3AFF] text-white border-transparent" : "bg-[#13131F] border-white/5 text-gray-400 hover:text-white"}`}>
-              {c === "all" ? "All" : c}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 min-w-0 w-full">
-        {filtered.map(t => (
-          <Link key={t.slug} href={`/tools/${t.slug}`}
-            className="group bg-[#13131F] border border-white/5 rounded-2xl p-4 hover:border-[#6C3AFF]/40 transition-all duration-300 hover:-translate-y-0.5 min-w-0 w-full">
-            <div className="flex items-start justify-between mb-3 gap-2 min-w-0 w-full">
-              <span className="text-2xl flex-shrink-0">{t.icon}</span>
-              {t.badge && (
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
-                  t.badge === "⭐ Top" ? "bg-violet-500/20 text-violet-400" :
-                  t.badge === "🔥 Hot" ? "bg-orange-500/20 text-orange-400" :
-                  t.badge === "🆕 New" ? "bg-cyan-500/20 text-cyan-400" : "bg-gray-500/20 text-gray-400"
-                }`}>{t.badge}</span>
-              )}
-            </div>
-            <div className="font-bold text-white text-sm mb-1 group-hover:text-[#00D4FF] transition-colors leading-snug truncate w-full pr-1">{t.name}</div>
-            <div className="text-xs text-gray-600 capitalize truncate w-full">{t.category} tools</div>
-          </Link>
-        ))}
-      </div>
-      <div className="text-center mt-8 min-w-0 w-full">
-        <Link href="/tools" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#13131F] border border-[#6C3AFF]/30 hover:border-[#6C3AFF]/60 text-white font-bold transition-all hover:-translate-y-0.5 max-w-full truncate">
-          Browse all 51 tools →
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-// ─── New This Month ───────────────────────────────────────────────────────────
-
-function NewToolsSection() {
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-10 min-w-0 w-full">
-      <div className="bg-gradient-to-br from-[#13131F] to-[#0d0d1a] border border-[#6C3AFF]/20 rounded-3xl p-8 relative overflow-hidden min-w-0 w-full">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#6C3AFF]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00D4FF]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 min-w-0 w-full">
-          <div className="min-w-0 w-full">
-            <div className="inline-flex items-center gap-2 bg-[#6C3AFF]/20 border border-[#6C3AFF]/30 rounded-full px-3 py-1 text-xs text-[#6C3AFF] font-bold mb-2 flex-shrink-0">🆕 Just Launched</div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white truncate pr-2 w-full">New Tools This Month</h2>
-            <p className="text-gray-500 text-sm mt-1 truncate w-full">PDF suite, SSL checker, IP lookup, grammar checker, SVG editor and more</p>
-          </div>
-          <Link href="/tools" className="text-sm text-[#00D4FF] hover:text-white transition-colors font-semibold flex-shrink-0 whitespace-nowrap">See all new tools →</Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 min-w-0 w-full">
-          {NEW_TOOLS.map(t => (
-            <Link key={t.slug} href={`/tools/${t.slug}`}
-              className="group flex items-center gap-3 bg-[#0A0A14]/60 border border-white/5 hover:border-[#6C3AFF]/40 rounded-xl px-3 py-2.5 transition-all min-w-0 w-full">
-              <span className="text-xl flex-shrink-0">{t.icon}</span>
-              <div className="min-w-0 w-full">
-                <div className="text-white text-xs font-bold group-hover:text-[#00D4FF] transition-colors leading-snug truncate w-full pr-1">{t.name}</div>
-                <div className="text-gray-600 text-xs capitalize truncate w-full">{t.category}</div>
+        {/* ── Rich content: Why PursTech ──────────────────────────────────── */}
+        <section className="mt-20 min-w-0 w-full">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">Why PursTech</h2>
+          <p className="text-gray-400 text-sm mb-6 max-w-2xl leading-relaxed">Built differently from typical "free tool" sites — no upsell tricks, no daily limits, no email walls.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 min-w-0 w-full">
+            {WHY_PURSTECH.map(f => (
+              <div key={f.title} className="bg-[#13131F] border border-white/5 rounded-2xl p-5 min-w-0 w-full">
+                <div className="text-2xl mb-2 flex-shrink-0">{f.icon}</div>
+                <div className="font-bold text-white text-sm mb-2 truncate pr-1">{f.title}</div>
+                <p className="text-gray-500 text-xs leading-relaxed">{f.desc}</p>
               </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-5 min-w-0 w-full">
-          {[
-            { label:"5 PDF Tools — compress, merge, split, convert", color:"text-orange-400 bg-orange-400/10 border-orange-400/20" },
-            { label:"2 AI Tools — grammar & readability",            color:"text-pink-400 bg-pink-400/10 border-pink-400/20" },
-            { label:"2 Security Tools — SSL checker & IP lookup",    color:"text-red-400 bg-red-400/10 border-red-400/20" },
-            { label:"SVG Editor with React export",                  color:"text-blue-400 bg-blue-400/10 border-blue-400/20" },
-          ].map(b => (
-            <span key={b.label} className={`text-xs font-semibold px-3 py-1 rounded-full border truncate max-w-full ${b.color}`}>✓ {b.label}</span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Why PursTech ─────────────────────────────────────────────────────────────
-
-function WhySection() {
-  const points = [
-    { icon:"⚡", title:"Instant results",   desc:"Every tool runs in your browser. No upload wait, no processing queue — results appear as you type." },
-    { icon:"🔒", title:"Private by design", desc:"Your files never touch our servers. PDF compression, OCR, image editing — all 100% client-side." },
-    { icon:"🌍", title:"Works everywhere",  desc:"Any browser, any device. No app install, no account, no extension required." },
-    { icon:"♾️", title:"Unlimited & free",  desc:"Every tool is free with no daily limits, no watermarks and no login wall — ever." },
-  ];
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-14 min-w-0 w-full">
-      <div className="text-center mb-10 min-w-0 w-full px-4">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3 leading-snug">Why developers, writers and SEO pros choose PursTech</h2>
-        <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">Built differently from typical "free tool" sites — no upsell tricks, no email walls, no daily caps.</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 min-w-0 w-full">
-        {points.map(p => (
-          <div key={p.title} className="bg-[#13131F] border border-white/5 rounded-2xl p-6 min-w-0 w-full">
-            <div className="text-3xl mb-4 flex-shrink-0">{p.icon}</div>
-            <div className="font-extrabold text-white text-base mb-2 truncate pr-1">{p.title}</div>
-            <div className="text-gray-500 text-sm leading-relaxed whitespace-normal break-words">{p.desc}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Built For (rich content for AdSense) ─────────────────────────────────────
-// ✅ MOBILE ARMOR APPLIED
-
-function BuiltForSection() {
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-14 min-w-0 w-full">
-      <div className="text-center mb-10 min-w-0 w-full px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Built for Real Work</h2>
-        <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">PursTech tools are designed for the day-to-day workflows of four specific audiences. Pick your role to see what we built for you.</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 min-w-0 w-full">
-        {AUDIENCES.map(a => (
-          <div key={a.title} className="bg-[#13131F] border border-white/5 rounded-2xl p-6 hover:border-[#6C3AFF]/40 transition-all min-w-0 w-full">
-            <div className="text-3xl mb-3 flex-shrink-0">{a.icon}</div>
-            <div className="font-extrabold text-white text-base mb-2 truncate pr-1">{a.title}</div>
-            <div className="text-gray-500 text-sm leading-relaxed whitespace-normal break-words">{a.desc}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── SEO / LLM content section ───────────────────────────────────────────────
-
-function SEOSection() {
-  return (
-    <section className="max-w-5xl mx-auto px-4 py-14 min-w-0 w-full">
-      <div className="bg-[#13131F] border border-white/5 rounded-3xl p-8 md:p-10 min-w-0 w-full">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">What is PursTech?</h2>
-        <p className="text-gray-400 leading-relaxed mb-6 w-full">
-          PursTech is a free online tool platform offering <strong className="text-white">51 browser-based tools</strong> across
-          8 categories — no account required, no daily limits, no pop-ups, and no intrusive ads. Every tool runs entirely in your browser, meaning your
-          files and data never leave your device.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 min-w-0 w-full">
-          {[
-            { cat:"📄 PDF Tools",        tools:["PDF Compressor","PDF Merger","PDF Splitter","PDF to Word","Word to PDF"] },
-            { cat:"🖼️ Image Tools",      tools:["Image Compressor","Image Resizer","Background Remover","Favicon Generator","Image to Text (OCR)"] },
-            { cat:"💻 Developer Tools",  tools:["JSON Formatter","Regex Tester","SVG Editor","Markdown Editor","Base64 Encoder","QR Code Generator"] },
-            { cat:"📊 SEO Tools",        tools:["Meta Tag Generator","Sitemap Generator","Open Graph Generator","Robots.txt Generator","Keyword Density Checker","llms.txt Generator"] },
-            { cat:"🤖 AI Writing Tools", tools:["Grammar Checker","Readability Checker"] },
-            { cat:"🔒 Security Tools",   tools:["Password Generator","SSL Certificate Checker","IP Address Lookup"] },
-            { cat:"💰 Finance Tools",    tools:["Loan Calculator","Mortgage Calculator","Compound Interest Calculator","Currency Converter","Tip Calculator"] },
-            { cat:"📝 Text Tools",       tools:["Word Counter","Case Converter","Diff Checker","Lorem Ipsum Generator","Text to Speech"] },
-          ].map(({ cat, tools }) => (
-            <div key={cat} className="min-w-0 w-full">
-              <div className="text-xs font-bold text-[#6C3AFF] uppercase tracking-wider mb-2 truncate pr-2">{cat}</div>
-              <ul className="space-y-1 min-w-0 w-full">
-                {tools.map(t => (
-                  <li key={t} className="text-xs text-gray-500 flex items-center gap-1.5 min-w-0 w-full">
-                    <span className="w-1 h-1 rounded-full bg-gray-700 flex-shrink-0" />
-                    <span className="truncate">{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-gray-500 min-w-0 w-full">
-          <div className="leading-relaxed"><span className="text-white font-bold">Free forever</span> — every tool on PursTech is and will remain free. No freemium bait-and-switch.</div>
-          <div className="leading-relaxed"><span className="text-white font-bold">Private by design</span> — PDF compression, image editing and OCR all run in your browser. Zero server uploads.</div>
-          <div className="leading-relaxed"><span className="text-white font-bold">No account required</span> — open any tool and start working immediately. No sign-up, no email verification, no paywall.</div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Pro banner ───────────────────────────────────────────────────────────────
-
-function ProBanner() {
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-14 min-w-0 w-full">
-      <div className="relative bg-gradient-to-br from-[#1a0a2e] via-[#13131F] to-[#0a1a2e] border border-[#6C3AFF]/30 rounded-3xl p-10 text-center overflow-hidden min-w-0 w-full">
-        <div className="absolute inset-0 bg-[#6C3AFF]/5 rounded-3xl" />
-        <div className="relative min-w-0 w-full px-2">
-          <span className="inline-block bg-[#6C3AFF]/20 text-[#6C3AFF] text-xs font-bold px-4 py-1.5 rounded-full border border-[#6C3AFF]/30 mb-4 flex-shrink-0">⚡ PursTech Pro</span>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">Unlock the Full Power</h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8 leading-relaxed">Remove all limits, remove all ads, and get priority AI processing — for less than a coffee a week.</p>
-          <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm min-w-0 w-full">
-            {["✓ Unlimited usage","✓ Zero ads","✓ Priority AI","✓ API access","✓ Batch processing","✓ Early access"].map(f => (
-              <span key={f} className="text-gray-300 flex-shrink-0">{f}</span>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 min-w-0 w-full">
-            <Link href="/pro" className="w-full sm:w-auto px-10 py-4 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-extrabold text-lg transition-all duration-300 shadow-lg shadow-violet-900/50 truncate">
-              Get Pro — $7/month
-            </Link>
-            <span className="text-gray-500 text-sm flex-shrink-0">Cancel anytime. No hidden fees.</span>
+        </section>
+
+        {/* ── About PursTech Tools (rich content, expanded from original) ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-3xl p-8 min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">About PursTech Tools</h2>
+          <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            Every tool on PursTech is <strong className="text-white">completely free</strong> with no account required,
+            no daily usage limits and no watermarks. All image, PDF, OCR and file-processing tools run
+            entirely in your browser — your files are never uploaded to any server.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 min-w-0 w-full">
+            {[
+              { title:"PDF Tools",        color:"text-orange-400", items:["PDF Compressor — reduce file size by up to 80%","PDF Merger — drag-to-reorder, page ranges","PDF Splitter — 4 modes including extract and remove","PDF to Word — browser-based text extraction","Word to PDF — paste text or upload .txt/.doc"] },
+              { title:"Developer Tools",  color:"text-blue-400",   items:["JSON Formatter — validate, format and minify","Regex Tester — live highlighting, 20 patterns","SVG Editor — React JSX export, optimizer, animations","Markdown Editor — live split-pane preview","Color Code Converter — HEX, RGB, HSL, CMYK"] },
+              { title:"Image Tools",      color:"text-cyan-400",   items:["Image Compressor — batch, 90% reduction","Image Resizer — 20+ social media presets","Background Remover — AI-powered, browser-based","Image to Text (OCR) — 30+ languages","Favicon Generator — all 18 sizes, PWA manifest"] },
+              { title:"SEO & AI Tools",   color:"text-green-400",  items:["Meta Tag Generator — live SERP preview, SEO grade","Grammar Checker — LanguageTool 6,000+ rules","Readability Checker — 7 formulas, sentence map","Sitemap Generator — XML, bulk import, Google Ping","SSL Checker — grade A+ to F, expiry countdown"] },
+            ].map(section => (
+              <div key={section.title} className="min-w-0 w-full">
+                <div className={`text-xs font-bold uppercase tracking-wider mb-3 truncate ${section.color}`}>{section.title}</div>
+                <ul className="space-y-1.5 min-w-0 w-full">
+                  {section.items.map(item => (
+                    <li key={item} className="text-xs text-gray-500 flex gap-1.5 leading-snug min-w-0 w-full">
+                      <span className="text-gray-700 flex-shrink-0 mt-0.5">›</span>
+                      <span className="truncate whitespace-normal break-words">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── FAQ — ✅ Rule 8: <details>/<summary> ── */}
+        <section className="mt-12 max-w-3xl min-w-0 w-full">
+          <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
+          <div className="space-y-3 min-w-0 w-full">
+            {FAQ.map((f, i) => (
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all min-w-0 w-full">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none min-w-0 w-full">
+                  <span className="min-w-0 pr-4">{f.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{f.a}</div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Bottom CTA */}
+        <div className="mt-12 bg-gradient-to-r from-[#6C3AFF]/10 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-3xl p-10 text-center min-w-0 w-full">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Can&apos;t find the tool you need?</h2>
+          <p className="text-gray-500 mb-6 max-w-lg mx-auto leading-relaxed">We&apos;re building new tools continuously. Tell us what you need and we&apos;ll build it.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center min-w-0 w-full">
+            <Link href="/contact" className="px-8 py-3 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-bold transition-all text-center">Request a Tool →</Link>
+            <Link href="/" className="px-8 py-3 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/30 text-white font-bold transition-all text-center">Back to Home</Link>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </main>
 
-// ─── Follow Us ────────────────────────────────────────────────────────────────
-
-function FollowUsSection() {
-  return (
-    <section className="max-w-3xl mx-auto px-4 py-14 text-center min-w-0 w-full">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Stay Connected</h2>
-      <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto leading-relaxed px-2">
-        Follow PursTech for new tool launches, behind-the-scenes builds and free dev tips. Pick your favourite platform.
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 min-w-0 w-full">
-        {SOCIAL_LINKS.map(s => (
-          <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 text-gray-400 hover:text-white text-sm font-semibold transition-all min-w-0 w-full ${s.brand}`}>
-            <span className="flex-shrink-0"><s.Icon /></span>
-            <span className="truncate">{s.name}</span>
-          </a>
-        ))}
-      </div>
-      <p className="text-gray-700 text-xs mt-8 px-4">
-        Or read our <Link href="/blog" className="text-[#6C3AFF] hover:text-white transition-colors">blog</Link> for deep-dives and how-to guides.
-      </p>
-    </section>
-  );
-}
-
-// ─── Footer ───────────────────────────────────────────────────────────────────
-
-function Footer() {
-  const cols: Record<string, { name: string; href: string }[]> = {
-    "Text & Dev": [
-      { name:"Word Counter",      href:"/tools/word-counter"      },
-      { name:"JSON Formatter",    href:"/tools/json-formatter"    },
-      { name:"Regex Tester",      href:"/tools/regex-tester"      },
-      { name:"Markdown Editor",   href:"/tools/markdown-editor"   },
-      { name:"SVG Editor",        href:"/tools/svg-editor"        },
-      { name:"QR Code Generator", href:"/tools/qr-code-generator" },
-    ],
-    "Image & SEO": [
-      { name:"Image Compressor",       href:"/tools/image-compressor"       },
-      { name:"Image Resizer",          href:"/tools/image-resizer"          },
-      { name:"Image to Text (OCR)",    href:"/tools/image-to-text"          },
-      { name:"Favicon Generator",      href:"/tools/favicon-generator"      },
-      { name:"Meta Tag Generator",     href:"/tools/meta-tag-generator"     },
-      { name:"Sitemap Generator",      href:"/tools/sitemap-generator"      },
-      { name:"llms.txt Generator",     href:"/tools/llms-txt-generator"     },
-    ],
-    "PDF & Finance": [
-      { name:"PDF Compressor",         href:"/tools/pdf-compressor"         },
-      { name:"PDF Merger",             href:"/tools/pdf-merger"             },
-      { name:"PDF Splitter",           href:"/tools/pdf-splitter"           },
-      { name:"Loan Calculator",        href:"/tools/loan-calculator"        },
-      { name:"Mortgage Calculator",    href:"/tools/mortgage-calculator"    },
-      { name:"Currency Converter",     href:"/tools/currency-converter"     },
-    ],
-    "AI & Security": [
-      { name:"Grammar Checker",        href:"/tools/grammar-checker"        },
-      { name:"Readability Checker",    href:"/tools/readability-checker"    },
-      { name:"SSL Certificate Checker",href:"/tools/ssl-checker"            },
-      { name:"IP Address Lookup",      href:"/tools/ip-lookup"              },
-      { name:"Password Generator",     href:"/tools/password-generator"     },
-    ],
-    "PursTech": [
-      { name:"About Us",    href:"/about"    },
-      { name:"All 51 Tools",href:"/tools"    },
-      { name:"Blog",        href:"/blog"     },
-      { name:"Go Pro ⚡",   href:"/pro"      },
-      { name:"Contact",     href:"/contact"  },
-      { name:"Privacy",     href:"/privacy"  },
-      { name:"Terms",       href:"/terms"    },
-      { name:"Disclaimer",  href:"/disclaimer" },
-    ],
-  };
-
-  return (
-    <footer className="border-t border-white/5 mt-8 min-w-0 w-full">
-      <div className="max-w-7xl mx-auto px-4 py-14 min-w-0 w-full">
-
-        <div className="flex flex-wrap justify-center gap-3 mb-12 min-w-0 w-full">
-          {SOCIAL_LINKS.map(s => (
-            <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}
-              className={`w-10 h-10 flex items-center justify-center rounded-xl bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 text-gray-500 transition-all flex-shrink-0 ${s.brand}`}>
-              <s.Icon />
-            </a>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12 min-w-0 w-full">
-          {Object.entries(cols).map(([section, links]) => (
-            <div key={section} className="min-w-0 w-full">
-              <h3 className="text-white font-bold text-sm mb-4 truncate pr-2">{section}</h3>
-              <ul className="space-y-2 min-w-0 w-full">
-                {links.map(l => (
-                  <li key={l.href} className="min-w-0 w-full">
-                    <Link href={l.href} className="text-gray-600 hover:text-gray-400 text-xs transition-colors truncate block pr-2 w-full">{l.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 min-w-0 w-full">
-          <div className="flex items-center gap-3 min-w-0 w-full sm:w-auto justify-center sm:justify-start">
-            <span className="text-xl font-black text-white flex-shrink-0">Purs<span className="text-[#6C3AFF]">Tech</span></span>
-            <span className="text-gray-600 text-xs truncate">— Stop Searching. Start Doing.</span>
+      {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 (replaces /about + /blog) */}
+      <footer className="border-t border-white/5 mt-16 py-8 min-w-0 w-full">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 min-w-0 w-full">
+          <Link href="/" className="text-xl font-black flex-shrink-0">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
+          <div className="text-xs text-gray-600 text-center truncate pr-2">50 free tools · 8 categories · 0 sign-ups required</div>
+          <div className="flex gap-4 text-xs text-gray-600 min-w-0">
+            <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
+            <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
+            <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
           </div>
-          <div className="text-xs text-gray-600 text-center truncate pr-2">51 free tools · 8 categories · 0 sign-ups required</div>
-          <div className="flex gap-5 text-xs text-gray-600 min-w-0 flex-shrink-0 justify-center">
-            <Link href="/privacy"     className="hover:text-gray-400 transition-colors">Privacy</Link>
-            <Link href="/terms"       className="hover:text-gray-400 transition-colors">Terms</Link>
-            <Link href="/disclaimer"  className="hover:text-gray-400 transition-colors">Disclaimer</Link>
-            <Link href="/sitemap.xml" className="hover:text-gray-400 transition-colors">Sitemap</Link>
-          </div>
-          <p className="text-gray-700 text-xs flex-shrink-0 text-center">© 2026 PursTech. All rights reserved.</p>
+          <p className="text-gray-700 text-xs flex-shrink-0">© 2026 PursTech. All rights reserved.</p>
         </div>
-      </div>
-    </footer>
-  );
-}
-
-// ─── FAQ Data ─────────────────────────────────────────────────────────────────
-
-const FAQ_ITEMS = [
-  { q:"Is PursTech really free?",
-    a:"Yes, all 51 tools on PursTech are 100% free with no hidden costs. You can use every tool as many times as you want — no subscription, no trial period, no credit card required. PursTech is supported by non-intrusive advertising, which lets us keep all tools permanently free." },
-  { q:"Do I need to create an account or log in?",
-    a:"No. PursTech requires zero registration. Every tool works immediately without creating an account, providing an email address, or logging in. Just open the tool and start using it — no sign-up, no verification, no waiting." },
-  { q:"Are my files and data kept private?",
-    a:"Yes. All PursTech tools run entirely in your browser. Files are processed locally on your device and never uploaded to any server. We have no access to your files, documents, or the content you use in the tools. Everything stays on your device." },
-  { q:"What tools does PursTech offer?",
-    a:"PursTech offers 51 free tools across 8 categories: Text Tools (word counter, case converter, lorem ipsum, diff checker), Developer Tools (JSON formatter, regex tester, base64 encoder, SVG editor, QR code generator), Image Tools (image compressor, background remover, image resizer, OCR), SEO Tools (meta tag generator, robots.txt generator, sitemap generator), PDF Tools (compress, merge, split, convert), Finance Tools (loan, mortgage, currency converters), Security Tools (password generator, SSL checker, IP lookup), and AI Tools (grammar checker, readability checker)." },
-  { q:"Do the tools work on mobile phones?",
-    a:"Yes. All PursTech tools are fully mobile-responsive and work on smartphones and tablets. You can compress images, format JSON, check grammar, and use all 51 tools directly from your phone's browser without downloading any app." },
-  { q:"Is there a usage limit?",
-    a:"No usage limits for free users. All 51 tools are unlimited. A Pro plan is coming soon for power users needing batch processing and API access, but all core tools will always remain completely free for everyone." },
-];
-
-// ─── Main Page ────────────────────────────────────────────────────────────────
-
-export default function HomeClient() {
-  useTrackTool("home", "landing"); 
-
-  return (
-    <main className="min-h-screen bg-[#0A0A14] font-sans selection:bg-[#6C3AFF]/30 flex flex-col overflow-x-hidden w-full">
-      <Navbar />
-      <HeroSection />
-      <TrendingBar />
-      <CategoryGrid />
-      <FeaturedTools />
-      <NewToolsSection />
-      <WhySection />
-      <BuiltForSection />
-      <SEOSection />
-      <ProBanner />
-      <FollowUsSection />
-
-      {/* ── FAQ — ✅ Rule 8: <details>/<summary> ── */}
-      <section className="max-w-3xl mx-auto px-4 py-14 min-w-0 w-full">
-        <div className="text-center mb-12 min-w-0 w-full px-2">
-          <h2 className="text-3xl font-extrabold text-white mb-4 leading-tight">Frequently Asked Questions</h2>
-          <p className="text-gray-500 text-lg">Everything you need to know about PursTech</p>
-        </div>
-        <div className="space-y-4 min-w-0 w-full">
-          {FAQ_ITEMS.map((item, i) => (
-            <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/30 transition-all min-w-0 w-full">
-              <summary className="px-6 py-5 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none min-w-0 w-full">
-                <span className="min-w-0 pr-4">{item.q}</span>
-                <span className="text-[#6C3AFF] text-xl font-bold flex-shrink-0 transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{item.a}</div>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+      </footer>
+    </div>
   );
 }
