@@ -298,6 +298,44 @@ export default function WordCounterClient({ children }: { children?: React.React
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Real-Time Word, Character & Keyword Density Analysis Improves Your Writing</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Whether you are writing an SEO blog post, a university admissions essay, a legal brief, or social media ad copy, length precision directly affects how your work is evaluated. Search engines truncate title tags past ~60 characters and meta descriptions past ~160 characters; X/Twitter caps standard posts at 280 characters; LinkedIn truncates post previews before the 'see more' fold at ~210 characters; and academic rubrics penalize submissions that fall outside ±10% of the assigned word count.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Different desktop and cloud word processors also count words slightly differently around hyphenated compounds (such as 'browser-based'), em-dashes, and URLs. PursTech's Word Counter tokenizes text on whitespace boundaries in real time while reporting both characters with spaces and characters without spaces, sentence and paragraph totals, unique vocabulary richness, and stop-word-filtered top keyword frequency.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">To help you pace spoken presentations, video scripts, and podcasts, we compute silent reading time at the researched adult benchmark of 238 words per minute and speaking time at 130 words per minute—100% locally in your browser with zero server uploads.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="how-to-check-word-count" href="/blog/how-to-check-word-count" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Check Word Count on Google Docs, Word, PDF & Web</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="word-count-guide-every-platform" href="/blog/word-count-guide-every-platform" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Word Count Guide for Every Platform & Content Type</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-word-counter-tools" href="/blog/best-free-word-counter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free Word Counter Tools Tested Head-to-Head</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}

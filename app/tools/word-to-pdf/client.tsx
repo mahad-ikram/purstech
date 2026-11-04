@@ -392,6 +392,44 @@ export default function WordToPDFClient({ children }: { children?: React.ReactNo
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Client-Side Document Typesetting & Word-to-PDF Conversion Work</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Sending a raw .doc, .docx, or .txt file to a client, recruiter, or print shop carries a major risk: if the recipient's device lacks your exact fonts or uses a different version of Word, LibreOffice, or Google Docs, line breaks shift, margins reflow, and page counts change. Converting your document to PDF locks in exact page geometry, margins, font sizing, and pagination across every operating system.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Word to PDF Converter parses your uploaded .docx, .doc, or .txt file (or pasted text) and typesets it directly into a standard A4, US Letter, or Legal PDF document using pdf-lib inside your browser. You can customize margin presets (Narrow, Normal, Wide), adjust point size from 8pt to 24pt, add a document title header, and enable automatic 'Page X of Y' footer numbering before downloading.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Because the entire PDF generation pipeline executes locally in your browser memory, confidential resumes, cover letters, legal drafts, and manuscripts never touch an external server.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="compress-pdf-without-losing-quality" href="/blog/compress-pdf-without-losing-quality" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Compress a PDF Without Losing Quality</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="merge-pdf-files-without-uploading" href="/blog/merge-pdf-files-without-uploading" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Merge PDF Files Privately Without Uploading</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="how-to-check-word-count" href="/blog/how-to-check-word-count" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Check Word Count Across Document Formats</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
