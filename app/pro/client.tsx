@@ -46,10 +46,32 @@ const FAQS = [
 export default function ProClient() {
   const [email,     setEmail]     = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading,   setLoading]   = useState(false);
+  const [error,     setError]     = useState<string | null>(null);
+  const [hp,        setHp]        = useState("");
   const [plan,      setPlan]      = useState("Annual");
 
-  const handleJoin = () => {
-    if (isValidEmail(email)) setSubmitted(true);
+  const handleJoin = async () => {
+    setError(null);
+    if (!isValidEmail(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), source: "pro-waitlist", plan, website: hp }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) throw new Error(json.error ?? "Could not join waitlist");
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not join waitlist");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -144,20 +166,34 @@ export default function ProClient() {
               <p className="text-gray-500 text-sm mb-6">Be first to know when Pro launches and lock in the founding member price.</p>
               <div className="flex flex-col gap-3">
                 <input
+                  type="text"
+                  name="website"
+                  value={hp}
+                  onChange={e => setHp(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+                <input
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && handleJoin()}
                   placeholder="your@email.com"
                   autoComplete="email"
+                  aria-label="Email address for PursTech Pro waitlist"
                   className="w-full px-5 py-4 rounded-xl bg-[#0A0A14] border border-[#6C3AFF]/30 text-white placeholder-gray-600 focus:outline-none focus:border-[#00D4FF] transition-all text-sm"
                 />
+                {error && (
+                  <p className="text-xs text-[#FF3A6C] font-semibold text-left">{error}</p>
+                )}
                 <button
                   onClick={handleJoin}
-                  disabled={!isValidEmail(email)}
+                  disabled={!isValidEmail(email) || loading}
                   className="w-full py-4 rounded-xl bg-gradient-to-r from-[#6C3AFF] to-[#00D4FF] hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold transition-all shadow-lg shadow-violet-900/30"
                 >
-                  Join Waitlist — It&apos;s Free →
+                  {loading ? "Saving..." : "Join Waitlist — It's Free →"}
                 </button>
               </div>
               <p className="text-xs text-gray-600 mt-3">No spam. Unsubscribe at any time.</p>
@@ -187,9 +223,9 @@ export default function ProClient() {
             <div className="text-center text-[#6C3AFF]">Pro ⚡</div>
           </div>
           {[
-            { feature:"Tool usage",        free:"50 uses/day", pro:"Unlimited"  },
+            { feature:"All 51 core tools", free:"Unlimited (Free)", pro:"Unlimited + Cloud Sync" },
             { feature:"Ads",               free:"Yes",         pro:"None"       },
-            { feature:"AI tools",          free:"Limited",     pro:"Priority"   },
+            { feature:"AI & OCR tools",    free:"Standard queue",   pro:"Priority + Bulk queue"  },
             { feature:"API access",        free:"No",          pro:"1,000/mo"   },
             { feature:"Batch processing",  free:"No",          pro:"Yes"        },
             { feature:"Download history",  free:"No",          pro:"90 days"    },

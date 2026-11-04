@@ -33,12 +33,13 @@ const ALL_TOOLS = [
   { icon:"✂️", name:"Background Remover",         slug:"background-remover",        category:"image",    badge:""        },
   { icon:"🏷",  name:"Favicon Generator",          slug:"favicon-generator",         category:"image",    badge:""        },
   { icon:"📷", name:"Image to Text (OCR)",        slug:"image-to-text",             category:"image",    badge:"🔥 Hot"  },
-  // SEO (5)
+  // SEO (6)
   { icon:"🏷",  name:"Meta Tag Generator",         slug:"meta-tag-generator",        category:"seo",      badge:"🔥 Hot"  },
   { icon:"🤖", name:"Robots.txt Generator",        slug:"robots-txt-generator",      category:"seo",      badge:""        },
   { icon:"🔍", name:"Keyword Density Checker",    slug:"keyword-density-checker",   category:"seo",      badge:""        },
   { icon:"📊", name:"Open Graph Generator",       slug:"open-graph-generator",      category:"seo",      badge:""        },
   { icon:"🗺",  name:"Sitemap Generator",           slug:"sitemap-generator",         category:"seo",      badge:""        },
+  { icon:"🧠", name:"llms.txt Generator",         slug:"llms-txt-generator",        category:"seo",      badge:"🆕 New"  },
   // Finance (10)
   { icon:"🎂", name:"Age Calculator",             slug:"age-calculator",            category:"finance",  badge:""        },
   { icon:"⚖️", name:"BMI Calculator",              slug:"bmi-calculator",            category:"finance",  badge:""        },
@@ -307,7 +308,7 @@ function HeroSection() {
 
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center min-w-0 w-full px-4">
         {[
-          { value:"50",   label:"Free Tools",   sub:"across 8 categories" },
+          { value:"51",   label:"Free Tools",   sub:"across 8 categories" },
           { value:"100%", label:"Free Forever", sub:"no sign-up required" },
           { value:"∞",    label:"No Limits",    sub:"unlimited daily use"  },
         ].map(s => (
@@ -570,7 +571,7 @@ function SEOSection() {
             { cat:"📄 PDF Tools",        tools:["PDF Compressor","PDF Merger","PDF Splitter","PDF to Word","Word to PDF"] },
             { cat:"🖼️ Image Tools",      tools:["Image Compressor","Image Resizer","Background Remover","Favicon Generator","Image to Text (OCR)"] },
             { cat:"💻 Developer Tools",  tools:["JSON Formatter","Regex Tester","SVG Editor","Markdown Editor","Base64 Encoder","QR Code Generator"] },
-            { cat:"📊 SEO Tools",        tools:["Meta Tag Generator","Sitemap Generator","Open Graph Generator","Robots.txt Generator","Keyword Density Checker"] },
+            { cat:"📊 SEO Tools",        tools:["Meta Tag Generator","Sitemap Generator","Open Graph Generator","Robots.txt Generator","Keyword Density Checker","llms.txt Generator"] },
             { cat:"🤖 AI Writing Tools", tools:["Grammar Checker","Readability Checker"] },
             { cat:"🔒 Security Tools",   tools:["Password Generator","SSL Certificate Checker","IP Address Lookup"] },
             { cat:"💰 Finance Tools",    tools:["Loan Calculator","Mortgage Calculator","Compound Interest Calculator","Currency Converter","Tip Calculator"] },
@@ -672,6 +673,7 @@ function Footer() {
       { name:"Favicon Generator",      href:"/tools/favicon-generator"      },
       { name:"Meta Tag Generator",     href:"/tools/meta-tag-generator"     },
       { name:"Sitemap Generator",      href:"/tools/sitemap-generator"      },
+      { name:"llms.txt Generator",     href:"/tools/llms-txt-generator"     },
     ],
     "PDF & Finance": [
       { name:"PDF Compressor",         href:"/tools/pdf-compressor"         },

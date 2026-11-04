@@ -79,6 +79,14 @@ const AI_CRAWLERS = [
 ];
 
 /** Classic search engines. Also need DISALLOW repeated (see bug note above). */
+const ADSENSE_CRAWLERS = [
+  "Mediapartners-Google", // Google AdSense site & ads.txt verification
+  "AdsBot-Google",
+  "AdsBot-Google-Mobile",
+  "Google-Display-Ads-Bot",
+  "Googlebot",
+];
+
 const SEARCH_ENGINES = [
   "Bingbot",      // powers Copilot + part of ChatGPT search
   "BingPreview",  // Bing link previews
@@ -104,6 +112,7 @@ export default function robots(): MetadataRoute.Robots {
 
       // Named groups MUST repeat DISALLOW - they do not inherit from "*".
       { userAgent: AI_CRAWLERS,    allow: "/", disallow: DISALLOW },
+      { userAgent: ADSENSE_CRAWLERS, allow: "/", disallow: ["/admin", "/admin/", "/api/"] },
       { userAgent: SEARCH_ENGINES, allow: "/", disallow: DISALLOW },
 
       // Full block.

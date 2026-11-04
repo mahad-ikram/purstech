@@ -9,12 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default:  "PursTech — 50 Free Online Tools | No Login, No Limits",
+    default:  "PursTech — 51 Free Online Tools | No Login, No Limits",
     template: "%s | PursTech",
   },
 
   description:
-    "50 completely free online tools — no login, no limits, no ads. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator, SSL checker, readability checker and more. 100% browser-based.",
+    "51 completely free online tools — no login, no limits, no ads. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator, SSL checker, readability checker and more. 100% browser-based.",
 
   keywords: [
     "purstech", "purstech tools",
@@ -57,16 +57,16 @@ export const metadata: Metadata = {
     locale:      "en_US",
     url:         "https://www.purstech.com",
     siteName:    "PursTech",
-    title:       "PursTech — 50 Free Online Tools. No Login. No Limits.",
-    description: "PDF tools, image tools, grammar checker, JSON formatter, meta tag generator, SSL checker and 44 more — all free, all browser-based, all with no account required.",
+    title:       "PursTech — 51 Free Online Tools. No Login. No Limits.",
+    description: "PDF tools, image tools, grammar checker, JSON formatter, meta tag generator, SSL checker and 45 more — all free, all browser-based, all with no account required.",
     images: [
-      { url: "/og-image.png", width: 1200, height: 630, alt: "PursTech — 50 Free Online Tools" },
+      { url: "/og-image.png", width: 1200, height: 630, alt: "PursTech — 51 Free Online Tools" },
     ],
   },
 
   twitter: {
     card:        "summary_large_image",
-    title:       "PursTech — 50 Free Online Tools. No Login. No Limits.",
+    title:       "PursTech — 51 Free Online Tools. No Login. No Limits.",
     description: "PDF compressor, grammar checker, image tools, SEO tools, dev tools and more — all free, all browser-based.",
     images:      ["/og-image.png"],
     creator:     "@purstech",
@@ -83,11 +83,11 @@ export const metadata: Metadata = {
   other: {
     "application-name": "PursTech",
     "description:extended":
-      "PursTech is a free online tool platform offering 50 tools in 8 categories: " +
+      "PursTech is a free online tool platform offering 51 tools in 8 categories: " +
       "text tools (word counter, case converter, lorem ipsum, diff checker, text to speech), " +
       "developer tools (JSON formatter, regex tester, base64 encoder, markdown editor, SVG editor, QR code generator), " +
       "image tools (image compressor, image resizer, background remover, favicon generator, OCR), " +
-      "SEO tools (meta tag generator, robots.txt generator, sitemap generator, open graph generator), " +
+      "SEO tools (meta tag generator, robots.txt generator, sitemap generator, open graph generator, keyword density checker, llms.txt generator), " +
       "PDF tools (compressor, merger, splitter, PDF to Word, Word to PDF), " +
       "finance tools (loan calculator, mortgage calculator, compound interest, currency converter), " +
       "security tools (password generator, SSL checker, IP lookup), " +
@@ -104,7 +104,7 @@ const WEBSITE_SCHEMA = {
   "@id":       "https://www.purstech.com/#website",
   name:        "PursTech",
   url:         "https://www.purstech.com",
-  description: "50 free browser-based online tools — PDF, image, developer, SEO, grammar, readability, security and more. No login required.",
+  description: "51 free browser-based online tools — PDF, image, developer, SEO, grammar, readability, security and more. No login required.",
   inLanguage:  "en-US",
   publisher:   { "@id": "https://www.purstech.com/#organization" },
   potentialAction: {
@@ -121,7 +121,7 @@ const ORGANIZATION_SCHEMA = {
   name:         "PursTech",
   url:          "https://www.purstech.com",
   logo: { "@type": "ImageObject", url: "https://www.purstech.com/og-image.png", width: 1200, height: 630 },
-  description:  "PursTech provides 50 free browser-based online tools for developers, writers, SEO professionals, students and everyday users. All tools are completely free with no account required.",
+  description:  "PursTech provides 51 free browser-based online tools for developers, writers, SEO professionals, students and everyday users. All tools are completely free with no account required.",
   foundingDate: "2025",
   slogan:       "Stop Searching. Start Doing.",
   knowsAbout: [
@@ -142,8 +142,8 @@ const TOOLS_LIST_SCHEMA = {
   "@type":       "ItemList",
   "@id":         "https://www.purstech.com/#toollist",
   name:          "All Free Tools — PursTech",
-  description:   "Complete list of all 50 free online tools available on PursTech.",
-  numberOfItems: 50,
+  description:   "Complete list of all 51 free online tools available on PursTech.",
+  numberOfItems: 51,
   itemListElement: [
     { "@type":"ListItem", position:1,  name:"Word Counter",                  url:"https://www.purstech.com/tools/word-counter"                 },
     { "@type":"ListItem", position:2,  name:"Case Converter",                url:"https://www.purstech.com/tools/case-converter"               },
@@ -195,6 +195,7 @@ const TOOLS_LIST_SCHEMA = {
     { "@type":"ListItem", position:48, name:"Word to PDF",                   url:"https://www.purstech.com/tools/word-to-pdf"                  },
     { "@type":"ListItem", position:49, name:"Grammar Checker",               url:"https://www.purstech.com/tools/grammar-checker"              },
     { "@type":"ListItem", position:50, name:"Readability Checker",           url:"https://www.purstech.com/tools/readability-checker"          },
+    { "@type":"ListItem", position:51, name:"llms.txt Generator",            url:"https://www.purstech.com/tools/llms-txt-generator"           },
   ],
 };
 

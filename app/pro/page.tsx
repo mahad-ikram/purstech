@@ -57,7 +57,7 @@ const PRODUCT_SCHEMA = {
   "@context": "https://schema.org",
   "@type":    "Product",
   name:       "PursTech Pro",
-  description:"Unlimited access to all 50 PursTech tools — no ads, API access, batch processing and priority support.",
+  description:"Unlimited access to all 51 PursTech tools — no ads, API access, batch processing and priority support.",
   url:        "https://www.purstech.com/pro",
   brand:      { "@type": "Brand", name: "PursTech" },
   category:   "Software Subscription",

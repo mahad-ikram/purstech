@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Read PursTech's Terms of Service — rules for using our 50 free online tools, acceptable use policy, Pro subscription terms, disclaimers and liability limits.",
+    "Read PursTech's Terms of Service — rules for using our 51 free online tools, acceptable use policy, Pro subscription terms, disclaimers and liability limits.",
   alternates: { canonical: "/terms" },
   openGraph: {
     type:        "website",
@@ -41,7 +41,7 @@ const BREADCRUMB_SCHEMA = {
   ],
 };
 
-const LAST_UPDATED = "May 2026";
+const LAST_UPDATED = "November 2026";
 
 export default function TermsPage() {
   return (

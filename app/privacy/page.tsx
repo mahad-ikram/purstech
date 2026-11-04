@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 // ✅ Bumped to current month — AdSense reviewers check freshness on legal pages
-const LAST_UPDATED = "June 2026";
+const LAST_UPDATED = "November 2026";
 
 export default function PrivacyPage() {
   return (
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
           <p className="text-gray-500 text-sm">Last updated: {LAST_UPDATED}</p>
         </div>
 
-        <div className="prose prose-invert max-w-none space-y-10 text-gray-400 leading-relaxed">
+        <div className="space-y-10 text-gray-400 leading-relaxed">
 
           <Section title="1. Introduction">
             <p>

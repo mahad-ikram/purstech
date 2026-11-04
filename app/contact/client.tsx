@@ -52,8 +52,8 @@ export default function ContactClient() {
       a:"Use the contact form and select 'Bug Report' as the subject. Please include the tool name, what you were doing and what went wrong. We investigate all bug reports within 24 hours." },
     { q:"Can I suggest a new tool?",
       a:"Absolutely — we love suggestions! Use the contact form and select 'Tool Suggestion' as the subject. Tell us what tool you need and why it would be useful. Many of our best tools came from user suggestions." },
-    { q:"How do I cancel my Pro subscription?",
-      a:"Log into your account, go to Settings, and click Cancel Subscription. You will keep full Pro access until the end of your current billing period. No questions asked." },
+    { q:"How does PursTech Pro waitlist and billing work?",
+      a:"All 51 browser tools on PursTech are 100% free with no login required. PursTech Pro is currently in early-access waitlist for power users who want batch processing and REST API access. Once Pro billing launches via Stripe, subscribers will be able to manage or cancel their subscription anytime in one click via the Stripe customer portal or by emailing billing@purstech.com." },
     { q:"Is my data safe when using PursTech tools?",
       a:"Yes. All tool processing happens entirely in your browser. We never store what you type, paste or upload into any tool. Files and text you use in our tools never reach our servers." },
   ];
