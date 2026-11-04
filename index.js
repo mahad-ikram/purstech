@@ -39,6 +39,7 @@ const urlsToSubmit = [
   "https://www.purstech.com/tools/grammar-checker",
   "https://www.purstech.com/tools/readability-checker",
   "https://www.purstech.com/tools/svg-editor",
+  "https://www.purstech.com/tools/llms-txt-generator",
 
   // Established Tools (Batches 3-7)
   "https://www.purstech.com/tools/word-counter",
@@ -100,7 +101,9 @@ const urlsToSubmit = [
   "https://www.purstech.com/blog/how-to-check-word-count",
   "https://www.purstech.com/blog/how-to-remove-background-gimp-canva",
   "https://www.purstech.com/blog/tinypng-alternatives",
-  "https://www.purstech.com/blog/best-free-word-counter-tools"
+  "https://www.purstech.com/blog/best-free-word-counter-tools",
+  "https://www.purstech.com/blog/best-free-pdf-mergers",
+  "https://www.purstech.com/blog/best-free-background-removers"
 ];
 
 async function submitToGoogle() {
