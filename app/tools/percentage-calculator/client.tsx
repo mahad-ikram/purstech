@@ -327,6 +327,37 @@ export default function PercentageCalculatorClient() {
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Essential Percentage Formulas: Change, Difference, Markup & Reverse Percentages</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Percentage calculations appear everywhere in business, finance, grading, and data analysis, yet mixing up 'percentage change' with 'percentage difference'—or trying to reverse a sales tax percentage by simply subtracting—is a classic source of costly spreadsheet errors.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Three core formulas cover 95% of real-world scenarios: (1) Finding X% of Y is computed as (X ÷ 100) × Y; (2) Finding what percentage X is of Y is (X ÷ Y) × 100; and (3) Percentage Change from an old value V1 to a new value V2 is ((V2 − V1) ÷ |V1|) × 100. Note that percentage change is asymmetric: if a $100 stock drops by 50% to $50, it must gain +100% (not 50%) to return to $100 because the base denominator is now $50.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Percentage Calculator provides dedicated interactive cards for each formula so you can compute discounts, tax markups, grade percentages, and period-over-period growth rates instantaneously.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator With Extra Payments: Financial Math</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="bmi-calculator-guide-what-your-score-means" href="/blog/bmi-calculator-guide-what-your-score-means" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">BMI Calculator Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}

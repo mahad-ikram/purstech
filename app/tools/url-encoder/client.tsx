@@ -313,6 +313,44 @@ export default function URLEncoderClient({ children }: { children?: React.ReactN
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">RFC 3986 Percent-Encoding, Reserved Characters & encodeURI vs. encodeURIComponent</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Under RFC 3986, Uniform Resource Identifiers (URIs/URLs) may only contain a restricted set of unreserved ASCII characters (A–Z, a–z, 0–9, -, _, ., ~) plus structural reserved delimiters (:, /, ?, #, [, ], @, !, $, &, ', (, ), *, +, ,, ;, =). Any character outside this set—including spaces, non-ASCII UTF-8 letters (such as é, ü, or Urdu/Arabic/CJK scripts), or reserved characters used inside a query-string value—must be percent-encoded as % followed by two hexadecimal digits representing each UTF-8 byte.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">In JavaScript, choosing between encodeURI() and encodeURIComponent() is a frequent source of bugs. encodeURI() is designed for a complete URL and leaves structural characters like :, /, ?, &, and = untouched; if you pass a query parameter value containing an ampersand (such as ?company=Marks&Spencer) to encodeURI(), the unescaped & splits your parameter in two! Always use encodeURIComponent() when encoding individual query parameter keys or values, as it escapes &, =, +, and / into %26, %3D, %2B, and %2F.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's URL Encoder/Decoder supports both Component mode and Full URL mode, decodes malformed or double-encoded query strings cleanly, and parses query parameters into an inspectable key-value table.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="url-encoding-developer-guide" href="/blog/url-encoding-developer-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">URL Encoding Developer Guide: Why a Space Becomes %20</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="base64-encoding-explained" href="/blog/base64-encoding-explained" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Base64 Encoding Explained for Developers</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-json-formatter-tools" href="/blog/best-free-json-formatter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free JSON Formatter Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}

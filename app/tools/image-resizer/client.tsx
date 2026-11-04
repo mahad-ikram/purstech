@@ -452,6 +452,60 @@ export default function ImageResizerClient({ children }: { children?: React.Reac
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Aspect Ratio Preservation, Pixel Dimensions & Social Media Image Standards</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Serving a 4000×3000 pixel photograph inside a 600×400 pixel container forces the visitor's browser to download 12 megapixels of data only to discard 80% of those pixels during downscaling. Resizing images to their exact display dimensions—or standard social media card sizes such as 1200×630 for Open Graph previews, 1080×1080 for Instagram posts, and 1280×720 for YouTube thumbnails—dramatically reduces file weight and prevents layout shifts.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">When resizing images, maintaining the original aspect ratio (width divided by height) is essential to prevent visual stretching or squashing. PursTech's Image Resizer locks aspect ratios automatically when you enter a target width or height, or lets you apply 20+ one-click platform presets with high-quality bilinear and bicubic browser canvas resampling.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Every resize operation runs locally on your device with instant before-and-after dimension and file-size readouts, supporting PNG, JPEG, and WebP output.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="how-to-compress-images-without-losing-quality" href="/blog/how-to-compress-images-without-losing-quality" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Compress Images Without Losing Quality</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="webp-vs-jpeg-vs-png-2026" href="/blog/webp-vs-jpeg-vs-png-2026" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">WebP vs JPEG vs PNG: Which Format Should You Use?</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="image-compressor" href="/tools/image-compressor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Compressor</div>
+            </Link>
+            <Link key="background-remover" href="/tools/background-remover" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">✂️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Background Remover</div>
+            </Link>
+            <Link key="favicon-generator" href="/tools/favicon-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Favicon Generator</div>
+            </Link>
+            <Link key="open-graph-generator" href="/tools/open-graph-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📊</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Open Graph Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer — ✅ About→Terms, © 2025→2026 */}

@@ -169,7 +169,6 @@ export default function ColorPickerClient() {
 
   const [color,        setColor]        = useState("#6C3AFF");
   const [hexInput,     setHexInput]     = useState("#6C3AFF");
-  const [openFaq,      setOpenFaq]      = useState<number | null>(null);
   // ✅ UI Enhancement 1: color history
   const [colorHistory, setColorHistory] = useState<string[]>(["#6C3AFF"]);
   const [shadeCopied,  setShadeCopied]  = useState(false);
@@ -497,20 +496,45 @@ export default function ColorPickerClient() {
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((item, i) => (
-              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                  aria-expanded={openFaq === i}>
-                  <span className="font-semibold text-white text-sm">{item.q}</span>
-                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
-                  </div>
-                )}
-              </div>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{item.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{item.a}</div>
+              </details>
             ))}
+          </div>
+        </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Mastering Color Harmony, Tints, Shades & WCAG Accessibility Contrast</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Choosing a primary brand or UI color is only the first step in building an interface; a production design system requires a structured scale of lighter tints (mixed with white for badges and subtle backgrounds), darker shades (mixed with black for hover states and borders), and harmonious accent colors. PursTech's Color Picker calculates complementary (180° opposite on the color wheel), triadic (120° apart), and analogous (±30° adjacent) harmonies automatically from any selected hue.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Accessibility compliance is equally critical. Under WCAG 2.1 guidelines, normal body text requires a minimum contrast ratio of 4.5:1 against its background for Level AA compliance (and 7.0:1 for Level AAA), while large headings (18pt+ or 14pt+ bold) require at least 3.0:1. Our built-in contrast checker computes exact relative luminance ratios against both pure white (#FFFFFF) and dark (#0A0A14) surfaces in real time.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Whether you are exporting CSS custom properties (--color-primary) for a web app or grabbing CMYK ink values for packaging prepress, every format updates live as you drag the sliders.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="hex-vs-rgb-vs-hsl-color-formats" href="/blog/hex-vs-rgb-vs-hsl-color-formats" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">HEX vs RGB vs HSL: Which Color Format Should You Use?</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="webp-vs-jpeg-vs-png-2026" href="/blog/webp-vs-jpeg-vs-png-2026" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">WebP vs JPEG vs PNG: Image Formats Compared</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
           </div>
         </section>
       </main>

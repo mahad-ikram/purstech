@@ -657,6 +657,60 @@ export default function ReadabilityCheckerClient({ children }: { children?: Reac
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How the 7 Standard Readability Formulas Score Your Writing</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Readability formulas estimate the educational grade level required to comprehend a piece of writing on the first read by analyzing two structural variables: average sentence length (ASL, words per sentence) and word complexity (measured either by average syllables per word, percentage of 3+ syllable words, or characters per word). Because different formulas weight sentence length versus vocabulary complexity differently, running multiple indices side by side provides a much more reliable assessment than any single score.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Flesch Reading Ease (0–100 scale, where 60–70 is plain English) and Flesch-Kincaid Grade Level rely on syllable counts per word; Gunning Fog and SMOG focus heavily on polysyllabic words (3+ syllables), making them ideal for healthcare, legal, and executive communication; while Coleman-Liau and the Automated Readability Index (ARI) calculate character-per-word ratios, which makes them exceptionally accurate for technical and computer documentation.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Readability Checker computes all seven indices simultaneously in your browser, flags dense sentences and multi-syllable jargon, and helps you tune your copy to match your audience.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="word-count-guide-every-platform" href="/blog/word-count-guide-every-platform" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Word Count Guide for Every Platform</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-word-counter-tools" href="/blog/best-free-word-counter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free Word Counter Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="grammar-checker" href="/tools/grammar-checker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">✓</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Grammar Checker</div>
+            </Link>
+            <Link key="word-counter" href="/tools/word-counter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Word Counter</div>
+            </Link>
+            <Link key="keyword-density-checker" href="/tools/keyword-density-checker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔍</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Keyword Density Checker</div>
+            </Link>
+            <Link key="case-converter" href="/tools/case-converter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔤</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Case Converter</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}

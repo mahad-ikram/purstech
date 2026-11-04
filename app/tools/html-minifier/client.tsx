@@ -80,7 +80,6 @@ export default function HTMLMinifierClient() {
   const [input,   setInput]   = useState("");
   const [output,  setOutput]  = useState("");
   const [copied,  setCopied]  = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [opts,    setOpts]    = useState({
     removeComments:     true,
     collapseWhitespace: true,
@@ -348,21 +347,45 @@ export default function HTMLMinifierClient() {
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((item, i) => (
-              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                  aria-expanded={openFaq === i}>
-                  <span className="font-semibold text-white text-sm">{item.q}</span>
-                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
-                  </div>
-                )}
-              </div>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{item.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{item.a}</div>
+              </details>
             ))}
+          </div>
+        </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How HTML Minification Optimizes Document Transfer Size & DOM Parsing</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Every web page request begins with the initial HTML document response. Before the browser can discover stylesheets, scripts, or hero images, it must download and tokenize the HTML markup. Stripping developer comments (&lt;!-- ... --&gt;), collapsing multi-space indentation, and removing redundant newlines reduces the HTML payload size—improving Time to First Byte (TTFB) transfer completion and speeding up DOM tree construction.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's HTML Minifier gives you granular control over which optimizations to apply. Safe whitespace collapsing and comment removal work across all templates and email newsletters without altering visual layout, while optional closing-tag removal applies HTML5 specification rules for ultra-compact static builds.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">All minification executes client-side in your browser, displaying exact byte savings and allowing immediate copy or .html file download.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Work for Technical Performance</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-json-formatter-tools" href="/blog/best-free-json-formatter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free JSON Formatter Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
           </div>
         </section>
       </main>

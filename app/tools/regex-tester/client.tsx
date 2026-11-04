@@ -453,6 +453,60 @@ Regex Tester — Build, Match &amp; Test Regular Expressions
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Mastering Regular Expressions: Flags, Capture Groups, Lookarounds & Performance</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Regular expressions (regex) provide a concise declarative syntax for matching, validating, and extracting patterns from strings—whether validating email formats, parsing server log files, scraping structured tokens, or performing multi-file IDE refactors. In JavaScript's RegExp engine (ECMA-262), pattern behavior is controlled by flags such as g (global match), i (case-insensitive), m (multiline ^ and $ anchors), s (dotAll, allowing . to match newlines), and u (full Unicode code-point mode).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">When crafting complex expressions, separating capturing groups (pattern) or named capturing groups (?&lt;name&gt;pattern) from non-capturing groups (?:pattern) keeps match arrays clean, while positive/negative lookaheads ((?=...) / (?!...)) and lookbehinds ((?&lt;=...) / (?&lt;!...)) let you assert surrounding context without consuming characters. Be mindful of nested quantifiers like (a+)+, which can trigger catastrophic backtracking on long non-matching inputs.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Regex Tester evaluates your pattern on every keystroke in your browser, highlighting matches, listing captured groups, and providing a 20-pattern quick-load library for common validation tasks.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="best-free-json-formatter-tools" href="/blog/best-free-json-formatter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free JSON Formatter & Developer Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="url-encoding-developer-guide" href="/blog/url-encoding-developer-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">URL Encoding Developer Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="json-formatter" href="/tools/json-formatter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">💻</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">JSON Formatter</div>
+            </Link>
+            <Link key="js-minifier" href="/tools/js-minifier" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">⚡</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">JS Minifier</div>
+            </Link>
+            <Link key="diff-checker" href="/tools/diff-checker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔍</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Diff Checker</div>
+            </Link>
+            <Link key="url-encoder" href="/tools/url-encoder" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔗</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">URL Encoder</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: /about→/terms + Privacy/Terms/Contact + © 2026 */}

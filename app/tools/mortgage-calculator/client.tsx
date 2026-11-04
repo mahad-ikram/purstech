@@ -464,6 +464,43 @@ export default function MortgageCalculatorClient() {
             ))}
           </div>
         </div>
+      
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator With Extra Payments: Real Mortgage Savings</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="loan-calculator" href="/tools/loan-calculator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏦</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Loan Calculator</div>
+            </Link>
+            <Link key="compound-interest-calculator" href="/tools/compound-interest-calculator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📈</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Compound Interest Calc</div>
+            </Link>
+            <Link key="percentage-calculator" href="/tools/percentage-calculator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔢</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Percentage Calculator</div>
+            </Link>
+            <Link key="currency-converter" href="/tools/currency-converter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">💱</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Currency Converter</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}

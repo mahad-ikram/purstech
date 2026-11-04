@@ -364,6 +364,67 @@ export default function PDFSplitterClient({ children }: { children?: React.React
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Precision Page Extraction & PDF Splitting Directly in Your Browser</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">When a 50-page report, scanned contract, or e-book contains only three or four pages you actually need to send or archive, emailing the entire file wastes bandwidth and exposes unnecessary pages. A PDF splitter lets you extract specific page ranges (such as 1–3, 8, 12–15) into a clean standalone document or burst a multi-page PDF into individual single-page files.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's PDF Splitter loads your document locally using pdf-lib, inspects the page count immediately, and extracts your exact page selection without re-encoding or degrading vector text, embedded fonts, or hyperlinks.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">When splitting into multiple separate PDF files, the tool automatically bundles the output into a single convenient ZIP archive using JSZip—100% in your browser with zero server uploads.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="merge-pdf-files-without-uploading" href="/blog/merge-pdf-files-without-uploading" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Merge & Split PDF Files Privately in Browser</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="compress-pdf-without-losing-quality" href="/blog/compress-pdf-without-losing-quality" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Compress a PDF Without Losing Quality</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-pdf-mergers" href="/blog/best-free-pdf-mergers" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free PDF Tools Tested</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="pdf-merger" href="/tools/pdf-merger" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📑</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">PDF Merger</div>
+            </Link>
+            <Link key="pdf-compressor" href="/tools/pdf-compressor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">PDF Compressor</div>
+            </Link>
+            <Link key="pdf-to-word" href="/tools/pdf-to-word" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">PDF to Word</div>
+            </Link>
+            <Link key="word-to-pdf" href="/tools/word-to-pdf" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📄</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Word to PDF</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: /about→/terms + Privacy/Terms/Contact */}

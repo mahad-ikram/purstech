@@ -393,6 +393,53 @@ export default function TipCalculatorClient({ children }: { children?: React.Rea
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Pre-Tax vs. Post-Tax Tipping & Even Bill Splitting Work</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Whether dining out with friends, ordering delivery, or traveling internationally, calculating a fair gratuity and splitting the check evenly across a group often leads to awkward table math. In standard restaurant etiquette, a 15% tip reflects solid standard service, 18–20% rewards attentive service or larger group tables, and 10% is common for counter service or takeaway.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">A common question is whether to calculate the tip percentage on the pre-tax subtotal or the post-tax total. Etiquette experts confirm that tipping on the pre-tax food and beverage subtotal is the traditional standard—though many digital POS terminals default to computing suggested percentages on the post-tax total. Entering your pre-tax bill amount into PursTech's Tip Calculator ensures you calculate the exact gratuity you intend.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">When splitting the bill among 2 or more people, the calculator breaks down both the tip per person and the total per person to the exact cent, with one-click rounding options so nobody is stuck making change.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator & Everyday Finance Math</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="percentage-calculator" href="/tools/percentage-calculator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔢</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Percentage Calculator</div>
+            </Link>
+            <Link key="currency-converter" href="/tools/currency-converter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">💱</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Currency Converter</div>
+            </Link>
+            <Link key="loan-calculator" href="/tools/loan-calculator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏦</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Loan Calculator</div>
+            </Link>
+            <Link key="unit-converter" href="/tools/unit-converter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📏</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Unit Converter</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}

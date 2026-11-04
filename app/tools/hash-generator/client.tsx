@@ -417,6 +417,37 @@ export default function HashGeneratorClient() {
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Cryptographic Hash Functions Explained: MD5, SHA-1, SHA-256 & SHA-512</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">A cryptographic hash function is a deterministic one-way mathematical algorithm that maps input data of any size into a fixed-length bit string (the 'digest'). Even a single bit change in the input—such as changing a capital letter to lowercase—triggers the 'avalanche effect', producing a completely unrecognizable output hash. Because hash functions are one-way operations, it is computationally infeasible to reverse a SHA-256 digest back into the original input text.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Not all hash algorithms offer the same security guarantees today. MD5 (128-bit) and SHA-1 (160-bit) are vulnerable to practical collision attacks and should never be used for security signatures or password storage, though they remain useful for quick non-security file-integrity checksums and cache keys. For modern cryptographic verification, digital signatures, HMAC authentication, and blockchain integrity, the NIST SHA-2 family—specifically SHA-256 (256-bit / 64 hex characters) and SHA-512 (512-bit / 128 hex characters)—is the industry standard.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Hash Generator computes MD5, SHA-1, SHA-256, and SHA-512 digests simultaneously in real time inside your browser using native JavaScript and Web Crypto APIs, so sensitive strings and checksums never leave your device.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="strong-password-guide" href="/blog/strong-password-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Strong Password Guide: Entropy & Hashing Science</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="base64-encoding-explained" href="/blog/base64-encoding-explained" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Base64 Encoding Explained for Developers</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}

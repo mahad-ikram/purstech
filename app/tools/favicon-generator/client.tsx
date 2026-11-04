@@ -167,7 +167,6 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
   const [themeColor,   setThemeColor]   = useState("#6C3AFF");
   const [showManifest, setShowManifest] = useState(false);
   const [dragging,     setDragging]     = useState(false);
-  const [openFaq,      setOpenFaq]      = useState<number | null>(null);
 
   const uploadInputRef   = useRef<HTMLInputElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -817,22 +816,70 @@ export default function FaviconGeneratorClient({ children }: { children?: React.
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3 max-w-3xl">
             {FAVICON_FAQ.map((f, i) => (
-              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                  aria-expanded={openFaq === i}>
-                  <span className="font-semibold text-white text-sm">{f.q}</span>
-                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-400 text-sm leading-relaxed">{f.a}</p>
-                  </div>
-                )}
-              </div>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{f.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{f.a}</div>
+              </details>
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Complete Guide to Modern Favicon Sizes, Apple Touch Icons & PWA Manifests</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">A single 16×16 favicon.ico file is no longer enough for modern browsers and operating systems. Today, desktop browser tabs on Retina/HiDPI displays expect 32×32 and 48×48 PNGs or scalable SVGs; iOS Safari requires a 180×180 apple-touch-icon.png when users pin your site to their Home Screen; and Android Chrome Progressive Web Apps (PWAs) require 192×192 and 512×512 icons referenced inside a site.webmanifest JSON file.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Creating and exporting all 18 standard icon dimensions manually in an image editor takessignificant time and is easy to misconfigure. PursTech's Favicon Generator renders your uploaded logo, custom monogram text, or emoji across an HTML5 Canvas pipeline at every required resolution simultaneously, letting you preview how your icon looks inside a dark or light browser tab before downloading.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">With one click, you can download individual icon sizes or a complete ZIP package containing all PNGs, the multi-resolution ICO file, the site.webmanifest, and the exact HTML &lt;link rel="icon"&gt; tags ready to paste into your &lt;head&gt;.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="webp-vs-jpeg-vs-png-2026" href="/blog/webp-vs-jpeg-vs-png-2026" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">WebP vs JPEG vs PNG: Choosing the Right Format</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="how-to-compress-images-without-losing-quality" href="/blog/how-to-compress-images-without-losing-quality" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Compress Images Without Losing Quality</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="image-compressor" href="/tools/image-compressor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Compressor</div>
+            </Link>
+            <Link key="image-resizer" href="/tools/image-resizer" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📐</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Resizer</div>
+            </Link>
+            <Link key="background-remover" href="/tools/background-remover" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">✂️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Background Remover</div>
+            </Link>
+            <Link key="svg-editor" href="/tools/svg-editor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">✦</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">SVG Editor</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}

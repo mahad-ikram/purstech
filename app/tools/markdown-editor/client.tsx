@@ -347,6 +347,60 @@ ${html || ""}
             </div>
           </>
         )}
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">CommonMark & GitHub Flavored Markdown (GFM) Syntax Reference & Workflows</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Markdown has become the de facto authoring language for developer READMEs, technical documentation, static blog engines (Next.js MDX, Astro, Hugo), knowledge bases (Obsidian, Notion), and AI prompt templates. Originally designed by John Gruber in 2004 so writers could compose structured prose using plain-text punctuation that compiles cleanly to semantic HTML, Markdown eliminates the visual clutter of tags while remaining 100% diff-friendly in Git.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Markdown Editor supports both core CommonMark syntax—ATX headings (# H1 to ###### H6), bold (**text**), italics (*text*), blockquotes (&gt;), ordered and unordered lists, inline code (`code`), and links—and GitHub Flavored Markdown (GFM) extensions including fenced code blocks with language identifiers, pipe-delimited data tables, strikethrough (~~text~~), and interactive task lists.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">With our split-pane live preview and 15-button formatting toolbar, you can draft and verify your document layout in real time, then export either the raw .md file or compiled HTML with a single click—all processed locally in your browser.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="word-count-guide-every-platform" href="/blog/word-count-guide-every-platform" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Word Count Guide for Every Platform</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-word-counter-tools" href="/blog/best-free-word-counter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free Word Counter Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="html-to-markdown" href="/tools/html-to-markdown" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">HTML to Markdown</div>
+            </Link>
+            <Link key="word-counter" href="/tools/word-counter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Word Counter</div>
+            </Link>
+            <Link key="grammar-checker" href="/tools/grammar-checker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">✓</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Grammar Checker</div>
+            </Link>
+            <Link key="llms-txt-generator" href="/tools/llms-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🧠</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">llms.txt Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {!fullscreen && (

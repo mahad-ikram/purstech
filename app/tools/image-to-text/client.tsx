@@ -1119,6 +1119,60 @@ export default function ImageToTextClient({ children }: { children?: React.React
           </div>
         </div>
 
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Optical Character Recognition (OCR) Extracts Text in Your Browser via Tesseract.js</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Optical Character Recognition (OCR) converts rasterized pixel patterns inside scanned documents, photographs, receipts, and screenshots into machine-readable, selectable Unicode text. Historically, accurate OCR required expensive desktop software or uploading confidential documents to cloud vision APIs. PursTech's Image to Text tool brings industrial-strength OCR directly into your browser by running the open-source Tesseract OCR engine compiled to WebAssembly (Tesseract.js).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">The recognition pipeline performs image binarization and contrast normalization, detects text lines and word bounding boxes, and applies Long Short-Term Memory (LSTM) neural network models trained across more than 30 languages—including English, Spanish, French, German, Arabic, Hindi, Chinese, Japanese, Korean, and Russian. For best OCR accuracy, ensure your image is well-lit, aligned horizontally, and has at least 150–300 DPI resolution.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Because the entire Tesseract WASM worker runs locally on your computer or phone, you can safely extract text from invoices, bank statements, ID cards, and lecture slides knowing that your images are never uploaded to any server.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="how-to-check-word-count" href="/blog/how-to-check-word-count" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Check Word Count in PDFs & Images</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="merge-pdf-files-without-uploading" href="/blog/merge-pdf-files-without-uploading" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Convert & Merge PDF Files Privately in Browser</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="pdf-to-word" href="/tools/pdf-to-word" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">PDF to Word</div>
+            </Link>
+            <Link key="word-counter" href="/tools/word-counter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Word Counter</div>
+            </Link>
+            <Link key="image-compressor" href="/tools/image-compressor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Compressor</div>
+            </Link>
+            <Link key="text-to-speech" href="/tools/text-to-speech" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔊</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Text to Speech</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ PATCH 5: Master Footer */}

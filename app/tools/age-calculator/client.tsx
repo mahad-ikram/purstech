@@ -62,7 +62,6 @@ export default function AgeCalculatorClient() {
   const [target,  setTarget]  = useState(TODAY);
   const [result,  setResult]  = useState<ReturnType<typeof calcAge> | null>(null);
   const [error,   setError]   = useState("");
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleCalculate = () => {
     if (!dob) { setError("Please enter a date of birth."); return; }
@@ -277,22 +276,45 @@ export default function AgeCalculatorClient() {
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((item, i) => (
-              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                  aria-expanded={openFaq === i}
-                >
-                  <span className="font-semibold text-white text-sm">{item.q}</span>
-                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
-                  </div>
-                )}
-              </div>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{item.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{item.a}</div>
+              </details>
             ))}
+          </div>
+        </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Chronological Age Calculation Handles Leap Years & Calendar Boundaries</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Calculating chronological age between two calendar dates appears straightforward at first glance, yet calendar arithmetic involves irregular month lengths (28, 29, 30, or 31 days) and the Gregorian leap-year cycle. Under the Gregorian calendar rules established in 1582, a year is a leap year if it is divisible by 4, except for end-of-century years (divisible by 100), which must also be divisible by 400 (meaning 2000 was a leap year, while 1900 was not). PursTech's Age Calculator computes exact calendar intervals by evaluating year, month, and day boundaries sequentially rather than dividing total elapsed days by an approximate 365.2425-day average.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">When borrowing days across a month boundary—for example, calculating the exact age on March 10 for someone born on January 31—the algorithm inspects the actual number of days in the preceding month of the target year. This matches the official chronological age method used by pediatricians, school admissions boards, civil service examinations, insurance actuaries, and retirement benefit administrators (such as Social Security and pension funds).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Alongside the year-month-day breakdown, the calculator converts the exact UTC timestamp delta into total elapsed weeks, days, hours, and minutes, and computes the precise countdown to your next birthday (handling February 29 leap-day birthdays cleanly in non-leap years).</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="bmi-calculator-guide-what-your-score-means" href="/blog/bmi-calculator-guide-what-your-score-means" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">BMI Calculator Guide: What Your Score Means</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator Guide With Extra Payments</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
           </div>
         </section>
       </main>

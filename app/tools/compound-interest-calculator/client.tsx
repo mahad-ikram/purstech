@@ -415,6 +415,29 @@ export default function CompoundInterestClient() {
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Compound Interest Formula & Real vs. Nominal Purchasing Power</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Compound interest is governed by the standard future-value equation A = P(1 + r/n)^(nt) + PMT × [((1 + r/n)^(nt) - 1) / (r/n)], where P is your starting principal, r is the nominal annual interest rate, n is the number of compounding periods per year, t is the time horizon in years, and PMT is your recurring contribution.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Comparing nominal balance growth against inflation-adjusted ('real') purchasing power is essential for retirement and long-term investment planning, ensuring you see both total interest earned and the compounding curve over decades.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator With Extra Payments: Real Savings</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ── Footer — fixed: About→Terms, © 2025→2026 ── */}

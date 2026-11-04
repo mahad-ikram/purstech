@@ -767,6 +767,50 @@ export default function SVGEditorClient({ children }: { children?: React.ReactNo
             any component file.
           </p>
         </div>
+      
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="hex-vs-rgb-vs-hsl-color-formats" href="/blog/hex-vs-rgb-vs-hsl-color-formats" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">HEX vs RGB vs HSL: Color Formats for SVG & CSS</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="webp-vs-jpeg-vs-png-2026" href="/blog/webp-vs-jpeg-vs-png-2026" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">WebP vs JPEG vs PNG: Raster vs. Vector Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="color-picker" href="/tools/color-picker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🎨</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Color Picker</div>
+            </Link>
+            <Link key="color-code-converter" href="/tools/color-code-converter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🖌️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Color Code Converter</div>
+            </Link>
+            <Link key="favicon-generator" href="/tools/favicon-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Favicon Generator</div>
+            </Link>
+            <Link key="css-minifier" href="/tools/css-minifier" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🎨</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">CSS Minifier</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       <footer className="border-t border-white/5 mt-16 py-8 text-center">

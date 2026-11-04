@@ -386,6 +386,37 @@ export default function BMIClient() {
           </div>
         </section>
 
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">The Mathematics & Clinical Context of Body Mass Index (BMI)</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Body Mass Index (BMI), originally formulated by Belgian mathematician Adolphe Quetelet in the 1830s as the 'Quetelet Index', is a standardized ratio of weight to height squared. In metric units, BMI is calculated as weight in kilograms divided by height in meters squared (kg/m²); in imperial units, it is computed as 703 × weight in pounds divided by height in inches squared. The World Health Organization (WHO) defines four primary adult reference categories: Underweight (&lt; 18.5), Normal weight (18.5–24.9), Overweight (25.0–29.9), and Obese (≥ 30.0).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">While BMI is a rapid, non-invasive population screening metric, it does not distinguish between lean skeletal muscle mass and adipose (fat) tissue, nor does it measure visceral fat distribution. As a result, strength athletes and bodybuilders frequently register in the 'Overweight' BMI bracket despite having low body-fat percentages, whereas older adults with low muscle mass may fall inside the 'Normal' BMI range while carrying elevated metabolic risk.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">To give you a more complete perspective, PursTech's BMI Calculator also computes your healthy weight range for your exact height and pairs well with waist-to-height ratio and clinical assessments from a qualified healthcare professional.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="bmi-calculator-guide-what-your-score-means" href="/blog/bmi-calculator-guide-what-your-score-means" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">BMI Calculator Guide: What Your Score Actually Means</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator Guide With Extra Payments</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ QA FIX: Consistent Full Footer */}

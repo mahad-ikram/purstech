@@ -395,6 +395,67 @@ export default function ImageCompressorClient({ children }: { children?: React.R
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Smart Lossy vs. Lossless Image Compression & Core Web Vitals Optimization</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Unoptimized images are the single most common cause of slow page loads and poor Google Core Web Vitals scores. A raw 1920×1080 PNG screenshot or DSLR photograph can easily exceed 2–5 MB, whereas an intelligently compressed WebP or JPEG version of the exact same image typically weighs 150–400 KB—a 70% to 85% reduction with zero perceptible loss in visual sharpness to the human eye.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Image compression works through two complementary techniques: chroma subsampling and quantization (smart lossy compression), which merges nearly identical color values that human vision is less sensitive to, and entropy coding optimization (lossless compression), which packs pixel data more efficiently. Choosing WebP output often yields an extra 25–35% size reduction over legacy JPEG and PNG formats while preserving alpha transparency.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Unlike cloud compressors such as TinyPNG that upload every file to a remote server and cap free users at 5 MB per file or 20 images per batch, PursTech's Image Compressor processes your images 100% locally inside your browser using the HTML5 Canvas and Blob APIs—with no file size caps, no batch limits, and complete privacy.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="how-to-compress-images-without-losing-quality" href="/blog/how-to-compress-images-without-losing-quality" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Compress Images Without Losing Quality</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="webp-vs-jpeg-vs-png-2026" href="/blog/webp-vs-jpeg-vs-png-2026" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">WebP vs JPEG vs PNG: Real File Sizes Compared</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="tinypng-alternatives" href="/blog/tinypng-alternatives" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free TinyPNG Alternatives Tested</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="image-resizer" href="/tools/image-resizer" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📐</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Resizer</div>
+            </Link>
+            <Link key="background-remover" href="/tools/background-remover" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">✂️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Background Remover</div>
+            </Link>
+            <Link key="favicon-generator" href="/tools/favicon-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Favicon Generator</div>
+            </Link>
+            <Link key="image-to-text" href="/tools/image-to-text" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📷</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image to Text (OCR)</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer — ✅ About→Terms, © 2025→2026, bg added */}

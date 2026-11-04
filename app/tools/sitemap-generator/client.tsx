@@ -440,6 +440,60 @@ export default function SitemapGeneratorClient({ children }: { children?: React.
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">XML Sitemap Protocol Best Practices: Canonical URLs, lastmod & Crawl Budget</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">An XML sitemap (following the sitemaps.org 0.9 protocol) acts as a direct roadmap for Googlebot, Bingbot, and IndexNow partners, listing every canonical URL on your website that you want indexed. Sitemaps are especially critical for newly launched domains with few external backlinks, large content sites, and pages that are several clicks deep from the homepage.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">To get the maximum SEO benefit from your sitemap.xml, follow three strict technical rules: (1) Include only 200 OK canonical URLs—never include 301/308 redirecting URLs, 404 pages, or non-www/http variants that don't match your canonical host; (2) Use accurate &lt;lastmod&gt; ISO-8601 dates that reflect when a page's content actually changed (Googlebot ignores &lt;lastmod&gt; if you reset every URL to today's timestamp on every build); and (3) Reference your sitemap URL at the bottom of your robots.txt file and submit it in Google Search Console and Bing Webmaster Tools.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Sitemap Generator automatically assigns smart depth-based &lt;priority&gt; and &lt;changefreq&gt; values and outputs spec-compliant XML ready for deployment.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Actually Work</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="url-encoding-developer-guide" href="/blog/url-encoding-developer-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">URL Encoding Developer Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="robots-txt-generator" href="/tools/robots-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🤖</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Robots.txt Generator</div>
+            </Link>
+            <Link key="llms-txt-generator" href="/tools/llms-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🧠</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">llms.txt Generator</div>
+            </Link>
+            <Link key="meta-tag-generator" href="/tools/meta-tag-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Meta Tag Generator</div>
+            </Link>
+            <Link key="open-graph-generator" href="/tools/open-graph-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📊</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Open Graph Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: /about→/terms + Privacy/Terms/Contact + © 2026 */}

@@ -388,6 +388,67 @@ export default function KeywordDensityClient() {
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Keyword Density & N-Gram Frequency Analysis Improve On-Page SEO</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Keyword density measures how frequently a specific word or multi-word phrase (n-gram) appears in an article relative to the total word count, expressed as a percentage: (Keyword Count ÷ Total Words) × 100. In early search engines, repeating an exact keyword dozens of times could artificially boost rankings; today, Google's natural-language ranking systems penalize unnatural repetition ('keyword stuffing') while rewarding comprehensive topical coverage.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Analyzing 1-word (unigram), 2-word (bigram), and 3-word (trigram) frequencies remains one of the fastest ways to audit your draft before publishing. If your primary target keyword sits below 0.5%, your H1, intro paragraph, or subheadings may not clearly signal the page's core topic; conversely, if a single phrase exceeds 2.5–3%, replacing repetitive instances with natural synonyms and related entities will improve both readability and search performance.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Keyword Density Checker automatically filters out common English stop words (such as 'the', 'and', 'with') so you see the true topical signal of your draft in real time.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Actually Work: Complete Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="word-count-guide-every-platform" href="/blog/word-count-guide-every-platform" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Word Count Guide for SEO & Every Platform</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-word-counter-tools" href="/blog/best-free-word-counter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free Word Counter Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="meta-tag-generator" href="/tools/meta-tag-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Meta Tag Generator</div>
+            </Link>
+            <Link key="word-counter" href="/tools/word-counter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📝</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Word Counter</div>
+            </Link>
+            <Link key="readability-checker" href="/tools/readability-checker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📊</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Readability Checker</div>
+            </Link>
+            <Link key="llms-txt-generator" href="/tools/llms-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🧠</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">llms.txt Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer — ✅ About→Terms, © 2025→2026 */}

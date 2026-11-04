@@ -350,6 +350,30 @@ export default function CurrencyConverterClient() {
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Foreign Exchange Mid-Market Rates Work & How to Avoid Hidden FX Markups</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">When you look up an exchange rate between two currencies—such as US Dollars (USD) to Euros (EUR), British Pounds (GBP), or Pakistani Rupees (PKR)—the benchmark figure quoted on financial tickers is the interbank 'mid-market' rate: the midpoint between the wholesale buy (bid) and sell (ask) prices traded by global banks. Consumer banks, airport kiosks, and traditional wire services rarely give you this mid-market rate; instead, they embed a 2% to 7% spread markup directly into the exchange rate while advertising 'zero commission'.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Another common travel trap is Dynamic Currency Conversion (DCC), where an overseas card terminal or ATM asks if you would like to be charged in your home currency rather than the local currency. Accepting DCC allows the merchant's processor to set an unfavorable exchange rate; always choose to pay in the local currency so your own card network (Visa or Mastercard) handles the conversion near the wholesale rate.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Currency Converter lets you compare 30+ major world currencies simultaneously in an all-currency reference matrix so you can benchmark quotes, estimate international invoices, and plan travel budgets instantly.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Loan Calculator Guide: Extra Payments & Interest Math</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ QA FIX: Consistent Full Footer */}

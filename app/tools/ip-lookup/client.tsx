@@ -700,6 +700,53 @@ export default function IPLookupClient({ children }: { children?: React.ReactNod
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Understanding IPv4, IPv6, ASN Routing & IP Geolocation Accuracy</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Every device connected to the public internet is assigned an Internet Protocol (IP) address by its Internet Service Provider (ISP) or cloud host. IPv4 addresses use a 32-bit dotted-decimal format (such as 8.8.8.8, providing roughly 4.3 billion unique addresses), whereas IPv6 uses a 128-bit hexadecimal format (such as 2001:4860:4860::8888) to support the massive growth of global connected devices.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">When you query an IP address in PursTech's IP Lookup tool, the lookup resolves the Autonomous System Number (ASN)—which identifies the specific network operator, ISP, or cloud data center (such as Cloudflare, AWS, or a residential telecom provider) routing that IP block—along with regional registry data (ARIN, RIPE, APNIC), timezone, and approximate geographic coordinates.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">It is important to understand that IP geolocation maps an IP block to the ISP's local routing hub or point of presence (PoP), not a physical street address. City- and country-level accuracy is typically high for fixed broadband connections, while mobile carrier IPs and VPN/proxy exit nodes reflect the gateway server's location.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="strong-password-guide" href="/blog/strong-password-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Strong Password & Online Security Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="ssl-checker" href="/tools/ssl-checker" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔒</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">SSL Certificate Checker</div>
+            </Link>
+            <Link key="password-generator" href="/tools/password-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔐</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Password Generator</div>
+            </Link>
+            <Link key="url-encoder" href="/tools/url-encoder" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔗</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">URL Encoder</div>
+            </Link>
+            <Link key="hash-generator" href="/tools/hash-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔑</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Hash Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Patch 5: footer — /about → /terms */}

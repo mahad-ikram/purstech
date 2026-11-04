@@ -552,6 +552,60 @@ export default function MetaTagGeneratorClient({ children }: { children?: React.
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How HTML Meta Tags, Pixel Width Limits & Canonical URLs Shape Search CTR</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">When Googlebot or Bingbot crawls a web page, the &lt;head&gt; meta tags provide the primary blueprint for how your page is indexed and displayed on Search Engine Results Pages (SERPs). While many guides cite character counts alone, Google actually truncates SERP titles and snippets by pixel width: desktop titles truncate around 580–600 pixels (roughly 50–60 characters in Arial), and meta descriptions truncate around 920–960 pixels (roughly 145–160 characters).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Beyond the &lt;title&gt; and &lt;meta name="description"&gt;, modern technical SEO requires a self-referencing &lt;link rel="canonical"&gt; tag to prevent duplicate-content dilution from URL query parameters (such as ?utm_source= or ?ref=), explicit &lt;meta name="robots" content="index, follow"&gt; directives, and synchronized Open Graph and Twitter Card tags for rich social sharing.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Meta Tag Generator grades your metadata from A to F in real time as you type, previews your exact Google SERP snippet, and outputs clean, copy-ready HTML.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Actually Work: Complete Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="word-count-guide-every-platform" href="/blog/word-count-guide-every-platform" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Word Count Guide for SEO & Every Platform</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="open-graph-generator" href="/tools/open-graph-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📊</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Open Graph Generator</div>
+            </Link>
+            <Link key="robots-txt-generator" href="/tools/robots-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🤖</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Robots.txt Generator</div>
+            </Link>
+            <Link key="sitemap-generator" href="/tools/sitemap-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗺️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Sitemap Generator</div>
+            </Link>
+            <Link key="llms-txt-generator" href="/tools/llms-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🧠</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">llms.txt Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}

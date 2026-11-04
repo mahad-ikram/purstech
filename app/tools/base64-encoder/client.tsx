@@ -318,6 +318,44 @@ export default function Base64Client() {
           </div>
         </section>
 
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Understanding RFC 4648 Base64 Encoding, UTF-8 Safety & Data URIs</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Defined in RFC 4648, Base64 is a binary-to-text encoding scheme that translates arbitrary binary data into a safe 64-character ASCII alphabet (A–Z, a–z, 0–9, +, and /, with = used for padding). Every three 8-bit bytes (24 bits) of input are split into four 6-bit groups, each mapped to its corresponding printable ASCII character. Because 3 bytes become 4 characters, Base64-encoded payloads are always approximately 33% larger than the raw binary input (plus 1 or 2 '=' padding characters when the input byte length is not a multiple of 3).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">A common pitfall in JavaScript development is calling the browser's legacy window.btoa() function directly on strings containing Unicode characters, emojis, or accented letters—which throws an InvalidCharacterError because btoa() only accepts Latin-1 (8-bit) code points. PursTech's Base64 Encoder/Decoder solves this by encoding strings into UTF-8 byte arrays via TextEncoder before Base64 conversion and decoding back through TextDecoder, ensuring 100% lossless round-trips for every language and symbol.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Crucially, Base64 is an encoding format—not encryption. Anyone can decode a Base64 string instantly, so you should never rely on Base64 alone to hide API secrets or passwords. Instead, use it for embedding small inline assets (data:image/png;base64,...), encoding HTTP Basic Authentication headers, or transporting binary payloads safely inside JSON fields.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="base64-encoding-explained" href="/blog/base64-encoding-explained" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Base64 Encoding Explained: 3 Bytes In, 4 Characters Out</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="url-encoding-developer-guide" href="/blog/url-encoding-developer-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">URL Encoding Developer Guide: Percent-Encoding</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="best-free-json-formatter-tools" href="/blog/best-free-json-formatter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free JSON Formatter Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ QA FIX: Consistent Full Footer */}

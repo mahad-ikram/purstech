@@ -350,6 +350,37 @@ export default function DiffCheckerClient() {
             ))}
           </div>
         </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Line & Word Diff Algorithms Detect Document & Code Changes</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Comparing two versions of a contract, configuration file, essay draft, or source-code snippet by eye is notoriously error-prone—a single changed punctuation mark, environment variable, or legal clause can easily go unnoticed. Diff utilities solve this by computing the Longest Common Subsequence (LCS) between the original text and the revised text, isolating the minimal set of insertions and deletions required to transform one into the other.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Diff Checker highlights removed segments in red and newly added segments in green, offering both side-by-side split views and unified inline comparisons. This makes it immediately obvious which lines were modified, added, or deleted without needing to initialize a Git repository or install a desktop comparison app.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Because legal redlines, NDA drafts, .env configuration files, and production code snippets are highly confidential, our Diff Checker runs 100% locally in your browser—neither text block is ever transmitted over the internet.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="best-free-word-counter-tools" href="/blog/best-free-word-counter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free Word Counter Tools Compared</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="how-to-check-word-count" href="/blog/how-to-check-word-count" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Check Word Count Across Platforms</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ QA FIX: Consistent Full Footer */}

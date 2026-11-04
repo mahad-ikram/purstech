@@ -422,6 +422,60 @@ export default function OpenGraphClient({ children }: { children?: React.ReactNo
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Mastering the Open Graph Protocol & Twitter Card Specifications for Higher CTR</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Introduced by Facebook in 2010 and now adopted by LinkedIn, X (Twitter), Discord, Slack, WhatsApp, and iMessage, the Open Graph protocol (og:title, og:description, og:image, og:url, og:type) turns plain shared links into rich visual cards. Without valid Open Graph metadata in your page's server-rendered &lt;head&gt;, social platforms either scrape random page text or display a blank, low-trust link box.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">The single highest-impact property is og:image. For universal compatibility across X (summary_large_image), LinkedIn, Facebook, and Discord, use a 1200×630 pixel image (a 1.91:1 aspect ratio) under 1 MB in PNG, JPEG, or WebP format, and always specify an absolute HTTPS URL (https://yoursite.com/og-image.png) rather than a relative path.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's Open Graph Generator lets you preview how your card renders across major social feeds side by side and generates both og:* and twitter:* meta tags ready to drop into your HTML or Next.js Metadata config.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Actually Work</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="webp-vs-jpeg-vs-png-2026" href="/blog/webp-vs-jpeg-vs-png-2026" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">WebP vs JPEG vs PNG: Optimizing Social Images</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="meta-tag-generator" href="/tools/meta-tag-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Meta Tag Generator</div>
+            </Link>
+            <Link key="image-resizer" href="/tools/image-resizer" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📐</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Resizer</div>
+            </Link>
+            <Link key="image-compressor" href="/tools/image-compressor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image Compressor</div>
+            </Link>
+            <Link key="sitemap-generator" href="/tools/sitemap-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗺️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Sitemap Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: © 2026 + Privacy/Terms/Contact */}

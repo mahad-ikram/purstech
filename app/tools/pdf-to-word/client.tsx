@@ -333,6 +333,60 @@ ${content.split("\n").filter(l => l.trim()).map(l =>
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How In-Browser PDF Text Extraction & Word Document Conversion Work</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">The Portable Document Format (PDF) was engineered as a fixed-layout digital print format—storing characters by their exact X/Y page coordinates rather than as flowing paragraphs. Extracting clean, editable text from a PDF requires parsing the content stream of each page, reconstructing word and line boundaries from glyph positions, and reassembling paragraphs.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's PDF to Word Converter runs Mozilla's PDF.js engine inside your browser to extract text page by page from any text-based PDF. Before downloading, you can inspect the extracted text in either Full Document or Page-by-Page view, edit any wording directly in the browser, normalize whitespace, and export the result as a Word-compatible .doc file, clean .txt, or semantic .html.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">If your PDF is a scanned image without selectable text, pair this tool with our browser-based Image to Text (OCR) utility to recognize characters optically—always keeping your files 100% private on your own device.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="how-to-check-word-count" href="/blog/how-to-check-word-count" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Check Word Count in PDF Files</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="merge-pdf-files-without-uploading" href="/blog/merge-pdf-files-without-uploading" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Merge PDF Files Privately</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="word-to-pdf" href="/tools/word-to-pdf" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📄</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Word to PDF</div>
+            </Link>
+            <Link key="pdf-compressor" href="/tools/pdf-compressor" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">PDF Compressor</div>
+            </Link>
+            <Link key="pdf-merger" href="/tools/pdf-merger" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📑</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">PDF Merger</div>
+            </Link>
+            <Link key="image-to-text" href="/tools/image-to-text" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📷</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Image to Text (OCR)</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: /about→/terms + Privacy/Terms/Contact */}

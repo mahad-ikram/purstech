@@ -590,6 +590,37 @@ export default function ColorCodeConverterClient() {
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How Color Spaces Work: Translating Between HEX, RGB, HSL, HSV & CMYK</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Digital screens and physical printing presses create color through opposite physical mechanisms, which is why designers and developers constantly translate between color models. Screens use the additive RGB model—combining Red, Green, and Blue light channels from 0 to 255. A 6-digit hexadecimal code (#6C3AFF) is simply a compact base-16 representation of those three RGB bytes (6C = 108 Red, 3A = 58 Green, FF = 255 Blue).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">While RGB and HEX map directly to hardware subpixels, they are unintuitive when creating design systems. HSL (Hue, Saturation, Lightness) and HSV/HSB (Hue, Saturation, Value/Brightness) reorganize RGB into a cylindrical coordinate system: Hue selects the angle on the 360° color wheel, Saturation controls color intensity, and Lightness/Value adjusts brightness—making it effortless to generate cohesive hover states, tints, and dark-mode surfaces by adjusting a single percentage.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">For commercial offset and digital printing, colors must be converted into subtractive CMYK (Cyan, Magenta, Yellow, and Key/Black ink percentages). Alongside instant 7-format conversion, PursTech's Color Code Converter evaluates relative luminance using the W3C WCAG 2.1 formula to verify whether your foreground and background pairing passes AA (4.5:1) and AAA (7:1) accessibility thresholds.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="hex-vs-rgb-vs-hsl-color-formats" href="/blog/hex-vs-rgb-vs-hsl-color-formats" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">HEX vs RGB vs HSL: Color Formats Explained</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="how-to-compress-images-without-losing-quality" href="/blog/how-to-compress-images-without-losing-quality" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">How to Compress Images Without Losing Quality</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ── Footer — fixed: About→Terms, © 2025→2026 ── */}

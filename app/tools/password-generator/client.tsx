@@ -416,6 +416,30 @@ export default function PasswordGeneratorClient() {
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">Information Entropy, CSPRNG Randomness & Why Length Beats Complexity</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Password strength is measured mathematically in bits of information entropy: H = L × log2(N), where L is the password length and N is the size of the character pool (26 for lowercase, 52 for mixed case, 62 for alphanumeric, and ~94 when symbols are included). Because length is the exponent in the keyspace formula (N^L), adding just four extra characters to a password multiplies brute-force resistance far more than swapping 'e' for '3' or 'a' for '@' in a short word.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Many basic scripts make the critical mistake of generating passwords with JavaScript's Math.random(), which is a non-cryptographic pseudo-random number generator whose internal state can be predicted. PursTech's Password Generator exclusively uses the browser's W3C Web Crypto API (window.crypto.getRandomValues()), which draws hardware-seeded cryptographic entropy directly from your operating system's kernel.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Whether you generate a 20-character random string for a password manager or a multi-word Diceware-style passphrase that is easy to type on mobile, everything runs locally in your browser with zero network requests.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="strong-password-guide" href="/blog/strong-password-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Strong Password Guide: Why Length Beats Everything</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: © 2026 + Privacy/Terms/Contact */}

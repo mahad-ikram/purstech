@@ -84,7 +84,6 @@ export default function CSSMinifierClient() {
   const [input,   setInput]   = useState("");
   const [output,  setOutput]  = useState("");
   const [copied,  setCopied]  = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleMinify = () => {
     if (!input.trim()) return;
@@ -305,22 +304,45 @@ export default function CSSMinifierClient() {
           <h2 className="text-2xl font-extrabold text-white mb-6">❓ Frequently Asked Questions</h2>
           <div className="space-y-3">
             {FAQ.map((item, i) => (
-              <div key={i} className="bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
-                  aria-expanded={openFaq === i}
-                >
-                  <span className="font-semibold text-white text-sm">{item.q}</span>
-                  <span className="text-[#6C3AFF] text-lg ml-4 flex-shrink-0">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.a}</p>
-                  </div>
-                )}
-              </div>
+              <details key={i} className="group bg-[#13131F] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6C3AFF]/20 transition-all">
+                <summary className="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 text-white font-semibold text-sm list-none">
+                  <span>{item.q}</span>
+                  <span className="text-[#6C3AFF] text-xl flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <div className="px-6 pb-5 text-gray-400 text-sm leading-relaxed">{item.a}</div>
+              </details>
             ))}
+          </div>
+        </section>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How CSS Minification Reduces Render-Blocking Bytes & Improves LCP</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">In browser rendering pipelines, external stylesheets are render-blocking resources: the browser will not paint any pixels to the screen until the CSS Object Model (CSSOM) is downloaded and parsed. Every kilobyte of developer comments, indentation spaces, newlines, and redundant semicolons in a stylesheet directly delays First Contentful Paint (FCP) and Largest Contentful Paint (LCP), particularly on mobile networks.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's CSS Minifier performs safe lexical token compression in your browser: it strips /* ... */ comment blocks, collapses multi-space runs and line breaks, removes unnecessary whitespace around structural delimiters ({, }, :, ;, ,, &gt;), and strips the trailing semicolon before a closing brace (}). Depending on your commenting style and formatting, minification typically shrinks raw CSS files by 20% to 45% before HTTP gzip or Brotli compression is even applied.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Because all minification happens locally in your browser tab, you can safely compress proprietary stylesheets, design-system tokens, and inline critical CSS snippets in seconds.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="hex-vs-rgb-vs-hsl-color-formats" href="/blog/hex-vs-rgb-vs-hsl-color-formats" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">HEX vs RGB vs HSL: CSS Color Formats Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Work for Core Web Vitals</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
           </div>
         </section>
       </main>

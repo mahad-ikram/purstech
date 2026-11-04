@@ -385,6 +385,60 @@ export default function JSMinifierClient() {
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How JavaScript Minification Reduces Bundle Size & Parse Time</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Unlike images that only consume network bandwidth, JavaScript is the most expensive byte-for-byte asset on the web because after downloading, the browser's JS engine (such as V8 or JavaScriptCore) must parse, compile, and execute the source code on the main thread. Stripping comments, collapsing whitespace, and shortening syntax reduces both over-the-wire transfer time and initial script parse overhead.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's JS Minifier processes your JavaScript code in multiple passes right in your browser, preserving string literals and regular expressions while removing single-line (//) and multi-line (/* */) comments, collapsing redundant whitespace, and estimating both raw minified byte savings and gzip-compressed transfer size.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">You can also switch to Beautify mode to re-indent and format minified one-line scripts when debugging third-party snippets.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="best-free-json-formatter-tools" href="/blog/best-free-json-formatter-tools" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Best Free JSON Formatter & Developer Tools</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="url-encoding-developer-guide" href="/blog/url-encoding-developer-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">URL Encoding Developer Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="css-minifier" href="/tools/css-minifier" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🎨</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">CSS Minifier</div>
+            </Link>
+            <Link key="html-minifier" href="/tools/html-minifier" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗜️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">HTML Minifier</div>
+            </Link>
+            <Link key="json-formatter" href="/tools/json-formatter" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">💻</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">JSON Formatter</div>
+            </Link>
+            <Link key="regex-tester" href="/tools/regex-tester" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🧪</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Regex Tester</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer — ✅ About→Terms, © 2025→2026 */}

@@ -275,6 +275,60 @@ export default function LlmsTxtGeneratorClient({ children }: { children?: React.
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How the llms.txt Specification Helps AI Assistants Read & Cite Your Website</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Proposed by Jeremy Howard (Answer.AI) in 2024 and documented at llmstxt.org, the /llms.txt standard solves a fundamental architectural limitation of Large Language Models: context window clutter. When an AI browsing agent (such as ChatGPT Search, Claude, or Perplexity) fetches a normal web page, it has to wade through navigation menus, inline scripts, CSS classes, cookie banners, and footer boilerplate just to understand what your site offers and where your canonical documentation lives.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">An llms.txt file placed at the root of your domain (https://yoursite.com/llms.txt) provides a clean, human- and LLM-readable Markdown index of your site. Following the specification, it starts with an H1 site title (# Site Name), a concise blockquote summary (&gt; One-line description), optional context paragraphs, and H2 category sections (## Docs, ## Tools, ## Guides) containing annotated Markdown links (- [Page Title](url): concise description of what this page covers).</p>
+            <p className="text-gray-400 text-sm leading-relaxed">Unlike robots.txt (which controls crawler access rules) or sitemap.xml (which lists every URL in verbose XML for search indexing), llms.txt is a curated map of your highest-value pages designed specifically for AI grounding and accurate citation.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Actually Work</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="url-encoding-developer-guide" href="/blog/url-encoding-developer-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">URL Encoding Developer Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="robots-txt-generator" href="/tools/robots-txt-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🤖</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Robots.txt Generator</div>
+            </Link>
+            <Link key="sitemap-generator" href="/tools/sitemap-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🗺️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Sitemap Generator</div>
+            </Link>
+            <Link key="meta-tag-generator" href="/tools/meta-tag-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Meta Tag Generator</div>
+            </Link>
+            <Link key="open-graph-generator" href="/tools/open-graph-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">📊</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Open Graph Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}

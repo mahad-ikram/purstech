@@ -427,6 +427,60 @@ export default function SSLCheckerClient({ children }: { children?: React.ReactN
             ))}
           </div>
         </div>
+      
+        {/* ── Technical Deep-Dive & Reference Guide ── */}
+        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">How TLS/SSL Handshakes, Certificate Chains & Cipher Grading Work</h2>
+          <div className="space-y-3">
+            <p className="text-gray-400 text-sm leading-relaxed">Transport Layer Security (TLS, the modern successor to SSL) encrypts HTTP traffic (HTTPS) between a visitor's browser and your web server, preventing packet sniffing and man-in-the-middle tampering while serving as a confirmed Google ranking signal. During a TLS handshake on port 443, the server presents its X.509 digital certificate, which chains back to a trusted Root Certificate Authority (CA) such as Let's Encrypt, DigiCert, Cloudflare, or Sectigo.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">An A+ TLS configuration combines three elements: negotiation of the modern TLS 1.3 protocol (which reduces handshake latency by a full round-trip compared to TLS 1.2 and removes legacy weak ciphers), a strong public key (2048-bit+ RSA or 256-bit ECDSA), and an active certificate with sufficient validity days remaining before expiration. Because automated Let's Encrypt certificates expire every 90 days, a silent cron or DNS validation failure can take a production site offline overnight with a browser security warning.</p>
+            <p className="text-gray-400 text-sm leading-relaxed">PursTech's SSL Certificate Checker performs a live TLS socket inspection against any domain, reporting the exact certificate grade (A+ to F), days until expiry, issuer chain, Subject Alternative Names (SANs), negotiated protocol, and SHA-256 fingerprint.</p>
+          </div>
+        </section>
+
+        {/* ── Related PursTech Blog Guides ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
+            <Link key="strong-password-guide" href="/blog/strong-password-guide" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Strong Password & Web Security Guide</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+            <Link key="free-seo-tools-that-work" href="/blog/free-seo-tools-that-work" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-[#6C3AFF] mb-1">In-Depth Guide</div>
+                <div className="text-sm font-bold text-white group-hover:text-[#00D4FF] transition-colors truncate">Free SEO Tools That Work</div>
+              </div>
+              <span className="text-gray-600 group-hover:text-[#6C3AFF] transition-colors flex-shrink-0">→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Related Tools ── */}
+        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+          <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
+            <Link key="ip-lookup" href="/tools/ip-lookup" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🌐</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">IP Address Lookup</div>
+            </Link>
+            <Link key="password-generator" href="/tools/password-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔐</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Password Generator</div>
+            </Link>
+            <Link key="hash-generator" href="/tools/hash-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🔑</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Hash Generator</div>
+            </Link>
+            <Link key="meta-tag-generator" href="/tools/meta-tag-generator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
+              <div className="text-2xl mb-1.5">🏷️</div>
+              <div className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors truncate">Meta Tag Generator</div>
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
