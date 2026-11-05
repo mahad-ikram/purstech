@@ -418,7 +418,7 @@ export default function AllToolsClient({ children }: { children?: React.ReactNod
       <footer className="border-t border-white/5 mt-16 py-8 min-w-0 w-full">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 min-w-0 w-full">
           <Link href="/" className="text-xl font-black flex-shrink-0">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="text-xs text-gray-600 text-center truncate pr-2">50 free tools · 8 categories · 0 sign-ups required</div>
+          <div className="text-xs text-gray-600 text-center truncate pr-2">51 free tools · 8 categories · 0 sign-ups required</div>
           <div className="flex gap-4 text-xs text-gray-600 min-w-0">
             <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
             <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>

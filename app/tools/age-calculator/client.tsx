@@ -287,6 +287,49 @@ export default function AgeCalculatorClient() {
           </div>
         </section>
       
+        
+        {/* ── Age by Birth Year Quick Reference Table (Featured Snippet Ready) ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6 overflow-hidden min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">Age by Year of Birth Reference Chart (2026)</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mb-5 leading-relaxed">
+            Need a quick lookup by birth year before entering your exact day and month of birth above? This chart shows the exact age reached on your birthday in 2026 alongside common legal and retirement milestones:
+          </p>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-xs sm:text-sm text-left border-collapse min-w-[520px]">
+              <thead>
+                <tr className="border-b border-white/10 text-gray-400 bg-[#0A0A14]">
+                  <th className="py-3 px-4 font-bold text-white">Birth Year (DOB)</th>
+                  <th className="py-3 px-4 font-bold text-[#6C3AFF]">Age in 2026 (After Birthday)</th>
+                  <th className="py-3 px-4 font-bold">Age Before Birthday</th>
+                  <th className="py-3 px-4 font-bold">Milestone / Generation</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-gray-300">
+                {[
+                  ["1961", "65 years old", "64 years old", "Medicare / Standard Retirement Milestone"],
+                  ["1966", "60 years old", "59 years old", "Generation X"],
+                  ["1976", "50 years old", "49 years old", "Catch-up Retirement Contribution Milestone"],
+                  ["1986", "40 years old", "39 years old", "Millennial (Gen Y)"],
+                  ["1991", "35 years old", "34 years old", "Millennial (Gen Y)"],
+                  ["1996", "30 years old", "29 years old", "Millennial / Gen Z Cusp"],
+                  ["2001", "25 years old", "24 years old", "Generation Z (Car Rental / Insurance Tier)"],
+                  ["2005", "21 years old", "20 years old", "Generation Z (US Legal Adult Milestone)"],
+                  ["2008", "18 years old", "17 years old", "Voting & Legal Majority Milestone"],
+                  ["2010", "16 years old", "15 years old", "Driver's License Eligibility Milestone"],
+                  ["2020", "6 years old",  "5 years old",  "Elementary School Entry (Gen Alpha)"],
+                ].map(([yr, after, before, note]) => (
+                  <tr key={yr} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5 px-4 font-mono font-bold text-white">{yr}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#00D4FF]">{after}</td>
+                    <td className="py-2.5 px-4">{before}</td>
+                    <td className="py-2.5 px-4 text-gray-400">{note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* ── Technical Deep-Dive & Reference Guide ── */}
         <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">How Chronological Age Calculation Handles Leap Years & Calendar Boundaries</h2>

@@ -299,6 +299,46 @@ export default function WordCounterClient({ children }: { children?: React.React
           </div>
         </section>
       
+        
+        {/* ── Platform Word & Character Limit Reference Table ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6 overflow-hidden min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">Platform Character &amp; Word Count Limits Reference Table</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mb-5 leading-relaxed">
+            Compare your draft against standard character and word count limits across major social networks, search engines, and academic formats:
+          </p>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-xs sm:text-sm text-left border-collapse min-w-[540px]">
+              <thead>
+                <tr className="border-b border-white/10 text-gray-400 bg-[#0A0A14]">
+                  <th className="py-3 px-4 font-bold text-white">Platform / Document Type</th>
+                  <th className="py-3 px-4 font-bold text-[#6C3AFF]">Recommended Length</th>
+                  <th className="py-3 px-4 font-bold">Hard Limit / Truncation</th>
+                  <th className="py-3 px-4 font-bold">Avg Reading Time</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-gray-300">
+                {[
+                  ["Google SEO Title Tag",     "50–60 characters",   "~600 px (~60 chars)",    "2 sec"],
+                  ["Google Meta Description",  "145–160 characters", "~960 px (~160 chars)",   "5 sec"],
+                  ["X (Twitter) Post",         "100–200 characters", "280 characters",         "6 sec"],
+                  ["Instagram Caption / Bio",  "125–150 characters", "2,200 caption / 150 bio","30 sec"],
+                  ["LinkedIn Post",            "150–300 words",      "3,000 chars (210 fold)", "1 min"],
+                  ["College Application Essay","500–650 words",      "650 words (Common App)", "2.5 min"],
+                  ["Standard Blog Post",       "1,200–1,800 words",  "No limit",               "6–8 min"],
+                  ["In-Depth Pillar Guide",    "2,000–3,000 words",  "No limit",               "10–13 min"],
+                ].map(([plat, rec, cap, rtime]) => (
+                  <tr key={plat} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5 px-4 font-bold text-white">{plat}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#00D4FF]">{rec}</td>
+                    <td className="py-2.5 px-4 font-mono text-xs">{cap}</td>
+                    <td className="py-2.5 px-4 text-gray-400">{rtime}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* ── Technical Deep-Dive & Reference Guide ── */}
         <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">How Real-Time Word, Character & Keyword Density Analysis Improves Your Writing</h2>

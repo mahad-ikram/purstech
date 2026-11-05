@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import WordCounterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Word Count Checker & Word Counter — Check Words",
-  description: "Free word count checker, word counter and word checker — check words, characters, sentences, paragraphs and reading time instantly.",
+  title: "Free Word Counter & Word Checker — Count Words & Characters",
+  description: "Instant free word counter, word checker & words checker tool. Check number of words, character limits, sentences, reading time & keyword density in real time.",
   alternates: { canonical: "/tools/word-counter" },
   keywords: ["word counter","word count checker","word checker","words checker","check words","check word count","checking number of words","free word counter","word check","character counter","word count online","count words online","reading time calculator"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/word-counter",
     siteName: "PursTech",
-    title: "Free Word Count Checker & Word Counter — Check Words",
+    title: "Free Word Counter & Word Checker — Count Words & Characters",
     description: "Check word count, characters, sentences and reading time instantly. Free word count checker & word counter — private, no login.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Word Counter & Word Checker — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Word Count Checker & Word Counter — Check Words",
+    title: "Free Word Counter & Word Checker — Count Words & Characters",
     description: "Check word count, characters, sentences and reading time instantly. Free word count checker & word counter.",
     images: ["/og-image.png"],
     creator: "@purstech",

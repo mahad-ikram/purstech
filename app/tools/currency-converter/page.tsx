@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import CurrencyConverterClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Currency Converter — USD, EUR & 30+ Currencies",
+  title: "Currency Converter Calculator — Money & Exchange Rates",
 
   description:
-    "Convert between 30+ world currencies with reference exchange rates. Free currency converter — instant results, popular pairs and all-currency table. No login.",
+    "Free currency converter calculator & money converter. Convert USD, EUR, GBP, CAD, AUD, JPY, INR & 30+ currencies instantly with a full exchange rate table.",
 
   alternates: { canonical: "/tools/currency-converter" },
 
   keywords: [
     "currency converter", "euro to dollar", "euros to dollars",
     "cad to usd", "eur to usd", "money converter",
-    "exchange rate calculator", "free currency converter",
+    "exchange rate calculator", "currency converter calculator", "currency calculator", "money converter calculator", "online currency converter", "free currency converter",
   ],
 
   openGraph: {

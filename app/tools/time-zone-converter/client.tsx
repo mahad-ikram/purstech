@@ -6,6 +6,8 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 // ✅ Rule 10: module scope — FAQ.map() and CITIES.map() below match
 const FAQ = [
+  { q:"What is 9am, 12pm, 4pm, 5pm, and 6pm EST in PST?",
+    a:"Pacific Time (PST/PDT) is always 3 hours behind Eastern Time (EST/EDT): 9:00 AM EST = 6:00 AM PST, 12:00 PM (Noon) EST = 9:00 AM PST, 4:00 PM EST = 1:00 PM PST, 5:00 PM EST = 2:00 PM PST, 5:30 PM EST = 2:30 PM PST, and 6:00 PM EST = 3:00 PM PST." },
   { q:"How do I convert Eastern to Central or Pacific time?",
     a:"Central Time is always exactly 1 hour behind Eastern Time — so 9am ET is 8am CT, and 5pm ET is 4pm CT. Pacific is 3 hours behind Eastern. Pick the two zones in the converter and it handles the math for any date, including Daylight Saving switches, automatically." },
   { q:"What is Zulu time?",
@@ -439,6 +441,53 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
           </div>
         </div>
       
+        
+        {/* ── EST to PST / CST / UTC Quick Conversion Table (Featured Snippet Ready) ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6 overflow-hidden min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">EST to PST, CST, MST &amp; UTC Quick Conversion Chart</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mb-5 leading-relaxed">
+            Pacific Time (PST/PDT) is <strong>3 hours behind</strong> Eastern Time (EST/EDT), Central Time (CST/CDT) is <strong>1 hour behind</strong> Eastern Time, and Mountain Time (MST/MDT) is <strong>2 hours behind</strong> Eastern Time. Use this instant reference table for the most frequently searched business hours:
+          </p>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-xs sm:text-sm text-left border-collapse min-w-[580px]">
+              <thead>
+                <tr className="border-b border-white/10 text-gray-400 bg-[#0A0A14]">
+                  <th className="py-3 px-4 font-bold text-white">Eastern (EST / ET)</th>
+                  <th className="py-3 px-4 font-bold text-[#00D4FF]">Pacific (PST / PT)</th>
+                  <th className="py-3 px-4 font-bold">Central (CST / CT)</th>
+                  <th className="py-3 px-4 font-bold">Mountain (MST / MT)</th>
+                  <th className="py-3 px-4 font-bold">UTC / GMT (Std)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-gray-300 font-mono">
+                {[
+                  ["8:00 AM EST",  "5:00 AM PST",  "7:00 AM CST",  "6:00 AM MST",  "13:00 UTC"],
+                  ["9:00 AM EST",  "6:00 AM PST",  "8:00 AM CST",  "7:00 AM MST",  "14:00 UTC"],
+                  ["10:00 AM EST", "7:00 AM PST",  "9:00 AM CST",  "8:00 AM MST",  "15:00 UTC"],
+                  ["11:00 AM EST", "8:00 AM PST",  "10:00 AM CST", "9:00 AM MST",  "16:00 UTC"],
+                  ["12:00 PM EST", "9:00 AM PST",  "11:00 AM CST", "10:00 AM MST", "17:00 UTC"],
+                  ["1:00 PM EST",  "10:00 AM PST", "12:00 PM CST", "11:00 AM MST", "18:00 UTC"],
+                  ["2:00 PM EST",  "11:00 AM PST", "1:00 PM CST",  "12:00 PM MST", "19:00 UTC"],
+                  ["3:00 PM EST",  "12:00 PM PST", "2:00 PM CST",  "1:00 PM MST",  "20:00 UTC"],
+                  ["4:00 PM EST",  "1:00 PM PST",  "3:00 PM CST",  "2:00 PM MST",  "21:00 UTC"],
+                  ["5:00 PM EST",  "2:00 PM PST",  "4:00 PM CST",  "3:00 PM MST",  "22:00 UTC"],
+                  ["5:30 PM EST",  "2:30 PM PST",  "4:30 PM CST",  "3:30 PM MST",  "22:30 UTC"],
+                  ["6:00 PM EST",  "3:00 PM PST",  "5:00 PM CST",  "4:00 PM MST",  "23:00 UTC"],
+                  ["8:00 PM EST",  "5:00 PM PST",  "7:00 PM CST",  "6:00 PM MST",  "01:00 UTC (+1d)"],
+                ].map(([est, pst, cst, mst, utc]) => (
+                  <tr key={est} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5 px-4 font-bold text-white">{est}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#00D4FF]">{pst}</td>
+                    <td className="py-2.5 px-4">{cst}</td>
+                    <td className="py-2.5 px-4">{mst}</td>
+                    <td className="py-2.5 px-4 text-gray-400">{utc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* ── Technical Deep-Dive & Reference Guide ── */}
         <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">Navigating UTC Offsets, IANA Time Zones & Daylight Saving Time (DST) Shifts</h2>
