@@ -233,11 +233,11 @@ const CATEGORY_EDITORIAL: Record<string, {
     heading: "Cryptographic Password Generation, TLS Inspection & Network Diagnostics",
     paragraphs: [
       "Online security starts with high-entropy credentials and properly configured transport encryption. PursTech's Security Tools give everyday users, system administrators, and web developers instant access to cryptographic password generation, live TLS/SSL certificate grading, and IP network intelligence without requiring command-line utilities like OpenSSL or dig.",
-      "Our Password Generator never uses predictable Math.random() calls; instead, it draws entropy directly from your operating system's CSPRNG via window.crypto.getRandomValues(), calculating real-time bit entropy and estimated brute-force crack times across character sets or memorable multi-word passphrases. Everything happens locally in your browser memory—generated passwords never touch the network.",
+      "Our Password Generator never uses predictable Math.random() calls; instead, it draws entropy directly from your operating system's CSPRNG via window.crypto.getRandomValues(), calculating real-time bit entropy and estimated brute-force resistance times across character sets or memorable multi-word passphrases. Everything happens locally in your browser memory—generated passwords never touch the network.",
       "For server and domain diagnostics, our SSL Certificate Checker performs a live TLS handshake against port 443 to inspect certificate validity windows, key bit-lengths, TLS 1.2/1.3 protocol negotiation, cipher suites, and Subject Alternative Names (grading configurations from A+ to F), while our IP Address Lookup surfaces geolocation, ASN/ISP ownership, timezone, and network metadata."
     ],
     faqs: [
-      { q: "Why is password length more important than complex symbol substitutions?", a: "Each additional character multiplies the total keyspace exponentially. A 16-character random password or 5-word passphrase provides vastly higher bit entropy against modern GPU hash-cracking rigs than a short 8-character password with predictable substitutions like '@' for 'a'." },
+      { q: "Why is password length more important than complex symbol substitutions?", a: "Each additional character multiplies the total keyspace exponentially. A 16-character random password or 5-word passphrase provides vastly higher bit entropy against modern GPU brute-force guessing rigs than a short 8-character password with predictable substitutions like '@' for 'a'." },
       { q: "Are passwords generated on PursTech ever transmitted over the internet?", a: "Never. Password generation runs 100% locally in your browser using window.crypto.getRandomValues()." }
     ],
     blogs: [

@@ -32,9 +32,9 @@ const FAQ = [
   { q: "Is my generated password stored anywhere?",
     a: "No. Everything happens entirely in your browser. No password is ever sent to any server. Your generated passwords are 100% private and leave no trace." },
   { q: "What makes a password strong?",
-    a: "Length is the single biggest factor. A 20-character password with mixed characters is exponentially harder to crack than a 10-character one. We recommend at least 16 characters with uppercase, lowercase, numbers and symbols, giving 80+ bits of entropy." },
+    a: "Length is the single biggest factor. A 20-character password with mixed characters is exponentially harder to guess than a 10-character one. We recommend at least 16 characters with uppercase, lowercase, numbers and symbols, giving 80+ bits of entropy." },
   { q: "What is password entropy?",
-    a: "Entropy measures how unpredictable a password is in bits, calculated as length × log₂(pool size). A 16-character password with all character types has about 100 bits of entropy — effectively uncrackable with current hardware." },
+    a: "Entropy measures how unpredictable a password is in bits, calculated as length × log₂(pool size). A 16-character password with all character types has about 100 bits of entropy — effectively computationally infeasible to break with current hardware." },
   { q: "Should I use a password manager?",
     a: "Yes — always. Use this tool to generate strong passwords, then store them in a password manager like Bitwarden (free, open-source) or 1Password so you never need to remember them. Never reuse passwords across accounts." },
 ];

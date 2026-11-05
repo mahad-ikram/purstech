@@ -666,10 +666,10 @@ export const BLOG_POSTS: Record<string, {
       { name: "Hash Generator",     slug: "hash-generator",     icon: "🔑" },
     ],
     faqs: [
-      { q: "How long should my password be in 2026?", a: "Security experts recommend a minimum of 14 characters for important accounts, with 16 to 20 characters being ideal. Length matters more than complexity — each additional character exponentially increases crack time." },
+      { q: "How long should my password be in 2026?", a: "Security experts recommend a minimum of 14 characters for important accounts, with 16 to 20 characters being ideal. Length matters more than complexity — each additional character exponentially increases brute-force resistance time." },
       { q: "Are password managers actually safe to use?", a: "Yes. Reputable managers like Bitwarden, 1Password and Dashlane use end-to-end encryption — even the host company cannot read your passwords. The risk of one forgotten master password is far smaller than reusing weak passwords everywhere." },
       { q: "Should I change my passwords regularly?", a: "Modern guidance no longer recommends regular changes. Change a password only when you suspect it has been compromised. Forced changes encourage weak, predictable patterns rather than improving security." },
-      { q: "What makes a password like P@ssw0rd123 weak despite using symbols?", a: "Substituting numbers for letters — @ for a, 3 for e — is a pattern attackers explicitly target. These substitutions are built into every major cracking dictionary and provide almost no additional security." },
+      { q: "What makes a password like P@ssw0rd123 weak despite using symbols?", a: "Substituting numbers for letters — @ for a, 3 for e — is a pattern attackers explicitly target. These substitutions are built into every major brute-force dictionary and provide almost no additional security." },
       { q: "Is two-factor authentication worth setting up?", a: "Absolutely — 2FA blocks 99.9 percent of automated account compromise attempts. Even if your password is stolen, attackers cannot log in without your second factor." },
     ],
     content: `
@@ -682,8 +682,8 @@ export const BLOG_POSTS: Record<string, {
 <p>Every additional character multiplies the number of possible combinations by the character pool size. A 16-character lowercase password has 450,000 times more combinations than a 12-character one. No substitution trick comes close to this improvement.</p>
 
 <h2 id="mistakes">Common Password Mistakes</h2>
-<p><strong>Dictionary words:</strong> Cracking tools run through entire dictionaries in seconds — any real word is vulnerable.</p>
-<p><strong>Predictable substitutions:</strong> Replacing "a" with "@" or "e" with "3" is built into every cracking dictionary.</p>
+<p><strong>Dictionary words:</strong> Automated guessing tools run through entire dictionaries in seconds — any real word is vulnerable.</p>
+<p><strong>Predictable substitutions:</strong> Replacing "a" with "@" or "e" with "3" is built into every brute-force dictionary.</p>
 <p><strong>Keyboard patterns:</strong> Sequences like "qwerty" and "asdfgh" are among the very first guesses any tool tries.</p>
 <p><strong>Password reuse:</strong> When one service is breached, attackers immediately try the same credentials on hundreds of other services — called credential stuffing.</p>
 

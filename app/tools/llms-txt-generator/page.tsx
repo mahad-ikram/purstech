@@ -4,7 +4,7 @@ import LlmsTxtGeneratorClient from "./client";
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "Free llms.txt Generator — Make Your Site AI-Ready | PursTech",
+  title: "Free llms.txt Generator — Make Your Site AI-Ready",
   description: "Free llms.txt generator — create a spec-compliant llms.txt file in seconds so AI assistants like ChatGPT, Claude and Perplexity can read and cite your site. No login.",
   alternates: { canonical: "/tools/llms-txt-generator" },
   keywords: [
