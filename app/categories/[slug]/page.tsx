@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-// ─── All 51 live tools ────────────────────────────────────────────────────────
+// ─── All 50+ live tools ────────────────────────────────────────────────────────
 // QA fix: was only 20 tools → SEO/AI/PDF/image categories showed "Coming Soon"
 // Fake "uses" field removed — replaced with "Free" badge on cards
 
@@ -32,7 +32,9 @@ const ALL_TOOLS = [
   { icon:"🎨", name:"Color Picker",               slug:"color-picker",               category:"image",    badge:"",        desc:"Pick any color and get HEX, RGB, HSL, HSV and CMYK codes."                     },
   { icon:"🗜", name:"Image Compressor",           slug:"image-compressor",           category:"image",    badge:"🔥 Hot",  desc:"Compress JPEG, PNG and WebP images without quality loss."                       },
   { icon:"📐", name:"Image Resizer",              slug:"image-resizer",              category:"image",    badge:"",        desc:"Resize images to exact dimensions with 20+ social media presets."               },
-  { icon:"✂️",  name:"Background Remover",         slug:"background-remover",         category:"image",    badge:"🤖 AI",   desc:"Remove image backgrounds automatically using AI in the browser."                },
+  { icon:"✂️",  name:"Background Remover",         slug:"background-remover",         category:"image",    badge:"🤖 AI",   desc:"Remove image backgrounds automatically using 9 ONNX AI models in the browser."   },
+  { icon:"🔍",  name:"AI Image Upscaler (4×)",     slug:"image-upscaler",             category:"image",    badge:"🤖 AI",   desc:"Upscale images 2× to 4× locally using Swin2SR ONNX Super-Resolution."            },
+  { icon:"🎨",  name:"AI Photo Colorizer",         slug:"image-colorizer",            category:"image",    badge:"🤖 AI",   desc:"Restore black and white photos into color locally using DeOldify ONNX AI."       },
   { icon:"🏷",  name:"Favicon Generator",          slug:"favicon-generator",          category:"image",    badge:"",        desc:"Create favicons from image, text or emoji. All 18 sizes."                      },
   { icon:"📷", name:"Image to Text (OCR)",        slug:"image-to-text",              category:"image",    badge:"🔥 Hot",  desc:"Extract text from any image using OCR. 30+ languages supported."                },
   // ── SEO (6) ───────────────────────────────────────────────────────────────
@@ -42,6 +44,7 @@ const ALL_TOOLS = [
   { icon:"📊", name:"Open Graph Generator",       slug:"open-graph-generator",       category:"seo",      badge:"",        desc:"Generate Open Graph tags with live Facebook and LinkedIn previews."              },
   { icon:"🗺",  name:"Sitemap Generator",           slug:"sitemap-generator",          category:"seo",      badge:"",        desc:"Generate XML sitemaps with smart priority and Google Ping."                    },
   { icon:"🧠", name:"llms.txt Generator",          slug:"llms-txt-generator",         category:"seo",      badge:"🆕 New",  desc:"Generate a spec-compliant llms.txt so AI assistants can read and cite your site."           },
+  { icon:"🛡️", name:"AdSense Readiness Checker",   slug:"adsense-checker",            category:"seo",      badge:"🔥 Hot",  desc:"26-point Google AdSense eligibility & Low Value Content audit, ads.txt generator & RPM calculator." },
   // ── Finance (10) ──────────────────────────────────────────────────────────
   { icon:"🎂", name:"Age Calculator",             slug:"age-calculator",             category:"finance",  badge:"",        desc:"Calculate exact age in years, months and days from any date."                   },
   { icon:"⚖️",  name:"BMI Calculator",             slug:"bmi-calculator",             category:"finance",  badge:"",        desc:"Calculate BMI and healthy weight range in metric or imperial."                  },
@@ -233,11 +236,11 @@ const CATEGORY_EDITORIAL: Record<string, {
     heading: "Cryptographic Password Generation, TLS Inspection & Network Diagnostics",
     paragraphs: [
       "Online security starts with high-entropy credentials and properly configured transport encryption. PursTech's Security Tools give everyday users, system administrators, and web developers instant access to cryptographic password generation, live TLS/SSL certificate grading, and IP network intelligence without requiring command-line utilities like OpenSSL or dig.",
-      "Our Password Generator never uses predictable Math.random() calls; instead, it draws entropy directly from your operating system's CSPRNG via window.crypto.getRandomValues(), calculating real-time bit entropy and estimated brute-force crack times across character sets or memorable multi-word passphrases. Everything happens locally in your browser memory—generated passwords never touch the network.",
+      "Our Password Generator never uses predictable Math.random() calls; instead, it draws entropy directly from your operating system's CSPRNG via window.crypto.getRandomValues(), calculating real-time bit entropy and estimated brute-force resistance times across character sets or memorable multi-word passphrases. Everything happens locally in your browser memory—generated passwords never touch the network.",
       "For server and domain diagnostics, our SSL Certificate Checker performs a live TLS handshake against port 443 to inspect certificate validity windows, key bit-lengths, TLS 1.2/1.3 protocol negotiation, cipher suites, and Subject Alternative Names (grading configurations from A+ to F), while our IP Address Lookup surfaces geolocation, ASN/ISP ownership, timezone, and network metadata."
     ],
     faqs: [
-      { q: "Why is password length more important than complex symbol substitutions?", a: "Each additional character multiplies the total keyspace exponentially. A 16-character random password or 5-word passphrase provides vastly higher bit entropy against modern GPU hash-cracking rigs than a short 8-character password with predictable substitutions like '@' for 'a'." },
+      { q: "Why is password length more important than complex symbol substitutions?", a: "Each additional character multiplies the total keyspace exponentially. A 16-character random password or 5-word passphrase provides vastly higher bit entropy against modern GPU brute-force guessing rigs than a short 8-character password with predictable substitutions like '@' for 'a'." },
       { q: "Are passwords generated on PursTech ever transmitted over the internet?", a: "Never. Password generation runs 100% locally in your browser using window.crypto.getRandomValues()." }
     ],
     blogs: [
@@ -378,18 +381,18 @@ export default async function CategoryPage(
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       {/* ── Navbar — fixed: added /contact and /pro ── */}
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
             Purs<span className="text-[#6C3AFF]">Tech</span>
           </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
-            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
-            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
-            <Link href="/pro"
-              className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
-              Go Pro ⚡
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
             </Link>
           </div>
         </div>
@@ -560,16 +563,27 @@ export default async function CategoryPage(
       </main>
 
       {/* ── Footer — fixed: added Privacy Policy + Terms + Contact ── */}
-      <footer className="border-t border-white/5 mt-20 py-8 text-center">
-        <Link href="/" className="text-xl font-black">
-          Purs<span className="text-[#6C3AFF]">Tech</span>
-        </Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. Free online tools for everyone.</p>
       </footer>
     </div>
   );

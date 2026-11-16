@@ -267,7 +267,7 @@ export default function AdminDashboard() {
               <StatCard icon="📆" label="This Month"         color="text-green-400"
                 value={fmt(data?.monthUses ?? 0)} sub="calendar month" />
               <StatCard icon="♾️"  label="All-Time Uses"     color="text-yellow-400"
-                value={fmt(data?.totalUses ?? 0)} sub="across all 50 tools" />
+                value={fmt(data?.totalUses ?? 0)} sub="across all 50+ tools" />
             </>
         }
       </div>
@@ -403,7 +403,7 @@ export default function AdminDashboard() {
           <div className="text-xs text-gray-700 mt-0.5">$0 MRR · Phase 4</div>
         </div>
         <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5 text-center">
-          <div className="text-2xl font-extrabold text-cyan-400">50</div>
+          <div className="text-2xl font-extrabold text-cyan-400">50+</div>
           <div className="text-xs text-gray-500 mt-1">Live Tools</div>
           <div className="text-xs text-gray-700 mt-0.5">8 categories</div>
         </div>

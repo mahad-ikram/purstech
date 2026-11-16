@@ -23,7 +23,7 @@ const SEO_CHECKS = [
   // ── High priority ──────────────────────────────────────────────────────
   { label:"Sitemap submitted to Google Search Console",   done:true,  priority:"high",   link:null },
   { label:"Domain property verified (TXT @ Vercel DNS)",  done:true,  priority:"high",   link:"https://search.google.com/search-console" },
-  { label:"All 50 tools have meta titles + descriptions", done:true,  priority:"high",   link:null },
+  { label:"All 50+ tools have meta titles + descriptions", done:true,  priority:"high",   link:null },
   { label:"SSL active (www.purstech.com)",                done:true,  priority:"high",   link:null },
   { label:"Canonical tags correct on all pages",          done:true,  priority:"high",   link:null },
   { label:"301: purstech.com → www.purstech.com",         done:true,  priority:"high",   link:null },

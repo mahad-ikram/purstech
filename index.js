@@ -14,7 +14,6 @@ const urlsToSubmit = [
   "https://www.purstech.com/blog",
   "https://www.purstech.com/about",
   "https://www.purstech.com/contact",
-  "https://www.purstech.com/pro",
   "https://www.purstech.com/privacy",
   "https://www.purstech.com/terms",
 
@@ -40,6 +39,10 @@ const urlsToSubmit = [
   "https://www.purstech.com/tools/readability-checker",
   "https://www.purstech.com/tools/svg-editor",
   "https://www.purstech.com/tools/llms-txt-generator",
+  "https://www.purstech.com/tools/adsense-checker",
+  "https://www.purstech.com/tools/synthid-remover",
+  "https://www.purstech.com/tools/image-upscaler",
+  "https://www.purstech.com/tools/image-colorizer",
 
   // Established Tools (Batches 3-7)
   "https://www.purstech.com/tools/word-counter",
@@ -103,7 +106,11 @@ const urlsToSubmit = [
   "https://www.purstech.com/blog/tinypng-alternatives",
   "https://www.purstech.com/blog/best-free-word-counter-tools",
   "https://www.purstech.com/blog/best-free-pdf-mergers",
-  "https://www.purstech.com/blog/best-free-background-removers"
+  "https://www.purstech.com/blog/best-free-background-removers",
+  "https://www.purstech.com/blog/best-free-synthid-and-c2pa-removers",
+  "https://www.purstech.com/blog/how-to-fix-google-adsense-low-value-content",
+  "https://www.purstech.com/blog/best-free-ai-image-upscalers",
+  "https://www.purstech.com/blog/best-free-ai-photo-colorizers"
 ];
 
 async function submitToGoogle() {

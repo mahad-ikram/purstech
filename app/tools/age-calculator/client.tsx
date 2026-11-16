@@ -74,25 +74,27 @@ export default function AgeCalculatorClient() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden w-full">
 
       {/* ── Navbar — fixed: sticky + backdrop ── */}
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
             Purs<span className="text-[#6C3AFF]">Tech</span>
           </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
-            <Link href="/pro"
-              className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">
-              Go Pro ⚡
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
             </Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 py-10">
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full min-w-0">
 
         {/* ── Breadcrumb — aria-label added ── */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
@@ -287,8 +289,51 @@ export default function AgeCalculatorClient() {
           </div>
         </section>
       
+        
+        {/* ── Age by Birth Year Quick Reference Table (Featured Snippet Ready) ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6 overflow-hidden min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">Age by Year of Birth Reference Chart (2026)</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mb-5 leading-relaxed">
+            Need a quick lookup by birth year before entering your exact day and month of birth above? This chart shows the exact age reached on your birthday in 2026 alongside common legal and retirement milestones:
+          </p>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-xs sm:text-sm text-left border-collapse min-w-[520px]">
+              <thead>
+                <tr className="border-b border-white/10 text-gray-400 bg-[#0A0A14]">
+                  <th className="py-3 px-4 font-bold text-white">Birth Year (DOB)</th>
+                  <th className="py-3 px-4 font-bold text-[#6C3AFF]">Age in 2026 (After Birthday)</th>
+                  <th className="py-3 px-4 font-bold">Age Before Birthday</th>
+                  <th className="py-3 px-4 font-bold">Milestone / Generation</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-gray-300">
+                {[
+                  ["1961", "65 years old", "64 years old", "Medicare / Standard Retirement Milestone"],
+                  ["1966", "60 years old", "59 years old", "Generation X"],
+                  ["1976", "50 years old", "49 years old", "Catch-up Retirement Contribution Milestone"],
+                  ["1986", "40 years old", "39 years old", "Millennial (Gen Y)"],
+                  ["1991", "35 years old", "34 years old", "Millennial (Gen Y)"],
+                  ["1996", "30 years old", "29 years old", "Millennial / Gen Z Cusp"],
+                  ["2001", "25 years old", "24 years old", "Generation Z (Car Rental / Insurance Tier)"],
+                  ["2005", "21 years old", "20 years old", "Generation Z (US Legal Adult Milestone)"],
+                  ["2008", "18 years old", "17 years old", "Voting & Legal Majority Milestone"],
+                  ["2010", "16 years old", "15 years old", "Driver's License Eligibility Milestone"],
+                  ["2020", "6 years old",  "5 years old",  "Elementary School Entry (Gen Alpha)"],
+                ].map(([yr, after, before, note]) => (
+                  <tr key={yr} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5 px-4 font-mono font-bold text-white">{yr}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#00D4FF]">{after}</td>
+                    <td className="py-2.5 px-4">{before}</td>
+                    <td className="py-2.5 px-4 text-gray-400">{note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* ── Technical Deep-Dive & Reference Guide ── */}
-        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+        <section className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">How Chronological Age Calculation Handles Leap Years & Calendar Boundaries</h2>
           <div className="space-y-3">
             <p className="text-gray-400 text-sm leading-relaxed">Calculating chronological age between two calendar dates appears straightforward at first glance, yet calendar arithmetic involves irregular month lengths (28, 29, 30, or 31 days) and the Gregorian leap-year cycle. Under the Gregorian calendar rules established in 1582, a year is a leap year if it is divisible by 4, except for end-of-century years (divisible by 100), which must also be divisible by 400 (meaning 2000 was a leap year, while 1900 was not). PursTech's Age Calculator computes exact calendar intervals by evaluating year, month, and day boundaries sequentially rather than dividing total elapsed days by an approximate 365.2425-day average.</p>
@@ -298,7 +343,7 @@ export default function AgeCalculatorClient() {
         </section>
 
         {/* ── Related PursTech Blog Guides ── */}
-        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+        <section className="mt-10 min-w-0 w-full">
           <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
             <Link key="bmi-calculator-guide-what-your-score-means" href="/blog/bmi-calculator-guide-what-your-score-means" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
@@ -317,20 +362,46 @@ export default function AgeCalculatorClient() {
             </Link>
           </div>
         </section>
+
+        {/* Editorial E-E-A-T & Verification Attribution */}
+        <div className="mt-10 bg-[#13131F]/80 border border-white/5 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 border border-[#6C3AFF]/40 flex items-center justify-center text-[#00D4FF] font-bold flex-shrink-0">MI</span>
+            <div>
+              <span className="text-white font-semibold">Engineered &amp; Verified by <Link href="/about" className="text-[#00D4FF] hover:underline">Mahad Ikram</Link></span>
+              <span className="block text-[11px] text-gray-500">Founder &amp; Lead Developer at PursTech · 100% Client-Side Browser Execution Verified (Nov 2026)</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-gray-500 flex-shrink-0">
+            <Link href="/about" className="hover:text-white transition-colors">Editorial Standards</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Architecture</Link>
+          </div>
+        </div>
       </main>
 
       {/* ── Footer — fixed: added Privacy + Terms + Contact ── */}
-      <footer className="border-t border-white/5 mt-20 py-8 text-center">
-        <Link href="/" className="text-xl font-black">
-          Purs<span className="text-[#6C3AFF]">Tech</span>
-        </Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        {/* ✅ Fixed: was © 2025 */}
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. Free online tools for everyone.</p>
       </footer>
     </div>
   );

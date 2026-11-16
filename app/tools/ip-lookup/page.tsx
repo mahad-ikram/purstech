@@ -5,14 +5,14 @@ import IPLookupClient from "./client";
 
 export const metadata: Metadata = {
   // Renders: "Free IP Address Lookup — Location, ISP & Risk | PursTech" (56 chars ✅)
-  title: "Free IP Address Lookup — What Is My IP, Location & ISP",
+  title: "IP Address Lookup & IP Checker — Location, ISP & Risk Score",
 
   description:
-    "Free advanced IP lookup. Get country, ISP classification, VPN/proxy risk score, reverse DNS hostname, live timezone clock and side-by-side comparison.",
+    "Instant IP address lookup, IP checker & ISP number lookup. Check any IPv4/IPv6 location, ASN, reverse DNS, VPN/proxy IP risk score & side-by-side comparison.",
 
   alternates: { canonical: "/tools/ip-lookup" },
 
-  keywords: ["ip address lookup","ip lookup","what is my ip","what is an ip address","ip address search","ip location","how to find my ip address","reverse dns lookup","ip checker"],
+  keywords: ["ip address lookup","ip checker","ip address check","isp number lookup","isp look up","ipscore","ip to address lookup","lookup an ip address","what is my ip","reverse dns lookup"],
 
   openGraph: {
     type:     "website",

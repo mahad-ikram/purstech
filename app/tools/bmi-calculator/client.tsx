@@ -82,25 +82,27 @@ export default function BMIClient() {
   const bmiPct = result ? Math.min(98, Math.max(2, ((result.bmi - 10) / 40) * 100)) : 0;
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden w-full">
 
       {/* ✅ QA FIX: Consistent Full Navbar */}
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="hidden sm:flex items-center gap-4">
-            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
-            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
-            <Link href="/about"   className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
-            <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
+            </Link>
           </div>
-          {/* Mobile Fallback */}
-          <Link href="/" className="sm:hidden text-sm text-gray-500 hover:text-white transition-colors">← Home</Link>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow">
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full min-w-0">
 
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
@@ -388,7 +390,7 @@ export default function BMIClient() {
 
       
         {/* ── Technical Deep-Dive & Reference Guide ── */}
-        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+        <section className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">The Mathematics & Clinical Context of Body Mass Index (BMI)</h2>
           <div className="space-y-3">
             <p className="text-gray-400 text-sm leading-relaxed">Body Mass Index (BMI), originally formulated by Belgian mathematician Adolphe Quetelet in the 1830s as the 'Quetelet Index', is a standardized ratio of weight to height squared. In metric units, BMI is calculated as weight in kilograms divided by height in meters squared (kg/m²); in imperial units, it is computed as 703 × weight in pounds divided by height in inches squared. The World Health Organization (WHO) defines four primary adult reference categories: Underweight (&lt; 18.5), Normal weight (18.5–24.9), Overweight (25.0–29.9), and Obese (≥ 30.0).</p>
@@ -398,7 +400,7 @@ export default function BMIClient() {
         </section>
 
         {/* ── Related PursTech Blog Guides ── */}
-        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+        <section className="mt-10 min-w-0 w-full">
           <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
             <Link key="bmi-calculator-guide-what-your-score-means" href="/blog/bmi-calculator-guide-what-your-score-means" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
@@ -417,18 +419,46 @@ export default function BMIClient() {
             </Link>
           </div>
         </section>
+
+        {/* Editorial E-E-A-T & Verification Attribution */}
+        <div className="mt-10 bg-[#13131F]/80 border border-white/5 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 border border-[#6C3AFF]/40 flex items-center justify-center text-[#00D4FF] font-bold flex-shrink-0">MI</span>
+            <div>
+              <span className="text-white font-semibold">Engineered &amp; Verified by <Link href="/about" className="text-[#00D4FF] hover:underline">Mahad Ikram</Link></span>
+              <span className="block text-[11px] text-gray-500">Founder &amp; Lead Developer at PursTech · 100% Client-Side Browser Execution Verified (Nov 2026)</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-gray-500 flex-shrink-0">
+            <Link href="/about" className="hover:text-white transition-colors">Editorial Standards</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Architecture</Link>
+          </div>
+        </div>
       </main>
 
       {/* ✅ QA FIX: Consistent Full Footer */}
-      <footer className="border-t border-white/5 mt-auto py-8 text-center bg-[#0A0A14]">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );

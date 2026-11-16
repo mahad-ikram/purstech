@@ -76,6 +76,16 @@ const nextConfig: NextConfig = {
         permanent:   true,
       },
       {
+        source:      "/word-counter",
+        destination: "/tools/word-counter",
+        permanent:   true,
+      },
+      {
+        source:      "/word-to-pdf",
+        destination: "/tools/word-to-pdf",
+        permanent:   true,
+      },
+      {
         source:      "/tools/plagiarism-checker",
         destination: "/tools/grammar-checker",  // closest live cousin
         permanent:   true,

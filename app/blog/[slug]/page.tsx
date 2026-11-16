@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { BLOG_POSTS } from "../data";
 import { ReadingProgress, TableOfContents } from "./ClientComponents";
+import GooglePreferredBadge from "@/components/GooglePreferredBadge";
 
 // ─── Author (single source of truth) ───────────────────────────────────────────
 // To change the bylined author later, edit these two lines only.
@@ -145,14 +146,19 @@ export default async function BlogPostPage(
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema)        }} />
 
       {/* ✅ BOTH FIXES: Added Contact and Go Pro links */}
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
-            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
-            <Link href="/contact" className="hidden sm:block text-sm text-gray-500 hover:text-white transition-colors">Contact</Link>
-            <Link href="/pro"     className="hidden sm:block px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="text-sm text-white font-semibold transition-colors">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/tools" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              50+ Free Tools ⚡
+            </Link>
           </div>
         </div>
       </nav>
@@ -181,22 +187,26 @@ export default async function BlogPostPage(
               <p className="text-gray-400 text-lg leading-relaxed mb-6" itemProp="description">
                 {post.excerpt}
               </p>
-              <div className="flex items-center gap-4 pb-6 border-b border-white/5">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold flex-shrink-0">{AUTHOR_INITIALS}</div>
-                <div itemProp="author" itemScope itemType="https://schema.org/Person">
-                  <Link href="/about" className="text-sm font-semibold text-white hover:text-[#6C3AFF] transition-colors" itemProp="url">
-                    <span itemProp="name">{AUTHOR.name}</span>
-                  </Link>
-                  <div className="text-xs text-gray-500 flex items-center gap-2 flex-wrap">
-                    <span>Published&nbsp;<time dateTime={post.publishedISO} itemProp="datePublished">{post.publishedAt}</time></span>
-                    <span>·</span>
-                    <span>Updated&nbsp;<time dateTime={post.updatedISO} itemProp="dateModified">{post.updatedAt}</time></span>
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/5">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6C3AFF] to-[#00D4FF] flex items-center justify-center text-white font-extrabold flex-shrink-0">{AUTHOR_INITIALS}</div>
+                  <div itemProp="author" itemScope itemType="https://schema.org/Person">
+                    <Link href="/about" className="text-sm font-semibold text-white hover:text-[#6C3AFF] transition-colors" itemProp="url">
+                      <span itemProp="name">{AUTHOR.name}</span>
+                    </Link>
+                    <div className="text-xs text-gray-500 flex items-center gap-2 flex-wrap">
+                      <span>Published&nbsp;<time dateTime={post.publishedISO} itemProp="datePublished">{post.publishedAt}</time></span>
+                      <span>·</span>
+                      <span>Updated&nbsp;<time dateTime={post.updatedISO} itemProp="dateModified">{post.updatedAt}</time></span>
+                    </div>
                   </div>
                 </div>
+                <GooglePreferredBadge variant="inline" />
               </div>
             </header>
 
             <div className="block lg:hidden">
+              <GooglePreferredBadge variant="card" />
               {toc.length > 2 && <TableOfContents items={toc} />}
             </div>
 
@@ -280,6 +290,7 @@ export default async function BlogPostPage(
 
           <aside className="hidden lg:block lg:col-span-1">
             <div className="sticky top-24 flex flex-col gap-5">
+              <GooglePreferredBadge variant="card" />
               {toc.length > 2 && <TableOfContents items={toc} />}
               <div className="bg-[#13131F] border border-white/5 rounded-2xl p-5">
                 <h3 className="text-xs font-bold text-gray-500 mb-3 uppercase tracking-wider">Article Info</h3>
@@ -294,7 +305,7 @@ export default async function BlogPostPage(
               </div>
               <div className="bg-gradient-to-br from-[#6C3AFF]/20 to-[#00D4FF]/10 border border-[#6C3AFF]/20 rounded-2xl p-5 text-center">
                 <div className="text-2xl mb-2">⚡</div>
-                <h3 className="font-bold text-white text-sm mb-1">50 Free Tools</h3>
+                <h3 className="font-bold text-white text-sm mb-1">50+ Free Tools</h3>
                 <p className="text-gray-500 text-xs mb-4">No login. No limits. Instant results.</p>
                 <Link href="/tools" className="block w-full py-2.5 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all text-center">
                   Browse Tools →
@@ -305,15 +316,27 @@ export default async function BlogPostPage(
         </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-20 py-8 text-center bg-[#0A0A14]">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms</Link>
-          <Link href="/about"   className="hover:text-gray-400 transition-colors">About Us</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );

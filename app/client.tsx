@@ -30,7 +30,10 @@ const ALL_TOOLS = [
   { icon:"🎨", name:"Color Picker",               slug:"color-picker",              category:"image",    badge:""        },
   { icon:"🗜️", name:"Image Compressor",           slug:"image-compressor",          category:"image",    badge:""        },
   { icon:"📐", name:"Image Resizer",              slug:"image-resizer",             category:"image",    badge:""        },
-  { icon:"✂️", name:"Background Remover",         slug:"background-remover",        category:"image",    badge:""        },
+  { icon:"✂️", name:"Background Remover",         slug:"background-remover",        category:"image",    badge:"9 Models" },
+  { icon:"🔍", name:"AI Image Upscaler (4×)",     slug:"image-upscaler",            category:"image",    badge:"🆕 New"   },
+  { icon:"🎨", name:"AI Photo Colorizer",         slug:"image-colorizer",           category:"image",    badge:"🆕 New"   },
+  { icon:"🛡️", name:"SynthID & C2PA Remover",     slug:"synthid-remover",           category:"image",    badge:"🆕 New"   },
   { icon:"🏷",  name:"Favicon Generator",          slug:"favicon-generator",         category:"image",    badge:""        },
   { icon:"📷", name:"Image to Text (OCR)",        slug:"image-to-text",             category:"image",    badge:"🔥 Hot"  },
   // SEO (6)
@@ -40,6 +43,7 @@ const ALL_TOOLS = [
   { icon:"📊", name:"Open Graph Generator",       slug:"open-graph-generator",      category:"seo",      badge:""        },
   { icon:"🗺",  name:"Sitemap Generator",           slug:"sitemap-generator",         category:"seo",      badge:""        },
   { icon:"🧠", name:"llms.txt Generator",         slug:"llms-txt-generator",        category:"seo",      badge:"🆕 New"  },
+  { icon:"🛡️", name:"AdSense Readiness Checker",  slug:"adsense-checker",           category:"seo",      badge:"🆕 New"  },
   // Finance (10)
   { icon:"🎂", name:"Age Calculator",             slug:"age-calculator",            category:"finance",  badge:""        },
   { icon:"⚖️", name:"BMI Calculator",              slug:"bmi-calculator",            category:"finance",  badge:""        },
@@ -98,7 +102,7 @@ const NAV_LINKS = [
   { href:"/categories/finance",  label:"Finance"   },
   { href:"/categories/security", label:"Security"  },
   { href:"/categories/ai",       label:"AI"        },
-  { href:"/tools",              label:"All 51 Tools", highlight: true },
+  { href:"/tools",              label:"All 50+ Tools", highlight: true },
   { href:"/blog",               label:"Blog"      },
   { href:"/about",              label:"About"     },
   { href:"/contact",            label:"Contact"   },
@@ -150,18 +154,18 @@ function Navbar() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
             <span className="text-2xl font-black text-white tracking-tight">Purs<span className="text-[#6C3AFF]">Tech</span></span>
-            <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30 flex-shrink-0">51 Tools</span>
+            <span className="text-[10px] bg-[#6C3AFF]/20 text-[#6C3AFF] px-2 py-0.5 rounded-full font-bold border border-[#6C3AFF]/30 flex-shrink-0">50+ Tools</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-5 text-sm text-gray-400 font-medium">
             {NAV_LINKS.filter(l => !l.highlight).map(l => (
               <Link key={l.href} href={l.href} className="hover:text-white transition-colors">{l.label}</Link>
             ))}
-            <Link href="/tools" className="text-[#6C3AFF] hover:text-white transition-colors font-bold flex-shrink-0">All 51 Tools</Link>
+            <Link href="/tools" className="text-[#6C3AFF] hover:text-white transition-colors font-bold flex-shrink-0">All 50+ Tools</Link>
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/pro" className="hidden md:block px-4 py-2 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-violet-900/30 flex-shrink-0">Go Pro ⚡</Link>
+            <Link href="/blog" className="hidden md:block px-4 py-2 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-violet-900/30 flex-shrink-0">Guides 📖</Link>
 
             <button onClick={() => setMobileOpen(p => !p)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}
@@ -191,7 +195,7 @@ function Navbar() {
 
             <div className="space-y-1 mb-5 min-w-0 w-full">
               {[
-                { href:"/tools",   label:"🔧  Browse All 51 Tools",  special: true  },
+                { href:"/tools",   label:"🔧  Browse All 50+ Tools",  special: true  },
                 { href:"/blog",    label:"📖  Blog"                                  },
                 { href:"/about",   label:"ℹ️   About PursTech"                       },
                 { href:"/contact", label:"✉️   Contact"                              },
@@ -248,7 +252,7 @@ function HeroSection() {
       <div className="mb-6 mx-auto max-w-[calc(100vw-2rem)] flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-[#13131F] border border-[#6C3AFF]/30 rounded-2xl sm:rounded-full px-4 sm:px-5 py-2 text-[11px] sm:text-sm">
         <span className="flex items-center gap-2 flex-shrink-0">
           <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
-          <span className="text-white font-bold">51 free tools</span>
+          <span className="text-white font-bold">50+ free tools</span>
         </span>
         <span className="text-gray-600" aria-hidden="true">·</span>
         <span className="text-gray-400">8 categories</span>
@@ -262,7 +266,7 @@ function HeroSection() {
       </h1>
 
       <p className="mt-6 text-lg md:text-xl text-gray-400 text-center max-w-2xl leading-relaxed px-4 w-full">
-        <span className="text-white font-semibold">51 free tools</span> across 8 categories —
+        <span className="text-white font-semibold">50+ free tools</span> across 8 categories —
         text, image, dev, SEO, PDF, finance, security and AI. No login. No limits.
       </p>
 
@@ -273,7 +277,7 @@ function HeroSection() {
           </svg>
           <input value={query} onChange={e => handleSearch(e.target.value)}
             onBlur={() => setTimeout(() => setShowResults(false), 150)}
-            placeholder="Search 51 tools — grammar checker, pdf compressor…"
+            placeholder="Search 50+ tools — grammar checker, pdf compressor…"
             className="flex-1 min-w-0 bg-transparent text-white placeholder-gray-600 focus:outline-none text-sm truncate" />
           {query && (
             <button onClick={() => { setQuery(""); setShowResults(false); }} className="text-gray-600 hover:text-white flex-shrink-0">✕</button>
@@ -308,7 +312,7 @@ function HeroSection() {
 
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center min-w-0 w-full px-4">
         {[
-          { value:"51",   label:"Free Tools",   sub:"across 8 categories" },
+          { value:"50+",   label:"Free Tools",   sub:"across 8 categories" },
           { value:"100%", label:"Free Forever", sub:"no sign-up required" },
           { value:"∞",    label:"No Limits",    sub:"unlimited daily use"  },
         ].map(s => (
@@ -345,7 +349,7 @@ function TrendingBar() {
           }}
         >
           {/* Each tool name is a real <Link> (was an unclickable span) — this
-              gives all 51 tools a homepage internal link, the documented fix for
+              gives all 50+ tools a homepage internal link, the documented fix for
               "Discovered – currently not indexed". (6 Jul 2026)
 
               Two equal-width groups. Each carries its own internal gap AND a
@@ -386,7 +390,7 @@ function CategoryGrid() {
   return (
     <section className="max-w-7xl mx-auto px-4 py-16 min-w-0 w-full">
       <div className="text-center mb-10 min-w-0 w-full">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">8 Categories. 51 Tools. All Free.</h2>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">8 Categories. 50+ Tools. All Free.</h2>
         <p className="text-gray-500 max-w-xl mx-auto leading-relaxed px-4">Every tool is completely free — no account, no daily limits, no watermarks.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 min-w-0 w-full">
@@ -417,7 +421,7 @@ function FeaturedTools() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 min-w-0 w-full">
         <div className="min-w-0">
           <h2 className="text-2xl md:text-3xl font-extrabold text-white truncate">Most Used Tools</h2>
-          <p className="text-gray-500 text-sm mt-1 truncate">Handpicked from 51 tools across all categories</p>
+          <p className="text-gray-500 text-sm mt-1 truncate">Handpicked from 50+ tools across all categories</p>
         </div>
         <div className="flex overflow-x-auto sm:flex-wrap gap-2 pb-2 sm:pb-0 scrollbar-hide min-w-0 w-full sm:w-auto">
           {cats.map(c => (
@@ -449,7 +453,7 @@ function FeaturedTools() {
       </div>
       <div className="text-center mt-8 min-w-0 w-full">
         <Link href="/tools" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#13131F] border border-[#6C3AFF]/30 hover:border-[#6C3AFF]/60 text-white font-bold transition-all hover:-translate-y-0.5 max-w-full truncate">
-          Browse all 51 tools →
+          Browse all 50+ tools →
         </Link>
       </div>
     </section>
@@ -561,7 +565,7 @@ function SEOSection() {
       <div className="bg-[#13131F] border border-white/5 rounded-3xl p-8 md:p-10 min-w-0 w-full">
         <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">What is PursTech?</h2>
         <p className="text-gray-400 leading-relaxed mb-6 w-full">
-          PursTech is a free online tool platform offering <strong className="text-white">51 browser-based tools</strong> across
+          PursTech is a free online tool platform offering <strong className="text-white">50+ browser-based tools</strong> across
           8 categories — no account required, no daily limits, no pop-ups, and no intrusive ads. Every tool runs entirely in your browser, meaning your
           files and data never leave your device.
         </p>
@@ -670,10 +674,12 @@ function Footer() {
       { name:"Image Compressor",       href:"/tools/image-compressor"       },
       { name:"Image Resizer",          href:"/tools/image-resizer"          },
       { name:"Image to Text (OCR)",    href:"/tools/image-to-text"          },
+      { name:"SynthID & C2PA Remover", href:"/tools/synthid-remover"        },
       { name:"Favicon Generator",      href:"/tools/favicon-generator"      },
       { name:"Meta Tag Generator",     href:"/tools/meta-tag-generator"     },
       { name:"Sitemap Generator",      href:"/tools/sitemap-generator"      },
       { name:"llms.txt Generator",     href:"/tools/llms-txt-generator"     },
+      { name:"AdSense Checker",        href:"/tools/adsense-checker"        },
     ],
     "PDF & Finance": [
       { name:"PDF Compressor",         href:"/tools/pdf-compressor"         },
@@ -692,7 +698,7 @@ function Footer() {
     ],
     "PursTech": [
       { name:"About Us",    href:"/about"    },
-      { name:"All 51 Tools",href:"/tools"    },
+      { name:"All 50+ Tools",href:"/tools"    },
       { name:"Blog",        href:"/blog"     },
       { name:"Go Pro ⚡",   href:"/pro"      },
       { name:"Contact",     href:"/contact"  },
@@ -730,12 +736,34 @@ function Footer() {
           ))}
         </div>
 
+        <div className="border-t border-white/5 pt-6 mb-8 min-w-0 w-full">
+          <details className="group">
+            <summary className="cursor-pointer text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-300 flex items-center justify-between">
+              <span>🗺️ Complete PursTech 50+ Free Tool &amp; Guide Index (Direct Crawl Links)</span>
+              <span className="text-[#6C3AFF] transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 text-[11px]">
+              {ALL_TOOLS.map(t => (
+                <Link key={t.slug} href={`/tools/${t.slug}`} className="text-gray-500 hover:text-white truncate">
+                  {t.name}
+                </Link>
+              ))}
+              <Link href="/blog/best-free-synthid-and-c2pa-removers" className="text-[#00D4FF] hover:text-white truncate">Best SynthID Removers</Link>
+              <Link href="/blog/how-to-fix-google-adsense-low-value-content" className="text-[#00D4FF] hover:text-white truncate">Fix AdSense Low Value</Link>
+              <Link href="/blog/best-free-ai-image-upscalers" className="text-[#00D4FF] hover:text-white truncate">Best 4× AI Upscalers</Link>
+              <Link href="/blog/best-free-ai-photo-colorizers" className="text-[#00D4FF] hover:text-white truncate">Best AI Photo Colorizers</Link>
+              <Link href="/blog/best-free-background-removers" className="text-[#00D4FF] hover:text-white truncate">Best Background Removers</Link>
+              <Link href="/blog/best-free-word-counter-tools" className="text-[#00D4FF] hover:text-white truncate">Best Word Counters</Link>
+            </div>
+          </details>
+        </div>
+
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 min-w-0 w-full">
           <div className="flex items-center gap-3 min-w-0 w-full sm:w-auto justify-center sm:justify-start">
             <span className="text-xl font-black text-white flex-shrink-0">Purs<span className="text-[#6C3AFF]">Tech</span></span>
             <span className="text-gray-600 text-xs truncate">— Stop Searching. Start Doing.</span>
           </div>
-          <div className="text-xs text-gray-600 text-center truncate pr-2">51 free tools · 8 categories · 0 sign-ups required</div>
+          <div className="text-xs text-gray-600 text-center truncate pr-2">50+ free tools · 8 categories · 0 sign-ups required</div>
           <div className="flex gap-5 text-xs text-gray-600 min-w-0 flex-shrink-0 justify-center">
             <Link href="/privacy"     className="hover:text-gray-400 transition-colors">Privacy</Link>
             <Link href="/terms"       className="hover:text-gray-400 transition-colors">Terms</Link>
@@ -753,17 +781,17 @@ function Footer() {
 
 const FAQ_ITEMS = [
   { q:"Is PursTech really free?",
-    a:"Yes, all 51 tools on PursTech are 100% free with no hidden costs. You can use every tool as many times as you want — no subscription, no trial period, no credit card required. PursTech is supported by non-intrusive advertising, which lets us keep all tools permanently free." },
+    a:"Yes, all 50+ tools on PursTech are 100% free with no hidden costs. You can use every tool as many times as you want — no subscription, no trial period, no credit card required. PursTech is supported by non-intrusive advertising, which lets us keep all tools permanently free." },
   { q:"Do I need to create an account or log in?",
     a:"No. PursTech requires zero registration. Every tool works immediately without creating an account, providing an email address, or logging in. Just open the tool and start using it — no sign-up, no verification, no waiting." },
   { q:"Are my files and data kept private?",
     a:"Yes. All PursTech tools run entirely in your browser. Files are processed locally on your device and never uploaded to any server. We have no access to your files, documents, or the content you use in the tools. Everything stays on your device." },
   { q:"What tools does PursTech offer?",
-    a:"PursTech offers 51 free tools across 8 categories: Text Tools (word counter, case converter, lorem ipsum, diff checker), Developer Tools (JSON formatter, regex tester, base64 encoder, SVG editor, QR code generator), Image Tools (image compressor, background remover, image resizer, OCR), SEO Tools (meta tag generator, robots.txt generator, sitemap generator), PDF Tools (compress, merge, split, convert), Finance Tools (loan, mortgage, currency converters), Security Tools (password generator, SSL checker, IP lookup), and AI Tools (grammar checker, readability checker)." },
+    a:"PursTech offers 50+ free tools across 8 categories: Text Tools (word counter, case converter, lorem ipsum, diff checker), Developer Tools (JSON formatter, regex tester, base64 encoder, SVG editor, QR code generator), Image Tools (image compressor, background remover, image resizer, OCR), SEO Tools (meta tag generator, robots.txt generator, sitemap generator), PDF Tools (compress, merge, split, convert), Finance Tools (loan, mortgage, currency converters), Security Tools (password generator, SSL checker, IP lookup), and AI Tools (grammar checker, readability checker)." },
   { q:"Do the tools work on mobile phones?",
-    a:"Yes. All PursTech tools are fully mobile-responsive and work on smartphones and tablets. You can compress images, format JSON, check grammar, and use all 51 tools directly from your phone's browser without downloading any app." },
+    a:"Yes. All PursTech tools are fully mobile-responsive and work on smartphones and tablets. You can compress images, format JSON, check grammar, and use all 50+ tools directly from your phone's browser without downloading any app." },
   { q:"Is there a usage limit?",
-    a:"No usage limits for free users. All 51 tools are unlimited. A Pro plan is coming soon for power users needing batch processing and API access, but all core tools will always remain completely free for everyone." },
+    a:"No usage limits for free users. All 50+ tools are unlimited. A Pro plan is coming soon for power users needing batch processing and API access, but all core tools will always remain completely free for everyone." },
 ];
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
@@ -782,7 +810,6 @@ export default function HomeClient() {
       <WhySection />
       <BuiltForSection />
       <SEOSection />
-      <ProBanner />
       <FollowUsSection />
 
       {/* ── FAQ — ✅ Rule 8: <details>/<summary> ── */}

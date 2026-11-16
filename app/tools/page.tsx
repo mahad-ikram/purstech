@@ -5,8 +5,8 @@ import AllToolsClient from "./client";
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "All 51 Free Online Tools — Browse by Category",
-  description: "Browse all 51 free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator.",
+  title: "All 50+ Free Online Tools — Browse by Category",
+  description: "Browse all 50+ free online tools on PursTech — no login, no limits. PDF compressor, image compressor, grammar checker, JSON formatter, meta tag generator.",
   alternates: { canonical: "/tools" },
   keywords: [
     "free online tools","all free tools","pdf tools free","image tools online",
@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://www.purstech.com/tools",
     siteName: "PursTech",
-    title: "All 51 Free Online Tools — Browse by Category",
-    description: "51 free browser-based tools — PDF, image, SEO, developer, AI, finance and security. No login, no limits, no ads.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "All 51 Free Online Tools — PursTech" }],
+    title: "All 50+ Free Online Tools — Browse by Category",
+    description: "50+ free browser-based tools — PDF, image, SEO, developer, AI, finance and security. No login, no limits, no ads.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "All 50+ Free Online Tools — PursTech" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "All 51 Free Online Tools — PursTech",
+    title: "All 50+ Free Online Tools — PursTech",
     description: "PDF, image, SEO, dev, AI tools — all free, no login.",
     images: ["/og-image.png"],
     creator: "@purstech",
@@ -39,9 +39,9 @@ const COLLECTION_SCHEMA = {
   "@context": "https://schema.org", "@type": "CollectionPage",
   "@id": "https://www.purstech.com/tools/#collectionpage",
   name: "All Free Online Tools — PursTech",
-  description: "51 free online tools across 8 categories — PDF, image, developer, SEO, AI, finance, security and text. No login required.",
+  description: "50+ free online tools across 8 categories — PDF, image, developer, SEO, AI, finance, security and text. No login required.",
   url: "https://www.purstech.com/tools",
-  numberOfItems: 51,
+  numberOfItems: 55,
   inLanguage: "en-US",
   isAccessibleForFree: true,
   publisher: { "@id": "https://www.purstech.com/#organization" },
@@ -60,7 +60,7 @@ const WEBSITE_SCHEMA = {
   "@context": "https://schema.org", "@type": "WebSite",
   "@id": "https://www.purstech.com/#website",
   url: "https://www.purstech.com", name: "PursTech",
-  description: "51 free browser-based tools — PDF, image, SEO, developer, AI, finance and security.",
+  description: "50+ free browser-based tools — PDF, image, SEO, developer, AI, finance and security.",
   publisher: { "@id": "https://www.purstech.com/#organization" },
   potentialAction: {
     "@type": "SearchAction",
@@ -85,6 +85,9 @@ const CATEGORY_TOOLS: Record<string, { name: string; slug: string }[]> = {
     { name:"Background Remover",    slug:"background-remover"  },
     { name:"Favicon Generator",     slug:"favicon-generator"   },
     { name:"Image to Text (OCR)",   slug:"image-to-text"       },
+    { name:"SynthID & C2PA Remover",slug:"synthid-remover"     },
+    { name:"4× AI Image Upscaler",  slug:"image-upscaler"      },
+    { name:"AI Photo Colorizer",    slug:"image-colorizer"     },
   ],
   dev: [
     { name:"JSON Formatter",       slug:"json-formatter"        },
@@ -109,6 +112,7 @@ const CATEGORY_TOOLS: Record<string, { name: string; slug: string }[]> = {
     { name:"Open Graph Generator",    slug:"open-graph-generator"    },
     { name:"Sitemap Generator",       slug:"sitemap-generator"       },
     { name:"llms.txt Generator",      slug:"llms-txt-generator"      },
+    { name:"AdSense Readiness Checker",slug:"adsense-checker"        },
   ],
   ai: [
     { name:"Grammar Checker",     slug:"grammar-checker"     },
@@ -188,9 +192,9 @@ const CATEGORY_HIGHLIGHTS = [
 
 const TOOL_INDEX: { label: string; items: { name: string; slug: string }[] }[] = [
   { label: "PDF", items: [{ name: "PDF Compressor", slug: "pdf-compressor" }, { name: "PDF Merger", slug: "pdf-merger" }, { name: "PDF Splitter", slug: "pdf-splitter" }, { name: "PDF to Word", slug: "pdf-to-word" }, { name: "Word to PDF", slug: "word-to-pdf" }] },
-  { label: "Image", items: [{ name: "Color Picker", slug: "color-picker" }, { name: "Image Compressor", slug: "image-compressor" }, { name: "Image Resizer", slug: "image-resizer" }, { name: "Background Remover", slug: "background-remover" }, { name: "Favicon Generator", slug: "favicon-generator" }, { name: "Image to Text (OCR)", slug: "image-to-text" }] },
+  { label: "Image", items: [{ name: "Color Picker", slug: "color-picker" }, { name: "Image Compressor", slug: "image-compressor" }, { name: "Image Resizer", slug: "image-resizer" }, { name: "Background Remover", slug: "background-remover" }, { name: "Favicon Generator", slug: "favicon-generator" }, { name: "Image to Text (OCR)", slug: "image-to-text" }, { name: "SynthID & C2PA Remover", slug: "synthid-remover" }, { name: "4× AI Image Upscaler", slug: "image-upscaler" }, { name: "AI Photo Colorizer", slug: "image-colorizer" }] },
   { label: "Developer", items: [{ name: "JSON Formatter", slug: "json-formatter" }, { name: "Base64 Encoder", slug: "base64-encoder" }, { name: "URL Encoder", slug: "url-encoder" }, { name: "UUID Generator", slug: "uuid-generator" }, { name: "QR Code Generator", slug: "qr-code-generator" }, { name: "Hash Generator", slug: "hash-generator" }, { name: "CSS Minifier", slug: "css-minifier" }, { name: "HTML Minifier", slug: "html-minifier" }, { name: "Regex Tester", slug: "regex-tester" }, { name: "JS Minifier", slug: "js-minifier" }, { name: "HTML to Markdown", slug: "html-to-markdown" }, { name: "Markdown Editor", slug: "markdown-editor" }, { name: "Color Code Converter", slug: "color-code-converter" }, { name: "SVG Editor", slug: "svg-editor" }] },
-  { label: "SEO", items: [{ name: "Meta Tag Generator", slug: "meta-tag-generator" }, { name: "Robots.txt Generator", slug: "robots-txt-generator" }, { name: "Keyword Density Checker", slug: "keyword-density-checker" }, { name: "Open Graph Generator", slug: "open-graph-generator" }, { name: "Sitemap Generator", slug: "sitemap-generator" }, { name: "llms.txt Generator", slug: "llms-txt-generator" }] },
+  { label: "SEO", items: [{ name: "Meta Tag Generator", slug: "meta-tag-generator" }, { name: "Robots.txt Generator", slug: "robots-txt-generator" }, { name: "Keyword Density Checker", slug: "keyword-density-checker" }, { name: "Open Graph Generator", slug: "open-graph-generator" }, { name: "Sitemap Generator", slug: "sitemap-generator" }, { name: "llms.txt Generator", slug: "llms-txt-generator" }, { name: "AdSense Readiness Checker", slug: "adsense-checker" }] },
   { label: "AI", items: [{ name: "Grammar Checker", slug: "grammar-checker" }, { name: "Readability Checker", slug: "readability-checker" }] },
   { label: "Finance", items: [{ name: "Age Calculator", slug: "age-calculator" }, { name: "BMI Calculator", slug: "bmi-calculator" }, { name: "Percentage Calculator", slug: "percentage-calculator" }, { name: "Unit Converter", slug: "unit-converter" }, { name: "Currency Converter", slug: "currency-converter" }, { name: "Loan Calculator", slug: "loan-calculator" }, { name: "Compound Interest Calc", slug: "compound-interest-calculator" }, { name: "Tip Calculator", slug: "tip-calculator" }, { name: "Time Zone Converter", slug: "time-zone-converter" }, { name: "Mortgage Calculator", slug: "mortgage-calculator" }] },
   { label: "Security", items: [{ name: "Password Generator", slug: "password-generator" }, { name: "SSL Certificate Checker", slug: "ssl-checker" }, { name: "IP Address Lookup", slug: "ip-lookup" }] },
@@ -206,7 +210,7 @@ const HERO = (
               </span>
             </h1>
             <p className="text-gray-500 text-lg max-w-2xl mx-auto mb-5">
-              <strong className="text-white">51 tools</strong> across 8 categories —
+              <strong className="text-white">50+ tools</strong> across 8 categories —
               PDF, image, developer, SEO, AI, finance, security and text.
               No login. No limits. All free.
             </p>

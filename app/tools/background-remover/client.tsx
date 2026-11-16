@@ -3,14 +3,28 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
+import { ONNX_MODELS, OnnxModelKey, isModelCached, runSegmentationModel } from "@/lib/onnx-engine";
 
 // ── Module-scope constants ───────────────
 const RELATED_TOOLS = [
-  { icon:"🗜",  name:"Image Compressor",   slug:"image-compressor"  },
-  { icon:"📐", name:"Image Resizer",       slug:"image-resizer"     },
-  { icon:"🏷",  name:"Favicon Generator",  slug:"favicon-generator" },
-  { icon:"🎨", name:"Color Picker",        slug:"color-picker"      },
-  { icon:"📷", name:"Image to Text (OCR)", slug:"image-to-text"     },
+  { icon:"🔍", name:"AI Image Upscaler (4×)", slug:"image-upscaler"  },
+  { icon:"🎨", name:"AI Photo Colorizer",     slug:"image-colorizer" },
+  { icon:"🛡️", name:"SynthID & C2PA Remover", slug:"synthid-remover" },
+  { icon:"🗜",  name:"Image Compressor",       slug:"image-compressor"},
+  { icon:"📐", name:"Image Resizer",          slug:"image-resizer"   },
+  { icon:"📷", name:"Image to Text (OCR)",    slug:"image-to-text"   },
+];
+
+const REMOVER_MODEL_KEYS: OnnxModelKey[] = [
+  "ormbg_quantized",
+  "ormbg_fp16",
+  "isnet_quantized",
+  "isnet_fp16",
+  "birefnet_lite_fp16",
+  "birefnet_lite",
+  "rmbg_1_4_quantized",
+  "rmbg_1_4_fp16",
+  "modnet_quantized",
 ];
 
 const FAQ = [
@@ -107,6 +121,20 @@ export default function BackgroundRemoverClient({ children }: { children?: React
   const [undoStack,   setUndoStack]   = useState<ImageData[]>([]);
   const [isDrawing,   setIsDrawing]   = useState(false);
   const [dragging,    setDragging]    = useState(false);
+  const [selectedModel, setSelectedModel] = useState<OnnxModelKey | "imgly_auto">("ormbg_quantized");
+  const [cachedModels, setCachedModels] = useState<Partial<Record<OnnxModelKey, boolean>>>({});
+  const [exportFormat, setExportFormat] = useState<"image/png" | "image/webp" | "image/jpeg">("image/png");
+  const [exportQuality, setExportQuality] = useState<number>(92);
+
+  useEffect(() => {
+    Promise.all(
+      REMOVER_MODEL_KEYS.map(async (k) => [k, await isModelCached(k)] as const)
+    ).then((entries) => {
+      const m: Partial<Record<OnnxModelKey, boolean>> = {};
+      entries.forEach(([k, v]) => { m[k] = v; });
+      setCachedModels(m);
+    });
+  }, [status]);
 
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const origRef    = useRef<HTMLCanvasElement>(null);
@@ -170,101 +198,120 @@ export default function BackgroundRemoverClient({ children }: { children?: React
     img.src = url;
   }
 
-  // ── removeBackground ───────────────────────────────
+  // ── removeBackground (Multi-Model ONNX WebAssembly + IndexedDB Cache + @imgly Fallback) ──
   async function removeBackground() {
-    if (!file) return;
+    if (!file || !origUrl) return;
 
     if (typeof WebAssembly === "undefined") {
       setStatus("error");
-      setProgressMsg("Your browser does not support WebAssembly, which is required for AI processing. Please try Chrome 90+, Firefox 89+, or Edge 90+.");
+      setProgressMsg("Your browser does not support WebAssembly, which is required for AI processing.");
       return;
     }
 
-    setStatus("loading"); setProgress(5); setProgressMsg("Initialising AI model…");
+    setStatus("loading");
+    setProgress(5);
+    setProgressMsg("Initialising local ONNX WebAssembly engine…");
 
     try {
-      let removeBgFn: Function;
-      try {
-        const mod  = await import("@imgly/background-removal");
-        removeBgFn = (mod as any).removeBackground ?? (mod as any).default;
-        if (typeof removeBgFn !== "function")
-          throw new Error("removeBackground export not found");
-      } catch (importErr: unknown) {
-        const msg = importErr instanceof Error ? importErr.message : String(importErr);
-        throw new Error(`Failed to load AI library — ${msg}. Ensure @imgly/background-removal is installed.`);
+      if (selectedModel !== "imgly_auto") {
+        const imgEl = await new Promise<HTMLImageElement>((resolve, reject) => {
+          const im = new Image();
+          im.crossOrigin = "anonymous";
+          im.onload = () => resolve(im);
+          im.onerror = reject;
+          im.src = origUrl;
+        });
+
+        const segmentedData = await runSegmentationModel(imgEl, selectedModel, (pct, msg) => {
+          setProgress(pct);
+          setProgressMsg(msg);
+        });
+
+        const wc = canvasRef.current;
+        if (!wc) throw new Error("Canvas not mounted");
+        wc.width = segmentedData.width;
+        wc.height = segmentedData.height;
+        wc.getContext("2d")!.putImageData(segmentedData, 0, 0);
+
+        const blob = await new Promise<Blob>((resolve) =>
+          wc.toBlob((b) => resolve(b!), "image/png")
+        );
+        revokeIfBlob(resultUrl);
+        setResultUrl(URL.createObjectURL(blob));
+        setProgress(100);
+        setStatus("done");
+        setView("compare");
+        setProgressMsg("");
+        return;
       }
 
-      setProgress(20); setProgressMsg("Connecting to AI CDN (~5MB, cached after first use)…");
+      // Fallback / Alternative: @imgly/background-removal
+      let removeBgFn: Function;
+      const mod = await import("@imgly/background-removal");
+      removeBgFn = (mod as any).removeBackground ?? (mod as any).default;
+      setProgress(20);
+      setProgressMsg("Loading @imgly segmentation model…");
 
-      // We omit publicPath entirely so it auto-fetches from unpkg/img.ly CDNs
       const resultBlob: Blob = await removeBgFn(file, {
         proxyToWorker: false,
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {
             setProgress(Math.min(Math.round((current / total) * 60) + 20, 80));
-            if      (key.includes("ort"))   setProgressMsg("Loading ONNX inference engine…");
+            if (key.includes("ort")) setProgressMsg("Loading ONNX inference engine…");
             else if (key.includes("model")) setProgressMsg("Loading segmentation model…");
-            else if (key.includes("fetch")) setProgressMsg("Fetching model assets…");
           }
         },
       });
 
-      setProgress(85); setProgressMsg("Segmenting image…");
-
       revokeIfBlob(resultUrl);
       const rUrl = URL.createObjectURL(resultBlob);
-
       await new Promise<void>((resolve, reject) => {
         const rImg = new Image();
         rImg.onload = () => {
-          try {
-            const wc = canvasRef.current;
-            if (!wc) throw new Error("Canvas not mounted");
-            wc.width  = rImg.naturalWidth;
-            wc.height = rImg.naturalHeight;
-            wc.getContext("2d")!.drawImage(rImg, 0, 0);
-            setResultUrl(rUrl);
-            setProgress(100); setStatus("done"); setView("compare"); setProgressMsg("");
-            resolve();
-          } catch (canvasErr) { URL.revokeObjectURL(rUrl); reject(canvasErr); }
+          const wc = canvasRef.current;
+          if (!wc) { reject(new Error("Canvas not mounted")); return; }
+          wc.width = rImg.naturalWidth;
+          wc.height = rImg.naturalHeight;
+          wc.getContext("2d")!.drawImage(rImg, 0, 0);
+          setResultUrl(rUrl);
+          setProgress(100);
+          setStatus("done");
+          setView("compare");
+          setProgressMsg("");
+          resolve();
         };
-        rImg.onerror = () => { URL.revokeObjectURL(rUrl); reject(new Error("Result image failed to decode")); };
+        rImg.onerror = () => reject(new Error("Result decode failed"));
         rImg.src = rUrl;
       });
-
     } catch (err: unknown) {
       console.error("Background removal error:", err);
       const raw = err instanceof Error ? err.message : String(err);
-
-      const userMsg =
-        raw.includes("fetch") || raw.includes("network") || raw.includes("Failed to fetch")
-          ? "Network error — could not reach the AI server. Please check your internet connection or try turning off strict adblockers temporarily."
-        : raw.includes("WebAssembly") || raw.includes("wasm") || raw.includes("compile")
-          ? `WebAssembly error — ${raw}.\nEnsure your browser is up to date.`
-        : `AI model failed to load. Please try again.\n(Error: ${raw})`;
-
       setStatus("error");
-      setProgressMsg(userMsg);
+      setProgressMsg(`AI Model Error: ${raw}`);
     }
   }
 
   function buildExportUrl(): string {
     const wc = canvasRef.current;
     if (!wc) return "";
-    if (bgFill) {
+    const q = exportQuality / 100;
+    if (bgFill || exportFormat === "image/jpeg") {
       const tmp = document.createElement("canvas");
       tmp.width = wc.width; tmp.height = wc.height;
       const tc = tmp.getContext("2d")!;
-      tc.fillStyle = bgColor; tc.fillRect(0,0,tmp.width,tmp.height); tc.drawImage(wc,0,0);
-      return tmp.toDataURL("image/png");
+      tc.fillStyle = bgFill ? bgColor : "#FFFFFF";
+      tc.fillRect(0,0,tmp.width,tmp.height);
+      tc.drawImage(wc,0,0);
+      return tmp.toDataURL(exportFormat, exportFormat === "image/png" ? undefined : q);
     }
-    return wc.toDataURL("image/png");
+    return wc.toDataURL(exportFormat, exportFormat === "image/png" ? undefined : q);
   }
 
   function download() {
     const href = buildExportUrl();
     if (!href) return;
-    Object.assign(document.createElement("a"), { href, download:`${imgName}-no-bg.png` }).click();
+    const ext = exportFormat === "image/webp" ? "webp" : exportFormat === "image/jpeg" ? "jpg" : "png";
+    Object.assign(document.createElement("a"), { href, download:`${imgName}-no-bg.${ext}` }).click();
   }
 
   function pushUndo() {
@@ -343,21 +390,28 @@ export default function BackgroundRemoverClient({ children }: { children?: React
 
   // ── JSX ───────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden w-full">
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={origRef}   className="hidden" />
 
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
-            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
+            </Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full min-w-0">
         
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link>
@@ -378,6 +432,72 @@ export default function BackgroundRemoverClient({ children }: { children?: React
             Free AI Background Remover — Remove the Background from Any Image
           </h1>
           <p className="text-gray-400 max-w-2xl">AI-powered background removal using a neural network that runs entirely in your browser. No upload, no account. Includes a comparison slider, manual refinement brushes and background fill.</p>
+        </div>
+
+        {/* 9-Model ONNX Selector (Reverse-Engineered from Removerized + IndexedDB Cache) */}
+        <div className="mb-6 bg-[#13131F] border border-white/10 rounded-2xl p-5 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#00D4FF]">
+                🧠 Multi-Model ONNX WebAssembly Engine (IndexedDB Offline Cache)
+              </span>
+              <p className="text-xs text-gray-400 mt-0.5">
+                Choose from 9 specialized HuggingFace segmentation models (ORMBG, ISNet, BiRefNet v2 Lite, BRIA RMBG 1.4, MODNet) cached in your browser.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <select
+                value={exportFormat}
+                onChange={e => setExportFormat(e.target.value as any)}
+                className="bg-[#0A0A14] border border-white/10 rounded-xl px-3 py-1.5 text-white text-xs"
+              >
+                <option value="image/png">Export: Transparent PNG</option>
+                <option value="image/webp">Export: Transparent WebP</option>
+                <option value="image/jpeg">Export: Studio JPEG</option>
+              </select>
+              {exportFormat !== "image/png" && (
+                <span className="text-gray-400 font-mono">
+                  Q:
+                  <input
+                    type="number"
+                    min={50}
+                    max={100}
+                    value={exportQuality}
+                    onChange={e => setExportQuality(Math.max(50, Math.min(100, Number(e.target.value))))}
+                    className="ml-1 w-14 bg-[#0A0A14] border border-white/10 rounded-lg px-2 py-1 text-white text-xs"
+                  />%
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+            {REMOVER_MODEL_KEYS.map((mk) => {
+              const m = ONNX_MODELS[mk];
+              const isSel = selectedModel === mk;
+              const isCached = cachedModels[mk];
+              return (
+                <button
+                  key={mk}
+                  type="button"
+                  onClick={() => setSelectedModel(mk)}
+                  className={`text-left p-3 rounded-xl border transition-all ${
+                    isSel
+                      ? "border-[#6C3AFF] bg-[#6C3AFF]/15 shadow-lg"
+                      : "border-white/5 bg-[#0A0A14]/70 hover:border-white/15"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="text-xs font-bold text-white truncate">{m.label}</span>
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isCached ? "bg-emerald-500/20 text-emerald-300" : "bg-white/5 text-gray-400"}`}>
+                      {isCached ? "Cached ✓" : m.size}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-gray-400 mt-1 line-clamp-1">{m.description}</p>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* UPLOAD */}
@@ -650,17 +770,61 @@ export default function BackgroundRemoverClient({ children }: { children?: React
         </div>
       
         {/* ── Technical Deep-Dive & Reference Guide ── */}
-        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+        <section className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">How Browser-Based AI Background Removal Works Without Server Uploads</h2>
           <div className="space-y-3">
             <p className="text-gray-400 text-sm leading-relaxed">Traditional background removal tools either require manual pen-tool tracing in desktop software like Photoshop or GIMP, or force you to upload your photos to a cloud server that charges per high-resolution download. PursTech's AI Background Remover takes a fundamentally different approach: it runs a pre-trained semantic segmentation neural network directly inside your web browser using WebAssembly (WASM) and ONNX Runtime Web.</p>
             <p className="text-gray-400 text-sm leading-relaxed">When you drop a portrait, e-commerce product photo, or logo onto the canvas, the model analyzes foreground versus background pixel probabilities locally in your device's RAM, generating a smooth alpha-channel transparency mask capable of preserving fine edge details like hair strands, fur, and semi-transparent shadows. Once segmented, you can export a transparent PNG or composite your subject over a solid studio color, CSS gradient, or custom backdrop immediately.</p>
-            <p className="text-gray-400 text-sm leading-relaxed">Because inference happens 100% client-side after the model weights cache in your browser, your product photography, ID portraits, and client assets are never uploaded to an external server—giving you unlimited full-resolution exports with zero watermarks and complete data privacy.</p>
+                        <p className="text-gray-400 text-sm leading-relaxed">Because inference happens 100% client-side after the model weights cache in your browser, your product photography, ID portraits, and client assets are never uploaded to an external server—giving you unlimited full-resolution exports with zero watermarks and complete data privacy.</p>
+            <h3 className="text-base font-bold text-white pt-3">What Are the Best Free Web-Based Background Remover Tools Without Watermarks for Commercial Use in 2026?</h3>
+            <div className="overflow-x-auto rounded-xl border border-white/10 mt-2">
+              <table className="w-full text-left text-xs text-gray-300 border-collapse">
+                <thead>
+                  <tr className="bg-[#0A0A14] text-white border-b border-white/10">
+                    <th className="p-3 font-bold">Platform</th>
+                    <th className="p-3 font-bold">Free Full-HD Export</th>
+                    <th className="p-3 font-bold">Watermark-Free Commercial Use</th>
+                    <th className="p-3 font-bold">Privacy / Processing</th>
+                    <th className="p-3 font-bold">AI Matting Models</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  <tr>
+                    <td className="p-3 font-bold text-[#00D4FF]">PursTech AI Background Remover</td>
+                    <td className="p-3 text-emerald-400 font-semibold">Yes (Unlimited up to 4K+)</td>
+                    <td className="p-3 text-emerald-400 font-semibold">100% Free, Zero Watermarks</td>
+                    <td className="p-3 text-emerald-400 font-semibold">100% Local Browser WASM</td>
+                    <td className="p-3">9 Models (BiRefNet v2, ORMBG, ISNet, RMBG 1.4, MODNet) + Brush</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-semibold text-white">Canva Background Remover</td>
+                    <td className="p-3 text-amber-400">Requires Canva Pro Trial/Sub</td>
+                    <td className="p-3 text-amber-400">Paid Pro Subscription Only</td>
+                    <td className="p-3 text-gray-400">Cloud Server Upload</td>
+                    <td className="p-3">Single Cloud Model</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-semibold text-white">PhotoRoom / Pixelcut</td>
+                    <td className="p-3 text-rose-400">Capped / Low-Res on Free Tier</td>
+                    <td className="p-3 text-amber-400">Adds Watermark on Free Tier</td>
+                    <td className="p-3 text-gray-400">Cloud Server Upload</td>
+                    <td className="p-3">Single Cloud Model</td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-semibold text-white">remove.bg</td>
+                    <td className="p-3 text-rose-400">0.25 MP Preview Only (Paid HD)</td>
+                    <td className="p-3 text-amber-400">Requires Per-Image Credits</td>
+                    <td className="p-3 text-gray-400">Cloud Server Upload</td>
+                    <td className="p-3">Proprietary Cloud API</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 
         {/* ── Related PursTech Blog Guides ── */}
-        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+        <section className="mt-10 min-w-0 w-full">
           <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
             <Link key="how-to-remove-background-gimp-canva" href="/blog/how-to-remove-background-gimp-canva" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
@@ -686,16 +850,45 @@ export default function BackgroundRemoverClient({ children }: { children?: React
             </Link>
           </div>
         </section>
+
+        {/* Editorial E-E-A-T & Verification Attribution */}
+        <div className="mt-10 bg-[#13131F]/80 border border-white/5 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 border border-[#6C3AFF]/40 flex items-center justify-center text-[#00D4FF] font-bold flex-shrink-0">MI</span>
+            <div>
+              <span className="text-white font-semibold">Engineered &amp; Verified by <Link href="/about" className="text-[#00D4FF] hover:underline">Mahad Ikram</Link></span>
+              <span className="block text-[11px] text-gray-500">Founder &amp; Lead Developer at PursTech · 100% Client-Side Browser Execution Verified (Nov 2026)</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-gray-500 flex-shrink-0">
+            <Link href="/about" className="hover:text-white transition-colors">Editorial Standards</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Architecture</Link>
+          </div>
+        </div>
       </main>
 
-      <footer className="border-t border-white/5 mt-16 py-8 text-center">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );

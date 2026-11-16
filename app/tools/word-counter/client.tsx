@@ -102,19 +102,26 @@ export default function WordCounterClient({ children }: { children?: React.React
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden w-full">
 
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">← All Tools</Link>
-            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
+            </Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full min-w-0">
 
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-gray-400 transition-colors">Home</Link><span aria-hidden="true">›</span>
@@ -299,8 +306,48 @@ export default function WordCounterClient({ children }: { children?: React.React
           </div>
         </section>
       
+        
+        {/* ── Platform Word & Character Limit Reference Table ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6 overflow-hidden min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">Platform Character &amp; Word Count Limits Reference Table</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mb-5 leading-relaxed">
+            Compare your draft against standard character and word count limits across major social networks, search engines, and academic formats:
+          </p>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-xs sm:text-sm text-left border-collapse min-w-[540px]">
+              <thead>
+                <tr className="border-b border-white/10 text-gray-400 bg-[#0A0A14]">
+                  <th className="py-3 px-4 font-bold text-white">Platform / Document Type</th>
+                  <th className="py-3 px-4 font-bold text-[#6C3AFF]">Recommended Length</th>
+                  <th className="py-3 px-4 font-bold">Hard Limit / Truncation</th>
+                  <th className="py-3 px-4 font-bold">Avg Reading Time</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-gray-300">
+                {[
+                  ["Google SEO Title Tag",     "50–60 characters",   "~600 px (~60 chars)",    "2 sec"],
+                  ["Google Meta Description",  "145–160 characters", "~960 px (~160 chars)",   "5 sec"],
+                  ["X (Twitter) Post",         "100–200 characters", "280 characters",         "6 sec"],
+                  ["Instagram Caption / Bio",  "125–150 characters", "2,200 caption / 150 bio","30 sec"],
+                  ["LinkedIn Post",            "150–300 words",      "3,000 chars (210 fold)", "1 min"],
+                  ["College Application Essay","500–650 words",      "650 words (Common App)", "2.5 min"],
+                  ["Standard Blog Post",       "1,200–1,800 words",  "No limit",               "6–8 min"],
+                  ["In-Depth Pillar Guide",    "2,000–3,000 words",  "No limit",               "10–13 min"],
+                ].map(([plat, rec, cap, rtime]) => (
+                  <tr key={plat} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5 px-4 font-bold text-white">{plat}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#00D4FF]">{rec}</td>
+                    <td className="py-2.5 px-4 font-mono text-xs">{cap}</td>
+                    <td className="py-2.5 px-4 text-gray-400">{rtime}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* ── Technical Deep-Dive & Reference Guide ── */}
-        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+        <section className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">How Real-Time Word, Character & Keyword Density Analysis Improves Your Writing</h2>
           <div className="space-y-3">
             <p className="text-gray-400 text-sm leading-relaxed">Whether you are writing an SEO blog post, a university admissions essay, a legal brief, or social media ad copy, length precision directly affects how your work is evaluated. Search engines truncate title tags past ~60 characters and meta descriptions past ~160 characters; X/Twitter caps standard posts at 280 characters; LinkedIn truncates post previews before the 'see more' fold at ~210 characters; and academic rubrics penalize submissions that fall outside ±10% of the assigned word count.</p>
@@ -310,7 +357,7 @@ export default function WordCounterClient({ children }: { children?: React.React
         </section>
 
         {/* ── Related PursTech Blog Guides ── */}
-        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+        <section className="mt-10 min-w-0 w-full">
           <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
             <Link key="how-to-check-word-count" href="/blog/how-to-check-word-count" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
@@ -336,17 +383,46 @@ export default function WordCounterClient({ children }: { children?: React.React
             </Link>
           </div>
         </section>
+
+        {/* Editorial E-E-A-T & Verification Attribution */}
+        <div className="mt-10 bg-[#13131F]/80 border border-white/5 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 border border-[#6C3AFF]/40 flex items-center justify-center text-[#00D4FF] font-bold flex-shrink-0">MI</span>
+            <div>
+              <span className="text-white font-semibold">Engineered &amp; Verified by <Link href="/about" className="text-[#00D4FF] hover:underline">Mahad Ikram</Link></span>
+              <span className="block text-[11px] text-gray-500">Founder &amp; Lead Developer at PursTech · 100% Client-Side Browser Execution Verified (Nov 2026)</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-gray-500 flex-shrink-0">
+            <Link href="/about" className="hover:text-white transition-colors">Editorial Standards</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Architecture</Link>
+          </div>
+        </div>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
-      <footer className="border-t border-white/5 mt-20 py-8 text-center min-w-0 w-full">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );

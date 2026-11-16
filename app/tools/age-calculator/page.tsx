@@ -2,20 +2,20 @@ import type { Metadata } from "next";
 import AgeCalculatorClient from "./client";
 
 // ─── STANDARD TOOL PAGE TEMPLATE ─────────────────────────────────────────────
-// For each of the 50 tools, update: title, description, keywords, canonical,
+// For each of the 51 tools, update: title, description, keywords, canonical,
 // OG title/description, and all 4 schema objects.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "Age Calculator on a Specific Date — Chronological Age",
+  title: "Age Calculator by Date of Birth (DOB) — Years, Months & Days",
 
   description:
-    "Free age calculator — find your exact chronological age in years, months and days, today or on any specific date. Works for adults and children.",
+    "Calculate exact chronological age by Date of Birth (DOB) today or on any specific date. Instant years, months, weeks, days, hours & next birthday countdown.",
 
   alternates: { canonical: "/tools/age-calculator" },
 
   keywords: [
-    "age calculator", "chronological age calculator", "age calculator on specific date",
+    "age calculator", "age calculator on date of birth", "age calculator by date of birth", "age calculator on date", "age calculator of dob", "age on calculator", "chronological age calculator", "age calculator on specific date",
     "age calculator of child", "how old am i", "age difference calculator",
     "birthday calculator", "exact age calculator", "date of birth calculator",
   ],

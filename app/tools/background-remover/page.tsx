@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import BackgroundRemoverClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Background Remover — Remove Background from Image",
+  title: "Free AI Background Remover (No Watermark, 9 ONNX Models)",
   description:
-    "Free AI background remover — remove the background from any image online and download a transparent PNG.",
+    "Remove or replace image backgrounds 100% free in your browser using 9 local ONNX AI models (BiRefNet, ORMBG, ISNet, RMBG 1.4). Zero watermarks, commercial-use ready, no upload or trial required.",
   keywords: [
     "free background remover", "background remover free",
     "remove background from image", "online background remover free",

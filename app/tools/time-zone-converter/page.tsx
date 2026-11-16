@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import TimeZoneClient from "./client";
 
 export const metadata: Metadata = {
-  title: "Free Time Zone Converter — EST, PST, GMT & World Clock",
-  description: "Convert time between any two time zones instantly. Live world clock for 65+ cities, DST-aware, best meeting time finder for remote teams. Free, no login.",
+  title: "Time Zone Converter & Difference Calculator — EST to PST, UTC",
+  description: "Instant Time Zone Converter & Time Difference Calculator. Convert EST to PST (9am, 12pm, 4pm, 5pm, 6pm ET to PT), CST, GMT, UTC & 65+ cities with live DST clock.",
   alternates: { canonical: "/tools/time-zone-converter" },
-  keywords: ["time zone converter","est to pst","eastern time to central time","world clock","zulu time","gmt to est","time converter","utc time","time zone calculator","dst time zone"],
+  keywords: ["time zone converter","time difference calculator","est to pst","4pm est to pst","5pm est to pst","12pm est to pst","6pm est to pst","9am et to pst","world time converter","pacific time zone converter","world clock","utc time"],
   openGraph: {
     type: "website",
     url: "https://www.purstech.com/tools/time-zone-converter",
@@ -71,6 +71,8 @@ const HOWTO_SCHEMA = {
 const FAQ_SCHEMA = {
   "@context": "https://schema.org", "@type": "FAQPage",
   mainEntity: [
+    { "@type": "Question", name: "What is 9am, 12pm, 4pm, 5pm, and 6pm EST in PST?",
+      acceptedAnswer: { "@type": "Answer", text: "Pacific Time (PST/PDT) is always 3 hours behind Eastern Time (EST/EDT): 9:00 AM EST is 6:00 AM PST, 12:00 PM (Noon) EST is 9:00 AM PST, 4:00 PM EST is 1:00 PM PST, 5:00 PM EST is 2:00 PM PST, 5:30 PM EST is 2:30 PM PST, and 6:00 PM EST is 3:00 PM PST." } },
     { "@type": "Question", name: "How do I convert Eastern to Central or Pacific time?",
       acceptedAnswer: { "@type": "Answer", text: "Central Time is always exactly 1 hour behind Eastern Time — so 9am ET is 8am CT, and 5pm ET is 4pm CT. Pacific is 3 hours behind Eastern. Pick the two zones in the converter and it handles the math for any date, including Daylight Saving switches, automatically." } },
     { "@type": "Question", name: "What is Zulu time?",

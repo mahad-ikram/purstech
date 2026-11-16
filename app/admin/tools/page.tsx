@@ -27,7 +27,7 @@ interface Tool {
   createdAt: string; featured: boolean;
 }
 
-// ── All 50 live tools ─────────────────────────────────────────────────────────
+// ── All 50+ live tools ─────────────────────────────────────────────────────────
 
 const INITIAL_TOOLS: Tool[] = [
   // ── Text (5) ──────────────────────────────────────────────────────────────
@@ -283,7 +283,7 @@ export default function AdminToolsPage() {
           <p className="text-gray-500 text-xs sm:text-sm mt-0.5">
             {usageLoaded
               ? "Usage data live from Supabase · top 10 tools shown with real counts"
-              : "All 50 live tools"}
+              : "All 50+ live tools"}
           </p>
         </div>
         <Link href="/tools" target="_blank"
@@ -311,7 +311,7 @@ export default function AdminToolsPage() {
       <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
         <div className="relative flex-1">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search 50 tools..."
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search 50+ tools..."
             className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#13131F] border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-[#6C3AFF]/50 text-sm transition-all" />
         </div>
         <div className="flex gap-2.5 sm:gap-3">

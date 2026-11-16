@@ -53,7 +53,7 @@ export default function ContactClient() {
     { q:"Can I suggest a new tool?",
       a:"Absolutely — we love suggestions! Use the contact form and select 'Tool Suggestion' as the subject. Tell us what tool you need and why it would be useful. Many of our best tools came from user suggestions." },
     { q:"How does PursTech Pro waitlist and billing work?",
-      a:"All 51 browser tools on PursTech are 100% free with no login required. PursTech Pro is currently in early-access waitlist for power users who want batch processing and REST API access. Once Pro billing launches via Stripe, subscribers will be able to manage or cancel their subscription anytime in one click via the Stripe customer portal or by emailing billing@purstech.com." },
+      a:"All 50+ browser tools on PursTech are 100% free with no login required. PursTech Pro is currently in early-access waitlist for power users who want batch processing and REST API access. Once Pro billing launches via Stripe, subscribers will be able to manage or cancel their subscription anytime in one click via the Stripe customer portal or by emailing billing@purstech.com." },
     { q:"Is my data safe when using PursTech tools?",
       a:"Yes. All tool processing happens entirely in your browser. We never store what you type, paste or upload into any tool. Files and text you use in our tools never reach our servers." },
   ];
@@ -62,14 +62,19 @@ export default function ContactClient() {
     <div className="min-h-screen bg-[#0A0A14] text-white font-sans selection:bg-[#6C3AFF]/30">
 
       {/* Navbar */}
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools"   className="text-sm text-gray-500 hover:text-white transition-colors">Tools</Link>
-            <Link href="/blog"    className="text-sm text-gray-500 hover:text-white transition-colors">Blog</Link>
-            <Link href="/about"   className="text-sm text-gray-500 hover:text-white transition-colors">About</Link>
-            <Link href="/pro"     className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
+            </Link>
           </div>
         </div>
       </nav>
@@ -252,14 +257,27 @@ export default function ContactClient() {
 
       </main>
 
-      <footer className="border-t border-white/5 mt-20 py-8 text-center bg-[#0A0A14]">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );

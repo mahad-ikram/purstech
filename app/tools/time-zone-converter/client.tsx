@@ -6,6 +6,8 @@ import { useTrackTool } from "@/hooks/useTrackTool"; // ✅ Rule 3
 
 // ✅ Rule 10: module scope — FAQ.map() and CITIES.map() below match
 const FAQ = [
+  { q:"What is 9am, 12pm, 4pm, 5pm, and 6pm EST in PST?",
+    a:"Pacific Time (PST/PDT) is always 3 hours behind Eastern Time (EST/EDT): 9:00 AM EST = 6:00 AM PST, 12:00 PM (Noon) EST = 9:00 AM PST, 4:00 PM EST = 1:00 PM PST, 5:00 PM EST = 2:00 PM PST, 5:30 PM EST = 2:30 PM PST, and 6:00 PM EST = 3:00 PM PST." },
   { q:"How do I convert Eastern to Central or Pacific time?",
     a:"Central Time is always exactly 1 hour behind Eastern Time — so 9am ET is 8am CT, and 5pm ET is 4pm CT. Pacific is 3 hours behind Eastern. Pick the two zones in the converter and it handles the math for any date, including Daylight Saving switches, automatically." },
   { q:"What is Zulu time?",
@@ -184,21 +186,28 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
 
   return (
     // ✅ Rule 6: flex flex-col overflow-x-hidden
-    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-[#0A0A14] text-white font-sans flex flex-col overflow-x-hidden w-full">
 
       {/* ── Navbar — ✅ Rule 4: sticky + backdrop-blur + Go Pro ── */}
-      <nav className="border-b border-white/5 px-4 py-4 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-          <div className="flex items-center gap-4">
-            <Link href="/tools" className="text-sm text-gray-500 hover:text-white transition-colors">All Tools</Link>
-            <Link href="/pro" className="px-3 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white text-xs font-bold transition-all">Go Pro ⚡</Link>
+      <nav className="border-b border-white/5 px-4 h-16 sticky top-0 bg-[#0A0A14]/95 backdrop-blur-md z-40 flex items-center w-full">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          <Link href="/" className="text-xl font-black tracking-tight flex-shrink-0">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tools" className="text-sm text-gray-400 hover:text-white transition-colors font-medium">All Tools</Link>
+            <Link href="/blog" className="hidden sm:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Blog</Link>
+            <Link href="/about" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">About</Link>
+            <Link href="/contact" className="hidden md:inline text-sm text-gray-400 hover:text-white transition-colors font-medium">Contact</Link>
+            <Link href="/blog" className="px-3.5 py-1.5 rounded-lg bg-[#6C3AFF] hover:bg-[#5B2EE0] text-white text-xs font-bold transition-all flex-shrink-0">
+              Guides 📖
+            </Link>
           </div>
         </div>
       </nav>
 
       {/* ✅ Rule 7: flex-grow w-full */}
-      <main className="max-w-5xl mx-auto px-4 py-10 flex-grow w-full">
+      <main className="max-w-6xl mx-auto px-4 py-10 flex-grow w-full min-w-0">
 
         {/* ✅ Rule 11: aria-label + /categories/finance + aria-hidden */}
         <nav aria-label="Breadcrumb" className="text-xs text-gray-600 mb-6 flex items-center gap-2">
@@ -439,8 +448,89 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
           </div>
         </div>
       
+        
+        {/* ── EST to PST / CST / UTC Quick Conversion Table (Featured Snippet Ready) ── */}
+        <section className="mt-12 bg-[#13131F] border border-white/5 rounded-2xl p-6 overflow-hidden min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white mb-2">EST to PST, CST, MST &amp; UTC Quick Conversion Chart</h2>
+          <p className="text-gray-400 text-xs sm:text-sm mb-5 leading-relaxed">
+            Pacific Time (PST/PDT) is <strong>3 hours behind</strong> Eastern Time (EST/EDT), Central Time (CST/CDT) is <strong>1 hour behind</strong> Eastern Time, and Mountain Time (MST/MDT) is <strong>2 hours behind</strong> Eastern Time. Use this instant reference table for the most frequently searched business hours:
+          </p>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-xs sm:text-sm text-left border-collapse min-w-[580px]">
+              <thead>
+                <tr className="border-b border-white/10 text-gray-400 bg-[#0A0A14]">
+                  <th className="py-3 px-4 font-bold text-white">Eastern (EST / ET)</th>
+                  <th className="py-3 px-4 font-bold text-[#00D4FF]">Pacific (PST / PT)</th>
+                  <th className="py-3 px-4 font-bold">Central (CST / CT)</th>
+                  <th className="py-3 px-4 font-bold">Mountain (MST / MT)</th>
+                  <th className="py-3 px-4 font-bold">UTC / GMT (Std)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-gray-300 font-mono">
+                {[
+                  ["8:00 AM EST",  "5:00 AM PST",  "7:00 AM CST",  "6:00 AM MST",  "13:00 UTC"],
+                  ["9:00 AM EST",  "6:00 AM PST",  "8:00 AM CST",  "7:00 AM MST",  "14:00 UTC"],
+                  ["10:00 AM EST", "7:00 AM PST",  "9:00 AM CST",  "8:00 AM MST",  "15:00 UTC"],
+                  ["11:00 AM EST", "8:00 AM PST",  "10:00 AM CST", "9:00 AM MST",  "16:00 UTC"],
+                  ["12:00 PM EST", "9:00 AM PST",  "11:00 AM CST", "10:00 AM MST", "17:00 UTC"],
+                  ["1:00 PM EST",  "10:00 AM PST", "12:00 PM CST", "11:00 AM MST", "18:00 UTC"],
+                  ["2:00 PM EST",  "11:00 AM PST", "1:00 PM CST",  "12:00 PM MST", "19:00 UTC"],
+                  ["3:00 PM EST",  "12:00 PM PST", "2:00 PM CST",  "1:00 PM MST",  "20:00 UTC"],
+                  ["4:00 PM EST",  "1:00 PM PST",  "3:00 PM CST",  "2:00 PM MST",  "21:00 UTC"],
+                  ["5:00 PM EST",  "2:00 PM PST",  "4:00 PM CST",  "3:00 PM MST",  "22:00 UTC"],
+                  ["5:30 PM EST",  "2:30 PM PST",  "4:30 PM CST",  "3:30 PM MST",  "22:30 UTC"],
+                  ["6:00 PM EST",  "3:00 PM PST",  "5:00 PM CST",  "4:00 PM MST",  "23:00 UTC"],
+                  ["8:00 PM EST",  "5:00 PM PST",  "7:00 PM CST",  "6:00 PM MST",  "01:00 UTC (+1d)"],
+                ].map(([est, pst, cst, mst, utc]) => (
+                  <tr key={est} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5 px-4 font-bold text-white">{est}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#00D4FF]">{pst}</td>
+                    <td className="py-2.5 px-4">{cst}</td>
+                    <td className="py-2.5 px-4">{mst}</td>
+                    <td className="py-2.5 px-4 text-gray-400">{utc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* ── EST to PST / EDT to PDT Instant Reference Table (GSC High-Impression Query Target) ── */}
+        <section className="mt-10 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+          <h2 className="text-xl font-extrabold text-white">
+            What Time Is EST in PST? (Eastern Time to Pacific Time Quick Reference — 3 Hours Behind)
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            <strong>Pacific Time (PST / PDT) is always exactly 3 hours behind Eastern Time (EST / EDT)</strong> when both regions observe standard time (UTC−5 vs. UTC−8) or daylight saving time (UTC−4 vs. UTC−7). Use the instant lookup table below for the most common meeting times, or add any of 65+ global cities to the live converter above:
+          </p>
+          <div className="overflow-x-auto rounded-xl border border-white/10">
+            <table className="w-full text-left text-xs text-gray-300 border-collapse">
+              <thead>
+                <tr className="bg-[#0A0A14] text-white border-b border-white/10">
+                  <th className="p-2.5 font-bold">Eastern Time (EST / ET)</th>
+                  <th className="p-2.5 font-bold text-[#00D4FF]">Pacific Time (PST / PT)</th>
+                  <th className="p-2.5 font-bold">Central Time (CST / CT)</th>
+                  <th className="p-2.5 font-bold">UTC / GMT</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 font-mono">
+                <tr><td className="p-2.5 text-white font-semibold">9:00 AM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">6:00 AM PST</td><td className="p-2.5">8:00 AM CST</td><td className="p-2.5">14:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">12:00 PM EST (Noon)</td><td className="p-2.5 text-[#00D4FF] font-bold">9:00 AM PST</td><td className="p-2.5">11:00 AM CST</td><td className="p-2.5">17:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">1:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">10:00 AM PST</td><td className="p-2.5">12:00 PM CST</td><td className="p-2.5">18:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">2:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">11:00 AM PST</td><td className="p-2.5">1:00 PM CST</td><td className="p-2.5">19:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">3:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">12:00 PM PST (Noon)</td><td className="p-2.5">2:00 PM CST</td><td className="p-2.5">20:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">4:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">1:00 PM PST</td><td className="p-2.5">3:00 PM CST</td><td className="p-2.5">21:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">5:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">2:00 PM PST</td><td className="p-2.5">4:00 PM CST</td><td className="p-2.5">22:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">6:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">3:00 PM PST</td><td className="p-2.5">5:00 PM CST</td><td className="p-2.5">23:00 UTC</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">8:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">5:00 PM PST</td><td className="p-2.5">7:00 PM CST</td><td className="p-2.5">01:00 UTC (+1d)</td></tr>
+                <tr><td className="p-2.5 text-white font-semibold">9:00 PM EST</td><td className="p-2.5 text-[#00D4FF] font-bold">6:00 PM PST</td><td className="p-2.5">8:00 PM CST</td><td className="p-2.5">02:00 UTC (+1d)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* ── Technical Deep-Dive & Reference Guide ── */}
-        <section data-adsense-enriched="true" className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
+        <section className="mt-14 bg-[#13131F] border border-white/5 rounded-2xl p-6 md:p-8 space-y-4 min-w-0 w-full">
           <h2 className="text-xl md:text-2xl font-extrabold text-white">Navigating UTC Offsets, IANA Time Zones & Daylight Saving Time (DST) Shifts</h2>
           <div className="space-y-3">
             <p className="text-gray-400 text-sm leading-relaxed">Coordinating remote engineering standups, client calls, and global product launches across continents is complicated by two factors: non-whole-hour UTC offsets (such as India at UTC+5:30, Nepal at UTC+5:45, and parts of Australia at UTC+9:30) and asynchronous Daylight Saving Time (DST) transitions. North America, Europe, and Southern Hemisphere countries shift their clocks on different weekends—and in opposite seasonal directions—while regions like Pakistan (PKT, UTC+5), Japan (JST, UTC+9), and UAE (GST, UTC+4) observe a fixed offset year-round.</p>
@@ -450,7 +540,7 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
         </section>
 
         {/* ── Related PursTech Blog Guides ── */}
-        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+        <section className="mt-10 min-w-0 w-full">
           <h2 className="text-lg font-extrabold text-white mb-4">📖 Related Guides &amp; Tutorials</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 min-w-0 w-full">
             <Link key="loan-calculator-with-extra-payments" href="/blog/loan-calculator-with-extra-payments" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 transition-all group flex items-center justify-between gap-3 min-w-0">
@@ -464,7 +554,7 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
         </section>
 
         {/* ── Related Tools ── */}
-        <section data-adsense-enriched="true" className="mt-10 min-w-0 w-full">
+        <section className="mt-10 min-w-0 w-full">
           <h2 className="text-lg font-extrabold text-white mb-4">🔧 Related Free Tools</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-0 w-full">
             <Link key="age-calculator" href="/tools/age-calculator" className="bg-[#13131F] border border-white/5 hover:border-[#6C3AFF]/40 rounded-2xl p-4 text-center transition-all group min-w-0">
@@ -485,17 +575,46 @@ export default function TimeZoneClient({ children }: { children?: React.ReactNod
             </Link>
           </div>
         </section>
+
+        {/* Editorial E-E-A-T & Verification Attribution */}
+        <div className="mt-10 bg-[#13131F]/80 border border-white/5 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-[#6C3AFF]/20 border border-[#6C3AFF]/40 flex items-center justify-center text-[#00D4FF] font-bold flex-shrink-0">MI</span>
+            <div>
+              <span className="text-white font-semibold">Engineered &amp; Verified by <Link href="/about" className="text-[#00D4FF] hover:underline">Mahad Ikram</Link></span>
+              <span className="block text-[11px] text-gray-500">Founder &amp; Lead Developer at PursTech · 100% Client-Side Browser Execution Verified (Nov 2026)</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] text-gray-500 flex-shrink-0">
+            <Link href="/about" className="hover:text-white transition-colors">Editorial Standards</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Architecture</Link>
+          </div>
+        </div>
       </main>
 
       {/* ✅ Rule 5: Privacy/Terms/Contact + © 2026 */}
-      <footer className="border-t border-white/5 mt-4 py-8 text-center">
-        <Link href="/" className="text-xl font-black">Purs<span className="text-[#6C3AFF]">Tech</span></Link>
-        <div className="flex justify-center gap-6 mt-3 text-xs text-gray-600">
-          <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</Link>
-          <Link href="/terms"   className="hover:text-gray-400 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-gray-400 transition-colors">Contact</Link>
+      <footer className="border-t border-white/5 mt-20 py-10 text-center bg-[#0A0A14] w-full min-w-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <Link href="/" className="text-xl font-black tracking-tight">
+            Purs<span className="text-[#6C3AFF]">Tech</span>
+          </Link>
+          <p className="text-xs text-gray-500 mt-1.5">
+            50+ Free Browser-Based Online Tools — No Login, No Limits, 100% Client-Side Privacy.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-xs text-gray-400">
+            <Link href="/tools" className="hover:text-white transition-colors">All Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Guides</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+          </div>
+          <p className="text-gray-600 text-xs mt-4">
+            © 2026 PursTech · Engineered by <Link href="/about" className="text-gray-500 hover:text-gray-300">Mahad Ikram</Link>. All rights reserved.
+          </p>
         </div>
-        <p className="text-gray-700 text-xs mt-3">© 2026 PursTech. All rights reserved.</p>
       </footer>
     </div>
   );

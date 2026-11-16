@@ -223,7 +223,7 @@ export default function ProClient() {
             <div className="text-center text-[#6C3AFF]">Pro ⚡</div>
           </div>
           {[
-            { feature:"All 51 core tools", free:"Unlimited (Free)", pro:"Unlimited + Cloud Sync" },
+            { feature:"All 50+ core tools", free:"Unlimited (Free)", pro:"Unlimited + Cloud Sync" },
             { feature:"Ads",               free:"Yes",         pro:"None"       },
             { feature:"AI & OCR tools",    free:"Standard queue",   pro:"Priority + Bulk queue"  },
             { feature:"API access",        free:"No",          pro:"1,000/mo"   },

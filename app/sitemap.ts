@@ -47,6 +47,10 @@ const BATCH9_SLUGS = [
 
 const BATCH10_SLUGS = [
   "llms-txt-generator",
+  "adsense-checker",
+  "synthid-remover",
+  "image-upscaler",
+  "image-colorizer",
 ];
 
 // ── Category pages (exist at /categories/[slug]) ──────────────────────────────
@@ -80,12 +84,20 @@ const BLOG_SLUGS = [
   "best-free-word-counter-tools",              // ✅ New — July 2026
   "best-free-pdf-mergers",                     // ✅ New — July 2026
   "best-free-background-removers",             // ✅ New — July 2026
+  "best-free-synthid-and-c2pa-removers",       // ✅ New — Nov 2026
+  "how-to-fix-google-adsense-low-value-content",
+  "best-free-ai-image-upscalers",
+  "best-free-ai-photo-colorizers",
 ];
 
 // ── Recently published blog slugs — get higher priority + weekly frequency ────
 // These are the 5 newest (June–July 2026) articles. Search engines weight fresh
 // content + weekly changeFrequency higher for new pages still gaining authority.
 const NEW_BLOG_SLUGS = new Set([
+  "best-free-synthid-and-c2pa-removers",
+  "how-to-fix-google-adsense-low-value-content",
+  "best-free-ai-image-upscalers",
+  "best-free-ai-photo-colorizers",
   "best-free-pdf-mergers",
   "best-free-background-removers",
   "best-free-word-counter-tools",
@@ -103,10 +115,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Stable per-content dates so lastModified stops changing every request
   // (dynamic dates train Googlebot to ignore lastModified & waste crawl budget).
   // Bump these ONLY when the underlying pages actually change.
-  const TOOLS_REV      = new Date("2026-07-21");  // last tool-content revision (SEO batches)
+  const TOOLS_REV      = new Date("2026-11-14");  // last tool-content revision (SEO batches)
   const CATEGORIES_REV = new Date("2026-06-15");  // category pages last touched
   const STATIC_REV     = new Date("2026-06-15");  // about/privacy/terms rarely change
-  const BLOG_REV       = new Date("2026-07-06");  // newest blog batch (GIMP/Canva, TinyPNG)
+  const BLOG_REV       = new Date("2026-11-14");  // newest blog batch (GIMP/Canva, TinyPNG)
 
   // ── Core pages (8) ──────────────────────────────────────────────────────────
   const corePages: MetadataRoute.Sitemap = [
@@ -115,7 +127,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/blog`,     lastModified: now, changeFrequency: "daily",   priority: 0.7 },
     { url: `${BASE_URL}/about`,    lastModified: STATIC_REV, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/contact`,  lastModified: STATIC_REV, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE_URL}/pro`,      lastModified: now, changeFrequency: "weekly",  priority: 0.6 },
     { url: `${BASE_URL}/privacy`,  lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
     { url: `${BASE_URL}/terms`,    lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
     { url: `${BASE_URL}/disclaimer`, lastModified: STATIC_REV, changeFrequency: "yearly",  priority: 0.3 },
