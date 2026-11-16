@@ -423,7 +423,7 @@ ${html || ""}
             <span>·</span>
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Architecture</Link>
           </div>
-        </main>
+        </div>
       </main>
 
       {!fullscreen && (
