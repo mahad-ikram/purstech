@@ -713,7 +713,7 @@ export const runSwin2SrTiledUpscale = async (
     for (let i = 3; i < out.length; i += 4) out[i] = alphaPx[i];
   }
 
-  return new ImageData(out!, OW, OH);
+  return new ImageData(out! as Uint8ClampedArray<ArrayBuffer>, OW, OH);
 };
 
 // ── DeOldify Luminance-Preserving Chroma Colorizer (from removerized) ────────
