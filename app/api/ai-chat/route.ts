@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
     if (vaultHit.lesson && vaultHit.score >= 0.65) {
       return NextResponse.json({
         layer: 'layer-2-distilled-vault',
-        badge: '🧠 Distilled Vault Memory (0 API Cost)',
+        badge: '',
         confidence: vaultHit.score,
         answer: vaultHit.lesson.answer,
         recommendedTools: vaultHit.lesson.recommendedTools,
@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
       const topTool = studentEval.recommendedTools[0];
       return NextResponse.json({
         layer: 'layer-3-purstech-student',
-        badge: '🤖 PursTech-LM Student ( High Confidence )',
+        badge: '',
         confidence: studentEval.confidence,
         answer: topTool
           ? `Based on your request, the best privacy-first tool on PursTech is **${topTool.name}** (\`${topTool.slug}\`).\n\n**How it solves this:** ${topTool.reason} Everything processes 100% locally inside your browser with zero file uploads.`
@@ -290,7 +290,7 @@ ${toolCatalogSummary}`;
 
           return NextResponse.json({
             layer: 'layer-4-gemini-teacher-distilled',
-            badge: `🎓 Teacher-Distilled & Learned (${rateCheck.remainingRpm - 1}/${TEACHER_RPM_LIMIT} RPM left)`,
+            badge: '',
             confidence: 0.96,
             answer: newLesson.answer,
             recommendedTools: newLesson.recommendedTools,

@@ -207,8 +207,8 @@ function Navbar() {
               ))}
             </div>
 
-            <Link href="/pro" className="flex items-center justify-center w-full py-3.5 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-extrabold text-sm transition-all duration-300 shadow-lg shadow-violet-900/30 truncate px-2">
-              ⚡ Go Pro — $7/month · Cancel anytime
+            <Link href="/tools" onClick={() => setMobileOpen(false)} className="flex items-center justify-center w-full py-3.5 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-extrabold text-sm transition-all duration-300 shadow-lg shadow-violet-900/30 truncate px-2">
+              🚀 Explore All 50+ Free Tools
             </Link>
           </div>
         </div>
@@ -700,7 +700,6 @@ function Footer() {
       { name:"About Us",    href:"/about"    },
       { name:"All 50+ Tools",href:"/tools"    },
       { name:"Blog",        href:"/blog"     },
-      { name:"Go Pro ⚡",   href:"/pro"      },
       { name:"Contact",     href:"/contact"  },
       { name:"Privacy",     href:"/privacy"  },
       { name:"Terms",       href:"/terms"    },
@@ -734,28 +733,6 @@ function Footer() {
               </ul>
             </div>
           ))}
-        </div>
-
-        <div className="border-t border-white/5 pt-6 mb-8 min-w-0 w-full">
-          <details className="group">
-            <summary className="cursor-pointer text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-gray-300 flex items-center justify-between">
-              <span>🗺️ Complete PursTech 50+ Free Tool &amp; Guide Index (Direct Crawl Links)</span>
-              <span className="text-[#6C3AFF] transition-transform group-open:rotate-45">+</span>
-            </summary>
-            <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 text-[11px]">
-              {ALL_TOOLS.map(t => (
-                <Link key={t.slug} href={`/tools/${t.slug}`} className="text-gray-500 hover:text-white truncate">
-                  {t.name}
-                </Link>
-              ))}
-              <Link href="/blog/best-free-synthid-and-c2pa-removers" className="text-[#00D4FF] hover:text-white truncate">Best SynthID Removers</Link>
-              <Link href="/blog/how-to-fix-google-adsense-low-value-content" className="text-[#00D4FF] hover:text-white truncate">Fix AdSense Low Value</Link>
-              <Link href="/blog/best-free-ai-image-upscalers" className="text-[#00D4FF] hover:text-white truncate">Best 4× AI Upscalers</Link>
-              <Link href="/blog/best-free-ai-photo-colorizers" className="text-[#00D4FF] hover:text-white truncate">Best AI Photo Colorizers</Link>
-              <Link href="/blog/best-free-background-removers" className="text-[#00D4FF] hover:text-white truncate">Best Background Removers</Link>
-              <Link href="/blog/best-free-word-counter-tools" className="text-[#00D4FF] hover:text-white truncate">Best Word Counters</Link>
-            </div>
-          </details>
         </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 min-w-0 w-full">
