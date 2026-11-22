@@ -37,13 +37,14 @@ export async function GET(req: NextRequest) {
   const info: Record<string, unknown> = {
     status: 'ok',
     geminiConfigured: Boolean(process.env.GEMINI_API_KEY),
-    model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+    model: (process.env.GEMINI_MODEL || 'gemini-3.8-flash').includes('2.5') ? 'gemini-3.8-flash' : (process.env.GEMINI_MODEL || 'gemini-3.8-flash'),
     githubSyncConfigured: Boolean(process.env.GITHUB_PAT),
     privateRepo: process.env.PURSTECH_AI_PRIVATE_REPO || 'mahad-ikram/purstech-ai-engine'
   };
 
   if (req.nextUrl.searchParams.get('test') === '1' && process.env.GEMINI_API_KEY) {
-    const model = (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
+    const rawModel = (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
+    const model = rawModel.includes('2.5') ? 'gemini-3.8-flash' : rawModel;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY.trim()}`;
     try {
       const r = await fetch(url, {
@@ -235,8 +236,9 @@ async function callGeminiWithFallback(
   systemInstruction: string,
   contents: { role: string; parts: { text: string }[] }[]
 ) {
-  const primaryModel = (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
-  const modelsToTry = Array.from(new Set([primaryModel, 'gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash']));
+  const rawPrimary = (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
+  const primaryModel = rawPrimary.includes('2.5') ? 'gemini-3.8-flash' : rawPrimary;
+  const modelsToTry = Array.from(new Set([primaryModel, 'gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-3.6-flash']));
 
   for (const model of modelsToTry) {
     try {
