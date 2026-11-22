@@ -246,7 +246,7 @@ export default function PursTechAiAssistant() {
       const res = await fetch('/api/ai-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: text })
+        body: JSON.stringify({ query: text, history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })) })
       });
 
       if (res.ok) {

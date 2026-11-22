@@ -605,34 +605,6 @@ function SEOSection() {
   );
 }
 
-// ─── Pro banner ───────────────────────────────────────────────────────────────
-
-function ProBanner() {
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-14 min-w-0 w-full">
-      <div className="relative bg-gradient-to-br from-[#1a0a2e] via-[#13131F] to-[#0a1a2e] border border-[#6C3AFF]/30 rounded-3xl p-10 text-center overflow-hidden min-w-0 w-full">
-        <div className="absolute inset-0 bg-[#6C3AFF]/5 rounded-3xl" />
-        <div className="relative min-w-0 w-full px-2">
-          <span className="inline-block bg-[#6C3AFF]/20 text-[#6C3AFF] text-xs font-bold px-4 py-1.5 rounded-full border border-[#6C3AFF]/30 mb-4 flex-shrink-0">⚡ PursTech Pro</span>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">Unlock the Full Power</h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8 leading-relaxed">Remove all limits, remove all ads, and get priority AI processing — for less than a coffee a week.</p>
-          <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm min-w-0 w-full">
-            {["✓ Unlimited usage","✓ Zero ads","✓ Priority AI","✓ API access","✓ Batch processing","✓ Early access"].map(f => (
-              <span key={f} className="text-gray-300 flex-shrink-0">{f}</span>
-            ))}
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 min-w-0 w-full">
-            <Link href="/pro" className="w-full sm:w-auto px-10 py-4 rounded-xl bg-[#6C3AFF] hover:bg-[#FF3A6C] text-white font-extrabold text-lg transition-all duration-300 shadow-lg shadow-violet-900/50 truncate">
-              Get Pro — $7/month
-            </Link>
-            <span className="text-gray-500 text-sm flex-shrink-0">Cancel anytime. No hidden fees.</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ─── Follow Us ────────────────────────────────────────────────────────────────
 
 function FollowUsSection() {

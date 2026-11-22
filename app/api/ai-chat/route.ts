@@ -1,44 +1,100 @@
-// app/api/ai-chat/route.ts
-// 4-Layer Self-Distilling Hybrid AI Router for PursTech
-// Layer 1: Instant Client-Side Solvers (runs in browser <5ms)
-// Layer 2: Self-Learning Distilled Semantic Vault (lib/distilled-vault.ts)
-// Layer 3: Custom PursTech-1.5B Student LLM (hosted on Free 16GB RAM HuggingFace Space via mahad-ikram/purstech-ai-engine)
-// Layer 4: 5 RPM Gemini Free-Tier Teacher Escalation + Auto-Distillation & GitHub Private Repo Sync
-
 import { NextRequest, NextResponse } from 'next/server';
-import { searchDistilledVault, absorbTeacherLesson, DistilledLesson, PURSTECH_TOOL_CATALOG } from '@/lib/distilled-vault';
+import {
+  searchDistilledVault,
+  absorbTeacherLesson,
+  DistilledLesson,
+  PURSTECH_TOOL_CATALOG
+} from '@/lib/distilled-vault';
 import { BLOG_POSTS } from '@/app/blog/data';
 
 const tools = PURSTECH_TOOL_CATALOG;
 const blogs = Object.values(BLOG_POSTS);
 
-// Sliding-window 60-second rate limiter capped at 5 Requests Per Minute (5 RPM) for Gemini Free Tier
 const TEACHER_RPM_LIMIT = 5;
 const teacherRequestTimestamps: number[] = [];
 
-function canCallGeminiTeacher(): { allowed: boolean; retryAfterSeconds: number; remainingRpm: number } {
+function canCallGeminiTeacher() {
   const now = Date.now();
   while (teacherRequestTimestamps.length > 0 && now - teacherRequestTimestamps[0] > 60_000) {
     teacherRequestTimestamps.shift();
   }
-  if (teacherRequestTimestamps.length >= TEACHER_RPM_LIMIT) {
-    const oldest = teacherRequestTimestamps[0];
-    const retryAfterSeconds = Math.max(1, Math.ceil((60_000 - (now - oldest)) / 1000));
-    return { allowed: false, retryAfterSeconds, remainingRpm: 0 };
-  }
-  return {
-    allowed: true,
-    retryAfterSeconds: 0,
-    remainingRpm: TEACHER_RPM_LIMIT - teacherRequestTimestamps.length
-  };
+  return teacherRequestTimestamps.length < TEACHER_RPM_LIMIT;
 }
 
-function recordTeacherCall(): void {
+function recordTeacherCall() {
   teacherRequestTimestamps.push(Date.now());
 }
 
-// Local Student Keyword + Catalog Reasoner when external HF Space is not yet configured
-function runLocalStudentCatalogReasoner(query: string) {
+// Natural conversational intelligence for greetings, small talk, identity, and help
+function handleConversationalIntent(query: string, historyLength: number) {
+  const clean = query.toLowerCase().replace(/[^\w\s]/g, '').trim();
+
+  // Greetings
+  if (/^(hi|hello|hey|hii+|yo|hola|salam|assalam\s*o?\s*alaikum|good\s*(morning|afternoon|evening)|howdy|sup)$/.test(clean)) {
+    const replies = [
+      "Hey there! 👋 What are you working on today? I can help you **remove AI watermarks**, **upscale or colorize photos**, **compress PDFs**, **audit AdSense readiness**, or answer quick math & dev questions.",
+      "Hello! Great to see you on PursTech. Tell me what you need to get done—whether it's editing an image, formatting JSON, converting time zones, or checking SEO—and I'll jump right in.",
+      "Hi! Ready whenever you are. Drop a question, paste a quick calculation, or tell me what file you're trying to fix and I'll point you to the fastest free tool."
+    ];
+    const reply = replies[historyLength % replies.length];
+    return {
+      answer: reply,
+      recommendedTools: [
+        { name: 'SynthID & C2PA Remover', slug: '/tools/synthid-remover', reason: 'Remove AI watermarks & metadata locally' },
+        { name: 'AI Image Upscaler (4×)', slug: '/tools/image-upscaler', reason: 'Enhance blurry photos 4× in your browser' }
+      ],
+      recommendedBlogs: []
+    };
+  }
+
+  // How are you / small talk
+  if (/^(how are you|how r u|hows it going|whats up|how are u)/.test(clean)) {
+    return {
+      answer: "Doing great and running fast! ⚡ What can I help you build, fix, or calculate today?",
+      recommendedTools: [],
+      recommendedBlogs: []
+    };
+  }
+
+  // Thanks / appreciation
+  if (/^(thanks|thank you|thx|ty|awesome|great|nice|cool|perfect|ok|okay)$/.test(clean)) {
+    return {
+      answer: "Anytime! Let me know if you need help with another tool, calculation, or guide.",
+      recommendedTools: [],
+      recommendedBlogs: []
+    };
+  }
+
+  // Identity / About PursTech
+  if (/(who are you|what are you|who made you|who built|about purstech|is purstech free)/.test(clean)) {
+    return {
+      answer:
+        "I'm **PursTech Assistant**, built for **PursTech.com** (founded by Mahad Ikram). Every one of our **50+ online tools** is 100% free, requires zero login, and runs directly inside your browser so your files never leave your device.",
+      recommendedTools: [
+        { name: 'Browse All 50+ Tools', slug: '/tools', reason: 'Explore Image, PDF, Dev, SEO, Finance, and AI tools' }
+      ],
+      recommendedBlogs: []
+    };
+  }
+
+  // Capabilities / Help
+  if (/^(help|what can you do|list tools|show tools|tools|categories|menu)$/.test(clean)) {
+    return {
+      answer:
+        "Here's what I can help you with right now:\n- **AI & Image Studio:** Remove SynthID/C2PA watermarks, remove backgrounds (9 AI models), upscale 4×, or colorize old photos.\n- **PDF & Docs:** Compress, merge, split, or convert PDFs privately.\n- **Dev & SEO:** Format JSON, test regex, generate `llms.txt` / sitemaps, or audit Google AdSense readiness.\n- **Instant Answers:** Ask me percentages, time zone conversions, or any technical question!",
+      recommendedTools: [
+        { name: 'Background Remover', slug: '/tools/background-remover', reason: '9-model browser AI cutout studio' },
+        { name: 'PDF Compressor', slug: '/tools/pdf-compressor', reason: 'Shrink PDFs locally with zero uploads' },
+        { name: 'AdSense Readiness Checker', slug: '/tools/adsense-checker', reason: '26-point Low Value Content auditor' }
+      ],
+      recommendedBlogs: []
+    };
+  }
+
+  return null;
+}
+
+function runLocalCatalogReasoner(query: string) {
   const qLower = query.toLowerCase();
   const words = qLower.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((w) => w.length > 2);
 
@@ -71,19 +127,11 @@ function runLocalStudentCatalogReasoner(query: string) {
     .slice(0, 2);
 
   const topScore = scoredTools[0]?.score ?? 0;
-  // Confidence calculation: high if clear tool match, lower (<0.75) for tough multi-part or open-ended technical queries
-  const isComplexQuestion =
-    words.length >= 9 ||
-    qLower.includes('why') ||
-    qLower.includes('compare') ||
-    qLower.includes('difference') ||
-    qLower.includes('error') ||
-    qLower.includes('fix') ||
-    qLower.includes('code') ||
-    qLower.includes('regex') ||
-    qLower.includes('formula');
+  const isComplex =
+    words.length >= 7 ||
+    /(why|how|compare|difference|error|fix|code|regex|formula|explain|write|best)/.test(qLower);
 
-  const confidence = isComplexQuestion
+  const confidence = isComplex
     ? Math.min(0.68, topScore / 12)
     : Math.min(0.92, topScore / 6);
 
@@ -101,20 +149,15 @@ function runLocalStudentCatalogReasoner(query: string) {
   };
 }
 
-// Optional automatic sync to the user's private GitHub repo (mahad-ikram/purstech-ai-engine)
 async function syncLessonToPrivateGithubRepo(lesson: DistilledLesson, rawQuery: string) {
   const githubPat = process.env.GITHUB_PAT;
   const privateRepo = process.env.PURSTECH_AI_PRIVATE_REPO || 'mahad-ikram/purstech-ai-engine';
   if (!githubPat) return false;
 
   try {
-    const filePath = 'data/distilled_vault.json';
-    const apiUrl = `https://api.github.com/repos/${privateRepo}/contents/${filePath}`;
+    const apiUrl = `https://api.github.com/repos/${privateRepo}/contents/data/distilled_vault.json`;
     const getRes = await fetch(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${githubPat}`,
-        Accept: 'application/vnd.github+json'
-      }
+      headers: { Authorization: `Bearer ${githubPat}`, Accept: 'application/vnd.github+json' }
     });
 
     let existingLessons: DistilledLesson[] = [];
@@ -123,8 +166,7 @@ async function syncLessonToPrivateGithubRepo(lesson: DistilledLesson, rawQuery: 
     if (getRes.ok) {
       const fileData = await getRes.json();
       sha = fileData.sha;
-      const decoded = Buffer.from(fileData.content, 'base64').toString('utf-8');
-      existingLessons = JSON.parse(decoded);
+      existingLessons = JSON.parse(Buffer.from(fileData.content, 'base64').toString('utf-8'));
     }
 
     existingLessons.unshift(lesson);
@@ -138,7 +180,7 @@ async function syncLessonToPrivateGithubRepo(lesson: DistilledLesson, rawQuery: 
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        message: `chore(distill): learned new Teacher solution for "${rawQuery.slice(0, 50)}"`,
+        message: `chore(distill): learned new solution for "${rawQuery.slice(0, 50)}"`,
         content: updatedContent,
         ...(sha ? { sha } : {})
       })
@@ -153,15 +195,29 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const query = String(body?.query || '').trim();
+    const history: { role: string; text: string }[] = Array.isArray(body?.history) ? body.history : [];
+
     if (!query) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 });
     }
 
-    // STEP 1: Check Layer 2 Self-Learning Distilled Semantic Vault (<15ms, $0.00)
+    // 1. Instant natural conversational handling (greetings, small talk, identity, help)
+    const convo = handleConversationalIntent(query, history.length);
+    if (convo) {
+      return NextResponse.json({
+        badge: '',
+        confidence: 0.99,
+        answer: convo.answer,
+        recommendedTools: convo.recommendedTools,
+        recommendedBlogs: convo.recommendedBlogs,
+        learnedNewLesson: false
+      });
+    }
+
+    // 2. Semantic Knowledge Vault check (<15ms)
     const vaultHit = searchDistilledVault(query);
     if (vaultHit.lesson && vaultHit.score >= 0.65) {
       return NextResponse.json({
-        layer: 'layer-2-distilled-vault',
         badge: '',
         confidence: vaultHit.score,
         answer: vaultHit.lesson.answer,
@@ -171,7 +227,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // STEP 2: Check Layer 3 External Private AI Engine (HuggingFace Space 16GB RAM Student LLM) if configured
+    // 3. Optional External Private AI Engine (HuggingFace Space)
     const aiEngineUrl = process.env.PURSTECH_AI_ENGINE_URL;
     if (aiEngineUrl) {
       try {
@@ -188,59 +244,55 @@ export async function POST(req: NextRequest) {
         });
         if (engineRes.ok) {
           const engineData = await engineRes.json();
-          if (engineData.learnedLesson) {
-            absorbTeacherLesson(engineData.learnedLesson);
-          }
-          return NextResponse.json(engineData);
+          if (engineData.learnedLesson) absorbTeacherLesson(engineData.learnedLesson);
+          return NextResponse.json({ ...engineData, badge: '' });
         }
-      } catch {
-        // Gracefully fall through to local Student + Layer 4 Teacher escalation
-      }
+      } catch {}
     }
 
-    // STEP 3: Run Local Student Catalog Reasoner & Evaluate Confidence
-    const studentEval = runLocalStudentCatalogReasoner(query);
-
-    // If Student confidence is high (>= 0.75) and no Teacher escalation is forced, return Student response
-    if (studentEval.confidence >= 0.75 && !body?.forceTeacher) {
-      const topTool = studentEval.recommendedTools[0];
+    // 4. Local Catalog Match Evaluation
+    const localEval = runLocalCatalogReasoner(query);
+    if (localEval.confidence >= 0.78 && !body?.forceTeacher && localEval.recommendedTools.length > 0) {
+      const topTool = localEval.recommendedTools[0];
       return NextResponse.json({
-        layer: 'layer-3-purstech-student',
         badge: '',
-        confidence: studentEval.confidence,
-        answer: topTool
-          ? `Based on your request, the best privacy-first tool on PursTech is **${topTool.name}** (\`${topTool.slug}\`).\n\n**How it solves this:** ${topTool.reason} Everything processes 100% locally inside your browser with zero file uploads.`
-          : 'I matched your request against our 55+ browser-based utilities. Check the recommended tools and guides below.',
-        recommendedTools: studentEval.recommendedTools,
-        recommendedBlogs: studentEval.recommendedBlogs,
+        confidence: localEval.confidence,
+        answer: `The fastest way to handle that on PursTech is with **${topTool.name}**.\n${topTool.reason} Everything runs 100% locally in your browser with zero file uploads.`,
+        recommendedTools: localEval.recommendedTools,
+        recommendedBlogs: localEval.recommendedBlogs,
         learnedNewLesson: false
       });
     }
 
-    // STEP 4: Layer 4 Escalation — Tough Query (<0.75 Confidence) -> Ask Gemini Free Tier Teacher (5 RPM Limit)
+    // 5. Full Conversational LLM Escalation (Gemini Free Tier @ 5 RPM max + Auto-Distillation)
     const geminiApiKey = process.env.GEMINI_API_KEY;
-    const rateCheck = canCallGeminiTeacher();
-
-    if (geminiApiKey && rateCheck.allowed) {
+    if (geminiApiKey && canCallGeminiTeacher()) {
       recordTeacherCall();
-      const toolCatalogSummary = tools
+      const toolList = tools
         .slice(0, 55)
-        .map((t) => `${t.name} (/tools/${t.slug}): ${t.description}`)
-        .join('\n');
+        .map((t) => `${t.name} (/tools/${t.slug})`)
+        .join(', ');
 
-      const systemInstruction = `You are the Master Teacher Model training PursTech-LM (purstech.com, founded by Muhammad Mahad Ikram).
-A visitor asked a tough technical question where the Student model had low confidence (${studentEval.confidence}).
-Provide a descriptive, accurate, step-by-step master answer AND map the solution to PursTech's 55 free browser-based tools.
+      const systemInstruction = `You are PursTech Assistant, a friendly, sharp, helpful AI assistant on purstech.com.
+Answer the user's message naturally and conversationally—just like a top-tier AI assistant.
+Keep answers concise, clear, and genuinely useful. Only recommend PursTech tools if they directly help with the user's request (otherwise leave recommendedTools empty).
 Respond strictly in valid JSON with this schema:
 {
-  "answer": "Clear markdown explanation with actionable steps",
-  "keywords": ["5 to 8 lowercase search keywords for semantic caching so PursTech-LM learns this permanently"],
-  "recommendedTools": [{"name": "Tool Name", "slug": "/tools/slug", "reason": "Why this tool helps"}],
+  "answer": "Clear, helpful markdown response",
+  "keywords": ["4 to 7 lowercase keywords if this is a reusable technical Q&A, otherwise empty array"],
+  "shouldLearn": true or false (true for reusable technical/how-to answers, false for casual chat),
+  "recommendedTools": [{"name": "Tool Name", "slug": "/tools/slug", "reason": "Short reason"}],
   "recommendedBlogs": [{"title": "Guide Title", "slug": "/blog/slug"}]
 }
+Available PursTech Tools: ${toolList}`;
 
-Available PursTech Tools:
-${toolCatalogSummary}`;
+      const contents = [
+        ...history.slice(-4).map((m) => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.text }]
+        })),
+        { role: 'user', parts: [{ text: query }] }
+      ];
 
       try {
         const geminiModel = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
@@ -250,11 +302,8 @@ ${toolCatalogSummary}`;
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: systemInstruction }] },
-            contents: [{ role: 'user', parts: [{ text: query }] }],
-            generationConfig: {
-              temperature: 0.2,
-              responseMimeType: 'application/json'
-            }
+            contents,
+            generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
           }),
           signal: AbortSignal.timeout(12000)
         });
@@ -264,64 +313,66 @@ ${toolCatalogSummary}`;
           const rawText = geminiJson?.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
           const parsed = JSON.parse(rawText);
 
-          const newLesson: DistilledLesson = {
-            id: `distill-${Date.now()}`,
-            questionPattern: query,
-            keywords: Array.isArray(parsed.keywords)
-              ? parsed.keywords
-              : query.toLowerCase().split(/\s+/).filter((w: string) => w.length > 3),
-            answer: parsed.answer || 'Here is the step-by-step solution using PursTech utilities.',
-            recommendedTools:
-              Array.isArray(parsed.recommendedTools) && parsed.recommendedTools.length > 0
-                ? parsed.recommendedTools
-                : studentEval.recommendedTools,
-            recommendedBlogs:
-              Array.isArray(parsed.recommendedBlogs) && parsed.recommendedBlogs.length > 0
-                ? parsed.recommendedBlogs
-                : studentEval.recommendedBlogs,
-            sourceTier: 'gemini-teacher-distilled',
-            confidence: 0.96,
-            createdAt: new Date().toISOString()
-          };
+          const recTools = Array.isArray(parsed.recommendedTools) ? parsed.recommendedTools : [];
+          const recBlogs = Array.isArray(parsed.recommendedBlogs) ? parsed.recommendedBlogs : [];
+          const shouldLearn = Boolean(parsed.shouldLearn) && Array.isArray(parsed.keywords) && parsed.keywords.length >= 3;
 
-          // Absorb into runtime memory & optionally push to private GitHub repo
-          absorbTeacherLesson(newLesson);
-          await syncLessonToPrivateGithubRepo(newLesson, query);
+          let newLesson: DistilledLesson | null = null;
+          if (shouldLearn) {
+            newLesson = {
+              id: `distill-${Date.now()}`,
+              questionPattern: query,
+              keywords: parsed.keywords,
+              answer: parsed.answer || '',
+              recommendedTools: recTools,
+              recommendedBlogs: recBlogs,
+              sourceTier: 'gemini-teacher-distilled',
+              confidence: 0.96,
+              createdAt: new Date().toISOString()
+            };
+            absorbTeacherLesson(newLesson);
+            await syncLessonToPrivateGithubRepo(newLesson, query);
+          }
 
           return NextResponse.json({
-            layer: 'layer-4-gemini-teacher-distilled',
             badge: '',
             confidence: 0.96,
-            answer: newLesson.answer,
-            recommendedTools: newLesson.recommendedTools,
-            recommendedBlogs: newLesson.recommendedBlogs,
-            learnedNewLesson: true,
-            distilledLesson: newLesson
+            answer: parsed.answer || "I'm here to help! What would you like to do next?",
+            recommendedTools: recTools,
+            recommendedBlogs: recBlogs,
+            learnedNewLesson: Boolean(newLesson),
+            ...(newLesson ? { distilledLesson: newLesson } : {})
           });
         }
-      } catch {
-        // Fall through to graceful Student synthesis if Teacher network request fails
-      }
+      } catch {}
     }
 
-    // Fallback when GEMINI_API_KEY is not yet set or 5 RPM window is cooling down
-    const topTool = studentEval.recommendedTools[0];
+    // 6. Smart, helpful fallback when GEMINI_API_KEY isn't configured yet
+    if (localEval.recommendedTools.length > 0) {
+      const topTool = localEval.recommendedTools[0];
+      return NextResponse.json({
+        badge: '',
+        confidence: localEval.confidence,
+        answer: `It sounds like **${topTool.name}** could help with that. Open it below to run it directly in your browser, or ask me a more specific question!`,
+        recommendedTools: localEval.recommendedTools,
+        recommendedBlogs: localEval.recommendedBlogs,
+        learnedNewLesson: false
+      });
+    }
+
     return NextResponse.json({
-      layer: 'layer-3-student-fallback',
-      badge: !rateCheck.allowed
-        ? `⏳ Student Mode (Teacher 5 RPM cooldown: ${rateCheck.retryAfterSeconds}s)`
-        : '🤖 PursTech-LM Local Student',
-      confidence: studentEval.confidence,
-      answer: topTool
-        ? `Here is the closest match from PursTech's 55+ local browser utilities: **${topTool.name}** (\`${topTool.slug}\`) — ${topTool.reason}`
-        : 'Explore our recommended browser-based utilities and comparison guides below to solve this task with 100% client-side privacy.',
-      recommendedTools: studentEval.recommendedTools,
-      recommendedBlogs: studentEval.recommendedBlogs,
+      badge: '',
+      confidence: 0.5,
+      answer: `I didn't find an exact tool match for **"${query}"** yet—could you tell me a bit more about what you're trying to do? For example, you can ask me to **remove an AI watermark**, **upscale a photo**, **compress a PDF**, or **convert a time zone**.`,
+      recommendedTools: [
+        { name: 'Browse All 50+ Tools', slug: '/tools', reason: 'Search all 8 categories of free browser utilities' }
+      ],
+      recommendedBlogs: [],
       learnedNewLesson: false
     });
   } catch (err: any) {
     return NextResponse.json(
-      { error: 'AI Router error', details: err?.message || 'Unknown error' },
+      { error: 'Assistant error', details: err?.message || 'Unknown error' },
       { status: 500 }
     );
   }
