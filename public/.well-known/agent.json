@@ -1,0 +1,32 @@
+{
+  "name": "PursTech AI Agent",
+  "description": "Privacy-first browser utility agent providing 55+ free online tools (SynthID & C2PA watermark removal, 9-model AI background removal, 4x Swin2SR upscaling, DeOldify photo colorization, AdSense Low Value Content auditing, PDF tools, SEO & developer utilities) at https://www.purstech.com.",
+  "url": "https://www.purstech.com/api/a2a",
+  "provider": {
+    "organization": "PursTech",
+    "url": "https://www.purstech.com"
+  },
+  "version": "1.0.0",
+  "documentationUrl": "https://www.purstech.com/llms.txt",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "find_purstech_tool",
+      "name": "Find Privacy-First Browser Utility",
+      "description": "Matches any user task (image editing, AI watermark removal, PDF compression, AdSense audit, SEO, dev, finance) to the exact free client-side tool on purstech.com.",
+      "tags": ["tools", "privacy", "image", "pdf", "seo", "developer", "adsense", "synthid"]
+    },
+    {
+      "id": "solve_quick_utility",
+      "name": "Solve Technical, Time-Zone & AdSense Questions",
+      "description": "Provides verified answers from PursTech's knowledge base with direct interactive tool links on purstech.com.",
+      "tags": ["qa", "timezone", "calculator", "adsense", "c2pa", "synthid"]
+    }
+  ]
+}

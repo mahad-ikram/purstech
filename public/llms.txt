@@ -259,3 +259,8 @@ All tools listed above are:
 - Contact:        contact@purstech.com
 - Founded:        2025
 
+
+## AI Agent & Tool Protocols (MCP + A2A)
+- Remote MCP Server (Model Context Protocol): https://www.purstech.com/api/mcp
+- Agent2Agent (A2A) Agent Card: https://www.purstech.com/.well-known/agent-card.json
+- Agent2Agent (A2A) Endpoint: https://www.purstech.com/api/a2a
