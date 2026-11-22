@@ -33,14 +33,35 @@ function recordTeacherCall() {
 }
 
 // Safe GET health check (exposes booleans only, never secret values)
-export async function GET() {
-  return NextResponse.json({
+export async function GET(req: NextRequest) {
+  const info: Record<string, unknown> = {
     status: 'ok',
     geminiConfigured: Boolean(process.env.GEMINI_API_KEY),
     model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
     githubSyncConfigured: Boolean(process.env.GITHUB_PAT),
     privateRepo: process.env.PURSTECH_AI_PRIVATE_REPO || 'mahad-ikram/purstech-ai-engine'
-  });
+  };
+
+  if (req.nextUrl.searchParams.get('test') === '1' && process.env.GEMINI_API_KEY) {
+    const model = (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY.trim()}`;
+    try {
+      const r = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: 'Say OK in 2 words.' }] }],
+          generationConfig: { maxOutputTokens: 20 }
+        }),
+        signal: AbortSignal.timeout(8000)
+      });
+      info.liveTestHttpStatus = r.status;
+      info.liveTestResponse = (await r.text()).slice(0, 350);
+    } catch (e: unknown) {
+      info.liveTestError = e instanceof Error ? e.message : String(e);
+    }
+  }
+  return NextResponse.json(info);
 }
 
 function handleConversationalIntent(query: string, historyLength: number) {
@@ -215,7 +236,7 @@ async function callGeminiWithFallback(
   contents: { role: string; parts: { text: string }[] }[]
 ) {
   const primaryModel = (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
-  const modelsToTry = Array.from(new Set([primaryModel, 'gemini-2.5-flash', 'gemini-2.0-flash']));
+  const modelsToTry = Array.from(new Set([primaryModel, 'gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash']));
 
   for (const model of modelsToTry) {
     try {
@@ -226,7 +247,7 @@ async function callGeminiWithFallback(
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemInstruction }] },
           contents,
-          generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }
+          generationConfig: { temperature: 0.4, maxOutputTokens: 700, responseMimeType: 'application/json', ...(model.includes('2.5') ? { thinkingConfig: { thinkingBudget: 0 } } : {}) }
         }),
         signal: AbortSignal.timeout(14000)
       });
